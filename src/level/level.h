@@ -18,8 +18,8 @@
     }
 
 #define level_add_bounds(level)                                                       \
-    level->bounds.y = (Range) {.min = 0, .max = level->size.height - 1};       \
-    level->bounds.x = (Range) {.min = 0, .max = level->size.width - 1};        \
+    level->bounds.y = (Range) {.from = 0, .to = level->size.height - 1};       \
+    level->bounds.x = (Range) {.from = 0, .to = level->size.width - 1};        \
 
 #define size_new(h, w) (Size) {.height = h, .width = w}
 

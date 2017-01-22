@@ -13,12 +13,12 @@
 
 #define rand_in(min, max) min == max ? min : (rand() % (max - min)) + min
 
-#define rand_in_range(r) rand_in(r.min, r.max)
+#define rand_in_range(r) rand_in(r.from, r.to)
 
 #define rand_bool(probability) ((rand() / (double)RAND_MAX) < probability)
 
 #define in_range(i, range) \
-    i >= range.min && i <= range.max
+    i >= range.from && i <= range.to
 
 #define fatal(...) fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
 
@@ -36,6 +36,9 @@
 #endif
 
 
+typedef char Input;
+
+
 static inline void *alloc(size_t size)
 {
     void *ptr = malloc(size);
@@ -48,8 +51,8 @@ static inline void *alloc(size_t size)
 }
 
 typedef struct {
-    int min;
-    int max;
+    int from;
+    int to;
 } Range;
 
 

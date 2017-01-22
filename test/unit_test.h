@@ -5,7 +5,8 @@
 #include <string.h>
 #include <minunit.h>
 
-#define TEST_NAME(name) puts("\x1B[33m["name"] test case:\x1B[0m")
+
+#define TEST_NAME(name) puts("\x1B[33m[" name "] test case:\x1B[0m")
 
 
 static inline void assert_string(char *expected, char *actual)

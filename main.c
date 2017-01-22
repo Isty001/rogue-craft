@@ -4,6 +4,7 @@
 #include "src/display/ncurses.h"
 #include "src/player/player.h"
 #include "src/level/camera.h"
+#include "data/config.h"
 
 
 static void init(void)
@@ -22,10 +23,10 @@ int main(void)
 {
     init();
 
-    Level *level = level_new(size_new(100, 200), LEVEL_STONE_CAVE);
+    Level *level = level_new(size_new(500, 200), LEVEL_STONE_CAVE);
     Player *player = player_new(level);
     player_position_on_level(player);
-    Camera camera = camera_new(player, WINDOW_MAIN);
+    Camera camera;
 
     int ch;
 
@@ -38,9 +39,17 @@ int main(void)
                 break;
             }
             flushinp();
+
+            /** Only update the position! */
+            camera = camera_new(player, WINDOW_MAIN);
+            level_display(player, &camera);
+
+            if (ch == KEY_NORTH || ch == KEY_SOUTH) {
+                napms(15);
+            }
+
         }
-        level_display(player, &camera);
-        napms(1000 / 15);
+        napms(75);
     }
 
     cleanup();

@@ -1,5 +1,4 @@
 #include "camera.h"
-#include "../player/player.h"
 
 
 static int adjust_coordinate(int coordinate, int cam_size, int max)
@@ -25,8 +24,8 @@ Camera camera_new(Player *player, WINDOW *window)
     return (Camera) {
         .size = cam_size,
         .position = point_new(
-            adjust_coordinate(center.y - cam_size.height / 2, cam_size.height, level->bounds.y.max),
-            adjust_coordinate(center.x - cam_size.width / 2, cam_size.width, level->bounds.x.max)
+            adjust_coordinate(center.y - cam_size.height / 2, cam_size.height, level->bounds.y.to),
+            adjust_coordinate(center.x - cam_size.width / 2, cam_size.width, level->bounds.x.to)
         )
     };
 }

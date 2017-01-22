@@ -4,7 +4,7 @@
 
 MU_TEST(test_rand)
 {
-    Range range = {.min = 12, .max = 20};
+    Range range = {.from = 12, .to = 20};
 
     repeat(3,
            mu_assert(in_range(rand_in_range(range), range), "Should be in the range");

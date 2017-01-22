@@ -1,4 +1,4 @@
-SRC = $(shell find src -name '*.c') config/*.c
+SRC = $(shell find src -name '*.c') data/*.c
 TEST_SRC = $(SRC) test/*.c
 CFLAGS = -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -l ncurses -l m -isystem lib
 
@@ -6,7 +6,7 @@ CFLAGS = -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-co
 .PHONY: test
 
 
-run:
+run-debug:
 	$(CC) $(SRC) main.c $(CFLAGS) -D DEBUG_MODE -o rogue.o
 	./rogue.o
 

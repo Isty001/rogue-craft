@@ -2,13 +2,25 @@
 #define ROGUECRAFT_PLAYER_H
 
 
-#include "../../config/config.h"
 #include "../level/point.h"
+#include "../level/level.h"
 
+
+typedef enum {
+    HEALTH,
+    STAMINA,
+    HUNGER,
+    THIRST
+} AttributeType;
+
+typedef struct {
+    uint32_t limit;
+    uint32_t current;
+} Attribute;
 
 typedef struct player {
     Level *level;
-    unsigned int eyesight;
+    uint32_t eyesight;
     struct {
         Point current;
         Point previous;
@@ -17,21 +29,22 @@ typedef struct player {
         Cell prototype;
         Cell *occupied;
     } cell;
+    struct {
+        Attribute hp;
+        Attribute stamina;
+        Attribute hunger;
+        Attribute thirst;
+        Attribute *type_map[4];
+    } attr;
 } Player;
 
-typedef enum {
-    NORTH = KEY_NORTH,
-    EAST = KEY_EAST,
-    SOUTH = KEY_SOUTH,
-    WEST = KEY_WEST
-} Direction;
 
 
 Player *player_new(Level *level);
 
 void player_free(Player *player);
 
-void player_move(Player *player, Direction direction);
+void player_move(Player *player, Input input);
 
 bool player_can_see(Player *player, uint32_t y, uint32_t x);
 

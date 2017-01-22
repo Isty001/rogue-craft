@@ -2,26 +2,20 @@
 #include "../display/ncurses.h"
 #include "point.h"
 #include "camera.h"
-#include "cell.h"
 
 
 static void allocate_rows(Level *level)
 {
     Size size = level->size;
+        
+    Cell ***cells = alloc(sizeof(Cell[size.height][size.width]));
+    Cell **row = (Cell **) cells + size.height;
 
-    size_t row_pointers_bytes = size.height * sizeof(Cell **);
-    size_t row_elements_bytes = size.width * sizeof(Cell *);
-
-    Cell ***array = alloc(row_pointers_bytes + size.height * row_elements_bytes);
-
-    size_t i;
-    Cell ***data = array + size.height;
-
-    for (i = 0; i < size.height; i++) {
-        array[i] = data + i * size.width;
+    for (int i = 0; i < size.height; i++) {
+        cells[i] = row + i * size.width;
     }
 
-    level->cells = array;
+    level->cells = cells;
 }
 
 static void initialize_cells(Level *level)
@@ -94,7 +88,7 @@ void level_display(Player *player, Camera *camera)
     for (int y = camera->position.y; y <= until.y; y++) {
         for (int x = camera->position.x; x <= until.x; x++) {
             cell = cells[y][x];
-            if (player_can_see(player, y, x)) {
+            if (player_can_see(player, y, x) || true) {
                 wattron(WINDOW_MAIN, COLOR_PAIR(cell->color));
                 mvwaddch(WINDOW_MAIN, win_pos.y, win_pos.x, cell->chr);
             }

@@ -1,4 +1,5 @@
 #include "player.h"
+#include "../../data/config.h"
 
 
 static void update_affected_cells(Player *player, Point previous)
@@ -38,21 +39,21 @@ static bool can_move_to(Player *player, Point target)
         );
 }
 
-void player_move(Player *player, Direction direction)
+void player_move(Player *player, Input input)
 {
     Point target = player->position.current;
 
-    switch (direction) {
-        case NORTH:
+    switch (input) {
+        case KEY_NORTH:
             target.y -= 1;
             break;
-        case SOUTH:
+        case KEY_SOUTH:
             target.y += 1;
             break;
-        case EAST:
+        case KEY_EAST:
             target.x += 1;
             break;
-        case WEST:
+        case KEY_WEST:
             target.x -= 1;
             break;
     }

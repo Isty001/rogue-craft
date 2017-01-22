@@ -7,6 +7,7 @@ void run_point_test(void);
 void run_util_test(void);
 void run_player_manager_test(void);
 void run_camera_test(void);
+void run_consumable_test(void);
 
 
 int main(void)
@@ -18,6 +19,7 @@ int main(void)
     run_util_test();
     run_player_manager_test();
     run_camera_test();
+    run_consumable_test();
 
     return 0;
 }

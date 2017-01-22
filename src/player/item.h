@@ -1,41 +1,40 @@
-#ifndef ROGUECRAFT_INVENTORY_H
-#define ROGUECRAFT_INVENTORY_H
+#ifndef ROGUECRAFT_ITEM_H
+#define ROGUECRAFT_ITEM_H
 
 
-#include <stdint.h>
-#include <stdbool.h>
-#include "../color.h"
 #include "player.h"
 
 
-typedef struct item Item;
+typedef enum {
+    IE_CONSUMED,
+    IE_REPEAT,
+    IE_INVALID_ARGUMENT
+} ItemError;
 
-typedef struct consumable_item ConsumableItem;
-
-struct consumable_item {
+typedef struct Consumable {
     int value;
-    void (*consume)(ConsumableItem *, Player *);
-};
+    bool persistent;
+    AttributeType type;
+} Consumable;
 
 typedef enum {
-    CONSUMABLE
+    CONSUMABLE,
+    MELEE
 } ItemType;
 
-struct item {
-    char *name;
-    char *description;
+typedef struct {
+    char name[10];
+    char description[30];
     char chr;
     Color color;
     ItemType type;
     union {
-        ConsumableItem consumable;
+        Consumable consumable;
     };
-};
+} Item;
 
-typedef struct {
-    uint32_t size;
-    Item *items;
-} Inventory;
+
+ItemError item_consume(Item *item, Player *player);
 
 
 #endif
