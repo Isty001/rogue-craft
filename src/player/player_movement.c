@@ -2,7 +2,7 @@
 #include "../../data/config.h"
 
 
-static void update_affected_cells(Player *player, Point previous)
+static inline void update_affected_cells(Player *player, Point previous)
 {
     Cell ***cells = player->level->cells;
     Point current = player->position.current;
@@ -25,7 +25,7 @@ void player_position_on_level(Player *player)
     update_affected_cells(player, previous);
 }
 
-static bool can_move_to(Player *player, Point target)
+static inline bool can_move_to(Player *player, Point target)
 {
     Level *level = player->level;
 

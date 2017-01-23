@@ -6,6 +6,8 @@
 #include <minunit.h>
 
 
+#define FIXTURE_DIR "./test/fixture"
+
 #define TEST_NAME(name) puts("\x1B[33m[" name "] test case:\x1B[0m")
 
 

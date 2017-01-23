@@ -6,6 +6,8 @@
 #include "../level/level.h"
 
 
+typedef char Input;
+
 typedef enum {
     HEALTH,
     STAMINA,
@@ -37,7 +39,6 @@ typedef struct player {
         Attribute *type_map[4];
     } attr;
 } Player;
-
 
 
 Player *player_new(Level *level);

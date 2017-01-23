@@ -32,24 +32,23 @@ int main(void)
 
     while (1) {
         if ((ch = wgetch(WINDOW_MAIN))) {
-            player_move(player, ch);
-            player_position_on_level(player);
-
             if ('q' == ch) {
                 break;
             }
-            flushinp();
 
-            /** Only update the position! */
-            camera = camera_new(player, WINDOW_MAIN);
+            player_move(player, ch);
+            player_position_on_level(player);
+
+            camera_update(&camera, player, WINDOW_MAIN);
             level_display(player, &camera);
 
             if (ch == KEY_NORTH || ch == KEY_SOUTH) {
-                napms(15);
+                napms(10);
             }
 
         }
-        napms(75);
+        flushinp();
+        napms(70);
     }
 
     cleanup();

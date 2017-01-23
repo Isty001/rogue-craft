@@ -36,9 +36,6 @@
 #endif
 
 
-typedef char Input;
-
-
 static inline void *alloc(size_t size)
 {
     void *ptr = malloc(size);
