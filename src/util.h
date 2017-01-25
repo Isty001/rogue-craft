@@ -41,7 +41,7 @@ static inline void *alloc(size_t size)
     void *ptr = malloc(size);
 
     if (!ptr) {
-        fatal("Unable to allocate memory size of [%d]", size);
+        fatal("Unable to allocate memory size of [%lu]", size);
     }
 
     return ptr;

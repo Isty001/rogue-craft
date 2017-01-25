@@ -2,11 +2,12 @@
 #define ROGUECRAFT_PLAYER_H
 
 
+#include <stdint.h>
 #include "../level/point.h"
 #include "../level/level.h"
 
 
-typedef char Input;
+typedef int Input;
 
 typedef enum {
     HEALTH,
@@ -16,8 +17,8 @@ typedef enum {
 } AttributeType;
 
 typedef struct {
-    uint32_t limit;
-    uint32_t current;
+    uint16_t limit;
+    uint16_t current;
 } Attribute;
 
 typedef struct player {
@@ -47,7 +48,7 @@ void player_free(Player *player);
 
 void player_move(Player *player, Input input);
 
-bool player_can_see(Player *player, uint32_t y, uint32_t x);
+bool player_can_see(Player *player, uint16_t y, uint16_t x);
 
 void player_position_on_level(Player *player);
 

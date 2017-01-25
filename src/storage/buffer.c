@@ -19,7 +19,7 @@ void buffer_append(Buffer *buffer, char *content)
     char *tmp = NULL;
 
     if (!buffer->content) {
-        asprintf(&tmp, content);
+        asprintf(&tmp, "%s", content);
     } else {
         asprintf(&tmp, "%s%s", buffer->content, content);
     }

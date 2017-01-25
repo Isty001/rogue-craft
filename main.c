@@ -23,26 +23,26 @@ int main(void)
 {
     init();
 
-    Level *level = level_new(size_new(500, 200), LEVEL_STONE_CAVE);
+    Level *level = level_new(size_new(200, 200), LEVEL_STONE_CAVE);
     Player *player = player_new(level);
     player_position_on_level(player);
     Camera camera;
 
-    int ch;
+    Input in;
 
     while (1) {
-        if ((ch = wgetch(WINDOW_MAIN))) {
-            if ('q' == ch) {
+        if ((in = wgetch(WINDOW_MAIN))) {
+            if ('q' == in) {
                 break;
             }
 
-            player_move(player, ch);
+            player_move(player, in);
             player_position_on_level(player);
 
             camera_update(&camera, player, WINDOW_MAIN);
             level_display(player, &camera);
 
-            if (ch == KEY_NORTH || ch == KEY_SOUTH) {
+            if (in == KEY_NORTH || in == KEY_SOUTH) {
                 napms(10);
             }
 
