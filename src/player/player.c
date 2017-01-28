@@ -1,5 +1,6 @@
 #include "player.h"
 #include "../../data/config.h"
+#include "inventory.h"
 
 
 #define attribute(player, name, def_curr, def_max, type)     \

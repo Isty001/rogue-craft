@@ -1,5 +1,5 @@
 #include "unit_test.h"
-#include "../src/player/item.h"
+#include "../src/player/inventory.h"
 
 
 MU_TEST(test_add)

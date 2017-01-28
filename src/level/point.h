@@ -3,6 +3,7 @@
 
 
 #include <stdint.h>
+#include <stdbool.h>
 
 
 #define point_new(y, x) (Point) {y, x}
@@ -11,9 +12,12 @@
 
 
 typedef struct {
-    int16_t y;
-    int16_t x;
+    uint16_t y;
+    uint16_t x;
 } Point;
+
+
+bool point_are_neighbours(Point a, Point b);
 
 
 #endif

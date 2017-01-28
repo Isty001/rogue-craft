@@ -17,7 +17,7 @@ MU_TEST(test_new_player)
 
     mu_assert_int_eq(prev.y, curr.y);
     mu_assert_int_eq(prev.x, curr.x);
-    mu_assert_int_eq(&camera, player->camera);
+    mu_assert(&camera == player->camera, "Cam is not the same");
 
     level_free(level);
     player_free(player);

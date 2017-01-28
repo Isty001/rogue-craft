@@ -51,10 +51,6 @@ typedef const struct {
     } probabilities[];
 } ItemProbability;
 
-typedef struct Inventory {
-    uint16_t size;
-    Item *items[];
-} Inventory;
 
 
 Item *item_clone(ItemPrototype *prototype);
@@ -62,16 +58,6 @@ Item *item_clone(ItemPrototype *prototype);
 ItemError item_consume(Item *item, Player *player);
 
 void item_free(Item *item);
-
-Inventory *inventory_new(uint16_t size);
-
-ItemError inventory_add(Inventory *inventory, Item *item);
-
-void inventory_display(Inventory *inventory);
-
-void inventory_interact(Player *player, Click *click);
-
-void inventory_free(Inventory *inventory);
 
 
 #endif

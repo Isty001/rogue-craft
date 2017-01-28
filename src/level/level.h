@@ -8,6 +8,7 @@
 #include "cell.h"
 #include "../util.h"
 #include "../color.h"
+#include "point.h"
 
 
 #define iterate_matrix(from, size, ...)             \
@@ -28,6 +29,8 @@
 typedef struct Player Player;
 
 typedef struct Camera Camera;
+
+typedef struct Click Click;
 
 
 typedef struct {
@@ -66,6 +69,10 @@ Level *level_new(Size size, LevelConfig cfg);
 void level_display(Player *player);
 
 void level_generate_cave(Level *level);
+
+void level_interact(Player *player, Click *click);
+
+void level_set_hollow(Level *level, Point at);
 
 void level_free(Level *level);
 

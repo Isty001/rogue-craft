@@ -6,7 +6,7 @@
 
 
 /**
- * Level cells will look like this, Player positioned at (0, 1):
+ * Level cells will look like this:
  *
  * S H S
  * H H H

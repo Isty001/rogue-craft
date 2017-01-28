@@ -1,8 +1,8 @@
 #include "ncurses.h"
-#include "../player/item.h"
+#include "../player/inventory.h"
 
 
-#define CLICKABLE_NUM 1
+#define CLICKABLE_NUM 2
 
 
 typedef struct {
@@ -11,6 +11,7 @@ typedef struct {
 } Clickable;
 
 Clickable CLICKABLE_WINDOWS[CLICKABLE_NUM] = {
+    {.window = &WINDOW_MAIN, .interact = level_interact},
     {.window = &WINDOW_INVENTORY, .interact = inventory_interact}
 };
 

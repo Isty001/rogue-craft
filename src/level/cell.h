@@ -42,5 +42,7 @@ typedef const struct {
 
 CellRegistry cell_registry_new(CellConfig cfg);
 
+void cell_free_custom(Cell *cell);
+
 
 #endif

@@ -38,3 +38,10 @@ CellRegistry cell_registry_new(CellConfig cfg)
 
     return registry;
 }
+
+void cell_free_custom(Cell *cell)
+{
+    if (false == cell->is_prototype) {
+        free(cell);
+    }
+}

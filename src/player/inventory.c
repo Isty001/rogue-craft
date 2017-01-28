@@ -1,4 +1,4 @@
-#include "item.h"
+#include "inventory.h"
 
 
 Inventory *inventory_new(uint16_t size)

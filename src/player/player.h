@@ -29,7 +29,7 @@ typedef struct {
 
 typedef struct Player {
     Level *level;
-    uint32_t eyesight;
+    uint16_t eyesight;
     Camera *camera;
     struct {
         Point current;

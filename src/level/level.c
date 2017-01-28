@@ -1,6 +1,5 @@
 #include "level.h"
 #include "../ncurses/ncurses.h"
-#include "point.h"
 #include "camera.h"
 
 
@@ -66,6 +65,11 @@ void level_free(Level *level)
     free(level->registry.solid.cells);
     free(level->cells);
     free(level);
+}
+
+void level_set_hollow(Level *level, Point at)
+{
+    level->cells[at.y][at.x] = &cell_registry_rand(level, hollow);
 }
 
 static Point displayed_bounds(Camera *camera)

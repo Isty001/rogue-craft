@@ -48,3 +48,7 @@ void ncurses_cleanup(void)
     delwin(WINDOW_EVENT);
     endwin();
 }
+
+void ncurses_event(char *msg)
+{
+}

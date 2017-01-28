@@ -23,8 +23,6 @@
 
 #define fatal(...) fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
 
-#define square(x) (x) * (x)
-
 
 #ifdef DEBUG_MODE
 
@@ -36,6 +34,21 @@
 
 #endif
 
+
+static inline uint16_t square(uint16_t x)
+{
+    return x * x;
+}
+
+static inline int16_t min(int16_t a, int16_t b)
+{
+    return a < b ? a : b;
+}
+
+static inline int16_t max(int16_t a, int16_t b)
+{
+    return a > b ? a : b;
+}
 
 static inline void *alloc(size_t size)
 {

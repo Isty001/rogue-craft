@@ -11,11 +11,23 @@ MU_TEST(test_rand)
     )
 }
 
+MU_TEST(test_min_max)
+{
+    mu_assert_int_eq(2, min(2, 3));
+    mu_assert_int_eq(2, min(2, 2));
+    mu_assert_int_eq(2, min(3, 2));
+
+    mu_assert_int_eq(3, max(2, 3));
+    mu_assert_int_eq(2, max(2, 2));
+    mu_assert_int_eq(3, max(3, -2));
+}
+
 void run_util_test(void)
 {
     TEST_NAME("Util");
 
     MU_RUN_TEST(test_rand);
+    MU_RUN_TEST(test_min_max);
 
     MU_REPORT();
 }

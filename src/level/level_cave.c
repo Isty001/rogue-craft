@@ -1,38 +1,35 @@
 #include <malloc.h>
 #include <string.h>
 #include "level.h"
-#include "point.h"
 
 
-static bool is_edge(Level *level, Point neighbour)
+static bool is_edge(Level *level, int16_t neighbour_y, int16_t neighbour_x)
 {
     Size size = level->size;
 
     return
-        neighbour.x < 0 || neighbour.x >= size.width
+        neighbour_x < 0 || neighbour_x >= size.width
         ||
-        neighbour.y < 0 || neighbour.y >= size.height;
+        neighbour_y < 0 || neighbour_y >= size.height;
 }
 
 static int count_surrounding_walls(Level *level, Point position)
 {
     int count = 0;
     Size neighbourhood_size = {2, 2};
-    Point neighbour;
+    int16_t neighbour_y, neighbour_x;
 
     iterate_matrix(
         -1, neighbourhood_size,
 
         if (y == 0 && x == 0) continue;
 
-        neighbour = point_new(
-            y + position.y,
-            x + position.x
-        );
+        neighbour_y = y + position.y;
+        neighbour_x = x + position.x;
 
-        if (is_edge(level, neighbour)) {
+        if (is_edge(level, neighbour_y, neighbour_x)) {
             count++;
-        } else if (level->cells[neighbour.y][neighbour.x]->type == SOLID) {
+        } else if (level->cells[neighbour_y][neighbour_x]->type == SOLID) {
             count++;
         }
     );

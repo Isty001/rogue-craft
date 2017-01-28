@@ -28,12 +28,12 @@ void camera_update(Player *player, WINDOW *window)
     camera->position.x = adjust_coordinate(center.x - cam_size.width / 2, cam_size.width, level->bounds.x.to);
 }
 
-Point camera_adjust_level_point(Camera *camera, Point level_point)
+Point camera_to_level_point(Camera *camera, Point camera_point)
 {
     Point cam_pos = camera->position;
 
     return point_new(
-        level_point.y - cam_pos.y,
-        level_point.x - cam_pos.x
+        camera_point.y + cam_pos.y,
+        camera_point.x + cam_pos.x
     );
 }

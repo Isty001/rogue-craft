@@ -1,6 +1,4 @@
 #include "fixture.h"
-#include "../src/level/cell.h"
-#include "../src/level/level.h"
 
 
 Level *fixture_level(void)
@@ -20,9 +18,9 @@ Level *fixture_level(void)
 
     level_add_bounds(level);
 
-    level->cells = malloc(2 * sizeof(Cell **));
-    level->cells[0] = malloc(3 * sizeof(Cell *));
-    level->cells[1] = malloc(3 * sizeof(Cell *));
+    level->cells = alloc(2 * sizeof(Cell **));
+    level->cells[0] = alloc(3 * sizeof(Cell *));
+    level->cells[1] = alloc(3 * sizeof(Cell *));
 
     iterate_matrix(
         0, level->size,

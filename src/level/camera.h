@@ -13,7 +13,7 @@ typedef struct Camera {
 
 void camera_update(Player *player, WINDOW *window);
 
-Point camera_adjust_level_point(Camera *camera, Point level_point);
+Point camera_to_level_point(Camera *camera, Point level_point);
 
 
 #endif

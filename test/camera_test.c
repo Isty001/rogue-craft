@@ -37,19 +37,18 @@ MU_TEST(test_position)
     assert_point(camera.position, 89, 89);
 }
 
-MU_TEST(test_calculate_from_level_point)
+MU_TEST(test_camera_to_level_point)
 {
-
     Point actual;
     Camera camera;
     camera.position = point_new(500, 500);
 
-    actual = camera_adjust_level_point(&camera, point_new(525, 550));
-    assert_point(actual, 25, 50);
+    actual = camera_to_level_point(&camera, point_new(10, 10));
+    assert_point(actual, 510, 510);
 
     camera.position = point_new(0, 10);
-    actual = camera_adjust_level_point(&camera, point_new(2, 12));
-    assert_point(actual, 2, 2);
+    actual = camera_to_level_point(&camera, point_new(2, 12));
+    assert_point(actual, 2, 22);
 }
 
 void run_camera_test(void)
@@ -57,7 +56,7 @@ void run_camera_test(void)
     TEST_NAME("Camera");
 
     MU_RUN_TEST(test_position);
-    MU_RUN_TEST(test_calculate_from_level_point);
+    MU_RUN_TEST(test_camera_to_level_point);
 
     MU_REPORT();
 }

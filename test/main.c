@@ -11,6 +11,7 @@ void run_consumable_test(void);
 void run_buffer_test(void);
 void run_item_clone_test(void);
 void run_inventory_test(void);
+void run_level_interaction_test(void);
 
 
 int main(void)
@@ -26,6 +27,7 @@ int main(void)
     run_buffer_test();
     run_item_clone_test();
     run_inventory_test();
+    run_level_interaction_test();
 
     return 0;
 }
