@@ -76,10 +76,11 @@ static Point displayed_bounds(Camera *camera)
     );
 }
 
-void level_display(Player *player, Camera *camera)
+void level_display(Player *player)
 {
     Cell *cell;
     Point win_pos = point_new(0, 0);
+    Camera *camera = player->camera;
     Point until = displayed_bounds(camera);
     Cell ***cells = player->level->cells;
 

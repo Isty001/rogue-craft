@@ -3,6 +3,7 @@
 
 
 #include "player.h"
+#include "../ncurses/ncurses.h"
 
 
 typedef enum {
@@ -50,7 +51,7 @@ typedef const struct {
     } probabilities[];
 } ItemProbability;
 
-typedef struct {
+typedef struct Inventory {
     uint16_t size;
     Item *items[];
 } Inventory;
@@ -65,6 +66,10 @@ void item_free(Item *item);
 Inventory *inventory_new(uint16_t size);
 
 ItemError inventory_add(Inventory *inventory, Item *item);
+
+void inventory_display(Inventory *inventory);
+
+void inventory_interact(Player *player, Click *click);
 
 void inventory_free(Inventory *inventory);
 

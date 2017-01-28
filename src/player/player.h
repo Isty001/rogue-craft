@@ -10,6 +10,9 @@
 #define PLAYER_ATTR_NUM 4
 
 
+typedef struct Inventory Inventory;
+
+
 typedef int Input;
 
 typedef enum {
@@ -24,9 +27,10 @@ typedef struct {
     uint16_t current;
 } Attribute;
 
-typedef struct player {
+typedef struct Player {
     Level *level;
     uint32_t eyesight;
+    Camera *camera;
     struct {
         Point current;
         Point previous;
@@ -42,10 +46,11 @@ typedef struct player {
         Attribute thirst;
         Attribute *type_map[PLAYER_ATTR_NUM];
     } attr;
+    Inventory *inventory;
 } Player;
 
 
-Player *player_new(Level *level);
+Player *player_new(Level *level, Camera *camera);
 
 void player_free(Player *player);
 
@@ -54,8 +59,6 @@ void player_move(Player *player, Input input);
 bool player_can_see(Player *player, uint16_t y, uint16_t x);
 
 void player_position_on_level(Player *player);
-
-void player_interact(Player *player, Cell *target);
 
 
 #endif

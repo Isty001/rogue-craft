@@ -5,7 +5,7 @@
 
 
 static Size SIZE;
-WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY;
+WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT;
 
 
 WINDOW *ncurses_subwin(double height, double width, double y, double x)
@@ -32,7 +32,11 @@ void ncurses_init(void)
     getmaxyx(stdscr, SIZE.height, SIZE.width);
 
     WINDOW_MAIN = ncurses_subwin(0.6, 0.6, 0.1, 0.2);
-    WINDOW_INVENTORY = ncurses_subwin(0.8, 0.4, 0.1, 0);
+    WINDOW_INVENTORY = ncurses_subwin(0.9, 0.19, 0.1, 0);
+    WINDOW_EVENT = ncurses_subwin(0.3, 0.3, 0.7, 0.19);
+
+    box(WINDOW_INVENTORY, 0, 0);
+    box(WINDOW_EVENT, 0, 0);
 
     refresh();
 }
@@ -41,5 +45,6 @@ void ncurses_cleanup(void)
 {
     delwin(WINDOW_MAIN);
     delwin(WINDOW_INVENTORY);
+    delwin(WINDOW_EVENT);
     endwin();
 }

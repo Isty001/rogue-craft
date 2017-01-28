@@ -25,9 +25,9 @@
 
 
 /** Avoiding circular references */
-typedef struct player Player;
+typedef struct Player Player;
 
-typedef struct camera Camera;
+typedef struct Camera Camera;
 
 
 typedef struct {
@@ -63,7 +63,7 @@ typedef const struct {
 
 Level *level_new(Size size, LevelConfig cfg);
 
-void level_display(Player *player, Camera *camera);
+void level_display(Player *player);
 
 void level_generate_cave(Level *level);
 

@@ -37,3 +37,10 @@ void inventory_free(Inventory *inventory)
     free(inventory);
 }
 
+void inventory_interact(Player *player, Click *click)
+{
+}
+
+void inventory_display(Inventory *inventory)
+{
+}

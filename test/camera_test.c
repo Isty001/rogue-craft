@@ -19,20 +19,21 @@ MU_TEST(test_position)
     level.size = size_new(100, 100);
     level_add_bounds((&level));
     player.level = &level;
+    player.camera = &camera;
 
     WINDOW win;
     win._maxx = 9; /** @see getmaxx getmaxy */
     win._maxy = 9;
 
-    camera_update(&camera, &player, &win);
+    camera_update(&player, &win);
     assert_point(camera.position, 45, 45);
 
     player.position.current = point_new(3, 2);
-    camera_update(&camera, &player, &win);
+    camera_update(&player, &win);
     assert_point(camera.position, 0, 0);
 
     player.position.current = point_new(100, 100);
-    camera_update(&camera, &player, &win);
+    camera_update(&player, &win);
     assert_point(camera.position, 89, 89);
 }
 

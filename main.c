@@ -2,13 +2,11 @@
 #include <time.h>
 #include <memory.h>
 #include <mem_pool.h>
+#include <ncurses.h>
 #include "src/level/level.h"
 #include "src/ncurses/ncurses.h"
-#include "src/player/player.h"
 #include "src/level/camera.h"
 #include "data/config.h"
-#include "src/player/item.h"
-#include "data/item_config.h"
 
 
 static void init(void)
@@ -16,6 +14,7 @@ static void init(void)
     srand((unsigned) time(NULL));
 
     ncurses_init();
+    mouse_init();
 }
 
 static void cleanup(void)
@@ -27,11 +26,10 @@ int main(void)
 {
     init();
 
-    Level *level = level_new(size_new(200, 200), LEVEL_STONE_CAVE);
-    Player *player = player_new(level);
-    player_position_on_level(player);
     Camera camera;
-
+    Level *level = level_new(size_new(200, 200), LEVEL_STONE_CAVE);
+    Player *player = player_new(level, &camera);
+    player_position_on_level(player);
     Input in;
 
     while (1) {
@@ -43,13 +41,16 @@ int main(void)
             player_move(player, in);
             player_position_on_level(player);
 
-            camera_update(&camera, player, WINDOW_MAIN);
-            level_display(player, &camera);
+            camera_update(player, WINDOW_MAIN);
+            level_display(player);
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {
                 napms(10);
             }
 
+            if (in == KEY_MOUSE) {
+                mouse_interact(player);
+            }
         }
         flushinp();
         napms(70);

@@ -21,6 +21,7 @@ typedef struct {
     bool is_prototype;
     Color color;
     CellType type;
+    void *data;
 } Cell;
 
 typedef struct {

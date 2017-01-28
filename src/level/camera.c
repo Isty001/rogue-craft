@@ -12,8 +12,9 @@ static inline int adjust_coordinate(int coordinate, int cam_size, int max)
     return coordinate;
 }
 
-void camera_update(Camera *camera, Player *player, WINDOW *window)
+void camera_update(Player *player, WINDOW *window)
 {
+    Camera *camera = player->camera;
     Point center = player->position.current;
     Level *level = player->level;
 

@@ -33,12 +33,13 @@ static void add_attributes(Player *player)
     attribute(player, thirst, PLAYER_DEFAULT_THIRST, PLAYER_MAX_THIRST, THIRST);
 }
 
-Player *player_new(Level *level)
+Player *player_new(Level *level, Camera *camera)
 {
     Player *player = alloc(sizeof(Player));
     player->level = level;
     player->cell.prototype.type = PLAYER;
     player->eyesight = PLAYER_DEFAULT_EYESIGHT;
+    player->camera = camera;
 
     add_attributes(player);
 
@@ -47,10 +48,13 @@ Player *player_new(Level *level)
 
     calculate_starting_point(player);
 
+    player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
+
     return player;
 }
 
 void player_free(Player *player)
 {
+    inventory_free(player->inventory);
     free(player);
 }
