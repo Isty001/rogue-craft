@@ -11,14 +11,18 @@
 /**
  * USER
  */
-#define PLAYER_CHAR                 '@'
-#define PLAYER_DEFAULT_EYESIGHT     4
-#define PLAYER_DEFAULT_HP           100
-#define PLAYER_DEFAULT_STAMINA      100
-#define PLAYER_DEFAULT_HUNGER       0
-#define PLAYER_MAX_HUNGER           100
-#define PLAYER_DEFAULT_THIRST       0
-#define PLAYER_MAX_THIRST           100
+#define PLAYER_CHAR                     '@'
+
+#define PLAYER_DEFAULT_INVENTORY_SIZE   10
+
+/** Attributes */
+#define PLAYER_DEFAULT_EYESIGHT         4
+#define PLAYER_DEFAULT_HP               100
+#define PLAYER_DEFAULT_STAMINA          100
+#define PLAYER_DEFAULT_HUNGER           0
+#define PLAYER_MAX_HUNGER               100
+#define PLAYER_DEFAULT_THIRST           0
+#define PLAYER_MAX_THIRST               100
 
 
 /**

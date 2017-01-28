@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
 
 #define repeat(times, body)             \
@@ -11,11 +12,11 @@
         body;                           \
     }
 
-#define rand_in(min, max) min == max ? min : (rand() % (max - min)) + min
+#define rand_in(min, max) (uint16_t)(min == max ? min : (rand() % (max - min)) + min)
 
 #define rand_in_range(r) rand_in(r.from, r.to)
 
-#define rand_bool(probability) ((rand() / (double)RAND_MAX) < probability)
+#define rand_true(probability) ((rand() / (double)RAND_MAX) < probability)
 
 #define in_range(i, range) \
     i >= range.from && i <= range.to

@@ -14,7 +14,7 @@ void liquid_animate(Liquid *liquid)
     int i = 0;
 
     while ((cell = cells[i++])) {
-        cell->chr = (char) (rand_bool(PROBABILITY_OF_VISIBLE) ? LIQUID_VISIBLE : LIQUID_HIDDEN);
+        cell->chr = (char) (rand_true(PROBABILITY_OF_VISIBLE) ? LIQUID_VISIBLE : LIQUID_HIDDEN);
     }
 }
 

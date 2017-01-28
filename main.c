@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <time.h>
+#include <memory.h>
+#include <mem_pool.h>
 #include "src/level/level.h"
-#include "src/display/ncurses.h"
+#include "src/ncurses/ncurses.h"
 #include "src/player/player.h"
 #include "src/level/camera.h"
 #include "data/config.h"
+#include "src/player/item.h"
+#include "data/item_config.h"
 
 
 static void init(void)

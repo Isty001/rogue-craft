@@ -10,7 +10,10 @@
 
 
 typedef enum {
-    SOLID, HOLLOW, PLAYER
+    SOLID,
+    HOLLOW,
+    PLAYER,
+    ITEM
 } CellType;
 
 typedef struct {

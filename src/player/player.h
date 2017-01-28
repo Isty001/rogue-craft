@@ -7,6 +7,9 @@
 #include "../level/level.h"
 
 
+#define PLAYER_ATTR_NUM 4
+
+
 typedef int Input;
 
 typedef enum {
@@ -37,7 +40,7 @@ typedef struct player {
         Attribute stamina;
         Attribute hunger;
         Attribute thirst;
-        Attribute *type_map[4];
+        Attribute *type_map[PLAYER_ATTR_NUM];
     } attr;
 } Player;
 
@@ -51,6 +54,8 @@ void player_move(Player *player, Input input);
 bool player_can_see(Player *player, uint16_t y, uint16_t x);
 
 void player_position_on_level(Player *player);
+
+void player_interact(Player *player, Cell *target);
 
 
 #endif

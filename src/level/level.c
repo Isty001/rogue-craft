@@ -1,5 +1,5 @@
 #include "level.h"
-#include "../display/ncurses.h"
+#include "../ncurses/ncurses.h"
 #include "point.h"
 #include "camera.h"
 
@@ -12,7 +12,7 @@ static void allocate_rows(Level *level)
     Cell **row = (Cell **) cells + size.height;
 
     for (int i = 0; i < size.height; i++) {
-        cells[i] = row + i * size.width;
+        cells[i] = row + i * size.height;
     }
 
     level->cells = cells;
@@ -22,7 +22,7 @@ static void initialize_cells(Level *level)
 {
     iterate_matrix(
         0, level->size,
-        level->cells[y][x] = rand_bool(0.54) ? &cell_registry_rand(level, solid) : &cell_registry_rand(level, hollow);
+        level->cells[y][x] = rand_true(0.54) ? &cell_registry_rand(level, solid) : &cell_registry_rand(level, hollow);
     );
 }
 

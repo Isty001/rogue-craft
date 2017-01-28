@@ -10,13 +10,13 @@ MU_TEST(test_non_consumable)
     mu_assert(IE_INVALID_ARGUMENT == item_consume(&item, NULL), "Should give Invalid Arg");
 }
 
-static Item create_item(bool persistent)
+static Item create_item(bool permanent)
 {
     return (Item) {
         .type = CONSUMABLE,
         .consumable = (Consumable) {
             .type = HEALTH,
-            .persistent = persistent,
+            .permanent = permanent,
             .value = 10
         }
     };
