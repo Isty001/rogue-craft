@@ -1,12 +1,12 @@
-#include "level.h"
 #include "../ncurses/ncurses.h"
+#include "../../data/config.h"
 #include "camera.h"
 
 
 static void allocate_rows(Level *level)
 {
     Size size = level->size;
-        
+
     Cell ***cells = alloc(sizeof(Cell[size.height][size.width]));
     Cell **row = (Cell **) cells + size.height;
 
@@ -25,10 +25,29 @@ static void initialize_cells(Level *level)
     );
 }
 
+static void add_items(Level *level)
+{
+    uint16_t remaining = level->item_count;
+    Point point;
+    Cell *cell;
+
+    do {
+        point = level_rand_point(level);
+        cell = level->cells[point.y][point.x];
+
+        if (HOLLOW == cell->type) {
+            level->cells[point.y][point.x] = cell_random_item();
+            remaining--;
+        }
+
+    } while (remaining);
+}
+
 Level *level_new(Size size, LevelConfig cfg)
 {
     Level *level = alloc(sizeof(Level));
     level->size = size;
+    level->item_count = LEVEL_ITEM_COUNT(level);
 
     level_add_bounds(level);
     level->registry.hollow = cell_registry_new(*cfg.cell.hollow);
@@ -41,6 +60,8 @@ Level *level_new(Size size, LevelConfig cfg)
         level_generate_cave(level);
     }
 
+    add_items(level);
+
     return level;
 }
 
@@ -52,7 +73,7 @@ void level_free(Level *level)
     iterate_matrix(
         0, size,
 
-        if (!(cell = level->cells[y][x])->is_prototype) {
+        if (!(cell = level->cells[y][x])->in_registry) {
             free(cell);
         }
 

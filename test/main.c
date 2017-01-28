@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "../src/color.h"
+#include "../src/player/item.h"
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -13,10 +14,23 @@ void run_item_clone_test(void);
 void run_inventory_test(void);
 void run_level_interaction_test(void);
 
+static void init(void)
+{
+    srand((unsigned int) time(NULL));
+
+    item_init();
+    cell_init();
+}
+
+static void cleanup(void)
+{
+    item_cleanup();
+    cell_cleanup();
+}
 
 int main(void)
 {
-    srand((unsigned int) time(NULL));
+    init();
 
     run_player_movement_test();
     run_point_test();
@@ -28,6 +42,8 @@ int main(void)
     run_item_clone_test();
     run_inventory_test();
     run_level_interaction_test();
+
+    cleanup();
 
     return 0;
 }

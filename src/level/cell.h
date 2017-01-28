@@ -18,7 +18,7 @@ typedef enum {
 
 typedef struct {
     char chr;
-    bool is_prototype;
+    bool in_registry;
     Color color;
     CellType type;
     void *data;
@@ -40,9 +40,15 @@ typedef const struct {
 } CellConfig;
 
 
+void cell_init(void);
+
+Cell *cell_random_item(void);
+
 CellRegistry cell_registry_new(CellConfig cfg);
 
 void cell_free_custom(Cell *cell);
+
+void cell_cleanup(void);
 
 
 #endif

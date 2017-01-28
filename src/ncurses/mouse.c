@@ -1,18 +1,16 @@
 #include "ncurses.h"
-#include "../player/inventory.h"
 
 
-#define CLICKABLE_NUM 2
+#define CLICKABLE_NUM 1
 
 
 typedef struct {
     WINDOW **window;
-    void (*interact)(Player *, Click *);
+    void (*interact)(Player *, Point );
 } Clickable;
 
 Clickable CLICKABLE_WINDOWS[CLICKABLE_NUM] = {
-    {.window = &WINDOW_MAIN, .interact = level_interact},
-    {.window = &WINDOW_INVENTORY, .interact = inventory_interact}
+    {.window = &WINDOW_MAIN, .interact = level_interact}
 };
 
 
@@ -23,21 +21,20 @@ void mouse_init(void)
 
 void mouse_interact(Player *player)
 {
-    WINDOW *win;
     MEVENT event;
     Clickable clickable;
+    getmouse(&event);
 
     repeat(CLICKABLE_NUM,
-           getmouse(&event);
-           clickable = CLICKABLE_WINDOWS[i];
+       clickable = CLICKABLE_WINDOWS[i];
 
-           if (wmouse_trafo(win = *clickable.window, &event.y, &event.x, false)) {
-               Click click;
-               click.window = win;
-               click.point.y = (uint16_t) event.y;
-               click.point.x = (uint16_t) event.x;
+       if (wmouse_trafo(*clickable.window, &event.y, &event.x, false)) {
+           Point click = point_new(
+               event.y + 1,
+               event.x
+           );
 
-               clickable.interact(player, &click);
-           }
+           clickable.interact(player, click);
+       }
     )
 }

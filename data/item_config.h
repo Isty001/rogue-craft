@@ -2,11 +2,14 @@
 #define ROGUECRAFT_ITEM_PROTOTYPE_H
 
 
-#include "config.h"
 #include "../src/player/item.h"
+#include "../src/player/randomization.h"
+#include "config.h"
 
 
-extern ItemProbability ITEM_CONSUMABLE_PROBABILITY;
+extern Probability ITEM_TYPE_PROBABILITY;
+
+extern Probability ITEM_CONSUMABLE_PROBABILITY;
 
 extern ItemPrototype ITEM_POTION_HP;
 

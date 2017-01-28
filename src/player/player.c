@@ -16,12 +16,12 @@ static void calculate_starting_point(Player *player)
     Point point;
 
     do {
-        point = point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
+        point = level_rand_point(level);
 
         cell = level->cells[point.y][point.x];
     } while (HOLLOW != cell->type);
 
-    player->cell.occupied = cell;
+    player->cell.previous = cell;
     player->position.previous = point;
     player->position.current = point;
 }

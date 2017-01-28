@@ -51,4 +51,8 @@ void ncurses_cleanup(void)
 
 void ncurses_event(char *msg)
 {
+#ifndef UNIT_TEST
+    wprintw(WINDOW_EVENT, "%s", msg);
+    wrefresh(WINDOW_EVENT);
+#endif
 }

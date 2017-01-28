@@ -9,12 +9,12 @@ Level *fixture_level(void)
     level->registry.hollow.size = 1;
     level->registry.hollow.cells = malloc(sizeof(Cell));
     level->registry.hollow.cells[0].type = HOLLOW;
-    level->registry.hollow.cells[0].is_prototype = true;
+    level->registry.hollow.cells[0].in_registry = true;
 
     level->registry.solid.size = 1;
     level->registry.solid.cells = malloc(sizeof(Cell));
     level->registry.solid.cells[0].type = SOLID;
-    level->registry.solid.cells[0].is_prototype = true;
+    level->registry.solid.cells[0].in_registry = true;
 
     level_add_bounds(level);
 

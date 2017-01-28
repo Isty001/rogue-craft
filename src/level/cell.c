@@ -1,8 +1,12 @@
-#include "cell.h"
+#include <mem_pool.h>
+#include "../player/item.h"
+
+
+static MemPool *POOL;
 
 
 #define init_cell_at(cells, i, cfg, colour)   \
-     cells[i].is_prototype = true;            \
+     cells[i].in_registry = true;            \
      cells[i].chr = cfg.chr;                  \
      cells[i].type = cfg.type;                \
      cells[i].color = (Color) colour;
@@ -41,7 +45,31 @@ CellRegistry cell_registry_new(CellConfig cfg)
 
 void cell_free_custom(Cell *cell)
 {
-    if (false == cell->is_prototype) {
-        free(cell);
+    if (false == cell->in_registry) {
+        pool_free(POOL, cell);
     }
+}
+
+Cell *cell_random_item(void)
+{
+    Item *item = item_random();
+    Cell *cell = pool_alloc(POOL);
+
+    cell->chr = item->chr;
+    cell->color = item->color;
+    cell->type = ITEM;
+    cell->in_registry = false;
+    cell->data = item;
+
+    return cell;
+}
+
+void cell_init(void)
+{
+    POOL = pool_init(sizeof(Cell), 100);
+}
+
+void cell_cleanup(void)
+{
+    pool_destroy(POOL);
 }

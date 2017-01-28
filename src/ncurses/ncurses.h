@@ -9,12 +9,6 @@
 extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT;
 
 
-typedef struct Click {
-    WINDOW *window;
-    Point point;
-} Click;
-
-
 void ncurses_init(void);
 
 void ncurses_event(char *msg);

@@ -17,8 +17,6 @@ ItemError inventory_add(Inventory *inventory, Item *item);
 
 void inventory_display(Inventory *inventory);
 
-void inventory_interact(Player *player, Click *click);
-
 void inventory_free(Inventory *inventory);
 
 

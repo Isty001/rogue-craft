@@ -6,9 +6,9 @@
 #include <stdbool.h>
 #include <math.h>
 #include "cell.h"
+#include "point.h"
 #include "../util.h"
 #include "../color.h"
-#include "point.h"
 
 
 #define iterate_matrix(from, size, ...)             \
@@ -22,6 +22,9 @@
     level->bounds.y = (Range) {.from = 0, .to = level->size.height - 1};       \
     level->bounds.x = (Range) {.from = 0, .to = level->size.width - 1};        \
 
+#define level_rand_point(level) \
+    point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
+
 #define size_new(h, w) (Size) {.height = h, .width = w}
 
 
@@ -29,8 +32,6 @@
 typedef struct Player Player;
 
 typedef struct Camera Camera;
-
-typedef struct Click Click;
 
 
 typedef struct {
@@ -45,6 +46,7 @@ typedef enum {
 typedef struct {
     Size size;
     Cell ***cells;
+    uint16_t item_count;
     struct {
         Range y;
         Range x;
@@ -70,7 +72,7 @@ void level_display(Player *player);
 
 void level_generate_cave(Level *level);
 
-void level_interact(Player *player, Click *click);
+void level_interact(Player *player, Point click);
 
 void level_set_hollow(Level *level, Point at);
 

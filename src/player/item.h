@@ -42,22 +42,18 @@ typedef const struct {
     void (*randomize)(Item *);
 } ItemPrototype;
 
-typedef const struct {
-    uint16_t size;
-    uint16_t all;
-    struct {
-        uint16_t value;
-        ItemPrototype *item;
-    } probabilities[];
-} ItemProbability;
 
-
+void item_init(void);
 
 Item *item_clone(ItemPrototype *prototype);
 
 ItemError item_consume(Item *item, Player *player);
 
+Item *item_random(void);
+
 void item_free(Item *item);
+
+void item_cleanup(void);
 
 
 #endif

@@ -1,7 +1,4 @@
-#include <stdio.h>
 #include <time.h>
-#include <memory.h>
-#include <mem_pool.h>
 #include <ncurses.h>
 #include "src/level/level.h"
 #include "src/ncurses/ncurses.h"
@@ -15,11 +12,15 @@ static void init(void)
 
     ncurses_init();
     mouse_init();
+    cell_init();
+    item_init();
 }
 
 static void cleanup(void)
 {
     ncurses_cleanup();
+    item_cleanup();
+    cell_cleanup();
 }
 
 int main(void)
@@ -38,10 +39,12 @@ int main(void)
                 break;
             }
 
-            player_move(player, in);
-            player_position_on_level(player);
+            if(in != KEY_MOUSE){
+                player_move(player, in);
+                player_position_on_level(player);
 
-            camera_update(player, WINDOW_MAIN);
+                camera_update(player, WINDOW_MAIN);
+            }
             level_display(player);
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {

@@ -17,8 +17,8 @@ MU_TEST(test_movement)
     Player player;
     player.level = fixture_level();
     player.cell.prototype.type = PLAYER;
-    player.cell.prototype.is_prototype = true;
-    player.cell.occupied = &player.level->registry.hollow.cells[0];
+    player.cell.prototype.in_registry = true;
+    player.cell.previous = &player.level->registry.hollow.cells[0];
     player.position.previous = point_new(1, 1);
     player.position.current = point_new(1, 1);
 

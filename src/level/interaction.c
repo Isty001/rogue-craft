@@ -15,6 +15,7 @@ static void pickup_item(Player *player, Cell *cell, Point point)
         case IE_OK:
             level_set_hollow(player->level, point);
             cell_free_custom(cell);
+            ncurses_event("Item picked up");
             break;
         case IE_OVERFLOW:
             ncurses_event("Your Inventory is full");
@@ -28,9 +29,9 @@ static void pickup_item(Player *player, Cell *cell, Point point)
     }
 }
 
-void level_interact(Player *player, Click *click)
+void level_interact(Player *player, Point click)
 {
-    Point point = camera_to_level_point(player->camera, click->point);
+    Point point = camera_to_level_point(player->camera, click);
     Cell ***cells = player->level->cells;
     Cell *cell = cells[point.y][point.x];
 

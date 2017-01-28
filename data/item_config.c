@@ -1,17 +1,30 @@
 #include "config.h"
 #include "item_config.h"
-#include "../src/player/randomize.h"
 
 
-ItemProbability ITEM_CONSUMABLE_PROBABILITY = {
-    .size = 2,
-    .all = 50,
-    .probabilities = {
-        {.value = 46, .item = &ITEM_POTION_HP},
-        {.value = 4, .item = &ITEM_POTION_MAX_HP}
+/**
+ * BASE TYPE PROBABILITIES
+ */
+Probability ITEM_TYPE_PROBABILITY = {
+    .size = 1,
+    .sum = 50,
+    .items = {
+        {.value = 50, .ptr = &ITEM_CONSUMABLE_PROBABILITY}
     }
 };
 
+Probability ITEM_CONSUMABLE_PROBABILITY = {
+    .size = 2,
+    .sum = 50,
+    .items = {
+        {.value = 46, .ptr = &ITEM_POTION_HP},
+        {.value = 4, .ptr = &ITEM_POTION_MAX_HP}
+    }
+};
+
+/**
+ * CONSUMABLES
+ */
 ItemPrototype ITEM_POTION_HP = {
     .data = {
         .name = "HP",

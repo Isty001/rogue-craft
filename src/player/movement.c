@@ -2,27 +2,16 @@
 #include "../../data/config.h"
 
 
-static inline void update_affected_cells(Player *player, Point previous)
+void player_position_on_level(Player *player)
 {
     Cell ***cells = player->level->cells;
     Point current = player->position.current;
-
-    player->position.previous = current;
-    player->cell.occupied = cells[current.y][current.x];
-
-    cells[previous.y][previous.x] = player->cell.occupied;
-    cells[current.y][current.x] = &player->cell.prototype;
-}
-
-void player_position_on_level(Player *player)
-{
     Point previous = player->position.previous;
-    Point current = player->position.current;
 
-    if (false == point_eq(previous, current)) {
-        player->position.current = current;
-    }
-    update_affected_cells(player, previous);
+    cells[previous.y][previous.x] = player->cell.previous;
+
+    player->cell.previous = cells[current.y][current.x];
+    cells[current.y][current.x] = &player->cell.prototype;
 }
 
 static inline bool can_move_to(Player *player, Point target)
@@ -35,7 +24,7 @@ static inline bool can_move_to(Player *player, Point target)
             in_range(target.y, level->bounds.y)
         ) &&
         (
-            HOLLOW == level->cells[target.y][target.x]->type
+            SOLID != level->cells[target.y][target.x]->type
         );
 }
 
@@ -59,6 +48,7 @@ void player_move(Player *player, Input input)
     }
 
     if (can_move_to(player, target)) {
+        player->position.previous = player->position.current;
         player->position.current = target;
     }
 }

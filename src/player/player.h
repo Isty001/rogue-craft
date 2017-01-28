@@ -37,7 +37,7 @@ typedef struct Player {
     } position;
     struct {
         Cell prototype;
-        Cell *occupied;
+        Cell *previous;
     } cell;
     struct {
         Attribute hp;
