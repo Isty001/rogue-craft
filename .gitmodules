@@ -1,3 +1,6 @@
 [submodule "lib/mem-pool"]
 	path = lib/mem-pool
 	url = https://github.com/Isty001/mem-pool
+[submodule "lib/dev"]
+	path = lib/dev
+	url = https://github.com/rogue-craft/dev-tools

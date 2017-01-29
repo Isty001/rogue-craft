@@ -17,12 +17,3 @@ test:
 test-valgrind:
 	make test
 	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./test.o
-
-palette:
-	$(CC) dev/palette.c $(CFLAGS) -o palette.o
-	./palette.o
-
-alt-char:
-	$(CC) dev/altcharset.c $(CFLAGS) -o altcharset.o
-	./altcharset.o
-
