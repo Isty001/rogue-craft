@@ -45,11 +45,15 @@ void player_move(Player *player, Input input)
         case KEY_WEST:
             target.x -= 1;
             break;
+        default:
+            return;
     }
 
     if (can_move_to(player, target)) {
         player->position.previous = player->position.current;
         player->position.current = target;
+
+        player_position_on_level(player);
     }
 }
 

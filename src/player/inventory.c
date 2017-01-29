@@ -4,7 +4,7 @@
 Inventory *inventory_new(uint16_t size)
 {
     Inventory *inventory = alloc(sizeof(Inventory) + (size * sizeof(Item *)));
-    inventory->update_display = false;
+    inventory->update_display = true;
     inventory->size = size;
     repeat(inventory->size, inventory->items[i] = NULL)
 
@@ -44,14 +44,16 @@ void inventory_display(Inventory *inventory)
     wclear(WINDOW_INVENTORY);
 
     for (int i = 0; i < inventory->size; i++) {
+        wmove(WINDOW_INVENTORY, i + 1, 2);
+
         if ((item = inventory->items[i])) {
-            wmove(WINDOW_INVENTORY, i + 1, 2);
             waddch(WINDOW_INVENTORY, item->chr | item->style);
             wprintw(WINDOW_INVENTORY, " | %d | %s", item->value, item->name);
+        } else {
+            waddch(WINDOW_INVENTORY, '-');
         }
     }
-    box(WINDOW_INVENTORY, 0, 0);
-    wrefresh(WINDOW_INVENTORY);
+    wrefreshbox(WINDOW_INVENTORY);
 
     inventory->update_display = false;
 }

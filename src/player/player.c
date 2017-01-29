@@ -73,8 +73,7 @@ void player_display_stats(Player *player)
 
         wprintw(WINDOW_PLAYER_STATS, ": %d/%d", attr->current, attr->limit);
     }
-    box(WINDOW_PLAYER_STATS, 0, 0);
-    wrefresh(WINDOW_PLAYER_STATS);
+    wrefreshbox(WINDOW_PLAYER_STATS);
 }
 
 void player_free(Player *player)

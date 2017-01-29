@@ -32,7 +32,6 @@ MU_TEST(test_movement)
 
     repeat(3,
            player_move(&player, KEY_WEST);
-           player_position_on_level(&player);
     )
     assert_position(player, 1, 0);
 

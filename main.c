@@ -36,10 +36,6 @@ int main(void)
     player_position_on_level(player);
     Input in;
 
-    repeat(PLAYER_DEFAULT_INVENTORY_SIZE,
-        inventory_add(player->inventory, item_random());
-    )
-
     inventory_display(player->inventory);
     player_display_stats(player);
 
@@ -49,10 +45,9 @@ int main(void)
 
             if (in != KEY_MOUSE) {
                 player_move(player, in);
-                player_position_on_level(player);
+
                 camera_update(player, WINDOW_MAIN);
                 level_display(player);
-//                player_display_stats(player);
             }
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {
