@@ -46,7 +46,7 @@ MU_TEST(test_movement)
         "Previous positions should be restored"
     );
 
-    level_free(player.level);
+    fixture_level_free(player.level);
 }
 
 MU_TEST(test_eyesight)

@@ -12,13 +12,13 @@ typedef const struct {
     uint16_t size;
     uint16_t sum;
     struct {
-        uint16_t value;
-        Randomizable ptr;
+        uint16_t chance;
+        Randomizable value;
     } items[];
 } Probability;
 
 
-void item_randomize_consumable(Item *item);
+Item *item_randomize_consumable(ItemPrototype *prototype);
 
 Randomizable random_from(Probability *probability);
 

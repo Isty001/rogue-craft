@@ -13,13 +13,13 @@ typedef enum {
     SOLID,
     HOLLOW,
     PLAYER,
-    ITEM
+    ITEM_ /** Conflicts with ncurses' ITEM */
 } CellType;
 
 typedef struct {
-    char chr;
+    Character chr;
     bool in_registry;
-    Color color;
+    Style style;
     CellType type;
     void *data;
 } Cell;
@@ -40,7 +40,7 @@ typedef const struct {
 } CellConfig;
 
 
-void cell_init(void);
+void cell_pool_init(void);
 
 Cell *cell_random_item(void);
 
@@ -48,7 +48,7 @@ CellRegistry cell_registry_new(CellConfig cfg);
 
 void cell_free_custom(Cell *cell);
 
-void cell_cleanup(void);
+void cell_pool_cleanup(void);
 
 
 #endif

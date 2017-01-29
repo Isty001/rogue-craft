@@ -5,7 +5,9 @@
 #include "item.h"
 
 
+
 typedef struct Inventory {
+    bool update_display;
     uint16_t size;
     Item *items[];
 } Inventory;

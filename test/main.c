@@ -10,7 +10,6 @@ void run_player_manager_test(void);
 void run_camera_test(void);
 void run_consumable_test(void);
 void run_buffer_test(void);
-void run_item_clone_test(void);
 void run_inventory_test(void);
 void run_level_interaction_test(void);
 
@@ -18,14 +17,14 @@ static void init(void)
 {
     srand((unsigned int) time(NULL));
 
-    item_init();
-    cell_init();
+    item_pool_init();
+    cell_pool_init();
 }
 
 static void cleanup(void)
 {
-    item_cleanup();
-    cell_cleanup();
+    item_pool_cleanup();
+    cell_pool_cleanup();
 }
 
 int main(void)
@@ -39,7 +38,6 @@ int main(void)
     run_camera_test();
     run_consumable_test();
     run_buffer_test();
-    run_item_clone_test();
     run_inventory_test();
     run_level_interaction_test();
 

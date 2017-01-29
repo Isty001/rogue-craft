@@ -13,6 +13,8 @@ MU_TEST(test_add)
     mu_assert_int_eq(IE_OK, inventory_add(inventory, &item2));
     mu_assert_int_eq(IE_OVERFLOW, inventory_add(inventory, &item3));
 
+    mu_assert(inventory->update_display, "Inventory should have changed");
+
     inventory_free(inventory);
 }
 

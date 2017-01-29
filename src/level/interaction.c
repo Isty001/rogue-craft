@@ -15,7 +15,7 @@ static void pickup_item(Player *player, Cell *cell, Point point)
         case IE_OK:
             level_set_hollow(player->level, point);
             cell_free_custom(cell);
-            ncurses_event("Item picked up");
+            ncurses_event("InventoryItem picked up");
             break;
         case IE_OVERFLOW:
             ncurses_event("Your Inventory is full");
@@ -35,7 +35,7 @@ void level_interact(Player *player, Point click)
     Cell ***cells = player->level->cells;
     Cell *cell = cells[point.y][point.x];
 
-    if (ITEM == cell->type) {
+    if (ITEM_ == cell->type) {
         pickup_item(player, cell, point);
     }
 }

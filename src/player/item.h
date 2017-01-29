@@ -21,7 +21,6 @@ typedef enum {
 } ItemType;
 
 typedef struct Consumable {
-    uint16_t value;
     bool permanent;
     AttributeType type;
 } Consumable;
@@ -29,21 +28,23 @@ typedef struct Consumable {
 typedef struct {
     char *name;
     char *description;
-    char chr;
-    Color color;
+    Character chr;
+    Style style;
     ItemType type;
+    uint16_t value;
     union {
         Consumable consumable;
     };
 } Item;
 
-typedef const struct {
-    Item data;
-    void (*randomize)(Item *);
+typedef const struct ItemPrototype {
+    Item item;
+    Range value_range;
+    Item *(*randomize)(const struct ItemPrototype *);
 } ItemPrototype;
 
 
-void item_init(void);
+void item_pool_init(void);
 
 Item *item_clone(ItemPrototype *prototype);
 
@@ -53,7 +54,7 @@ Item *item_random(void);
 
 void item_free(Item *item);
 
-void item_cleanup(void);
+void item_pool_cleanup(void);
 
 
 #endif

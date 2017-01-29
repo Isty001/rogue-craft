@@ -18,7 +18,7 @@ CellConfig CELL_WALL_STONE = {
     .chr = '#',
     .has_color_schema = true,
     .color = {
-        .schema = &COLOR_STONE_WALL
+        .schema = &COLOR_SCHEMA_STONE_WALL
     }
 };
 
@@ -31,20 +31,12 @@ CellConfig CELL_HOLLOW_SIMPLE = {
     }
 };
 
-CellConfig CELL_WATER = {
-    .type = HOLLOW,
-    .has_color_schema = true,
-    .chr = '~',
-    .color = {
-        .schema = &COLOR_WATER
-    }
-};
 
 
 /**
  * COLOR
  */
-ColorSchema COLOR_STONE_WALL = {
+ColorSchema COLOR_SCHEMA_STONE_WALL = {
     .pairs_from = 110,
     .size = 4,
     .pairs = {
@@ -52,12 +44,5 @@ ColorSchema COLOR_STONE_WALL = {
         {.fore = 237, .back = -1},
         {.fore = 238, .back = -1},
         {.fore = 243, .back = -1}
-    }
-};
-
-ColorSchema COLOR_WATER = {
-    .pairs_from = 120,
-    .size = 0,
-    .pairs = {
     }
 };

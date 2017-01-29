@@ -5,20 +5,19 @@
 static MemPool *POOL;
 
 
-#define init_cell_at(cells, i, cfg, colour)   \
-     cells[i].in_registry = true;            \
+#define init_cell_at(cells, i, cfg, color)   \
+     cells[i].in_registry = true;             \
      cells[i].chr = cfg.chr;                  \
      cells[i].type = cfg.type;                \
-     cells[i].color = (Color) colour;
+     cells[i].style = COLOR_PAIR(color);
 
 
 static Cell *init_cells_with_color_schema(CellConfig cfg)
 {
     ColorSchema *colors = cfg.color.schema;
-
     Cell *cells = alloc(colors->size * sizeof(Cell));
 
-    for (unsigned short i = 0; i < colors->size; i++) {
+    for (uint16_t i = 0; i < colors->size; i++) {
         init_cell_at(cells, i, cfg, colors->pairs_from + i);
     }
 
@@ -27,8 +26,8 @@ static Cell *init_cells_with_color_schema(CellConfig cfg)
 
 CellRegistry cell_registry_new(CellConfig cfg)
 {
-    CellRegistry registry;
     Cell *cells;
+    CellRegistry registry;
 
     if (cfg.has_color_schema) {
         cells = init_cells_with_color_schema(cfg);
@@ -56,20 +55,20 @@ Cell *cell_random_item(void)
     Cell *cell = pool_alloc(POOL);
 
     cell->chr = item->chr;
-    cell->color = item->color;
-    cell->type = ITEM;
+    cell->style = item->style;
+    cell->type = ITEM_;
     cell->in_registry = false;
     cell->data = item;
 
     return cell;
 }
 
-void cell_init(void)
+void cell_pool_init(void)
 {
     POOL = pool_init(sizeof(Cell), 100);
 }
 
-void cell_cleanup(void)
+void cell_pool_cleanup(void)
 {
     pool_destroy(POOL);
 }

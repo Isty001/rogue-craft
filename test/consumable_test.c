@@ -14,10 +14,10 @@ static Item create_item(bool permanent)
 {
     return (Item) {
         .type = CONSUMABLE,
+        .value = 10,
         .consumable = (Consumable) {
             .type = HEALTH,
             .permanent = permanent,
-            .value = 10
         }
     };
 }
@@ -36,7 +36,7 @@ MU_TEST(test_persistent)
     Player player;
     setup_player(&player);
 
-    mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumbed");
+    mu_assert(IE_CONSUMED == item_consume(&item, &player), "InventoryItem should be consumbed");
     mu_assert_int_eq(110, player.attr.hp.limit);
 }
 
@@ -59,12 +59,12 @@ MU_TEST(test_partial_consume)
 
     mu_assert(IE_REPEAT == item_consume(&item, &player), "Should be partially consumed");
     mu_assert_int_eq(100, player.attr.hp.current);
-    mu_assert_int_eq(5, item.consumable.value);
+    mu_assert_int_eq(5, item.value);
 }
 
 void run_consumable_test(void)
 {
-    TEST_NAME("Consumable Item");
+    TEST_NAME("Consumable InventoryItem");
 
     MU_RUN_TEST(test_non_consumable);
     MU_RUN_TEST(test_persistent);

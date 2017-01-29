@@ -35,3 +35,10 @@ Level *fixture_level(void)
     return level;
 }
 
+void fixture_level_free(Level *level)
+{
+    free(level->cells[0]);
+    free(level->cells[1]);
+
+    level_free(level);
+}

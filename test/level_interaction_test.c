@@ -9,9 +9,9 @@
 MU_TEST(test_item_pickup)
 {
     Level *level = fixture_level();
-    Item *item = item_clone(&ITEM_POTION_HP);
+    Item *item = item_clone(&ITEM_CONSUMABLE_HP);
     level->cells[0][0]->data = item;
-    level->cells[0][0]->type = ITEM;
+    level->cells[0][0]->type = ITEM_;
 
     Camera camera = {
         .position = point_new(0, 0),
@@ -33,7 +33,7 @@ MU_TEST(test_item_pickup)
     mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
 
     player_free(player);
-    level_free(level);
+    fixture_level_free(level);
     item_free(item);
 }
 

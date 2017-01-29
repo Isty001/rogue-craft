@@ -7,7 +7,7 @@
 static MemPool *POOL;
 
 
-static ItemError consume_non_permanent(Consumable *item, Attribute *attribute)
+static ItemError consume_non_permanent(Item *item, Attribute *attribute)
 {
     uint16_t new = attribute->current + item->value;
 
@@ -28,26 +28,22 @@ ItemError item_consume(Item *parent, Player *player)
         return IE_INVALID_ARGUMENT;
     }
 
-    Consumable *item = &parent->consumable;
-    Attribute *attribute = player->attr.type_map[item->type];
+    Consumable *consumable = &parent->consumable;
+    Attribute *attribute = player->attr.type_map[consumable->type];
 
-    if (item->permanent) {
-        attribute->limit += item->value;
+    if (consumable->permanent) {
+        attribute->limit += parent->value;
 
         return IE_CONSUMED;
     }
 
-    return consume_non_permanent(item, attribute);
+    return consume_non_permanent(parent, attribute);
 }
 
 Item *item_clone(ItemPrototype *prototype)
 {
     Item *item = pool_alloc(POOL);
-    memcpy(item, &prototype->data, sizeof(Item));
-
-    if (prototype->randomize) {
-        prototype->randomize(item);
-    }
+    memcpy(item, &prototype->item, sizeof(Item));
 
     return item;
 }
@@ -57,15 +53,15 @@ Item *item_random(void)
     Probability *type = random_from(&ITEM_TYPE_PROBABILITY);
     ItemPrototype *prototype = random_from(type);
 
-    return item_clone(prototype);
+    return prototype->randomize(prototype);
 }
 
-void item_init(void)
+void item_pool_init(void)
 {
     POOL = pool_init(sizeof(Item), 100);
 }
 
-void item_cleanup(void)
+void item_pool_cleanup(void)
 {
     pool_destroy(POOL);
 }

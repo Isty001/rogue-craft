@@ -6,7 +6,7 @@
 #include "../player/player.h"
 
 
-extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT;
+extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT, *WINDOW_PLAYER_STATS;
 
 
 void ncurses_init(void);

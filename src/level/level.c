@@ -8,10 +8,10 @@ static void allocate_rows(Level *level)
     Size size = level->size;
 
     Cell ***cells = alloc(sizeof(Cell[size.height][size.width]));
-    Cell **row = (Cell **) cells + size.height;
+    Cell **from = (Cell **) cells + size.height;
 
     for (int i = 0; i < size.height; i++) {
-        cells[i] = row + i * size.height;
+        cells[i] = from + i * size.height;
     }
 
     level->cells = cells;
@@ -67,21 +67,6 @@ Level *level_new(Size size, LevelConfig cfg)
 
 void level_free(Level *level)
 {
-    Cell *cell;
-    Size size = level->size;
-
-    iterate_matrix(
-        0, size,
-
-        if (!(cell = level->cells[y][x])->in_registry) {
-            free(cell);
-        }
-
-        if (x == size.width - 1) {
-            free(level->cells[y]);
-        }
-    )
-
     free(level->registry.hollow.cells);
     free(level->registry.solid.cells);
     free(level->cells);
@@ -114,9 +99,9 @@ void level_display(Player *player)
     for (int y = camera->position.y; y <= until.y; y++) {
         for (int x = camera->position.x; x <= until.x; x++) {
             cell = cells[y][x];
+
             if (player_can_see(player, y, x) || true) {
-                wattron(WINDOW_MAIN, COLOR_PAIR(cell->color));
-                mvwaddch(WINDOW_MAIN, win_pos.y, win_pos.x, cell->chr);
+                mvwaddch(WINDOW_MAIN, win_pos.y, win_pos.x, cell->chr | cell->style);
             }
             win_pos.x++;
         }

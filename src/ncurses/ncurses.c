@@ -1,16 +1,15 @@
 #include <ncurses.h>
 #include <assert.h>
-#include "../color.h"
-#include "../level/level.h"
+#include "ncurses.h"
 
 
-static Size SIZE;
-WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT;
+static int HEIGHT, WIDTH;
+WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT, *WINDOW_PLAYER_STATS;
 
 
-WINDOW *ncurses_subwin(double height, double width, double y, double x)
+WINDOW *ncurses_subwin(int height, int width, int y, int x)
 {
-    WINDOW *sub_window = derwin(stdscr, SIZE.height * height, SIZE.width * width, SIZE.height * y, SIZE.width * x);
+    WINDOW *sub_window = derwin(stdscr, height, width, y, x);
     scrollok(sub_window, true);
     keypad(sub_window, true);
 
@@ -29,14 +28,17 @@ void ncurses_init(void)
     cbreak();
     nodelay(stdscr, true);
 
-    getmaxyx(stdscr, SIZE.height, SIZE.width);
+    getmaxyx(stdscr, HEIGHT, WIDTH);
 
-    WINDOW_MAIN = ncurses_subwin(0.6, 0.6, 0.1, 0.2);
-    WINDOW_INVENTORY = ncurses_subwin(0.9, 0.19, 0.1, 0);
-    WINDOW_EVENT = ncurses_subwin(0.3, 0.3, 0.7, 0.19);
+    WINDOW_MAIN = ncurses_subwin(HEIGHT * 0.75, WIDTH * 0.6, 0, WIDTH * 0.2);
+    WINDOW_EVENT = ncurses_subwin(HEIGHT * 0.25, WIDTH * 0.3, HEIGHT * 0.75, WIDTH * 0.2);
+
+    WINDOW_INVENTORY = ncurses_subwin(HEIGHT * 0.75, (WIDTH - 1) * 0.2, 0, 0);
+    WINDOW_PLAYER_STATS = ncurses_subwin(HEIGHT * 0.25, (WIDTH - 1) * 0.2, HEIGHT * 0.75, 0);
 
     box(WINDOW_INVENTORY, 0, 0);
     box(WINDOW_EVENT, 0, 0);
+    box(WINDOW_PLAYER_STATS, 0, 0);
 
     refresh();
 }
@@ -46,6 +48,7 @@ void ncurses_cleanup(void)
     delwin(WINDOW_MAIN);
     delwin(WINDOW_INVENTORY);
     delwin(WINDOW_EVENT);
+    delwin(WINDOW_PLAYER_STATS);
     endwin();
 }
 

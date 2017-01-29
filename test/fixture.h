@@ -13,5 +13,7 @@
  */
 Level *fixture_level(void);
 
+void fixture_level_free(Level *level);
+
 
 #endif

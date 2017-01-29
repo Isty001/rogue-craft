@@ -7,7 +7,8 @@
 #include "../level/level.h"
 
 
-#define PLAYER_ATTR_NUM 4
+#define PLAYER_ATTR_NUM      4
+#define PLAYER_ATTR_NAME_MAX 10
 
 
 typedef struct Inventory Inventory;
@@ -23,6 +24,8 @@ typedef enum {
 } AttributeType;
 
 typedef struct {
+    char name[PLAYER_ATTR_NAME_MAX];
+    Color color;
     uint16_t limit;
     uint16_t current;
 } Attribute;
@@ -40,6 +43,7 @@ typedef struct Player {
         Cell *previous;
     } cell;
     struct {
+        bool update_display;
         Attribute hp;
         Attribute stamina;
         Attribute hunger;
@@ -57,6 +61,8 @@ void player_free(Player *player);
 void player_move(Player *player, Input input);
 
 bool player_can_see(Player *player, uint16_t y, uint16_t x);
+
+void player_display_stats(Player *player);
 
 void player_position_on_level(Player *player);
 

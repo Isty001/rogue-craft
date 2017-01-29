@@ -11,9 +11,18 @@ extern Probability ITEM_TYPE_PROBABILITY;
 
 extern Probability ITEM_CONSUMABLE_PROBABILITY;
 
-extern ItemPrototype ITEM_POTION_HP;
+/**
+ * CONSUMABLES
+ */
+extern ItemPrototype ITEM_CONSUMABLE_HP;
 
-extern ItemPrototype ITEM_POTION_MAX_HP;
+extern ItemPrototype ITEM_CONSUMABLE_MAX_HP;
+
+extern ItemPrototype ITEM_CONSUMABLE_MAX_STAMINA;
+
+extern ItemPrototype ITEM_CONSUMABLE_FOOD;
+
+extern ItemPrototype ITEM_CONSUMABLE_WATER;
 
 
 #endif

@@ -4,6 +4,7 @@
 Inventory *inventory_new(uint16_t size)
 {
     Inventory *inventory = alloc(sizeof(Inventory) + (size * sizeof(Item *)));
+    inventory->update_display = false;
     inventory->size = size;
     repeat(inventory->size, inventory->items[i] = NULL)
 
@@ -25,6 +26,7 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     repeat(inventory->size,
         if (NULL == inventory->items[i]) {
             inventory->items[i] = item;
+            inventory->update_display = true;
 
             return IE_OK;
         }
@@ -32,11 +34,29 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     return IE_OVERFLOW;
 }
 
+void inventory_display(Inventory *inventory)
+{
+    if (!inventory->update_display) {
+        return;
+    }
+    Item *item;
+
+    wclear(WINDOW_INVENTORY);
+
+    for (int i = 0; i < inventory->size; i++) {
+        if ((item = inventory->items[i])) {
+            wmove(WINDOW_INVENTORY, i + 1, 2);
+            waddch(WINDOW_INVENTORY, item->chr | item->style);
+            wprintw(WINDOW_INVENTORY, " | %d | %s", item->value, item->name);
+        }
+    }
+    box(WINDOW_INVENTORY, 0, 0);
+    wrefresh(WINDOW_INVENTORY);
+
+    inventory->update_display = false;
+}
+
 void inventory_free(Inventory *inventory)
 {
     free(inventory);
-}
-
-void inventory_display(Inventory *inventory)
-{
 }

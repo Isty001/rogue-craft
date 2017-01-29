@@ -1,29 +1,32 @@
 #include "randomization.h"
 
 
-void item_randomize_consumable(Item *item)
+Item *item_randomize_consumable(ItemPrototype *prototype)
 {
+    Item *item = item_clone(prototype);
     Consumable *consumable = &item->consumable;
 
     consumable->permanent = rand_true(0.1);
     consumable->type = (AttributeType) rand_in(0, PLAYER_ATTR_NUM);
-    consumable->value = rand_in(10, 60);
+    item->value = rand_in_range(prototype->value_range);
 
     if (consumable->permanent) {
-        consumable->value /= 10;
+        item->value /= 10;
     }
+
+    return item;
 }
 
 Randomizable random_from(Probability *probability)
 {
-    uint16_t p = rand_in(0, probability->sum);
+    uint16_t picked = rand_in(0, probability->sum);
     uint16_t cumulative = 0;
 
     for (int i = 0; i < probability->size; i++) {
-        cumulative += probability->items[i].value;
+        cumulative += probability->items[i].chance;
 
-        if (p <= cumulative) {
-            return probability->items[i].ptr;
+        if (picked <= cumulative) {
+            return probability->items[i].value;
         }
     }
     fatal("Unable to pick random item");

@@ -13,16 +13,16 @@
  */
 #define PLAYER_CHAR                     '@'
 
-#define PLAYER_DEFAULT_INVENTORY_SIZE   10
+#define PLAYER_DEFAULT_INVENTORY_SIZE   20
 
 /** Attributes */
 #define PLAYER_DEFAULT_EYESIGHT         4
 #define PLAYER_DEFAULT_HP               100
 #define PLAYER_DEFAULT_STAMINA          100
 #define PLAYER_DEFAULT_HUNGER           0
-#define PLAYER_MAX_HUNGER               100
+#define PLAYER_LIMIT_HUNGER             100
 #define PLAYER_DEFAULT_THIRST           0
-#define PLAYER_MAX_THIRST               100
+#define PLAYER_LIMIT_THIRST             100
 
 
 /**
@@ -38,7 +38,7 @@
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 2000);
+    (uint16_t) ((level->size.height * level->size.width) / 1500);
 
 extern LevelConfig LEVEL_STONE_CAVE;
 
@@ -50,21 +50,11 @@ extern CellConfig CELL_WALL_STONE;
 
 extern CellConfig CELL_HOLLOW_SIMPLE;
 
-extern CellConfig CELL_WATER;
-
-
-/**
- * SINGLE COLOR PAIRS
- */
-#define COLOR_PAIR_NONE 1
-#define COLOR_PAIR_RED_F 2
 
 /**
  * COLOR SCHEMAS
  */
-extern ColorSchema COLOR_WATER;
-
-extern ColorSchema COLOR_STONE_WALL;
+extern ColorSchema COLOR_SCHEMA_STONE_WALL;
 
 
 

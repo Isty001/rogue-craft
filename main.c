@@ -4,6 +4,7 @@
 #include "src/ncurses/ncurses.h"
 #include "src/level/camera.h"
 #include "data/config.h"
+#include "src/player/inventory.h"
 
 
 static void init(void)
@@ -12,15 +13,17 @@ static void init(void)
 
     ncurses_init();
     mouse_init();
-    cell_init();
-    item_init();
+    cell_pool_init();
+    item_pool_init();
 }
 
-static void cleanup(void)
+static void cleanup(Player *player)
 {
     ncurses_cleanup();
-    item_cleanup();
-    cell_cleanup();
+    item_pool_cleanup();
+    cell_pool_cleanup();
+    level_free(player->level);
+    player_free(player);
 }
 
 int main(void)
@@ -33,19 +36,24 @@ int main(void)
     player_position_on_level(player);
     Input in;
 
+    repeat(PLAYER_DEFAULT_INVENTORY_SIZE,
+        inventory_add(player->inventory, item_random());
+    )
+
+    inventory_display(player->inventory);
+    player_display_stats(player);
+
     while (1) {
         if ((in = wgetch(WINDOW_MAIN))) {
-            if ('q' == in) {
-                break;
-            }
+            if ('q' == in) break;
 
-            if(in != KEY_MOUSE){
+            if (in != KEY_MOUSE) {
                 player_move(player, in);
                 player_position_on_level(player);
-
                 camera_update(player, WINDOW_MAIN);
+                level_display(player);
+//                player_display_stats(player);
             }
-            level_display(player);
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {
                 napms(10);
@@ -53,13 +61,14 @@ int main(void)
 
             if (in == KEY_MOUSE) {
                 mouse_interact(player);
+                inventory_display(player->inventory);
             }
         }
         flushinp();
         napms(70);
     }
 
-    cleanup();
+    cleanup(player);
 
     return 0;
 }
