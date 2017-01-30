@@ -30,7 +30,7 @@ void ncurses_init(void)
 
     getmaxyx(stdscr, HEIGHT, WIDTH);
 
-    WINDOW_MAIN = ncurses_subwin(HEIGHT * 0.75, WIDTH * 0.6, 0, WIDTH * 0.2);
+    WINDOW_MAIN = ncurses_subwin(HEIGHT * 0.75 - 1, WIDTH * 0.6, 1, WIDTH * 0.2 + 1);
     WINDOW_EVENT = ncurses_subwin(HEIGHT * 0.25, WIDTH * 0.3, HEIGHT * 0.75, WIDTH * 0.2);
 
     WINDOW_INVENTORY = ncurses_subwin(HEIGHT * 0.75, (WIDTH - 1) * 0.2, 0, 0);

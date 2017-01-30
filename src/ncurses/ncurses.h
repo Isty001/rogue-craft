@@ -6,7 +6,7 @@
 #include "../player/player.h"
 
 
-#define wrefreshbox(w) box(w, 0, 0); wrefresh(w);
+#define refresh_boxed(w) box(w, 0, 0); wrefresh(w);
 
 
 extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT, *WINDOW_PLAYER_STATS;

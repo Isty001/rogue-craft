@@ -1,5 +1,6 @@
-#include <time.h>
 #include <ncurses.h>
+#include <locale.h>
+#include <time.h>
 #include "src/level/level.h"
 #include "src/ncurses/ncurses.h"
 #include "src/level/camera.h"
@@ -9,6 +10,7 @@
 
 static void init(void)
 {
+    setlocale(LC_ALL, "");
     srand((unsigned) time(NULL));
 
     ncurses_init();

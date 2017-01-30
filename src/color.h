@@ -24,8 +24,6 @@ typedef short Color;
 
 typedef unsigned long Style;
 
-typedef short Character;
-
 
 typedef struct {
     Color fore;

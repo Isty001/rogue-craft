@@ -17,7 +17,7 @@ typedef enum {
 } CellType;
 
 typedef struct {
-    Character chr;
+    wchar_t chr;
     bool in_registry;
     Style style;
     CellType type;

@@ -14,7 +14,7 @@ Inventory *inventory_new(uint16_t size)
 static inline bool in_inventory(Inventory *inventory, Item *item)
 {
     repeat(inventory->size,
-        if (inventory->items[i] == item) return true;
+           if (inventory->items[i] == item) return true;
     )
     return false;
 }
@@ -24,12 +24,12 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     if (in_inventory(inventory, item)) return IE_DUPLICATE;
 
     repeat(inventory->size,
-        if (NULL == inventory->items[i]) {
-            inventory->items[i] = item;
-            inventory->update_display = true;
+           if (NULL == inventory->items[i]) {
+               inventory->items[i] = item;
+               inventory->update_display = true;
 
-            return IE_OK;
-        }
+               return IE_OK;
+           }
     )
     return IE_OVERFLOW;
 }
@@ -47,13 +47,15 @@ void inventory_display(Inventory *inventory)
         wmove(WINDOW_INVENTORY, i + 1, 2);
 
         if ((item = inventory->items[i])) {
-            waddch(WINDOW_INVENTORY, item->chr | item->style);
+            styled(WINDOW_INVENTORY, item->style,
+                   wprintw(WINDOW_INVENTORY, "%lc", item->chr);
+            );
             wprintw(WINDOW_INVENTORY, " | %d | %s", item->value, item->name);
         } else {
             waddch(WINDOW_INVENTORY, '-');
         }
     }
-    wrefreshbox(WINDOW_INVENTORY);
+    refresh_boxed(WINDOW_INVENTORY);
 
     inventory->update_display = false;
 }

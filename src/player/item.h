@@ -28,7 +28,7 @@ typedef struct Consumable {
 typedef struct {
     char *name;
     char *description;
-    Character chr;
+    wchar_t chr;
     Style style;
     ItemType type;
     uint16_t value;

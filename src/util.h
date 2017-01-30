@@ -23,6 +23,11 @@
 
 #define fatal(...) fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
 
+#define styled(win, style, ...) \
+    wattron(win, style);        \
+    __VA_ARGS__;                \
+    wattroff(win, style)        \
+
 
 #ifdef DEBUG_MODE
 
@@ -55,7 +60,7 @@ static inline void *alloc(size_t size)
     void *ptr = malloc(size);
 
     if (!ptr) {
-        fatal("Unable to allocate memory size of [%lu]", size);
+        fatal("Unable to allocate memory size of [%u]", size);
     }
 
     return ptr;

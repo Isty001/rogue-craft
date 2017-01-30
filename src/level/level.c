@@ -94,14 +94,14 @@ void level_display(Player *player)
     Point until = displayed_bounds(camera);
     Cell ***cells = player->level->cells;
 
-    wclear(WINDOW_MAIN);
-
     for (int y = camera->position.y; y <= until.y; y++) {
         for (int x = camera->position.x; x <= until.x; x++) {
             cell = cells[y][x];
 
             if (player_can_see(player, y, x) || true) {
-                mvwaddch(WINDOW_MAIN, win_pos.y, win_pos.x, cell->chr | cell->style);
+                styled(WINDOW_MAIN, cell->style,
+                       mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr);
+                );
             }
             win_pos.x++;
         }

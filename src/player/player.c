@@ -67,13 +67,12 @@ void player_display_stats(Player *player)
     for (int i = 0; i < PLAYER_ATTR_NUM; i++) {
         attr = attributes[i];
 
-        wattron(WINDOW_PLAYER_STATS, COLOR_PAIR(attr->color));
-        mvwprintw(WINDOW_PLAYER_STATS, i + 1, 2, attr->name);
-        wattroff(WINDOW_PLAYER_STATS, COLOR_PAIR(attr->color));
-
+        styled(WINDOW_PLAYER_STATS, COLOR_PAIR(attr->color),
+               mvwprintw(WINDOW_PLAYER_STATS, i + 1, 2, attr->name);
+        );
         wprintw(WINDOW_PLAYER_STATS, ": %d/%d", attr->current, attr->limit);
     }
-    wrefreshbox(WINDOW_PLAYER_STATS);
+    refresh_boxed(WINDOW_PLAYER_STATS);
 }
 
 void player_free(Player *player)
