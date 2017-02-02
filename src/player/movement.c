@@ -1,5 +1,4 @@
-#include "player.h"
-#include "../../data/config.h"
+#include "../../config/config.h"
 
 
 void player_position_on_level(Player *player)
@@ -19,35 +18,14 @@ static inline bool can_move_to(Player *player, Point target)
     Level *level = player->level;
 
     return
-        (
-            in_range(target.x, level->bounds.x) &&
-            in_range(target.y, level->bounds.y)
-        ) &&
-        (
-            SOLID != level->cells[target.y][target.x]->type
-        );
+        level_in_bounds(level, target)
+        &&
+        SOLID != level->cells[target.y][target.x]->type;
 }
 
-void player_move(Player *player, Input input)
+void player_move(Player *player, Direction direction)
 {
-    Point target = player->position.current;
-
-    switch (input) {
-        case KEY_NORTH:
-            target.y -= 1;
-            break;
-        case KEY_SOUTH:
-            target.y += 1;
-            break;
-        case KEY_EAST:
-            target.x += 1;
-            break;
-        case KEY_WEST:
-            target.x -= 1;
-            break;
-        default:
-            return;
-    }
+    Point target = point_move(player->position.current, direction, 1);
 
     if (can_move_to(player, target)) {
         player->position.previous = player->position.current;

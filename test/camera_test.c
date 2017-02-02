@@ -1,13 +1,7 @@
 #include "../src/player/player.h"
-#include "unit_test.h"
 #include "../src/level/camera.h"
+#include "unit_test.h"
 
-
-static void assert_point(Point point, int y, int x)
-{
-    mu_assert_int_eq(y, point.y);
-    mu_assert_int_eq(x, point.x);
-}
 
 MU_TEST(test_position)
 {

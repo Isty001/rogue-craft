@@ -1,7 +1,7 @@
 #include <memory.h>
 #include <mem_pool.h>
 #include "item.h"
-#include "../../data/item_config.h"
+#include "../../config/item_config.h"
 
 
 static MemPool *POOL;

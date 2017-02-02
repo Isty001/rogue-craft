@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <ncurses.h>
 #include "unit_test.h"
-#include "../src/level/point.h"
 
 
 MU_TEST(test_equal)
@@ -28,12 +27,22 @@ MU_TEST(test_neighbours)
     mu_assert(false == point_are_neighbours(a, point_new(7, 0)), "Shouldn't be neighbours");
 }
 
+MU_TEST(test_move)
+{
+    Point point = point_new(10, 10);
+
+    assert_point(point_move(point, NORTH_EAST, 1), 9, 11);
+    assert_point(point_move(point, SOUTH_WEST, 3), 13, 7);
+    assert_point(point_move(point, SOUTH, 2), 12, 10);
+}
+
 void run_point_test(void)
 {
     TEST_NAME("Point");
 
     MU_RUN_TEST(test_equal);
     MU_RUN_TEST(test_neighbours);
+    MU_RUN_TEST(test_move);
 
     MU_REPORT();
 }

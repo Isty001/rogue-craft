@@ -15,7 +15,7 @@ static void pickup_item(Player *player, Cell *cell, Point point)
         case IE_OK:
             level_set_hollow(player->level, point);
             cell_free_custom(cell);
-            ncurses_event("InventoryItem picked up");
+            ncurses_event("Item picked up");
             break;
         case IE_OVERFLOW:
             ncurses_event("Your Inventory is full");
@@ -25,7 +25,6 @@ static void pickup_item(Player *player, Cell *cell, Point point)
             break;
         default:
             ncurses_event("Unexpected error");
-            break;
     }
 }
 

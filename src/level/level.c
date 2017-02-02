@@ -1,5 +1,5 @@
 #include "../ncurses/ncurses.h"
-#include "../../data/config.h"
+#include "../../config/config.h"
 #include "camera.h"
 
 
@@ -65,17 +65,12 @@ Level *level_new(Size size, LevelConfig cfg)
     return level;
 }
 
-void level_free(Level *level)
+bool level_in_bounds(Level *level, Point point)
 {
-    free(level->registry.hollow.cells);
-    free(level->registry.solid.cells);
-    free(level->cells);
-    free(level);
-}
-
-void level_set_hollow(Level *level, Point at)
-{
-    level->cells[at.y][at.x] = &cell_registry_rand(level, hollow);
+    return
+        in_range(point.x, level->bounds.x)
+        &&
+        in_range(point.y, level->bounds.y);
 }
 
 static Point displayed_bounds(Camera *camera)
@@ -112,3 +107,15 @@ void level_display(Player *player)
     wrefresh(WINDOW_MAIN);
 }
 
+void level_set_hollow(Level *level, Point at)
+{
+    level->cells[at.y][at.x] = &cell_registry_rand(level, hollow);
+}
+
+void level_free(Level *level)
+{
+    free(level->registry.hollow.cells);
+    free(level->registry.solid.cells);
+    free(level->cells);
+    free(level);
+}

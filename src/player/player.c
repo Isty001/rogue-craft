@@ -1,7 +1,10 @@
 #include <memory.h>
 #include "player.h"
-#include "../../data/config.h"
+#include "../../config/config.h"
 #include "inventory.h"
+
+
+#define CHAR_BAR '|'
 
 
 #define attribute(player, attr_name, def_curr, def_limit, type, disp_name, attr_color) \
@@ -31,10 +34,12 @@ static void calculate_starting_point(Player *player)
 
 static void add_attributes(Player *player)
 {
-    attribute(player, hp, PLAYER_DEFAULT_HP, PLAYER_DEFAULT_HP, HEALTH, "Health", COLOR_HEALTH);
-    attribute(player, stamina, PLAYER_DEFAULT_STAMINA, PLAYER_DEFAULT_STAMINA, STAMINA, "Stamina", COLOR_STAMINA);
+    attribute(player, hp, 43, PLAYER_DEFAULT_HP, HEALTH, "Health", COLOR_HEALTH);
+    attribute(player, stamina,23, PLAYER_DEFAULT_STAMINA, STAMINA, "Stamina", COLOR_STAMINA);
     attribute(player, hunger, PLAYER_DEFAULT_HUNGER, PLAYER_LIMIT_HUNGER, HUNGER, "Hunger", COLOR_FOOD);
     attribute(player, thirst, PLAYER_DEFAULT_THIRST, PLAYER_LIMIT_THIRST, THIRST, "Thirst", COLOR_WATER);
+
+    player->attr.update_display = true;
 }
 
 Player *player_new(Level *level, Camera *camera)
@@ -57,22 +62,43 @@ Player *player_new(Level *level, Camera *camera)
     return player;
 }
 
-void player_display_stats(Player *player)
+static void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
 {
-    Attribute **attributes = player->attr.type_map;
-    Attribute *attr;
+    double bar_width = width * ((double)attr->current / attr->limit);
 
-    wclear(WINDOW_PLAYER_STATS);
+    styled(win, COLOR_PAIR(attr->color),
+           for (int i = 0; i < bar_width; i++) {
+               waddch(win, CHAR_BAR);
+           }
+    );
+}
+
+void player_attributes_display(Player *player)
+{
+    if (!player->attr.update_display) {
+        return;
+    }
+
+    Attribute *attr;
+    Attribute **attributes = player->attr.type_map;
+    WINDOW *win = WINDOW_PLAYER_ATTRIBUTES;
+    int width = getmaxx(win) - 2 * PADDING;
+    int line = 0;
 
     for (int i = 0; i < PLAYER_ATTR_NUM; i++) {
         attr = attributes[i];
 
-        styled(WINDOW_PLAYER_STATS, COLOR_PAIR(attr->color),
-               mvwprintw(WINDOW_PLAYER_STATS, i + 1, 2, attr->name);
+        styled(win, COLOR_PAIR(attr->color),
+               mvwprintw(win, ++line, PADDING, attr->name);
         );
-        wprintw(WINDOW_PLAYER_STATS, ": %d/%d", attr->current, attr->limit);
+        wprintw(win, ": %d/%d", attr->current, attr->limit);
+        wmove(win, ++line, PADDING);
+        display_attribute_bar(width, attr, win);
+        line++;
     }
-    refresh_boxed(WINDOW_PLAYER_STATS);
+    refresh_boxed(win);
+
+    player->attr.update_display = false;
 }
 
 void player_free(Player *player)

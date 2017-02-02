@@ -14,8 +14,6 @@
 typedef struct Inventory Inventory;
 
 
-typedef int Input;
-
 typedef enum {
     HEALTH,
     STAMINA,
@@ -58,11 +56,11 @@ Player *player_new(Level *level, Camera *camera);
 
 void player_free(Player *player);
 
-void player_move(Player *player, Input input);
+void player_move(Player *player, Direction direction);
 
 bool player_can_see(Player *player, uint16_t y, uint16_t x);
 
-void player_display_stats(Player *player);
+void player_attributes_display(Player *player);
 
 void player_position_on_level(Player *player);
 

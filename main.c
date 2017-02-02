@@ -4,13 +4,23 @@
 #include "src/level/level.h"
 #include "src/ncurses/ncurses.h"
 #include "src/level/camera.h"
-#include "data/config.h"
+#include "config/config.h"
 #include "src/player/inventory.h"
 
 
+#define DIRECTION_KEY_NUM 4
+
+
+static int KEY_DIRECTION_MAP[DIRECTION_KEY_NUM][2] = {
+    {KEY_NORTH, NORTH},
+    {KEY_EAST,  EAST},
+    {KEY_SOUTH, SOUTH},
+    {KEY_WEST,  WEST},
+};
+
 static void init(void)
 {
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
 
     ncurses_init();
@@ -28,6 +38,18 @@ static void cleanup(Player *player)
     player_free(player);
 }
 
+
+static inline Direction direction_lookup(int input)
+{
+    for (int i = 0; i < DIRECTION_KEY_NUM; ++i) {
+        if (input == KEY_DIRECTION_MAP[i][0]) {
+            return KEY_DIRECTION_MAP[i][1];
+        }
+    }
+
+    return 0;
+}
+
 int main(void)
 {
     init();
@@ -36,18 +58,19 @@ int main(void)
     Level *level = level_new(size_new(200, 200), LEVEL_STONE_CAVE);
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
-    Input in;
+    int in;
 
     inventory_display(player->inventory);
-    player_display_stats(player);
+    camera_update(player, WINDOW_MAIN);
+    level_display(player);
+    player_attributes_display(player);
 
     while (1) {
         if ((in = wgetch(WINDOW_MAIN))) {
             if ('q' == in) break;
 
-            if (in != KEY_MOUSE) {
-                player_move(player, in);
-
+            if (-1 != in && in != KEY_MOUSE) {
+                player_move(player, direction_lookup(in));
                 camera_update(player, WINDOW_MAIN);
                 level_display(player);
             }

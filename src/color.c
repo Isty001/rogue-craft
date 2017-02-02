@@ -1,4 +1,4 @@
-#include "../data/config.h"
+#include "../config/config.h"
 
 
 static void init_color_schema(ColorSchema cfg)

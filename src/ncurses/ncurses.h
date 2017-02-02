@@ -6,10 +6,13 @@
 #include "../player/player.h"
 
 
+#define PADDING 2
+
+
 #define refresh_boxed(w) box(w, 0, 0); wrefresh(w);
 
 
-extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT, *WINDOW_PLAYER_STATS;
+extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
 
 
 void ncurses_init(void);

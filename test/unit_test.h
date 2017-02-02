@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include <minunit.h>
+#include "../src/level/point.h"
 
 
 #define FIXTURE_DIR "./test/fixture"
@@ -17,6 +18,12 @@ static inline void assert_string(char *expected, char *actual)
     sprintf(buff, "Strings are not equal. Expected %s got %s", expected, actual);
 
     mu_assert(0 == strcmp(expected, actual), buff);
+}
+
+static inline void assert_point(Point point, int y, int x)
+{
+    mu_assert_int_eq(y, point.y);
+    mu_assert_int_eq(x, point.x);
 }
 
 

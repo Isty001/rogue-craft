@@ -36,7 +36,7 @@ MU_TEST(test_persistent)
     Player player;
     setup_player(&player);
 
-    mu_assert(IE_CONSUMED == item_consume(&item, &player), "InventoryItem should be consumbed");
+    mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumbed");
     mu_assert_int_eq(110, player.attr.hp.limit);
 }
 
@@ -64,7 +64,7 @@ MU_TEST(test_partial_consume)
 
 void run_consumable_test(void)
 {
-    TEST_NAME("Consumable InventoryItem");
+    TEST_NAME("Consumable Item");
 
     MU_RUN_TEST(test_non_consumable);
     MU_RUN_TEST(test_persistent);

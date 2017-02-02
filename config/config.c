@@ -32,9 +32,8 @@ CellConfig CELL_HOLLOW_SIMPLE = {
 };
 
 
-
 /**
- * COLOR
+ * COLOR SCHEMAS
  */
 ColorSchema COLOR_SCHEMA_STONE_WALL = {
     .pairs_from = 110,

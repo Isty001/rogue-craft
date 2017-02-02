@@ -28,6 +28,7 @@
     __VA_ARGS__;                \
     wattroff(win, style)        \
 
+#define has_flag(mask, flag) (flag == (flag & mask))
 
 #ifdef DEBUG_MODE
 
@@ -55,7 +56,7 @@ static inline int16_t max(int16_t a, int16_t b)
     return a > b ? a : b;
 }
 
-static inline void *alloc(size_t size)
+static inline void *alloc(unsigned size)
 {
     void *ptr = malloc(size);
 

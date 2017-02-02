@@ -8,13 +8,13 @@
 
 Probability ITEM_CONSUMABLE_PROBABILITY = {
     .size = 5,
-    .sum = 70,
+    .sum = 68,
     .items = {
         {.chance = 30, .value = &ITEM_CONSUMABLE_WATER},
         {.chance = 20, .value = &ITEM_CONSUMABLE_FOOD},
         {.chance = 10, .value = &ITEM_CONSUMABLE_HP},
-        {.chance = 5, .value = &ITEM_CONSUMABLE_MAX_HP},
-        {.chance = 5, .value = &ITEM_CONSUMABLE_MAX_STAMINA},
+        {.chance = 4, .value = &ITEM_CONSUMABLE_MAX_HP},
+        {.chance = 4, .value = &ITEM_CONSUMABLE_MAX_STAMINA},
     }
 };
 
@@ -33,7 +33,7 @@ Probability ITEM_CONSUMABLE_PROBABILITY = {
             }                                                               \
         },                                                                  \
         .randomize = item_randomize_consumable,                             \
-        .value_range = __VA_ARGS__                                      \
+        .value_range = __VA_ARGS__                                          \
 };
 
 CONSUMABLE_PROTOTYPE(
