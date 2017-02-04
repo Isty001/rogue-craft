@@ -7,6 +7,7 @@
 #include "../src/level/level.h"
 #include "../src/player/player.h"
 #include "../src/player/item.h"
+#include "../src/player/randomization.h"
 
 /**
  * USER
@@ -35,27 +36,48 @@
 
 
 /**
+ * MATERIAL
+ */
+extern Material MATERIALS[];
+
+
+/**
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
     (uint16_t) ((level->size.height * level->size.width) / 2000);
 
-extern LevelConfig LEVEL_STONE_CAVE;
+
+extern LevelConfig LEVEL_CAVE;
 
 
 /**
  * CELL
  */
-extern CellConfig CELL_WALL_STONE;
+extern CellRegistryConfig CELL_REGISTRY_CAVE;
 
-extern CellConfig CELL_HOLLOW_SIMPLE;
+extern CellRegistryConfig CELL_REGISTRY_VOID;
 
 
 /**
- * COLOR SCHEMAS
+ * ITEMS
  */
-extern ColorSchema COLOR_SCHEMA_STONE_WALL;
+extern Probability ITEM_TYPE_PROBABILITY;
 
+extern Probability ITEM_CONSUMABLE_PROBABILITY;
+
+/**
+ * ITEMS - CONSUMABLES
+ */
+extern ItemPrototype ITEM_CONSUMABLE_HP;
+
+extern ItemPrototype ITEM_CONSUMABLE_MAX_HP;
+
+extern ItemPrototype ITEM_CONSUMABLE_MAX_STAMINA;
+
+extern ItemPrototype ITEM_CONSUMABLE_FOOD;
+
+extern ItemPrototype ITEM_CONSUMABLE_WATER;
 
 
 #endif

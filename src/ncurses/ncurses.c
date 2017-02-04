@@ -31,10 +31,10 @@ void ncurses_init(void)
     getmaxyx(stdscr, HEIGHT, WIDTH);
 
     WINDOW_MAIN = ncurses_subwin(HEIGHT * 0.73, WIDTH * 0.6, 1, WIDTH * 0.2 + 1);
-    WINDOW_INVENTORY = ncurses_subwin(HEIGHT * 0.75, (WIDTH - 1) * 0.2, 0, 0);
+    WINDOW_INVENTORY = ncurses_subwin(HEIGHT * 0.6, (WIDTH - 1) * 0.2, 0, 0);
 
     WINDOW_EVENT = ncurses_subwin(HEIGHT * 0.25, WIDTH * 0.3, HEIGHT * 0.75, WIDTH * 0.2);
-    WINDOW_PLAYER_ATTRIBUTES = ncurses_subwin(HEIGHT * 0.25, (WIDTH - 1) * 0.2, HEIGHT * 0.75, 0);
+    WINDOW_PLAYER_ATTRIBUTES = ncurses_subwin(HEIGHT * 0.4, (WIDTH - 1) * 0.2, HEIGHT * 0.6, 0);
 
     box(WINDOW_INVENTORY, 0, 0);
     box(WINDOW_EVENT, 0, 0);

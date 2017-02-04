@@ -8,16 +8,6 @@
 #include "src/player/inventory.h"
 
 
-#define DIRECTION_KEY_NUM 4
-
-
-static int KEY_DIRECTION_MAP[DIRECTION_KEY_NUM][2] = {
-    {KEY_NORTH, NORTH},
-    {KEY_EAST,  EAST},
-    {KEY_SOUTH, SOUTH},
-    {KEY_WEST,  WEST},
-};
-
 static void init(void)
 {
     setlocale(LC_ALL, "en_US.UTF-8");
@@ -38,16 +28,12 @@ static void cleanup(Player *player)
     player_free(player);
 }
 
-
-static inline Direction direction_lookup(int input)
+static void render(Player *player)
 {
-    for (int i = 0; i < DIRECTION_KEY_NUM; ++i) {
-        if (input == KEY_DIRECTION_MAP[i][0]) {
-            return KEY_DIRECTION_MAP[i][1];
-        }
-    }
-
-    return 0;
+    camera_update(player, WINDOW_MAIN);
+    level_display(player);
+    inventory_display(player->inventory);
+    player_attributes_display(player);
 }
 
 int main(void)
@@ -55,34 +41,24 @@ int main(void)
     init();
 
     Camera camera;
-    Level *level = level_new(size_new(200, 200), LEVEL_STONE_CAVE);
+    Level *level = level_new(size_new(200, 200), LEVEL_CAVE);
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
     int in;
 
-    inventory_display(player->inventory);
-    camera_update(player, WINDOW_MAIN);
-    level_display(player);
-    player_attributes_display(player);
+    render(player);
 
     while (1) {
         if ((in = wgetch(WINDOW_MAIN))) {
-            if ('q' == in) break;
+            if (KEY_F(2) == in) break;
 
-            if (-1 != in && in != KEY_MOUSE) {
-                player_move(player, direction_lookup(in));
-                camera_update(player, WINDOW_MAIN);
-                level_display(player);
-            }
+            input_process(in, player);
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {
-                napms(10);
+                napms(20);
             }
 
-            if (in == KEY_MOUSE) {
-                mouse_interact(player);
-                inventory_display(player->inventory);
-            }
+            render(player);
         }
         flushinp();
         napms(70);

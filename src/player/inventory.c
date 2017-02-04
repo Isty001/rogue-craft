@@ -1,14 +1,20 @@
 #include "inventory.h"
+#include "item.h"
 
 
 Inventory *inventory_new(uint16_t size)
 {
     Inventory *inventory = alloc(sizeof(Inventory) + (size * sizeof(Item *)));
-    inventory->update_display = true;
     inventory->size = size;
+    inventory->selected = 0;
     repeat(inventory->size, inventory->items[i] = NULL)
 
     return inventory;
+}
+
+void inventory_free(Inventory *inventory)
+{
+    free(inventory);
 }
 
 static inline bool in_inventory(Inventory *inventory, Item *item)
@@ -21,12 +27,13 @@ static inline bool in_inventory(Inventory *inventory, Item *item)
 
 ItemError inventory_add(Inventory *inventory, Item *item)
 {
-    if (in_inventory(inventory, item)) return IE_DUPLICATE;
+    if (in_inventory(inventory, item)) {
+        return IE_DUPLICATE;
+    }
 
     repeat(inventory->size,
            if (NULL == inventory->items[i]) {
                inventory->items[i] = item;
-               inventory->update_display = true;
 
                return IE_OK;
            }
@@ -34,7 +41,70 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     return IE_OVERFLOW;
 }
 
-void inventory_free(Inventory *inventory)
+ItemError inventory_remove(Inventory *inventory, Item *item)
 {
-    free(inventory);
+    if (!in_inventory(inventory, item)) {
+        return IE_INVALID_ARGUMENT;
+    }
+
+    repeat(inventory->size,
+           if (item == inventory->items[i]) {
+               inventory->items[i] = NULL;
+               break;
+           }
+    )
+    return IE_OK;
+}
+
+static inline void add_menu_mark(WINDOW *win, Inventory *inventory, int current)
+{
+    if (current == inventory->selected) {
+        styled(win, COLOR_PAIR(COLOR_PAIR_RED_F),
+               waddch(win, '*');
+        );
+    } else {
+        waddch(win, '*');
+    }
+}
+
+void inventory_display(Inventory *inventory)
+{
+    Item *item;
+    WINDOW *win = WINDOW_INVENTORY;
+
+    for (int i = 0; i < inventory->size; i++) {
+        wmove(win, i + PADDING, PADDING);
+
+        if ((item = inventory->items[i])) {
+            styled(win, item->style,
+                   wprintw(win, "%lc", item->chr);
+            );
+            wprintw(win, " | %d | %s", item->value, item->name);
+        } else {
+            add_menu_mark(win, inventory, i);
+        }
+    }
+    refresh_boxed(win);
+}
+
+void inventory_select(Inventory *inventory, Direction direction)
+{
+    uint16_t selected = inventory->selected;
+    direction == NORTH ? selected-- : selected++;
+
+    if (selected < inventory->size) {
+        inventory->selected = selected;
+    }
+}
+
+void inventory_use_selected(Player *player)
+{
+    Inventory *inventory = player->inventory;
+    Item *selected = inventory->items[inventory->selected];
+
+    if (selected && CONSUMABLE == selected->type) {
+        if (IE_CONSUMED == item_consume(selected, player)) {
+            inventory_remove(inventory, selected);
+        }
+    }
 }

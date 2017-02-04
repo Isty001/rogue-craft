@@ -5,39 +5,33 @@
 static MemPool *POOL;
 
 
-#define init_cell_at(cells, i, cfg, color)   \
-     cells[i].in_registry = true;             \
-     cells[i].chr = cfg.chr;                  \
-     cells[i].type = cfg.type;                \
-     cells[i].style = COLOR_PAIR(color);
+#define init_cell_at(cells, i, cfg, color, mat)    \
+     cells[i].in_registry = true;               \
+     cells[i].chr = cfg->chr;                   \
+     cells[i].type = cfg->type;                 \
+     cells[i].style = COLOR_PAIR(color);        \
+     cells[i].material = mat;
 
 
-static Cell *init_cells_with_color_schema(CellConfig cfg)
+static Cell *init_cells(CellRegistryConfig *cfg)
 {
-    ColorSchema *colors = cfg.color.schema;
-    Cell *cells = alloc(colors->size * sizeof(Cell));
+    CellPrototype cell;
+    Cell *cells = alloc(cfg->count * sizeof(Cell));
 
-    for (uint16_t i = 0; i < colors->size; i++) {
-        init_cell_at(cells, i, cfg, colors->pairs_from + i);
+    for (uint16_t i = 0; i < cfg->count; i++) {
+        cell = cfg->cells[i];
+        init_cell_at(cells, i, cfg, cell.color.id, cell.material);
     }
 
     return cells;
 }
 
-CellRegistry cell_registry_new(CellConfig cfg)
+CellRegistry cell_registry_new(CellRegistryConfig *cfg)
 {
-    Cell *cells;
     CellRegistry registry;
 
-    if (cfg.has_color_schema) {
-        cells = init_cells_with_color_schema(cfg);
-        registry.size = cfg.color.schema->size;
-    } else {
-        cells = alloc(sizeof(Cell));
-        init_cell_at(cells, 0, cfg, cfg.color.single);
-        registry.size = 1;
-    }
-    registry.cells = cells;
+    registry.size = cfg->count;
+    registry.cells = init_cells(cfg);;
 
     return registry;
 }

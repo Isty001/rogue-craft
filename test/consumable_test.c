@@ -1,25 +1,14 @@
 #include "unit_test.h"
 #include "../src/player/item.h"
+#include "fixture.h"
 
 
 MU_TEST(test_non_consumable)
 {
     Item item;
-    item.type = MELEE;
+    item.type = TOOL;
 
     mu_assert(IE_INVALID_ARGUMENT == item_consume(&item, NULL), "Should give Invalid Arg");
-}
-
-static Item create_item(bool permanent)
-{
-    return (Item) {
-        .type = CONSUMABLE,
-        .value = 10,
-        .consumable = (Consumable) {
-            .type = HEALTH,
-            .permanent = permanent,
-        }
-    };
 }
 
 void setup_player(Player *player)
@@ -31,7 +20,7 @@ void setup_player(Player *player)
 
 MU_TEST(test_persistent)
 {
-    Item item = create_item(true);
+    Item item = fixture_consumable(true);
 
     Player player;
     setup_player(&player);
@@ -42,7 +31,7 @@ MU_TEST(test_persistent)
 
 MU_TEST(test_non_persistent)
 {
-    Item item = create_item(false);
+    Item item = fixture_consumable(false);
     Player player;
     setup_player(&player);
 
@@ -52,7 +41,7 @@ MU_TEST(test_non_persistent)
 
 MU_TEST(test_partial_consume)
 {
-    Item item = create_item(false);
+    Item item = fixture_consumable(false);
     Player player;
     setup_player(&player);
     player.attr.hp.current = 95;

@@ -23,6 +23,8 @@ void mouse_init(void);
 
 void mouse_interact(Player *player);
 
+void input_process(int input, Player *player);
+
 void ncurses_cleanup(void);
 
 

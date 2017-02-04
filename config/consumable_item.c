@@ -1,4 +1,4 @@
-#include "item_config.h"
+#include "config.h"
 
 
 #define CHAR_POTION     L'ð'

@@ -60,8 +60,8 @@ typedef struct {
 typedef const struct {
     LevelType type;
     struct {
-        CellConfig *solid;
-        CellConfig *hollow;
+        CellRegistryConfig *solid;
+        CellRegistryConfig *hollow;
     } cell;
 } LevelConfig;
 

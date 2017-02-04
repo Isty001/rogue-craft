@@ -3,6 +3,7 @@
 
 
 #include "../src/level/level.h"
+#include "../src/player/item.h"
 
 
 /**
@@ -14,6 +15,8 @@
 Level *fixture_level(void);
 
 void fixture_level_free(Level *level);
+
+Item fixture_consumable(bool permanent);
 
 
 #endif

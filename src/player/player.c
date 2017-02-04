@@ -15,7 +15,7 @@
     player->attr.type_map[type] = &player->attr.attr_name;          \
 
 
-static void calculate_starting_point(Player *player)
+static void find_starting_point(Player *player)
 {
     Level *level = player->level;
     Cell *cell;
@@ -34,12 +34,10 @@ static void calculate_starting_point(Player *player)
 
 static void add_attributes(Player *player)
 {
-    attribute(player, hp, 43, PLAYER_DEFAULT_HP, HEALTH, "Health", COLOR_HEALTH);
-    attribute(player, stamina,23, PLAYER_DEFAULT_STAMINA, STAMINA, "Stamina", COLOR_STAMINA);
+    attribute(player, hp, PLAYER_DEFAULT_HP, PLAYER_DEFAULT_HP, HEALTH, "Health", COLOR_HEALTH);
+    attribute(player, stamina, PLAYER_DEFAULT_STAMINA, PLAYER_DEFAULT_STAMINA, STAMINA, "Stamina", COLOR_STAMINA);
     attribute(player, hunger, PLAYER_DEFAULT_HUNGER, PLAYER_LIMIT_HUNGER, HUNGER, "Hunger", COLOR_FOOD);
     attribute(player, thirst, PLAYER_DEFAULT_THIRST, PLAYER_LIMIT_THIRST, THIRST, "Thirst", COLOR_WATER);
-
-    player->attr.update_display = true;
 }
 
 Player *player_new(Level *level, Camera *camera)
@@ -55,7 +53,7 @@ Player *player_new(Level *level, Camera *camera)
     player->cell.prototype.style = COLOR_PAIR(COLOR_PAIR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
 
-    calculate_starting_point(player);
+    find_starting_point(player);
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
 
@@ -64,21 +62,17 @@ Player *player_new(Level *level, Camera *camera)
 
 static void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
 {
-    double bar_width = width * ((double)attr->current / attr->limit);
+    double bar_width = width * ((double) attr->current / attr->limit);
 
     styled(win, COLOR_PAIR(attr->color),
-           for (int i = 0; i < bar_width; i++) {
-               waddch(win, CHAR_BAR);
-           }
+       for (int i = 0; i < bar_width; i++) {
+           waddch(win, CHAR_BAR);
+       }
     );
 }
 
 void player_attributes_display(Player *player)
 {
-    if (!player->attr.update_display) {
-        return;
-    }
-
     Attribute *attr;
     Attribute **attributes = player->attr.type_map;
     WINDOW *win = WINDOW_PLAYER_ATTRIBUTES;
@@ -97,8 +91,6 @@ void player_attributes_display(Player *player)
         line++;
     }
     refresh_boxed(win);
-
-    player->attr.update_display = false;
 }
 
 void player_free(Player *player)

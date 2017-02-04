@@ -17,7 +17,7 @@ typedef enum {
 
 typedef enum {
     CONSUMABLE,
-    MELEE
+    TOOL
 } ItemType;
 
 typedef struct Consumable {

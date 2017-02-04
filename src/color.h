@@ -5,8 +5,8 @@
 #include <stddef.h>
 #include <ncurses.h>
 #include "util.h"
+#include "level/material.h"
 
-#define COLOR_SCHEMA_MAX_PAIRS  10
 
 #define COLOR_PAIR_NONE         1
 #define COLOR_PAIR_RED_F        2
@@ -23,18 +23,6 @@
 typedef short Color;
 
 typedef unsigned long Style;
-
-
-typedef struct {
-    Color fore;
-    Color back;
-} ColorPair;
-
-typedef const struct {
-    size_t size;
-    uint16_t pairs_from;
-    ColorPair pairs[COLOR_SCHEMA_MAX_PAIRS];
-} ColorSchema;
 
 
 void color_init(void);

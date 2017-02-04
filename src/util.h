@@ -61,7 +61,7 @@ static inline void *alloc(unsigned size)
     void *ptr = malloc(size);
 
     if (!ptr) {
-        fatal("Unable to allocate memory size of [%u]", size);
+        fatal("Unable to allocate memory count of [%u]", size);
     }
 
     return ptr;

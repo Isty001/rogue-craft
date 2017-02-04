@@ -1,7 +1,7 @@
 #include "unit_test.h"
 #include "../src/level/level.h"
 #include "../src/level/camera.h"
-#include "../config/item_config.h"
+#include "../config/config.h"
 #include "../src/player/inventory.h"
 #include "fixture.h"
 

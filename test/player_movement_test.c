@@ -28,12 +28,10 @@ MU_TEST(test_movement)
     assert_position(player, 0, 1);
 
     player_move(&player, SOUTH_EAST);
-
     repeat(3,
            player_move(&player, WEST);
     )
     assert_position(player, 1, 0);
-
 
     Cell ***cells = player.level->cells;
 

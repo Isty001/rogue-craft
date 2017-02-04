@@ -21,6 +21,7 @@ typedef struct {
     bool in_registry;
     Style style;
     CellType type;
+    Material *material;
     void *data;
 } Cell;
 
@@ -29,22 +30,29 @@ typedef struct {
     Cell *cells;
 } CellRegistry;
 
+
+typedef struct {
+    struct {
+        uint16_t id;
+        Color fore;
+        Color back;
+    } color;
+    Material *material;
+} CellPrototype;
+
 typedef const struct {
     char chr;
     CellType type;
-    bool has_color_schema;
-    union {
-        ColorSchema *schema;
-        Color single;
-    } color;
-} CellConfig;
+    size_t count;
+    CellPrototype cells[];
+} CellRegistryConfig;
 
 
 void cell_pool_init(void);
 
 Cell *cell_random_item(void);
 
-CellRegistry cell_registry_new(CellConfig cfg);
+CellRegistry cell_registry_new(CellRegistryConfig *cfg);
 
 void cell_free_custom(Cell *cell);
 

@@ -38,8 +38,7 @@ static void add_items(Level *level)
         if (HOLLOW == cell->type) {
             level->cells[point.y][point.x] = cell_random_item();
             remaining--;
-        }
-
+        };
     } while (remaining);
 }
 
@@ -50,8 +49,8 @@ Level *level_new(Size size, LevelConfig cfg)
     level->item_count = LEVEL_ITEM_COUNT(level);
 
     level_add_bounds(level);
-    level->registry.hollow = cell_registry_new(*cfg.cell.hollow);
-    level->registry.solid = cell_registry_new(*cfg.cell.solid);
+    level->registry.hollow = cell_registry_new(cfg.cell.hollow);
+    level->registry.solid = cell_registry_new(cfg.cell.solid);
 
     allocate_rows(level);
     initialize_cells(level);

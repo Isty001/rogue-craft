@@ -41,7 +41,6 @@ typedef struct Player {
         Cell *previous;
     } cell;
     struct {
-        bool update_display;
         Attribute hp;
         Attribute stamina;
         Attribute hunger;

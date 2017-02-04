@@ -1,10 +1,13 @@
 #include "../config/config.h"
 
 
-static void init_color_schema(ColorSchema cfg)
+static void init_from_cell_config(CellRegistryConfig *cfg)
 {
-    for (size_t i = 0; i < cfg.size; i++) {
-        init_pair(cfg.pairs_from + i, cfg.pairs[i].fore, cfg.pairs[i].back);
+    CellPrototype cell;
+
+    for (size_t i = 0; i < cfg->count; i++) {
+        cell = cfg->cells[i];
+        init_pair(cell.color.id, cell.color.fore, cell.color.back);
     }
 }
 
@@ -19,5 +22,6 @@ void color_init(void)
     init_pair(COLOR_PAIR_YELLOW_F, COLOR_YELLOW, -1);
     init_pair(COLOR_PAIR_NONE, -1, -1);
 
-    init_color_schema(COLOR_SCHEMA_STONE_WALL);
+    init_from_cell_config(&CELL_REGISTRY_VOID);
+    init_from_cell_config(&CELL_REGISTRY_CAVE);
 }

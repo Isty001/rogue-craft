@@ -42,3 +42,15 @@ void fixture_level_free(Level *level)
 
     level_free(level);
 }
+
+Item fixture_consumable(bool permanent)
+{
+    return (Item) {
+        .type = CONSUMABLE,
+        .value = 10,
+        .consumable = (Consumable) {
+            .type = HEALTH,
+            .permanent = permanent,
+        }
+    };
+}
