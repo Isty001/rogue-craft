@@ -4,6 +4,7 @@
  * MATERIALS
  */
 Material MATERIALS[] = {
+    [VOID] = {.strength = 0},
     [STONE] = {.strength = 100},
     [DIRT] = {.strength = 30}
 };
