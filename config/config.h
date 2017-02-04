@@ -45,7 +45,7 @@ extern Material MATERIALS[];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 2000);
+    (uint16_t) ((level->size.height * level->size.width) / 20);
 
 
 extern LevelConfig LEVEL_CAVE;
@@ -66,18 +66,7 @@ extern Probability ITEM_TYPE_PROBABILITY;
 
 extern Probability ITEM_CONSUMABLE_PROBABILITY;
 
-/**
- * ITEMS - CONSUMABLES
- */
-extern ItemPrototype ITEM_CONSUMABLE_HP;
-
-extern ItemPrototype ITEM_CONSUMABLE_MAX_HP;
-
-extern ItemPrototype ITEM_CONSUMABLE_MAX_STAMINA;
-
-extern ItemPrototype ITEM_CONSUMABLE_FOOD;
-
-extern ItemPrototype ITEM_CONSUMABLE_WATER;
+extern Probability ITEM_TOOL_PROBABILITY;
 
 
 #endif

@@ -92,7 +92,7 @@ void level_display(Player *player)
         for (int x = camera->position.x; x <= until.x; x++) {
             cell = cells[y][x];
 
-            if (player_can_see(player, y, x) || true) {
+            if (player_can_see(player, point_new(y, x)) || true) {
                 styled(WINDOW_MAIN, cell->style,
                        mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr);
                 );

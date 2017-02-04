@@ -9,7 +9,7 @@ typedef const void *Randomizable;
 
 
 typedef const struct {
-    uint16_t size;
+    uint16_t count;
     uint16_t sum;
     struct {
         uint16_t chance;
@@ -19,6 +19,8 @@ typedef const struct {
 
 
 Item *item_randomize_consumable(ItemPrototype *prototype);
+
+Item *item_randomize_tool(ItemPrototype *prototype);
 
 Randomizable random_from(Probability *probability);
 

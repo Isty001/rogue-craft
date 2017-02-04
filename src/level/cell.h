@@ -21,6 +21,7 @@ typedef struct {
     bool in_registry;
     Style style;
     CellType type;
+    uint16_t state;
     Material *material;
     void *data;
 } Cell;
@@ -55,6 +56,8 @@ Cell *cell_random_item(void);
 CellRegistry cell_registry_new(CellRegistryConfig *cfg);
 
 void cell_free_custom(Cell *cell);
+
+Cell *cell_clone(Cell *cell);
 
 void cell_pool_cleanup(void);
 

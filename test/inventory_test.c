@@ -64,6 +64,7 @@ MU_TEST(test_use_consumable)
     Player player;
     player.attr.hp.current = 95;
     player.attr.hp.limit = 100;
+    player.attr.hp.increasing = false;
     player.inventory = &inv;
     player.attr.type_map[HEALTH] = &player.attr.hp;
 

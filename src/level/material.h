@@ -9,7 +9,7 @@ typedef enum  {
 } MaterialType;
 
 
-typedef struct {
+typedef const struct {
     uint16_t strength;
 } Material;
 

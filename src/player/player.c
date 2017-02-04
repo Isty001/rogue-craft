@@ -1,17 +1,19 @@
 #include <memory.h>
 #include "player.h"
-#include "../../config/config.h"
 #include "inventory.h"
+#include "../../config/config.h"
 
 
 #define CHAR_BAR '|'
 
 
-#define attribute(player, attr_name, def_curr, def_limit, type, disp_name, attr_color) \
-    player->attr.attr_name.limit = def_limit;                       \
+#define attribute(player, attr_name, def_curr, def_limit, def_max, type, disp_name, attr_color, inc) \
+    player->attr.attr_name.limit= def_limit;                        \
+    player->attr.attr_name.max = def_max;                           \
     player->attr.attr_name.current = def_curr;                      \
     strcpy(player->attr.attr_name.name, disp_name);                 \
     player->attr.attr_name.color = attr_color;                      \
+    player->attr.attr_name.increasing = inc;                        \
     player->attr.type_map[type] = &player->attr.attr_name;          \
 
 
@@ -34,10 +36,22 @@ static void find_starting_point(Player *player)
 
 static void add_attributes(Player *player)
 {
-    attribute(player, hp, PLAYER_DEFAULT_HP, PLAYER_DEFAULT_HP, HEALTH, "Health", COLOR_HEALTH);
-    attribute(player, stamina, PLAYER_DEFAULT_STAMINA, PLAYER_DEFAULT_STAMINA, STAMINA, "Stamina", COLOR_STAMINA);
-    attribute(player, hunger, PLAYER_DEFAULT_HUNGER, PLAYER_LIMIT_HUNGER, HUNGER, "Hunger", COLOR_FOOD);
-    attribute(player, thirst, PLAYER_DEFAULT_THIRST, PLAYER_LIMIT_THIRST, THIRST, "Thirst", COLOR_WATER);
+    attribute(
+        player, hp, PLAYER_DEFAULT_STAMINA, PLAYER_DEFAULT_HP, PLAYER_DEFAULT_HP,
+        HEALTH, "Health", COLOR_HEALTH, false
+    );
+    attribute(
+        player, stamina, PLAYER_DEFAULT_STAMINA, PLAYER_DEFAULT_STAMINA, PLAYER_DEFAULT_STAMINA,
+        STAMINA, "Stamina", COLOR_STAMINA, false
+    );
+    attribute(
+        player, hunger, 0, 0, 100,
+        HUNGER, "Hunger", COLOR_FOOD, true
+    );
+    attribute(
+        player, thirst, 0, 0, 100,
+        THIRST, "Thirst", COLOR_WATER, true
+    );
 }
 
 Player *player_new(Level *level, Camera *camera)
@@ -60,15 +74,19 @@ Player *player_new(Level *level, Camera *camera)
     return player;
 }
 
-static void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
+static inline void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
 {
-    double bar_width = width * ((double) attr->current / attr->limit);
+    int bar_width = width * ((double) attr->current / attr->max);
 
-    styled(win, COLOR_PAIR(attr->color),
-       for (int i = 0; i < bar_width; i++) {
-           waddch(win, CHAR_BAR);
-       }
-    );
+    for (int i = 0; i < width; i++) {
+        if (i < bar_width) {
+            styled(win, COLOR_PAIR(attr->color),
+                   waddch(win, CHAR_BAR);
+            );
+        } else {
+            waddch(win, ' ');
+        }
+    }
 }
 
 void player_attributes_display(Player *player)
@@ -85,8 +103,9 @@ void player_attributes_display(Player *player)
         styled(win, COLOR_PAIR(attr->color),
                mvwprintw(win, ++line, PADDING, attr->name);
         );
-        wprintw(win, ": %d/%d", attr->current, attr->limit);
+        wprintw(win, ": %d/%d", attr->current, attr->max);
         wmove(win, ++line, PADDING);
+
         display_attribute_bar(width, attr, win);
         line++;
     }

@@ -35,10 +35,9 @@ void player_move(Player *player, Direction direction)
     }
 }
 
-bool player_can_see(Player *player, uint16_t y, uint16_t x)
+bool player_can_see(Player *player, Point point)
 {
     Point pos = player->position.current;
-    uint16_t dist = square(pos.x - x) + square(pos.y - y);
 
-    return dist <= square(player->eyesight);
+    return point_distance(pos, point) <= player->eyesight;
 }

@@ -20,6 +20,7 @@ void color_init(void)
     init_pair(COLOR_PAIR_GREEN_F, COLOR_GREEN, -1);
     init_pair(COLOR_PAIR_BLUE_F, COLOR_BLUE, -1);
     init_pair(COLOR_PAIR_YELLOW_F, COLOR_YELLOW, -1);
+    init_pair(COLOR_PAIR_GRAY_F, 8, -1);
     init_pair(COLOR_PAIR_NONE, -1, -1);
 
     init_from_cell_config(&CELL_REGISTRY_VOID);

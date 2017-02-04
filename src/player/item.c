@@ -1,19 +1,23 @@
 #include <memory.h>
 #include <mem_pool.h>
-#include "item.h"
 #include "../../config/config.h"
 
 
-static MemPool *POOL;
+static MemPool *ITEM_POOL;
 
 
+/**
+* @see player.h
+ */
 static ItemError consume_non_permanent(Item *item, Attribute *attribute)
 {
-    uint16_t new = attribute->current + item->value;
+    int16_t new = attribute->current + item->value;
+    uint16_t limit = attribute->limit;
+    bool exceeds_limit = attribute->increasing ? new < limit : new > limit;
 
-    if (new > attribute->limit) {
-        attribute->current = attribute->limit;
-        item->value = new - attribute->limit;
+    if (exceeds_limit) {
+        attribute->current = limit;
+        item->value = new - limit;
 
         return IE_REPEAT;
     }
@@ -32,7 +36,7 @@ ItemError item_consume(Item *parent, Player *player)
     Attribute *attribute = player->attr.type_map[consumable->type];
 
     if (consumable->permanent) {
-        attribute->limit += parent->value;
+        attribute->max += parent->value;
 
         return IE_CONSUMED;
     }
@@ -42,7 +46,7 @@ ItemError item_consume(Item *parent, Player *player)
 
 Item *item_clone(ItemPrototype *prototype)
 {
-    Item *item = pool_alloc(POOL);
+    Item *item = pool_alloc(ITEM_POOL);
     memcpy(item, &prototype->item, sizeof(Item));
 
     return item;
@@ -58,15 +62,15 @@ Item *item_random(void)
 
 void item_pool_init(void)
 {
-    POOL = pool_init(sizeof(Item), 100);
+    ITEM_POOL = pool_init(sizeof(Item), 100);
 }
 
 void item_pool_cleanup(void)
 {
-    pool_destroy(POOL);
+    pool_destroy(ITEM_POOL);
 }
 
 void item_free(Item *item)
 {
-    pool_free(POOL, item);
+    pool_free(ITEM_POOL, item);
 }

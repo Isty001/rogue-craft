@@ -52,8 +52,8 @@ MU_TEST(test_eyesight)
     player.position.current = point_new(10, 10);
     player.eyesight = 5;
 
-    mu_assert(player_can_see(&player, 10, 15), "Player should see this point");
-    mu_assert(false == player_can_see(&player, 20, 10), "Player should not see this");
+    mu_assert(player_can_see(&player, point_new(10, 15)), "Player should see this point");
+    mu_assert(false == player_can_see(&player, point_new(20, 10)), "Player should not see this");
 }
 
 void run_player_movement_test(void)

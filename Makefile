@@ -1,4 +1,4 @@
-SRC = $(shell find src lib/*/src -name '*.c') config/*.c
+SRC = $(shell find src lib/*/src config -name '*.c')
 TEST_SRC = $(SRC) test/*.c
 CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -l ncursesw  -l m -isystem lib -D _GNU_SOURCE
 

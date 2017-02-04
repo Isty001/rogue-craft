@@ -5,7 +5,7 @@
 
 static void pickup_item(Player *player, Cell *cell, Point point)
 {
-    if (false == point_are_neighbours(player->position.current, point)) {
+    if (1 != point_distance(player->position.current, point)) {
         return;
     }
 

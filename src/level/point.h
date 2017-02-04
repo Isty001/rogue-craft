@@ -28,9 +28,9 @@ typedef enum {
 } Direction;
 
 
-bool point_are_neighbours(Point a, Point b);
-
 Point point_move(Point point, Direction direction, uint16_t distance);
+
+uint16_t point_distance(Point a, Point b);
 
 
 #endif

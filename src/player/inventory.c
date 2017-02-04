@@ -1,5 +1,4 @@
 #include "inventory.h"
-#include "item.h"
 
 
 Inventory *inventory_new(uint16_t size)
@@ -50,6 +49,7 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
     repeat(inventory->size,
            if (item == inventory->items[i]) {
                inventory->items[i] = NULL;
+               wclear(WINDOW_INVENTORY);
                break;
            }
     )
@@ -60,10 +60,10 @@ static inline void add_menu_mark(WINDOW *win, Inventory *inventory, int current)
 {
     if (current == inventory->selected) {
         styled(win, COLOR_PAIR(COLOR_PAIR_RED_F),
-               waddch(win, '*');
+               waddstr(win, "* ");
         );
     } else {
-        waddch(win, '*');
+        waddstr(win, "* ");
     }
 }
 
@@ -74,14 +74,13 @@ void inventory_display(Inventory *inventory)
 
     for (int i = 0; i < inventory->size; i++) {
         wmove(win, i + PADDING, PADDING);
+        add_menu_mark(win, inventory, i);
 
         if ((item = inventory->items[i])) {
             styled(win, item->style,
                    wprintw(win, "%lc", item->chr);
             );
-            wprintw(win, " | %d | %s", item->value, item->name);
-        } else {
-            add_menu_mark(win, inventory, i);
+            wprintw(win, " | %d | %s", abs(item->value), item->name);
         }
     }
     refresh_boxed(win);
@@ -105,6 +104,7 @@ void inventory_use_selected(Player *player)
     if (selected && CONSUMABLE == selected->type) {
         if (IE_CONSUMED == item_consume(selected, player)) {
             inventory_remove(inventory, selected);
+            item_free(selected);
         }
     }
 }

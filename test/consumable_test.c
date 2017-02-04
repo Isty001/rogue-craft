@@ -11,11 +11,20 @@ MU_TEST(test_non_consumable)
     mu_assert(IE_INVALID_ARGUMENT == item_consume(&item, NULL), "Should give Invalid Arg");
 }
 
-void setup_player(Player *player)
+static void setup_player(Player *player)
 {
+    player->attr.hp.max = 100;
     player->attr.hp.limit = 100;
     player->attr.hp.current = 90;
+    player->attr.hp.increasing = false;
+
+    player->attr.hunger.limit = 0;
+    player->attr.hunger.max = 1000;
+    player->attr.hunger.current = 20;
+    player->attr.hunger.increasing = true;
+
     player->attr.type_map[HEALTH] = &player->attr.hp;
+    player->attr.type_map[HUNGER] = &player->attr.hunger;
 }
 
 MU_TEST(test_persistent)
@@ -26,7 +35,7 @@ MU_TEST(test_persistent)
     setup_player(&player);
 
     mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumbed");
-    mu_assert_int_eq(110, player.attr.hp.limit);
+    mu_assert_int_eq(110, player.attr.hp.max);
 }
 
 MU_TEST(test_non_persistent)
@@ -35,7 +44,7 @@ MU_TEST(test_non_persistent)
     Player player;
     setup_player(&player);
 
-    mu_assert(IE_CONSUMED == item_consume(&item, &player), "Should be consumed");
+    mu_assert_int_eq(IE_CONSUMED, item_consume(&item, &player));
     mu_assert_int_eq(100, player.attr.hp.current);
 }
 
@@ -51,6 +60,20 @@ MU_TEST(test_partial_consume)
     mu_assert_int_eq(5, item.value);
 }
 
+MU_TEST(test_negative)
+{
+    Player player;
+    setup_player(&player);
+
+    Item item = fixture_consumable(false);
+    item.consumable.type = HUNGER;
+    item.value = -10;
+
+    mu_assert_int_eq(IE_CONSUMED, item_consume(&item, &player));
+
+    mu_assert_int_eq(10, player.attr.hunger.current);
+}
+
 void run_consumable_test(void)
 {
     TEST_NAME("Consumable Item");
@@ -59,6 +82,7 @@ void run_consumable_test(void)
     MU_RUN_TEST(test_persistent);
     MU_RUN_TEST(test_non_persistent);
     MU_RUN_TEST(test_partial_consume);
+    MU_RUN_TEST(test_negative);
 
     MU_REPORT();
 }

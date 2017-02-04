@@ -17,8 +17,14 @@ typedef enum {
 
 typedef enum {
     CONSUMABLE,
-    TOOL
+    TOOL,
 } ItemType;
+
+typedef struct {
+    struct {
+        uint16_t cell;
+    } damage;
+} Tool;
 
 typedef struct Consumable {
     bool permanent;
@@ -30,10 +36,11 @@ typedef struct {
     char *description;
     wchar_t chr;
     Style style;
+    int16_t value;
     ItemType type;
-    uint16_t value;
     union {
         Consumable consumable;
+        Tool tool;
     };
 } Item;
 
