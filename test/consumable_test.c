@@ -13,13 +13,13 @@ MU_TEST(test_non_consumable)
 
 static void setup_player(Player *player)
 {
-    player->attributes[HEALTH].max = 100;
-    player->attributes[HEALTH].limit = 100;
+    player->attributes[HEALTH].increase_max = 100;
+    player->attributes[HEALTH].modification_limit = 100;
     player->attributes[HEALTH].current = 90;
     player->attributes[HEALTH].increasing = false;
 
-    player->attributes[HUNGER].limit = 0;
-    player->attributes[HUNGER].max = 100;
+    player->attributes[HUNGER].modification_limit = 0;
+    player->attributes[HUNGER].increase_max = 100;
     player->attributes[HUNGER].current = 20;
     player->attributes[HUNGER].increasing = true;
 }
@@ -32,7 +32,7 @@ MU_TEST(test_persistent)
     setup_player(&player);
 
     mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumed");
-    mu_assert_int_eq(110, player.attributes[HEALTH].max);
+    mu_assert_int_eq(110, player.attributes[HEALTH].increase_max);
 }
 
 MU_TEST(test_non_persistent)

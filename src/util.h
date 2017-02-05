@@ -49,16 +49,6 @@ static inline uint16_t square(uint16_t x)
     return x * x;
 }
 
-static inline int16_t min(int16_t a, int16_t b)
-{
-    return a < b ? a : b;
-}
-
-static inline int16_t max(int16_t a, int16_t b)
-{
-    return a > b ? a : b;
-}
-
 static inline void *alloc(unsigned size)
 {
     void *ptr = malloc(size);

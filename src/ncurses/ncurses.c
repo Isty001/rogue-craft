@@ -51,11 +51,3 @@ void ncurses_cleanup(void)
     delwin(WINDOW_PLAYER_ATTRIBUTES);
     endwin();
 }
-
-void ncurses_event(char *msg)
-{
-#ifndef UNIT_TEST
-    wprintw(WINDOW_EVENT, "%s", msg);
-    wrefresh(WINDOW_EVENT);
-#endif
-}

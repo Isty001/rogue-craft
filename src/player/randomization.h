@@ -18,9 +18,7 @@ typedef const struct {
 } Probability;
 
 
-Item *item_randomize_consumable(ItemPrototype *prototype);
-
-Item *item_randomize_tool(ItemPrototype *prototype);
+Item *item_randomize_value(ItemPrototype *prototype);
 
 Randomizable random_from(Probability *probability);
 

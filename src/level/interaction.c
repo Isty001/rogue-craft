@@ -9,21 +9,8 @@ static void pickup_item(Player *player, Cell *cell, Point point)
         return;
     }
 
-    ItemError err = inventory_add(player->inventory, cell->item);
-
-    switch (err) {
-        case IE_OK:
-            level_set_hollow(player->level, point);
-            ncurses_event("Item picked up");
-            break;
-        case IE_OVERFLOW:
-            ncurses_event("Your Inventory is full");
-            break;
-        case IE_DUPLICATE:
-            ncurses_event("Something went wrong. The exact same item is already in your Inventory");
-            break;
-        default:
-            ncurses_event("Unexpected error");
+    if (IE_OK == inventory_add(player->inventory, cell->item)) {
+        level_set_hollow(player->level, point);
     }
 }
 
@@ -33,7 +20,7 @@ void level_interact(Player *player, Point click)
     Cell ***cells = player->level->cells;
     Cell *cell = cells[on_level.y][on_level.x];
 
-    switch(cell->type){
+    switch (cell->type) {
         case ITEM_:
             pickup_item(player, cell, on_level);
             break;

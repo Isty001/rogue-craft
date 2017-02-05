@@ -2,7 +2,7 @@
 
 
 static ItemPrototype ITEM_TOOL_PICKAXE = {
-    .randomize = item_randomize_tool,
+    .randomize = item_randomize_value,
     .value_range = {1, 100},
     .item = {
         .name = "Pickaxe",

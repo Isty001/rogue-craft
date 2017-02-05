@@ -27,16 +27,21 @@ static inline bool in_inventory(Inventory *inventory, Item *item)
 ItemError inventory_add(Inventory *inventory, Item *item)
 {
     if (in_inventory(inventory, item)) {
+        event("Something went wrong. The exact same item is already in your Inventory");
+
         return IE_DUPLICATE;
     }
 
     repeat(inventory->size,
            if (NULL == inventory->items[i]) {
                inventory->items[i] = item;
+               event("Picked up %s", item->name);
 
                return IE_OK;
            }
     )
+    event("Your Inventory is full");
+
     return IE_OVERFLOW;
 }
 

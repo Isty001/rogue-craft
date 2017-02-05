@@ -8,7 +8,7 @@
 
 #define CONSUMABLE_PROTOTYPE(var_name, nam, stl, c_permanent, c, c_type, ...)  \
     static ItemPrototype var_name = {                                       \
-        .randomize = item_randomize_consumable,                             \
+        .randomize = item_randomize_value,                                  \
         .value_range = __VA_ARGS__,                                         \
         .item = {                                                           \
             .name = nam,                                                    \

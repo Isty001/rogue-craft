@@ -47,7 +47,7 @@ Item *item_random(void)
 static ItemError consume_non_permanent(Item *item, Attribute *attribute)
 {
     int16_t new = attribute->current + item->value;
-    uint16_t limit = attribute->limit;
+    uint16_t limit = attribute->modification_limit;
     bool exceeds_limit = attribute->increasing ? new < limit : new > limit;
 
     if (exceeds_limit) {
@@ -69,7 +69,8 @@ ItemError item_consume(Item *parent, Player *player)
     Attribute *attribute = &player->attributes[consumable->type];
 
     if (consumable->permanent) {
-        attribute->max += parent->value;
+        attribute->modification_limit += parent->value;
+        attribute->increase_max += parent->value;
 
         return IE_CONSUMED;
     }

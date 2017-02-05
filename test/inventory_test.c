@@ -63,7 +63,7 @@ MU_TEST(test_use_consumable)
 
     Player player;
     player.attributes[HEALTH].current = 95;
-    player.attributes[HEALTH].limit = 100;
+    player.attributes[HEALTH].modification_limit = 100;
     player.attributes[HEALTH].increasing = false;
     player.inventory = &inv;
 

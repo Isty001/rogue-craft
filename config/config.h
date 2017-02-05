@@ -37,7 +37,7 @@ extern Range MATERIAL_STRENGTH[];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 20);
+    (uint16_t) ((level->size.height * level->size.width) / 50);
 
 
 extern LevelConfig LEVEL_CAVE;

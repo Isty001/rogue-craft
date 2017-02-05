@@ -10,22 +10,22 @@
 static void add_default_attributes(Player *player)
 {
     player->attributes[HEALTH] = (Attribute) {
-        .current = 100, .max = 100, .limit = 100,
+        .current = 100, .increase_max = 100, .modification_limit = 100,
         .increasing = false, .name = "Health", .style  = COLOR_PAIR(COLOR_HEALTH)
     };
 
     player->attributes[STAMINA] = (Attribute) {
-        .current = 100, .max = 100, .limit = 100,
+        .current = 100, .increase_max = 100, .modification_limit = 100,
         .increasing = false, .name = "Stamina", .style = COLOR_PAIR(COLOR_STAMINA)
     };
 
     player->attributes[HUNGER] = (Attribute) {
-        .current = 0, .max = 100, .limit = 0,
+        .current = 0, .increase_max = 100, .modification_limit = 0,
         .increasing = true, .name = "Hunger", .style = COLOR_PAIR(COLOR_FOOD)
     };
 
     player->attributes[THIRST] = (Attribute) {
-        .current = 0, .max = 100, .limit = 0,
+        .current = 0, .increase_max = 100, .modification_limit = 0,
         .increasing = true, .name = "Thirst", .style = COLOR_PAIR(COLOR_WATER)
     };
 }
@@ -75,7 +75,7 @@ void player_free(Player *player)
 
 static inline void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
 {
-    int bar_width = width * ((double) attr->current / attr->max);
+    int bar_width = width * ((double) attr->current / attr->increase_max);
 
     for (int i = 0; i < width; i++) {
         if (i < bar_width) {
@@ -101,7 +101,7 @@ void player_attributes_display(Player *player)
         styled(win, attr->style,
                mvwprintw(win, ++line, PADDING, attr->name);
         );
-        wprintw(win, ": %d/%d", attr->current, attr->max);
+        wprintw(win, ": %d/%d", attr->current, attr->increase_max);
         wmove(win, ++line, PADDING);
 
         display_attribute_bar(width, attr, win);
