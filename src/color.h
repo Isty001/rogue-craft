@@ -5,7 +5,6 @@
 #include <stddef.h>
 #include <ncurses.h>
 #include "util.h"
-#include "level/material.h"
 
 
 #define COLOR_PAIR_NONE         1

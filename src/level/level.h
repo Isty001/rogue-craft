@@ -76,6 +76,8 @@ void level_interact(Player *player, Point click);
 
 void level_set_hollow(Level *level, Point at);
 
+Cell *level_replace_cell_with_new(Level *level, Point at);
+
 bool level_in_bounds(Level *level, Point point);
 
 void level_free(Level *level);

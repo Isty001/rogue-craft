@@ -21,8 +21,15 @@ typedef enum {
 } ItemType;
 
 typedef struct {
+    double solid;
+    double creature;
+} DefaultDamage;
+
+typedef struct {
+    uint16_t range;
     struct {
-        uint16_t cell;
+        DefaultDamage defaults;
+        double materials[MATERIAL_NUM];
     } damage;
 } Tool;
 
@@ -31,9 +38,8 @@ typedef struct Consumable {
     AttributeType type;
 } Consumable;
 
-typedef struct {
+typedef struct Item {
     char *name;
-    char *description;
     wchar_t chr;
     Style style;
     int16_t value;
@@ -55,9 +61,9 @@ void item_pool_init(void);
 
 Item *item_clone(ItemPrototype *prototype);
 
-ItemError item_consume(Item *item, Player *player);
-
 Item *item_random(void);
+
+ItemError item_consume(Item *item, Player *player);
 
 void item_free(Item *item);
 

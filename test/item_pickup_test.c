@@ -10,7 +10,7 @@ MU_TEST(test_item_pickup)
 {
     Level *level = fixture_level();
     Item item;
-    level->cells[0][0]->data = &item;
+    level->cells[0][0]->item = &item;
     level->cells[0][0]->type = ITEM_;
 
     Camera camera = {
@@ -51,7 +51,7 @@ MU_TEST(test_bounds)
 
 void run_level_interaction_test(void)
 {
-    TEST_NAME("Level Interaction");
+    TEST_NAME("Item Pickup");
 
     MU_RUN_TEST(test_item_pickup);
     MU_RUN_TEST(test_bounds);

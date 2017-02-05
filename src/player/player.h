@@ -21,6 +21,12 @@ typedef enum {
     THIRST
 } AttributeType;
 
+typedef enum {
+    PE_OUT_OF_RANGE,
+    PE_DEALT_NO_DAMAGE,
+    PE_DEALT_DAMAGE
+} PlayerError;
+
 /**
  * The max field indicates the number until the Attribute's value can increase,
  * but the limit tells the bound of the modifications.
@@ -34,7 +40,7 @@ typedef struct {
      */
     bool increasing;
     char name[PLAYER_ATTR_NAME_MAX];
-    Color color;
+    Style style;
     uint16_t max;
     uint16_t limit;
     uint16_t current;
@@ -44,6 +50,8 @@ typedef struct Player {
     Level *level;
     uint16_t eyesight;
     Camera *camera;
+    Inventory *inventory;
+    Attribute attributes[PLAYER_ATTR_NUM];
     struct {
         Point current;
         Point previous;
@@ -52,14 +60,6 @@ typedef struct Player {
         Cell prototype;
         Cell *previous;
     } cell;
-    struct {
-        Attribute hp;
-        Attribute stamina;
-        Attribute hunger;
-        Attribute thirst;
-        Attribute *type_map[PLAYER_ATTR_NUM];
-    } attr;
-    Inventory *inventory;
 } Player;
 
 
@@ -70,6 +70,8 @@ void player_free(Player *player);
 void player_move(Player *player, Direction direction);
 
 bool player_can_see(Player *player, Point point);
+
+PlayerError player_hit(Player *player, Point at);
 
 void player_attributes_display(Player *player);
 

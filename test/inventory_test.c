@@ -62,19 +62,18 @@ MU_TEST(test_use_consumable)
     inv.size = 1;
 
     Player player;
-    player.attr.hp.current = 95;
-    player.attr.hp.limit = 100;
-    player.attr.hp.increasing = false;
+    player.attributes[HEALTH].current = 95;
+    player.attributes[HEALTH].limit = 100;
+    player.attributes[HEALTH].increasing = false;
     player.inventory = &inv;
-    player.attr.type_map[HEALTH] = &player.attr.hp;
 
     inventory_use_selected(&player);
-    mu_assert_int_eq(100, player.attr.hp.current);
+    mu_assert_int_eq(100, player.attributes[HEALTH].current);
     mu_assert(&item == inv.items[0], "Item should not be removed");
 
-    player.attr.hp.current = 92;
+    player.attributes[HEALTH].current = 92;
     inventory_use_selected(&player);
-    mu_assert_int_eq(97, player.attr.hp.current);
+    mu_assert_int_eq(97, player.attributes[HEALTH].current);
     mu_assert(NULL == inv.items[0], "Item should be removed");
 }
 

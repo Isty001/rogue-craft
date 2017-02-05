@@ -43,8 +43,7 @@ static void process_inventory(int input, Player *player)
         case KEY_SOUTH:
             inventory_select(player->inventory, direction_lookup(input));
             break;
-        case '\n':
-        case KEY_ENTER:
+        case 'f':
             inventory_use_selected(player);
             break;
         default:

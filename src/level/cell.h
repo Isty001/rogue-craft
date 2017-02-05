@@ -5,12 +5,29 @@
 #include "../color.h"
 
 
+#define MATERIAL_NUM 3
+
+
 #define cell_registry_rand(level, type) \
     level->registry.type.cells[rand_in(0, level->registry.type.size)]
 
 
+#define cell_damageable(cell) \
+    (SOLID == cell->type || CREATURE == cell->type)
+
+
+typedef struct Item Item;
+
+
+typedef enum  {
+    VOID,
+    STONE,
+    DIRT
+} Material;
+
 typedef enum {
     SOLID,
+    CREATURE,
     HOLLOW,
     PLAYER,
     ITEM_ /** Conflicts with ncurses' ITEM */
@@ -21,9 +38,11 @@ typedef struct {
     bool in_registry;
     Style style;
     CellType type;
-    uint16_t state;
-    Material *material;
-    void *data;
+    double state;
+    Material material;
+    union {
+        Item *item;
+    };
 } Cell;
 
 typedef struct {
@@ -31,18 +50,17 @@ typedef struct {
     Cell *cells;
 } CellRegistry;
 
-
 typedef struct {
     struct {
         uint16_t id;
         Color fore;
         Color back;
     } color;
-    Material *material;
+    Material material;
 } CellPrototype;
 
 typedef const struct {
-    char chr;
+    wchar_t chr;
     CellType type;
     size_t count;
     CellPrototype cells[];
@@ -51,7 +69,7 @@ typedef const struct {
 
 void cell_pool_init(void);
 
-Cell *cell_random_item(void);
+Cell *cell_with_random_item(void);
 
 CellRegistry cell_registry_new(CellRegistryConfig *cfg);
 

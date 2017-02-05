@@ -5,12 +5,19 @@ static ItemPrototype ITEM_TOOL_PICKAXE = {
     .randomize = item_randomize_tool,
     .value_range = {1, 100},
     .item = {
-        .name = "",
+        .name = "Pickaxe",
         .chr = 'p',
         .type = TOOL,
         .style = COLOR_PAIR(COLOR_PAIR_GRAY_F),
         .tool = {
-            .damage = {.cell = 5}
+            .range = 1,
+            .damage = {
+                .defaults = {.solid = 10, .creature = 1},
+                .materials = {
+                    [STONE] = 20,
+                    [DIRT] = 15
+                }
+            }
         }
     }
 };

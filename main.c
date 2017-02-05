@@ -61,7 +61,7 @@ int main(void)
             render(player);
         }
         flushinp();
-        napms(70);
+        napms(60);
     }
 
     cleanup(player);

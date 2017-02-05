@@ -18,13 +18,6 @@
 
 /** Attributes */
 #define PLAYER_DEFAULT_EYESIGHT         4
-#define PLAYER_DEFAULT_HP               100
-#define PLAYER_DEFAULT_STAMINA          100
-#define PLAYER_DEFAULT_HUNGER           0
-#define PLAYER_LIMIT_HUNGER             100
-#define PLAYER_DEFAULT_THIRST           0
-#define PLAYER_LIMIT_THIRST             100
-
 
 /**
  * KEYBINDINGS
@@ -34,11 +27,10 @@
 #define KEY_SOUTH   's'
 #define KEY_WEST    'a'
 
-
 /**
  * MATERIAL
  */
-extern Material MATERIALS[];
+extern Range MATERIAL_STRENGTH[];
 
 
 /**

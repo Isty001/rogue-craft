@@ -1,28 +1,25 @@
 #include <mem_pool.h>
 #include <memory.h>
 #include "../player/item.h"
+#include "../../config/config.h"
 
 
 static MemPool *CELL_POOL;
 
 
-#define init_cell_at(cells, i, cfg, color, mat)    \
-     cells[i].in_registry = true;               \
-     cells[i].chr = cfg->chr;                   \
-     cells[i].type = cfg->type;                 \
-     cells[i].style = COLOR_PAIR(color);        \
-     cells[i].material = mat;                   \
-     cells[i].state = 100;
-
-
 static Cell *init_cells(CellRegistryConfig *cfg)
 {
-    CellPrototype cell;
+    CellPrototype prototype;
     Cell *cells = alloc(cfg->count * sizeof(Cell));
 
     for (uint16_t i = 0; i < cfg->count; i++) {
-        cell = cfg->cells[i];
-        init_cell_at(cells, i, cfg, cell.color.id, cell.material);
+        prototype = cfg->cells[i];
+        cells[i].style = COLOR_PAIR(prototype.color.id);
+        cells[i].material = prototype.material;
+        cells[i].chr = cfg->chr;
+        cells[i].type = cfg->type;
+        cells[i].in_registry = true;
+        cells[i].state = rand_in_range(MATERIAL_STRENGTH[prototype.material]);
     }
 
     return cells;
@@ -38,7 +35,7 @@ CellRegistry cell_registry_new(CellRegistryConfig *cfg)
     return registry;
 }
 
-Cell *cell_random_item(void)
+Cell *cell_with_random_item(void)
 {
     Item *item = item_random();
     Cell *cell = pool_alloc(CELL_POOL);
@@ -47,7 +44,7 @@ Cell *cell_random_item(void)
     cell->style = item->style;
     cell->type = ITEM_;
     cell->in_registry = false;
-    cell->data = item;
+    cell->item = item;
 
     return cell;
 }

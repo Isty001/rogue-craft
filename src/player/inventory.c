@@ -101,7 +101,11 @@ void inventory_use_selected(Player *player)
     Inventory *inventory = player->inventory;
     Item *selected = inventory->items[inventory->selected];
 
-    if (selected && CONSUMABLE == selected->type) {
+    if (!selected) {
+        return;
+    }
+
+    if (CONSUMABLE == selected->type) {
         if (IE_CONSUMED == item_consume(selected, player)) {
             inventory_remove(inventory, selected);
             item_free(selected);

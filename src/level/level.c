@@ -36,7 +36,7 @@ static void add_items(Level *level)
         cell = level->cells[point.y][point.x];
 
         if (HOLLOW == cell->type) {
-            level->cells[point.y][point.x] = cell_random_item();
+            level->cells[point.y][point.x] = cell_with_random_item();
             remaining--;
         };
     } while (remaining);
@@ -108,7 +108,20 @@ void level_display(Player *player)
 
 void level_set_hollow(Level *level, Point at)
 {
+    cell_free_custom(level->cells[at.y][at.x]);
     level->cells[at.y][at.x] = &cell_registry_rand(level, hollow);
+}
+
+Cell *level_replace_cell_with_new(Level *level, Point at)
+{
+    Cell ***cells = level->cells;
+    Cell *cell = cells[at.y][at.x];
+    cell_free_custom(cell);
+    Cell *new = cell_clone(cell);
+
+    cells[at.y][at.x] = new;
+
+    return new;
 }
 
 void level_free(Level *level)

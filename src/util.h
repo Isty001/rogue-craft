@@ -30,6 +30,8 @@
 
 #define has_flag(mask, flag) (flag == (flag & mask))
 
+#define range_new(f, t) (Range) {.from = f, .to = t}
+
 #ifdef DEBUG_MODE
 
 #define size_dump(s) printf("Height: %d Width: %d\n", s.height, s.width)
@@ -37,6 +39,7 @@
 #define point_dump(p) printf("Y: %d X: %d\n", p.y, p.x)
 
 #define range_dump(r)printf("Min: %d Max: %d\n", r.min, r.max)
+
 
 #endif
 
