@@ -36,17 +36,17 @@ static double calculate_strength(Player *player)
 
 static Hit calculate_hit(Player *player, Item *item, Cell *target)
 {
+    double damage;
     uint16_t range = 1;
-    double damage = 0;
+    double strength = calculate_strength(player);
 
-    if (cell_damageable(target)) {
-        double strength = calculate_strength(player);
+    if (item && TOOL == item->type) {
+        Tool *tool = &item->tool;
 
-        if (item && TOOL == item->type) {
-            damage = (strength / 100) * tool_damage(&item->tool, target);
-        } else {
-            damage = strength / 10;
-        }
+        damage = (strength / 100) * tool_damage(tool, target);
+        range = tool->range;
+    } else {
+        damage = strength / 10;
     }
 
     return (Hit) {
@@ -72,19 +72,19 @@ static PlayerError apply_hit(Hit hit, Player *player, Cell *target, Point point)
 
 PlayerError player_hit(Player *player, Point at)
 {
-    Inventory *inventory = player->inventory;
-    Item *item = inventory->items[inventory->selected];
-    Cell ***cells = player->level->cells;
-    Cell *target = cells[at.y][at.x];
+    Cell *target = player->level->cells[at.y][at.x];
 
-    Hit hit = calculate_hit(player, item, target);
-
-    if (hit.damage) {
-        if (hit.allowed_range < point_distance(player->position.current, at)) {
-            return PE_OUT_OF_RANGE;
-        }
-        return apply_hit(hit, player, target, at);
+    if (!cell_damageable(target)) {
+        return PE_INVALID_CELL;
     }
 
-    return PE_DEALT_NO_DAMAGE;
+    Inventory *inventory = player->inventory;
+    Item *item = inventory->items[inventory->selected];
+    Hit hit = calculate_hit(player, item, target);
+
+    if (hit.allowed_range < point_distance(player->position.current, at)) {
+        return PE_OUT_OF_RANGE;
+    }
+
+    return apply_hit(hit, player, target, at);
 }

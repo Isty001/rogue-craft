@@ -23,7 +23,7 @@ typedef enum {
 
 typedef enum {
     PE_OUT_OF_RANGE,
-    PE_DEALT_NO_DAMAGE,
+    PE_INVALID_CELL,
     PE_DEALT_DAMAGE
 } PlayerError;
 

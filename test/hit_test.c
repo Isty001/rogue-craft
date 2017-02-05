@@ -34,19 +34,22 @@ static Player create_player(void)
     };
 }
 
-static void free_pixtures(Player *player)
+static void free_fixtures(Player *player)
 {
     inventory_free(player->inventory);
     fixture_level_free(player->level);
 }
 
-MU_TEST(test_out_of_range)
+MU_TEST(test_range)
 {
     Player player = create_player();
 
     mu_assert_int_eq(PE_OUT_OF_RANGE, player_hit(&player, point_new(0, 2)));
 
-    free_pixtures(&player);
+    player.inventory->items[0]->tool.range = 2;
+    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 2)));
+
+    free_fixtures(&player);
 }
 
 MU_TEST(test_defaults)
@@ -62,7 +65,7 @@ MU_TEST(test_defaults)
     /** 12 = (80 / 100) * 15  */
     mu_assert_double_eq(88, cell->state);
 
-    free_pixtures(&player);
+    free_fixtures(&player);
 }
 
 MU_TEST(test_material_and_tired_damage)
@@ -72,12 +75,12 @@ MU_TEST(test_material_and_tired_damage)
     player.attributes[THIRST].current = 30;
     player.inventory->items[0]->tool.damage.materials[STONE] = 15;
 
-    player_hit(&player, point_new(0, 0));
+    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
 
     /** 24 = (((80 / ((20 + 30) / 100)) / 100) * 15) */
     mu_assert_double_eq(76, player.level->cells[0][0]->state);
 
-    free_pixtures(&player);
+    free_fixtures(&player);
 }
 
 MU_TEST(test_bare_hands)
@@ -85,22 +88,33 @@ MU_TEST(test_bare_hands)
     Player player = create_player();
     player.inventory->selected = 1;
 
-    player_hit(&player, point_new(0, 0));
+    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
 
     /** 8 = 80 / 10 */
     mu_assert_double_eq(92, player.level->cells[0][0]->state);
 
-    free_pixtures(&player);
+    free_fixtures(&player);
+}
+
+MU_TEST(test_invalid_cell_type)
+{
+    Player player = create_player();
+    player.level->cells[0][0]->type = HOLLOW;
+
+    mu_assert_int_eq(PE_INVALID_CELL, player_hit(&player, point_new(0, 0)));
+
+    free_fixtures(&player);
 }
 
 void run_player_hit_test(void)
 {
     TEST_NAME("Player Hit");
 
-    MU_RUN_TEST(test_out_of_range);
+    MU_RUN_TEST(test_range);
     MU_RUN_TEST(test_defaults);
     MU_RUN_TEST(test_material_and_tired_damage);
     MU_RUN_TEST(test_bare_hands);
+    MU_RUN_TEST(test_invalid_cell_type);
 
     MU_REPORT();
 }
