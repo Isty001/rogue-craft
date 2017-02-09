@@ -32,6 +32,9 @@
 
 #define range_new(f, t) (Range) {.from = f, .to = t}
 
+#define unless(statement) if (!statement)
+
+
 #ifdef DEBUG_MODE
 
 #define size_dump(s) printf("Height: %d Width: %d\n", s.height, s.width)

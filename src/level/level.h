@@ -9,6 +9,7 @@
 #include "point.h"
 #include "../util.h"
 #include "../color.h"
+#include "liquid.h"
 
 
 #define iterate_matrix(from, size, ...)             \
@@ -43,7 +44,7 @@ typedef enum {
     CAVE
 } LevelType;
 
-typedef struct {
+typedef struct Level {
     Size size;
     Cell ***cells;
     uint16_t item_count;
@@ -54,6 +55,7 @@ typedef struct {
     struct {
         CellRegistry solid;
         CellRegistry hollow;
+        CellRegistry liquids[MATERIAL_LIQUID_NUM];
     } registry;
 } Level;
 
@@ -62,6 +64,7 @@ typedef const struct {
     struct {
         CellRegistryConfig *solid;
         CellRegistryConfig *hollow;
+        CellRegistryConfig liquids[MATERIAL_LIQUID_NUM];
     } cell;
 } LevelConfig;
 
@@ -79,6 +82,8 @@ void level_set_hollow(Level *level, Point at);
 Cell *level_replace_cell_with_new(Level *level, Point at);
 
 bool level_in_bounds(Level *level, Point point);
+
+Point level_rand_hollow(Level *level);
 
 void level_free(Level *level);
 

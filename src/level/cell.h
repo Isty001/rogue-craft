@@ -3,9 +3,7 @@
 
 
 #include "../color.h"
-
-
-#define MATERIAL_NUM 3
+#include "material.h"
 
 
 #define cell_registry_rand(level, type) \
@@ -19,17 +17,12 @@
 typedef struct Item Item;
 
 
-typedef enum  {
-    VOID,
-    STONE,
-    DIRT
-} Material;
-
 typedef enum {
     SOLID,
     CREATURE,
     HOLLOW,
     PLAYER,
+    LIQUID,
     ITEM_ /** Conflicts with ncurses' ITEM */
 } CellType;
 

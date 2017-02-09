@@ -1,5 +1,4 @@
 #include "liquid.h"
-#include "point.h"
 
 
 #define LIQUID_VISIBLE '~'
@@ -8,13 +7,12 @@
 #define PROBABILITY_OF_VISIBLE 0.75
 
 
-void liquid_animate(Liquid *liquid)
+void collect_neighbours()
 {
-    Cell *cell, **cells = liquid->cells;
-    int i = 0;
 
-    while ((cell = cells[i++])) {
-        cell->chr = (char) (rand_true(PROBABILITY_OF_VISIBLE) ? LIQUID_VISIBLE : LIQUID_HIDDEN);
-    }
+}
+
+void liquid_add(Level *level)
+{
 }
 

@@ -90,8 +90,8 @@ MU_TEST(test_bare_hands)
 
     mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
 
-    /** 8 = 80 / 10 */
-    mu_assert_double_eq(92, player.level->cells[0][0]->state);
+    /** 4 = 80 / 20 */
+    mu_assert_double_eq(96, player.level->cells[0][0]->state);
 
     free_fixtures(&player);
 }

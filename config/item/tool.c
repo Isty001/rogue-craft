@@ -12,10 +12,10 @@ static ItemPrototype ITEM_TOOL_PICKAXE = {
         .tool = {
             .range = 1,
             .damage = {
-                .defaults = {.solid = 10, .creature = 1},
+                .defaults = {.solid = 5, .creature = 1},
                 .materials = {
-                    [STONE] = 20,
-                    [DIRT] = 15
+                    [STONE] = 10.0,
+                    [DIRT] = 6.0
                 }
             }
         }

@@ -6,6 +6,7 @@
 #include "src/level/camera.h"
 #include "config/config.h"
 #include "src/player/inventory.h"
+#include "src/debug.h"
 
 
 static void init(void)
@@ -34,6 +35,7 @@ static void render(Player *player)
     level_display(player);
     inventory_display(player->inventory);
     player_attributes_display(player);
+    dbg_display();
 }
 
 int main(void)
@@ -45,6 +47,8 @@ int main(void)
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
     int in;
+
+    liquid_add(level);
 
     render(player);
 

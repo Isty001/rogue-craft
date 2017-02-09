@@ -33,16 +33,9 @@ static void add_default_attributes(Player *player)
 static void find_starting_point(Player *player)
 {
     Level *level = player->level;
-    Cell *cell;
-    Point point;
+    Point point = level_rand_hollow(level);
 
-    do {
-        point = level_rand_point(level);
-
-        cell = level->cells[point.y][point.x];
-    } while (HOLLOW != cell->type);
-
-    player->cell.previous = cell;
+    player->cell.previous = level->cells[point.y][point.x];
     player->position.previous = point;
     player->position.current = point;
 }

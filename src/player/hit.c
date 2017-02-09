@@ -18,6 +18,7 @@ static double tool_damage(Tool *tool, Cell *cell)
     }
     DefaultDamage defaults = tool->damage.defaults;
 
+
     return SOLID == cell->type ? defaults.solid : defaults.creature;
 }
 
@@ -46,7 +47,7 @@ static Hit calculate_hit(Player *player, Item *item, Cell *target)
         damage = (strength / 100) * tool_damage(tool, target);
         range = tool->range;
     } else {
-        damage = strength / 10;
+        damage = strength / 20;
     }
 
     return (Hit) {

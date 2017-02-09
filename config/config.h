@@ -46,9 +46,11 @@ extern LevelConfig LEVEL_CAVE;
 /**
  * CELL
  */
+extern CellRegistryConfig CELL_REGISTRY_VOID;
+
 extern CellRegistryConfig CELL_REGISTRY_CAVE;
 
-extern CellRegistryConfig CELL_REGISTRY_VOID;
+extern CellRegistryConfig CELL_REGISTRY_WATER;
 
 
 /**

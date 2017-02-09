@@ -25,4 +25,5 @@ void color_init(void)
 
     init_from_cell_config(&CELL_REGISTRY_VOID);
     init_from_cell_config(&CELL_REGISTRY_CAVE);
+    init_from_cell_config(&CELL_REGISTRY_WATER);
 }

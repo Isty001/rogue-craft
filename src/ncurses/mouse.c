@@ -17,6 +17,7 @@ Clickable CLICKABLE_WINDOWS[CLICKABLE_NUM] = {
 void mouse_init(void)
 {
     mousemask(ALL_MOUSE_EVENTS, NULL);
+    mouseinterval(70);
 }
 
 void mouse_interact(Player *player)

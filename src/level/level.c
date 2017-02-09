@@ -72,6 +72,20 @@ bool level_in_bounds(Level *level, Point point)
         in_range(point.y, level->bounds.y);
 }
 
+Point level_rand_hollow(Level *level)
+{
+    Point point;
+    Cell *cell;
+
+    do {
+        point = level_rand_point(level);
+
+        cell = level->cells[point.y][point.x];
+    } while (HOLLOW != cell->type);
+
+    return point;
+}
+
 static Point displayed_bounds(Camera *camera)
 {
     return point_new(

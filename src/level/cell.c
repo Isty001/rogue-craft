@@ -2,6 +2,7 @@
 #include <memory.h>
 #include "../player/item.h"
 #include "../../config/config.h"
+#include "../debug.h"
 
 
 static MemPool *CELL_POOL;
@@ -35,10 +36,17 @@ CellRegistry cell_registry_new(CellRegistryConfig *cfg)
     return registry;
 }
 
+static inline Cell *alloc_cell(void)
+{
+    dbg_cell(++);
+
+    return pool_alloc(CELL_POOL);
+}
+
 Cell *cell_with_random_item(void)
 {
     Item *item = item_random();
-    Cell *cell = pool_alloc(CELL_POOL);
+    Cell *cell = alloc_cell();
 
     cell->chr = item->chr;
     cell->style = item->style;
@@ -51,7 +59,7 @@ Cell *cell_with_random_item(void)
 
 Cell *cell_clone(Cell *cell)
 {
-    Cell *new = pool_alloc(CELL_POOL);
+    Cell *new = alloc_cell();
     memcpy(new, cell, sizeof(Cell));
     new->in_registry = false;
 
@@ -62,6 +70,7 @@ void cell_free_custom(Cell *cell)
 {
     if (false == cell->in_registry) {
         pool_free(CELL_POOL, cell);
+        dbg_cell(--);
     }
 }
 

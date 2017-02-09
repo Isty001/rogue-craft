@@ -16,13 +16,27 @@ Range MATERIAL_STRENGTH[] = {
 LevelConfig LEVEL_CAVE = {
     .type = CAVE,
     .cell.solid = &CELL_REGISTRY_CAVE,
-    .cell.hollow = &CELL_REGISTRY_VOID
+    .cell.hollow = &CELL_REGISTRY_VOID,
+    .cell.liquids = {
+    }
 };
 
 
 /**
  * CELL
  */
+CellRegistryConfig CELL_REGISTRY_VOID = {
+    .type = HOLLOW,
+    .count = 1,
+    .chr = ' ',
+    .cells = {
+        {
+            .color = {.id = 100, .fore = -1, .back = -1},
+            .material = VOID
+        }
+    }
+};
+
 CellRegistryConfig CELL_REGISTRY_CAVE = {
     .type = SOLID,
     .count = 4,
@@ -47,14 +61,14 @@ CellRegistryConfig CELL_REGISTRY_CAVE = {
     }
 };
 
-CellRegistryConfig CELL_REGISTRY_VOID = {
-    .type = HOLLOW,
+CellRegistryConfig CELL_REGISTRY_WATER = {
+    .type = LIQUID,
     .count = 1,
-    .chr = ' ',
+    .chr = '~',
     .cells = {
         {
-            .color = {.id = 100, .fore = -1, .back = -1},
-            .material = VOID
+            .color = {.id = 150, .fore = 12, .back = 20},
+            .material = WATER,
         }
     }
 };
