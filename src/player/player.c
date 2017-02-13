@@ -45,7 +45,6 @@ Player *player_new(Level *level, Camera *camera)
     Player *player = alloc(sizeof(Player));
     player->level = level;
     player->cell.prototype.type = PLAYER;
-    player->eyesight = PLAYER_DEFAULT_EYESIGHT;
     player->camera = camera;
 
     add_default_attributes(player);
@@ -57,12 +56,17 @@ Player *player_new(Level *level, Camera *camera)
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
 
+    player->sight.radius = PLAYER_DEFAULT_EYESIGHT;
+    player->sight.visible_count = 0;
+    player->sight.visible = alloc(500 * sizeof(Point));
+
     return player;
 }
 
 void player_free(Player *player)
 {
     inventory_free(player->inventory);
+    free(player->sight.visible);
     free(player);
 }
 

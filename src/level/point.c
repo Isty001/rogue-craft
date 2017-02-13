@@ -15,5 +15,15 @@ Point point_move(Point point, Direction direction, uint16_t distance)
 
 uint16_t point_distance(Point a, Point b)
 {
-    return sqrt(square(a.x - b.x) + square(a.y - b.y));
+    return sqrt(sqr(a.x - b.x) + sqr(a.y - b.y));
+}
+
+bool square_has_point(Square square, Point point)
+{
+    Point left_upper = square.left_upper;
+
+    return
+        (point.y >= left_upper.y && (point.y <= left_upper.y + square.size))
+        &&
+        (point.x >= left_upper.x && (point.x <= left_upper.x + square.size));
 }

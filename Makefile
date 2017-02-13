@@ -1,6 +1,6 @@
 SRC = $(shell find src lib/*/src config -name '*.c')
-TEST_SRC = $(SRC) test/*.c
-CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -l ncursesw  -l m -isystem lib -D _GNU_SOURCE
+TEST_SRC = $(SRC) $(shell find test -name '*.c')
+CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -l ncursesw -l pthread -l m -isystem lib -D _GNU_SOURCE
 
 
 .PHONY: test

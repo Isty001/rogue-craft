@@ -31,7 +31,7 @@ void mouse_interact(Player *player)
 
        if (wmouse_trafo(*clickable.window, &event.y, &event.x, false)) {
            Point click = point_new(
-               event.y + 1,
+               event.y,
                event.x
            );
 

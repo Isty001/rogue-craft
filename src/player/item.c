@@ -24,14 +24,14 @@ void item_pool_cleanup(void)
 void item_free(Item *item)
 {
     pool_free(ITEM_POOL, item);
-    dbg_item(--);
+    profile_item(--);
 }
 
 Item *item_clone(ItemPrototype *prototype)
 {
     Item *item = pool_alloc(ITEM_POOL);
     memcpy(item, &prototype->item, sizeof(Item));
-    dbg_item(++);
+    profile_item(++);
 
     return item;
 }

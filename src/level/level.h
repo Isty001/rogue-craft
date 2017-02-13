@@ -26,19 +26,12 @@
 #define level_rand_point(level) \
     point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
 
-#define size_new(h, w) (Size) {.height = h, .width = w}
-
 
 /** Avoiding circular references */
 typedef struct Player Player;
 
 typedef struct Camera Camera;
 
-
-typedef struct {
-    int height;
-    int width;
-} Size;
 
 typedef enum {
     CAVE
@@ -69,7 +62,7 @@ typedef const struct {
 } LevelConfig;
 
 
-Level *level_new(Size size, LevelConfig cfg);
+Level *level_new(Size size, LevelConfig *cfg);
 
 void level_display(Player *player);
 

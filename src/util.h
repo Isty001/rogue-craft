@@ -32,24 +32,15 @@
 
 #define range_new(f, t) (Range) {.from = f, .to = t}
 
-#define unless(statement) if (!statement)
 
-
-#ifdef DEBUG_MODE
-
-#define size_dump(s) printf("Height: %d Width: %d\n", s.height, s.width)
-
-#define point_dump(p) printf("Y: %d X: %d\n", p.y, p.x)
-
-#define range_dump(r)printf("Min: %d Max: %d\n", r.min, r.max)
-
-
-#endif
-
-
-static inline uint16_t square(uint16_t x)
+static inline uint16_t sqr(uint16_t x)
 {
     return x * x;
+}
+
+static inline uint16_t max(uint16_t a, uint16_t b)
+{
+    return a < b ? a : b;
 }
 
 static inline void *alloc(unsigned size)

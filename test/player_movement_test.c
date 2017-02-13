@@ -49,11 +49,25 @@ MU_TEST(test_movement)
 MU_TEST(test_eyesight)
 {
     Player player;
-    player.position.current = point_new(10, 10);
-    player.eyesight = 5;
+    player.position.current = point_new(1, 0);
 
-    mu_assert(player_can_see(&player, point_new(10, 15)), "Player should see this point");
-    mu_assert(false == player_can_see(&player, point_new(20, 10)), "Player should not see this");
+    Point *visible = alloc(5 * sizeof(Point));
+    player.sight.radius = 1;
+    player.sight.visible = visible;
+    player.sight.visible_count = 0;
+
+    player.level = fixture_level();
+
+    player_calculate_sight(&player);
+
+    mu_assert(point_eq(point_new(1, 0), visible[0]), "");
+    mu_assert(point_eq(point_new(1, 1), visible[1]), "");
+    mu_assert(point_eq(point_new(1, 2), visible[2]), "");
+
+    mu_assert_int_eq(3, player.sight.visible_count);
+
+    fixture_level_free(player.level);
+    free(player.sight.visible);
 }
 
 void run_player_movement_test(void)

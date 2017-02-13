@@ -2,6 +2,7 @@
 #include <time.h>
 #include "../src/color.h"
 #include "../src/player/item.h"
+#include "../src/worker/worker.h"
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -22,12 +23,14 @@ static void init(void)
 
     item_pool_init();
     cell_pool_init();
+    message_pool_init();
 }
 
 static void cleanup(void)
 {
     item_pool_cleanup();
     cell_pool_cleanup();
+    message_pool_cleanup();
 }
 
 int main(void)

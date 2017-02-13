@@ -32,12 +32,5 @@ void player_move(Player *player, Direction direction)
         player->position.current = target;
 
         player_position_on_level(player);
-    }
-}
-
-bool player_can_see(Player *player, Point point)
-{
-    Point pos = player->position.current;
-
-    return point_distance(pos, point) <= player->eyesight;
+     }
 }

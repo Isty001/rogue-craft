@@ -38,7 +38,7 @@ CellRegistry cell_registry_new(CellRegistryConfig *cfg)
 
 static inline Cell *alloc_cell(void)
 {
-    dbg_cell(++);
+    profile_cell(++);
 
     return pool_alloc(CELL_POOL);
 }
@@ -70,7 +70,7 @@ void cell_free_custom(Cell *cell)
 {
     if (false == cell->in_registry) {
         pool_free(CELL_POOL, cell);
-        dbg_cell(--);
+        profile_cell(--);
     }
 }
 

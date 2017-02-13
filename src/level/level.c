@@ -42,20 +42,20 @@ static void add_items(Level *level)
     } while (remaining);
 }
 
-Level *level_new(Size size, LevelConfig cfg)
+Level *level_new(Size size, LevelConfig *cfg)
 {
     Level *level = alloc(sizeof(Level));
     level->size = size;
     level->item_count = LEVEL_ITEM_COUNT(level);
 
     level_add_bounds(level);
-    level->registry.hollow = cell_registry_new(cfg.cell.hollow);
-    level->registry.solid = cell_registry_new(cfg.cell.solid);
+    level->registry.hollow = cell_registry_new(cfg->cell.hollow);
+    level->registry.solid = cell_registry_new(cfg->cell.solid);
 
     allocate_rows(level);
     initialize_cells(level);
 
-    if (CAVE == cfg.type) {
+    if (CAVE == cfg->type) {
         level_generate_cave(level);
     }
 
@@ -102,13 +102,15 @@ void level_display(Player *player)
     Point until = displayed_bounds(camera);
     Cell ***cells = player->level->cells;
 
-    for (int y = camera->position.y; y <= until.y; y++) {
-        for (int x = camera->position.x; x <= until.x; x++) {
+    wclear(WINDOW_MAIN);
+
+    for (uint16_t y = camera->position.y; y <= until.y; y++) {
+        for (uint16_t  x = camera->position.x; x <= until.x; x++) {
             cell = cells[y][x];
 
-            if (player_can_see(player, point_new(y, x)) || true) {
+            if (player_can_see(player, point_new(y, x))) {
                 styled(WINDOW_MAIN, cell->style,
-                       mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr);
+                       mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
                 );
             }
             win_pos.x++;

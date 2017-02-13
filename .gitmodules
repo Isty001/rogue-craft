@@ -4,3 +4,6 @@
 [submodule "lib/dev"]
 	path = lib/dev
 	url = https://github.com/rogue-craft/dev-tools
+[submodule "lib/worker"]
+	path = lib/worker
+	url = https://github.com/rogue-craft/worker

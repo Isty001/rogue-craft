@@ -10,14 +10,14 @@
 #include "../src/player/randomization.h"
 
 /**
- * USER
+ * PLAYER
  */
 #define PLAYER_CHAR                     '@'
 
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
 
 /** Attributes */
-#define PLAYER_DEFAULT_EYESIGHT         4
+#define PLAYER_DEFAULT_EYESIGHT         5
 
 /**
  * KEYBINDINGS

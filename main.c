@@ -7,6 +7,7 @@
 #include "config/config.h"
 #include "src/player/inventory.h"
 #include "src/debug.h"
+#include "src/worker/worker.h"
 
 
 static void init(void)
@@ -18,24 +19,33 @@ static void init(void)
     mouse_init();
     cell_pool_init();
     item_pool_init();
+    message_pool_init();
+    worker_init();
 }
 
 static void cleanup(Player *player)
 {
     ncurses_cleanup();
+    worker_cleanup();
+    message_pool_cleanup();
     item_pool_cleanup();
     cell_pool_cleanup();
     level_free(player->level);
     player_free(player);
 }
 
-static void render(Player *player)
+static void update(Player *player)
 {
     camera_update(player, WINDOW_MAIN);
+    player_calculate_sight(player);
+}
+
+static void render(Player *player)
+{
     level_display(player);
     inventory_display(player->inventory);
     player_attributes_display(player);
-    dbg_display();
+    profiler_display();
 }
 
 int main(void)
@@ -43,13 +53,15 @@ int main(void)
     init();
 
     Camera camera;
-    Level *level = level_new(size_new(200, 200), LEVEL_CAVE);
+    Size size = size_new(300, 300);
+    Level *level = level_new(size, &LEVEL_CAVE);
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
     int in;
 
     liquid_add(level);
 
+    update(player);
     render(player);
 
     while (1) {
@@ -62,6 +74,7 @@ int main(void)
                 napms(20);
             }
 
+            update(player);
             render(player);
         }
         flushinp();

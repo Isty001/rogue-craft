@@ -7,14 +7,14 @@ Level *fixture_level(void)
     level->size = (Size) {2, 3};
 
     level->registry.hollow.size = 1;
-    level->registry.hollow.cells = malloc(sizeof(Cell));
+    level->registry.hollow.cells = alloc(sizeof(Cell));
     level->registry.hollow.cells[0].type = HOLLOW;
     level->registry.hollow.cells[0].in_registry = true;
     level->registry.hollow.cells[0].material = VOID;
     level->registry.hollow.cells[0].state = 100;
 
     level->registry.solid.size = 1;
-    level->registry.solid.cells = malloc(sizeof(Cell));
+    level->registry.solid.cells = alloc(sizeof(Cell));
     level->registry.solid.cells[0].type = SOLID;
     level->registry.solid.cells[0].in_registry = true;
     level->registry.solid.cells[0].material = STONE;
