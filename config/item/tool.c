@@ -11,11 +11,11 @@ static ItemPrototype ITEM_TOOL_PICKAXE = {
         .style = COLOR_PAIR(COLOR_PAIR_GRAY_F),
         .tool = {
             .range = 1,
-            .damage = {
-                .defaults = {.solid = 5, .creature = 1},
+            .multipliers = {
+                .defaults = {.solid = 1.0, .creature = 1.0},
                 .materials = {
-                    [STONE] = 10.0,
-                    [DIRT] = 6.0
+                    [STONE] = 1.4,
+                    [DIRT] = 1.1
                 }
             }
         }

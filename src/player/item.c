@@ -69,14 +69,18 @@ ItemError item_consume(Item *parent, Player *player)
     check_type(parent, CONSUMABLE);
 
     Consumable *consumable = &parent->consumable;
-    Attribute *attribute = &player->attributes[consumable->type];
+    Attribute *attribute = &player->attributes.state[consumable->type];
+    ItemError err;
 
+    lock(&player->attributes.mutex);
     if (consumable->permanent) {
         attribute->modification_limit += parent->value;
         attribute->increase_max += parent->value;
-
-        return IE_CONSUMED;
+        err = IE_CONSUMED;
+    } else {
+        err = consume_non_permanent(parent, attribute);
     }
+    unlock(&player->attributes.mutex);
 
-    return consume_non_permanent(parent, attribute);
+    return err;
 }

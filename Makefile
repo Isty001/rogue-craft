@@ -7,7 +7,7 @@ CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunrea
 
 
 run-debug:
-	$(CC) $(SRC) main.c $(CFLAGS) -D DEBUG_MODE -o rogue.o
+	$(CC) $(SRC) main.c $(CFLAGS) -gdwarf -D DEBUG_MODE -o rogue.o
 	./rogue.o
 
 test:

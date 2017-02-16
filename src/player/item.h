@@ -30,7 +30,7 @@ typedef struct {
     struct {
         DefaultDamage defaults;
         double materials[MATERIAL_NUM];
-    } damage;
+    } multipliers;
 } Tool;
 
 typedef struct Consumable {

@@ -9,25 +9,29 @@
 
 static void add_default_attributes(Player *player)
 {
-    player->attributes[HEALTH] = (Attribute) {
+    Attribute *map = player->attributes.state;
+
+    map[HEALTH] = (Attribute) {
         .current = 100, .increase_max = 100, .modification_limit = 100,
         .increasing = false, .name = "Health", .style  = COLOR_PAIR(COLOR_HEALTH)
     };
 
-    player->attributes[STAMINA] = (Attribute) {
+    map[STAMINA] = (Attribute) {
         .current = 100, .increase_max = 100, .modification_limit = 100,
         .increasing = false, .name = "Stamina", .style = COLOR_PAIR(COLOR_STAMINA)
     };
 
-    player->attributes[HUNGER] = (Attribute) {
+    map[HUNGER] = (Attribute) {
         .current = 0, .increase_max = 100, .modification_limit = 0,
         .increasing = true, .name = "Hunger", .style = COLOR_PAIR(COLOR_FOOD)
     };
 
-    player->attributes[THIRST] = (Attribute) {
+    map[THIRST] = (Attribute) {
         .current = 0, .increase_max = 100, .modification_limit = 0,
         .increasing = true, .name = "Thirst", .style = COLOR_PAIR(COLOR_WATER)
     };
+
+    pthread_check(pthread_mutex_init(&player->attributes.mutex, NULL));
 }
 
 static void find_starting_point(Player *player)
@@ -65,6 +69,7 @@ Player *player_new(Level *level, Camera *camera)
 
 void player_free(Player *player)
 {
+    pthread_mutex_destroy(&player->attributes.mutex);
     inventory_free(player->inventory);
     free(player->sight.visible);
     free(player);
@@ -92,8 +97,10 @@ void player_attributes_display(Player *player)
     int width = getmaxx(win) - 2 * PADDING;
     int line = 0;
 
+    lock(&player->attributes.mutex);
+
     for (int i = 0; i < PLAYER_ATTR_NUM; i++) {
-        attr = &player->attributes[i];
+        attr = &player->attributes.state[i];
 
         styled(win, attr->style,
                mvwprintw(win, ++line, PADDING, attr->name);
@@ -104,5 +111,7 @@ void player_attributes_display(Player *player)
         display_attribute_bar(width, attr, win);
         line++;
     }
+    unlock(&player->attributes.mutex);
+
     refresh_boxed(win);
 }

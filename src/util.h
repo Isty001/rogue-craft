@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <worker.h>
 
 
 #define repeat(times, body)             \
@@ -31,6 +32,20 @@
 #define has_flag(mask, flag) (flag == (flag & mask))
 
 #define range_new(f, t) (Range) {.from = f, .to = t}
+
+#ifndef UNIT_TEST
+
+#define lock(mutex) pthread_check(pthread_mutex_lock(mutex))
+
+#define unlock(mutex) pthread_check(pthread_mutex_unlock(mutex))
+
+#else
+
+#define lock(mutex)
+
+#define unlock(mutex)
+
+#endif
 
 
 static inline uint16_t sqr(uint16_t x)

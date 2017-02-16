@@ -15,6 +15,7 @@ void run_inventory_test(void);
 void run_level_interaction_test(void);
 void run_cell_test(void);
 void run_player_hit_test(void);
+void run_player_state_test(void);
 
 
 static void init(void)
@@ -48,6 +49,7 @@ int main(void)
     run_level_interaction_test();
     run_cell_test();
     run_player_hit_test();
+    run_player_state_test();
 
     cleanup();
 

@@ -8,8 +8,8 @@ static ItemPrototype TEST_TOOL = {
         .type = TOOL,
         .tool = {
             .range = 1,
-            .damage = {
-                .defaults = {.solid = 15}
+            .multipliers = {
+                .defaults = {.solid = 1.1}
             }
         }
     }
@@ -30,7 +30,7 @@ static Player create_player(void)
         .level = fixture_level(),
         .inventory = create_inventory(),
         .position = {.current = point_new(1, 0), .previous = point_new(1000, 1000)},
-        .attributes = {[STAMINA] = {.current = 80}}
+        .attributes.state = {[STAMINA] = {.current = 80}}
     };
 }
 
@@ -62,8 +62,8 @@ MU_TEST(test_defaults)
     cell = player.level->cells[0][0];
     mu_assert(false == cell->in_registry, "The cell hit should be cloned");
 
-    /** 12 = (80 / 100) * 15  */
-    mu_assert_double_eq(88, cell->state);
+    mu_assert_double_eq(94.72, cell->state);
+    mu_assert_int_eq(5.38, player.attributes.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -71,14 +71,14 @@ MU_TEST(test_defaults)
 MU_TEST(test_material_and_tired_damage)
 {
     Player player = create_player();
-    player.attributes[HUNGER].current = 20;
-    player.attributes[THIRST].current = 30;
-    player.inventory->items[0]->tool.damage.materials[STONE] = 15;
+    player.attributes.state[HUNGER].current = 20;
+    player.attributes.state[THIRST].current = 30;
+    player.inventory->items[0]->tool.multipliers.materials[STONE] = 2;
 
     mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
 
-    /** 24 = (((80 / ((20 + 30) / 100)) / 100) * 15) */
-    mu_assert_double_eq(76, player.level->cells[0][0]->state);
+    mu_assert_double_eq(92.9, player.level->cells[0][0]->state);
+    mu_assert_int_eq(7.1, player.attributes.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -90,8 +90,8 @@ MU_TEST(test_bare_hands)
 
     mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
 
-    /** 4 = 80 / 20 */
-    mu_assert_double_eq(96, player.level->cells[0][0]->state);
+    mu_assert_double_eq(95.2, player.level->cells[0][0]->state);
+    mu_assert_double_eq(4.8, player.attributes.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -108,7 +108,7 @@ MU_TEST(test_invalid_cell_type)
 
 void run_player_hit_test(void)
 {
-    TEST_NAME("Player Hit");
+    TEST_NAME("Hit");
 
     MU_RUN_TEST(test_range);
     MU_RUN_TEST(test_defaults);

@@ -9,49 +9,46 @@ typedef struct {
 } Hit;
 
 
-static double tool_damage(Tool *tool, Cell *cell)
+static double tool_damage_multiplier(Tool *tool, Cell *cell)
 {
-    double *materials = tool->damage.materials;
+    double *materials = tool->multipliers.materials;
 
     if (materials[cell->material]) {
         return materials[cell->material];
     }
-    DefaultDamage defaults = tool->damage.defaults;
-
+    DefaultDamage defaults = tool->multipliers.defaults;
 
     return SOLID == cell->type ? defaults.solid : defaults.creature;
 }
 
-static double calculate_strength(Player *player)
+static double calculate_damage(Player *player, Tool *tool, Cell *target)
 {
-    Attribute *attr = player->attributes;
-    uint16_t positive = attr[STAMINA].current;
-    uint16_t negative = attr[HUNGER].current + attr[THIRST].current;
+    Attribute *state = player->attributes.state;
 
-    if (0 == negative) {
-        return positive;
+    double positive = state[STAMINA].current * 1.2;
+    double negative = state[HUNGER].current + state[THIRST].current;
+
+    double damage = (positive - (negative / 2)) / 20;
+
+    if (tool) {
+        damage *= tool_damage_multiplier(tool, target);
     }
 
-    return positive / (negative / 100.0);
+    return damage;
 }
 
-static Hit calculate_hit(Player *player, Item *item, Cell *target)
+static Hit calculate_hit(Player *player, Item *selected_item, Cell *target)
 {
-    double damage;
     uint16_t range = 1;
-    double strength = calculate_strength(player);
+    Tool *tool = NULL;
 
-    if (item && TOOL == item->type) {
-        Tool *tool = &item->tool;
-
-        damage = (strength / 100) * tool_damage(tool, target);
+    if (selected_item && TOOL == selected_item->type) {
+        tool = &selected_item->tool;
         range = tool->range;
-    } else {
-        damage = strength / 20;
     }
 
     return (Hit) {
-        .damage = damage,
+        .damage = calculate_damage(player, tool, target),
         .allowed_range = range
     };
 }
@@ -63,6 +60,7 @@ static PlayerError apply_hit(Hit hit, Player *player, Cell *target, Point point)
     }
 
     target->state -= hit.damage;
+    player->attributes.modifiers.dealt_damage += hit.damage;
 
     if (target->state <= 0) {
         level_set_hollow(player->level, point);
@@ -81,12 +79,18 @@ PlayerError player_hit(Player *player, Point at)
     }
 
     Inventory *inventory = player->inventory;
-    Item *item = inventory->items[inventory->selected];
-    Hit hit = calculate_hit(player, item, target);
+    Item *selected_item = inventory->items[inventory->selected];
+    PlayerError err;
+    lock(&player->attributes.mutex);
+
+    Hit hit = calculate_hit(player, selected_item, target);
 
     if (hit.allowed_range < point_distance(player->position.current, at)) {
-        return PE_OUT_OF_RANGE;
+        err = PE_OUT_OF_RANGE;
+    } else {
+        err = apply_hit(hit, player, target, at);
     }
+    unlock(&player->attributes.mutex);
 
-    return apply_hit(hit, player, target, at);
+    return err;
 }

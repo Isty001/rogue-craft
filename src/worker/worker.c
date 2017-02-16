@@ -9,6 +9,7 @@ static Worker *WORKER;
 
 
 static Executor EXECUTOR_MAP[MESSAGE_TYPE_NUM] = {
+    [PLAYER_STATE] = execute_player_state
 };
 
 
@@ -56,6 +57,14 @@ void message_free(Message *message)
 {
     profile_message(--);
     pool_free(MESSAGE_POOL, message);
+}
+
+void message_send_player_state(Player *player)
+{
+    Message *msg = alloc_message();
+    msg->ptr = player;
+
+    queue_add(QUEUE, msg);
 }
 
 #ifdef DEBUG_MODE

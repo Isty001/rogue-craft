@@ -3,18 +3,19 @@
 
 
 #include <worker.h>
+#include "../player/player.h"
 
 
-#define MESSAGE_TYPE_NUM 0
+#define MESSAGE_TYPE_NUM 1
 
 
 typedef enum {
-    EVOLVE
+    PLAYER_STATE
 } MessageType;
 
 typedef struct {
-    int integer;
     void *ptr;
+    int integer;
     MessageType type;
 } Message;
 
@@ -26,6 +27,10 @@ void worker_cleanup(void);
 void message_pool_init(void);
 
 void message_pool_cleanup(void);
+
+void message_send_player_state(Player *player);
+
+int execute_player_state(Message *message);
 
 void message_free(Message *message);
 

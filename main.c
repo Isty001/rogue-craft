@@ -64,6 +64,8 @@ int main(void)
     update(player);
     render(player);
 
+    int i = 0;
+
     while (1) {
         if ((in = wgetch(WINDOW_MAIN))) {
             if (KEY_F(2) == in) break;
@@ -79,8 +81,11 @@ int main(void)
         }
         flushinp();
         napms(60);
+        if(i++ == 30){
+            message_send_player_state(player);
+            i = 0;
+        }
     }
-
     cleanup(player);
 
     return 0;

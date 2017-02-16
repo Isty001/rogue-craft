@@ -6,7 +6,7 @@
  */
 Range MATERIAL_STRENGTH[] = {
     [VOID] = range_new(0, 0),
-    [STONE] = range_new(40, 80)
+    [STONE] = range_new(80, 100)
 };
 
 

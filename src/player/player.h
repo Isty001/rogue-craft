@@ -47,11 +47,23 @@ typedef struct {
     uint16_t current;
 } Attribute;
 
+typedef struct {
+    double dealt_damage;
+    uint32_t traveled;
+    time_t synchronized;
+} Modifiers;
+
+typedef struct {
+    pthread_mutex_t mutex;
+    Modifiers modifiers;
+    Attribute state[PLAYER_ATTR_NUM];
+} PlayerAttributes;
+
 typedef struct Player {
     Level *level;
     Camera *camera;
     Inventory *inventory;
-    Attribute attributes[PLAYER_ATTR_NUM];
+    PlayerAttributes attributes;
     struct {
         uint16_t radius;
         uint16_t visible_count;

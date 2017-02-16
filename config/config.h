@@ -19,6 +19,7 @@
 /** Attributes */
 #define PLAYER_DEFAULT_EYESIGHT         5
 
+
 /**
  * KEYBINDINGS
  */
