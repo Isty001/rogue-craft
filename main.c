@@ -82,7 +82,7 @@ int main(void)
         flushinp();
         napms(60);
 
-        if(i++ == 30){
+        if (i++ == 30){
             message_player_state_send(player);
             i = 0;
         }
