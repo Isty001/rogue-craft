@@ -64,8 +64,7 @@ MU_TEST(test_use_consumable)
     Player player;
     Attribute *map = player.attributes.state;
     map[HEALTH].current = 95;
-    map[HEALTH].modification_limit = 100;
-    map[HEALTH].increasing = false;
+    map[HEALTH].max = 100;
 
     player.inventory = &inv;
 

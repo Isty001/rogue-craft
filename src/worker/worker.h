@@ -14,9 +14,15 @@ typedef enum {
 } MessageType;
 
 typedef struct {
-    void *ptr;
-    int integer;
+    Player *player;
+    AttributeConfig *cfg;
+} PlayerStateMessage;
+
+typedef struct {
     MessageType type;
+    union {
+        PlayerStateMessage player_state;
+    };
 } Message;
 
 
@@ -28,9 +34,9 @@ void message_pool_init(void);
 
 void message_pool_cleanup(void);
 
-void message_send_player_state(Player *player);
+void message_player_state_send(Player *player);
 
-int execute_player_state(Message *message);
+int message_player_state_execute(Message *message);
 
 void message_free(Message *message);
 

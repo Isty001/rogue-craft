@@ -81,8 +81,9 @@ int main(void)
         }
         flushinp();
         napms(60);
+
         if(i++ == 30){
-            message_send_player_state(player);
+            message_player_state_send(player);
             i = 0;
         }
     }

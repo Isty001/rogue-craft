@@ -50,12 +50,16 @@ Item *item_random(void)
 static ItemError consume_non_permanent(Item *item, Attribute *attribute)
 {
     int16_t new = attribute->current + item->value;
-    uint16_t limit = attribute->modification_limit;
-    bool exceeds_limit = attribute->increasing ? new < limit : new > limit;
+    uint16_t max = attribute->max;
 
-    if (exceeds_limit) {
-        attribute->current = limit;
-        item->value = new - limit;
+    if (new > max) {
+        attribute->current = max;
+        item->value = new - max;
+
+        return IE_REPEAT;
+    } else if (new < 0) {
+        attribute->current = 0;
+        item->value = new;
 
         return IE_REPEAT;
     }
@@ -74,8 +78,7 @@ ItemError item_consume(Item *parent, Player *player)
 
     lock(&player->attributes.mutex);
     if (consumable->permanent) {
-        attribute->modification_limit += parent->value;
-        attribute->increase_max += parent->value;
+        attribute->max += parent->value;
         err = IE_CONSUMED;
     } else {
         err = consume_non_permanent(parent, attribute);

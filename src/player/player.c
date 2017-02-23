@@ -12,23 +12,23 @@ static void add_default_attributes(Player *player)
     Attribute *map = player->attributes.state;
 
     map[HEALTH] = (Attribute) {
-        .current = 100, .increase_max = 100, .modification_limit = 100,
-        .increasing = false, .name = "Health", .style  = COLOR_PAIR(COLOR_HEALTH)
+        .current = 100, .max = 100,
+        .name = "Health", .style  = COLOR_PAIR(COLOR_HEALTH)
     };
 
     map[STAMINA] = (Attribute) {
-        .current = 100, .increase_max = 100, .modification_limit = 100,
-        .increasing = false, .name = "Stamina", .style = COLOR_PAIR(COLOR_STAMINA)
+        .current = 100, .max = 100,
+        .name = "Stamina", .style = COLOR_PAIR(COLOR_STAMINA)
     };
 
     map[HUNGER] = (Attribute) {
-        .current = 0, .increase_max = 100, .modification_limit = 0,
-        .increasing = true, .name = "Hunger", .style = COLOR_PAIR(COLOR_FOOD)
+        .current = 0, .max = 100,
+        .name = "Hunger", .style = COLOR_PAIR(COLOR_FOOD)
     };
 
     map[THIRST] = (Attribute) {
-        .current = 0, .increase_max = 100, .modification_limit = 0,
-        .increasing = true, .name = "Thirst", .style = COLOR_PAIR(COLOR_WATER)
+        .current = 0, .max = 100,
+        .name = "Thirst", .style = COLOR_PAIR(COLOR_WATER)
     };
 
     pthread_check(pthread_mutex_init(&player->attributes.mutex, NULL));
@@ -77,7 +77,7 @@ void player_free(Player *player)
 
 static inline void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
 {
-    int bar_width = width * ((double) attr->current / attr->increase_max);
+    int bar_width = width * ((double) attr->current / attr->max);
 
     for (int i = 0; i < width; i++) {
         if (i < bar_width) {
@@ -105,7 +105,7 @@ void player_attributes_display(Player *player)
         styled(win, attr->style,
                mvwprintw(win, ++line, PADDING, attr->name);
         );
-        wprintw(win, ": %d/%d", attr->current, attr->increase_max);
+        wprintw(win, ": %d/%d", attr->current, attr->max);
         wmove(win, ++line, PADDING);
 
         display_attribute_bar(width, attr, win);

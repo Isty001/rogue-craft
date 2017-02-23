@@ -1,57 +1,93 @@
 #include "../worker.h"
 
 
-#define DAMAGE_FATIGUE 10
+#define calculate_fatigue_damage(changes, limit, type, damage)                     \
+    if (damage->limit >= changes[type] + attributes[type].current) {               \
+        changes[HEALTH] += rand_in_range(damage->health);                          \
+        changes[STAMINA] += rand_in_range(damage->stamina);                        \
+    }
 
 
-static void calculate_changes(Modifiers *modifiers, int16_t *changes)
+static void calculate_fatigue_damages(FatigueDamage *damage, int16_t *changes, Attribute *attributes)
 {
-    if (DAMAGE_FATIGUE < modifiers->dealt_damage) {
-        changes[THIRST] += rand_in(2, 6);
-        changes[HUNGER] += rand_in(1, 5);
+    calculate_fatigue_damage(changes, hunger_limit, HUNGER, damage);
+    calculate_fatigue_damage(changes, thirst_limit, THIRST, damage);
+}
+
+static void calculate_fatigue_change(int16_t *changes, AttributeType type, Range value, Attribute *attribute)
+{
+    int16_t change = changes[type] + rand_in_range(value);
+    int16_t new = attribute->current + change;
+
+    if (new <= attribute->max) {
+        changes[type] = change;
+    }
+}
+
+static void calculate_fatigue_changes(FatigueChanges *change, int16_t *changes, Attribute *attributes)
+{
+    calculate_fatigue_change(changes, THIRST, change->thirst, &attributes[THIRST]);
+    calculate_fatigue_change(changes, HUNGER, change->hunger, &attributes[HUNGER]);
+}
+
+static void calculate_changes(AttributeConfig *cfg, Attribute *attributes, Modifiers *modifiers, int16_t *changes)
+{
+    if (cfg->dealt_damage.limit < modifiers->dealt_damage) {
+        calculate_fatigue_changes(&cfg->dealt_damage, changes, attributes);
     }
 
-    if (2 < difftime(time(NULL), modifiers->synchronized)) {
-        changes[THIRST] += rand_in(1, 3);
-        changes[HUNGER] += rand_in(1, 2);
-        modifiers->synchronized = time(NULL);
+    if (cfg->traveled.limit < modifiers->traveled) {
+        calculate_fatigue_changes(&cfg->traveled, changes, attributes);
     }
+
+    if (cfg->time.limit < difftime(time(NULL), modifiers->updated)) {
+        calculate_fatigue_changes(&cfg->traveled, changes, attributes);
+        modifiers->updated = time(NULL);
+    }
+
+    calculate_fatigue_damages(&cfg->damage, changes, attributes);
 }
 
 static bool has_any_changes(int16_t *changes)
 {
-    return changes[HUNGER] || changes[THIRST] || changes[STAMINA];
+    return changes[HUNGER] || changes[THIRST] || changes[STAMINA] || changes[HEALTH];
 }
 
-static void copy_changes(Player *player, Modifiers *modifiers, int16_t *changes)
+static void apply_changes(Player *player, Modifiers *modifiers, int16_t *changes)
 {
     if (has_any_changes(changes)) {
         lock(&player->attributes.mutex);
         player->attributes.modifiers.dealt_damage -= modifiers->dealt_damage;
         player->attributes.modifiers.traveled -= modifiers->traveled;
-        player->attributes.modifiers.synchronized = modifiers->synchronized;
-        player->attributes.state[HUNGER].current += changes[HUNGER];
-        player->attributes.state[THIRST].current += changes[THIRST];
+        player->attributes.modifiers.updated = modifiers->updated;
+
+        repeat(PLAYER_ATTR_NUM,
+               player->attributes.state[i].current += changes[i];
+        )
         unlock(&player->attributes.mutex);
     }
 }
 
-int execute_player_state(Message *message)
+int message_player_state_execute(Message *message)
 {
-    Player *player = message->ptr;
+    AttributeConfig *cfg = message->player_state.cfg;
+    Player *player = message->player_state.player;
+    message_free(message);
+
+    Attribute current[PLAYER_ATTR_NUM];
     int16_t changes[PLAYER_ATTR_NUM] = {0};
 
     lock(&player->attributes.mutex);
     Modifiers modifiers = player->attributes.modifiers;
+    memcpy(current, player->attributes.state, PLAYER_ATTR_NUM * sizeof(Attribute));
     unlock(&player->attributes.mutex);
 
-    if (0 == modifiers.synchronized) {
-        modifiers.synchronized = time(NULL);
+    if (0 == modifiers.updated) {
+        modifiers.updated = time(NULL);
     }
 
-    calculate_changes(&modifiers, changes);
-    copy_changes(player, &modifiers, changes);
-    message_free(message);
+    calculate_changes(cfg, current, &modifiers, changes);
+    apply_changes(player, &modifiers, changes);
 
     return 0;
 }

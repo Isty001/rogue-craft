@@ -9,7 +9,7 @@ static Worker *WORKER;
 
 
 static Executor EXECUTOR_MAP[MESSAGE_TYPE_NUM] = {
-    [PLAYER_STATE] = execute_player_state
+    [PLAYER_STATE] = (Executor) message_player_state_execute
 };
 
 
@@ -20,6 +20,7 @@ static int execute_message(Message *message)
 
 static void error_handler(int err)
 {
+    (void) err;
 }
 
 void worker_init(void)
@@ -59,10 +60,11 @@ void message_free(Message *message)
     pool_free(MESSAGE_POOL, message);
 }
 
-void message_send_player_state(Player *player)
+void message_player_state_send(Player *player)
 {
     Message *msg = alloc_message();
-    msg->ptr = player;
+    msg->type = PLAYER_STATE;
+    msg->player_state.player = player;
 
     queue_add(QUEUE, msg);
 }

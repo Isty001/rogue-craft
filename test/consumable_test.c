@@ -13,17 +13,13 @@ MU_TEST(test_non_consumable)
 
 static void setup_player(Player *player)
 {
-    Attribute *map = player->attributes.state;
+    Attribute *state = player->attributes.state;
 
-    map[HEALTH].increase_max = 100;
-    map[HEALTH].modification_limit = 100;
-    map[HEALTH].current = 90;
-    map[HEALTH].increasing = false;
+    state[HEALTH].max = 100;
+    state[HEALTH].current = 90;
 
-    map[HUNGER].modification_limit = 0;
-    map[HUNGER].increase_max = 100;
-    map[HUNGER].current = 20;
-    map[HUNGER].increasing = true;
+    state[HUNGER].max = 100;
+    state[HUNGER].current = 20;
 }
 
 MU_TEST(test_persistent)
@@ -34,7 +30,7 @@ MU_TEST(test_persistent)
     setup_player(&player);
 
     mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumed");
-    mu_assert_int_eq(110, player.attributes.state[HEALTH].increase_max);
+    mu_assert_int_eq(110, player.attributes.state[HEALTH].max);
 }
 
 MU_TEST(test_non_persistent)
@@ -66,10 +62,12 @@ MU_TEST(test_negative)
 
     Item item = fixture_consumable(false);
     item.consumable.type = HUNGER;
-    item.value = -10;
+    item.value = -50;
 
-    mu_assert_int_eq(IE_CONSUMED, item_consume(&item, &player));
-    mu_assert_int_eq(10, player.attributes.state[HUNGER].current);
+    mu_assert_int_eq(IE_REPEAT, item_consume(&item, &player));
+    mu_assert_int_eq(0, player.attributes.state[HUNGER].current);
+
+    mu_assert_int_eq(-30, item.value);
 }
 
 void run_consumable_test(void)
