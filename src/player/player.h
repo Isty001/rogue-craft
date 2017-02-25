@@ -68,23 +68,24 @@ typedef struct Player {
 } Player;
 
 typedef const struct {
-    uint16_t limit;
-    Range hunger;
+    uint16_t time;
+    uint16_t traveled;
+    uint16_t dealt_damage;
     Range thirst;
+    Range hunger;
     Range stamina;
-} FatigueChanges;
+} Fatigue;
 
 typedef const struct {
-    uint16_t hunger_limit;
-    uint16_t thirst_limit;
+    uint16_t hunger;
+    uint16_t thirst;
+    uint16_t time;
     Range health;
     Range stamina;
 } FatigueDamage;
 
 typedef const struct {
-    FatigueChanges dealt_damage;
-    FatigueChanges time;
-    FatigueChanges traveled;
+    Fatigue fatigue;
     FatigueDamage damage;
 } AttributeConfig;
 

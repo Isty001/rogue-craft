@@ -1,6 +1,7 @@
 #include <mem_pool.h>
 #include "worker.h"
 #include "../debug.h"
+#include "../../config/config.h"
 
 
 static MemPool *MESSAGE_POOL;
@@ -65,6 +66,7 @@ void message_player_state_send(Player *player)
     Message *msg = alloc_message();
     msg->type = PLAYER_STATE;
     msg->player_state.player = player;
+    msg->player_state.cfg = &PLAYER_ATTRIBUTE_CONFIG;
 
     queue_add(QUEUE, msg);
 }

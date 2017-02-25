@@ -1,17 +1,37 @@
 #include "../worker.h"
 
 
-#define calculate_fatigue_damage(changes, limit, type, damage)                     \
-    if (damage->limit >= changes[type] + attributes[type].current) {               \
-        changes[HEALTH] += rand_in_range(damage->health);                          \
-        changes[STAMINA] += rand_in_range(damage->stamina);                        \
+#define add_fatigue_damage(changes, damage)             \
+    changes[HEALTH] -= rand_in_range(damage->health);   \
+    changes[STAMINA] -= rand_in_range(damage->stamina);
+
+
+#define calculate_fatigue_damage(changes, limit, type, damage)           \
+    if (damage->limit <= changes[type] + attributes[type].current) {     \
+        add_fatigue_damage(changes, damage);                             \
     }
 
 
-static void calculate_fatigue_damages(FatigueDamage *damage, int16_t *changes, Attribute *attributes)
+static void assure_unsigned(int16_t *change, Attribute *attribute)
 {
-    calculate_fatigue_damage(changes, hunger_limit, HUNGER, damage);
-    calculate_fatigue_damage(changes, thirst_limit, THIRST, damage);
+    int16_t new = *change + attribute->current;
+
+    if (new < 0) {
+        *change += abs(new);
+    }
+}
+
+static void calculate_fatigue_damages(FatigueDamage *damage, int16_t *changes, Attribute *attributes, Modifiers *modifiers)
+{
+    calculate_fatigue_damage(changes, hunger, HUNGER, damage);
+    calculate_fatigue_damage(changes, thirst, THIRST, damage);
+
+    if (damage->time < difftime(time(NULL), modifiers->updated)) {
+        add_fatigue_damage(changes, damage);
+    }
+
+    assure_unsigned(&changes[HEALTH], &attributes[HEALTH]);
+    assure_unsigned(&changes[STAMINA], &attributes[STAMINA]);
 }
 
 static void calculate_fatigue_change(int16_t *changes, AttributeType type, Range value, Attribute *attribute)
@@ -24,28 +44,28 @@ static void calculate_fatigue_change(int16_t *changes, AttributeType type, Range
     }
 }
 
-static void calculate_fatigue_changes(FatigueChanges *change, int16_t *changes, Attribute *attributes)
+static void calculate_fatigue_changes(Fatigue *fatigue, int16_t *changes, Attribute *attributes)
 {
-    calculate_fatigue_change(changes, THIRST, change->thirst, &attributes[THIRST]);
-    calculate_fatigue_change(changes, HUNGER, change->hunger, &attributes[HUNGER]);
+    calculate_fatigue_change(changes, THIRST, fatigue->thirst, &attributes[THIRST]);
+    calculate_fatigue_change(changes, HUNGER, fatigue->hunger, &attributes[HUNGER]);
+    calculate_fatigue_change(changes, STAMINA, fatigue->stamina, &attributes[STAMINA]);
 }
 
 static void calculate_changes(AttributeConfig *cfg, Attribute *attributes, Modifiers *modifiers, int16_t *changes)
 {
-    if (cfg->dealt_damage.limit < modifiers->dealt_damage) {
-        calculate_fatigue_changes(&cfg->dealt_damage, changes, attributes);
+    if (cfg->fatigue.dealt_damage < modifiers->dealt_damage) {
+        calculate_fatigue_changes(&cfg->fatigue, changes, attributes);
     }
 
-    if (cfg->traveled.limit < modifiers->traveled) {
-        calculate_fatigue_changes(&cfg->traveled, changes, attributes);
+    if (cfg->fatigue.traveled < modifiers->traveled) {
+        calculate_fatigue_changes(&cfg->fatigue, changes, attributes);
     }
 
-    if (cfg->time.limit < difftime(time(NULL), modifiers->updated)) {
-        calculate_fatigue_changes(&cfg->traveled, changes, attributes);
-        modifiers->updated = time(NULL);
+    if (cfg->fatigue.time < difftime(time(NULL), modifiers->updated)) {
+        calculate_fatigue_changes(&cfg->fatigue, changes, attributes);
     }
 
-    calculate_fatigue_damages(&cfg->damage, changes, attributes);
+    calculate_fatigue_damages(&cfg->damage, changes, attributes, modifiers);
 }
 
 static bool has_any_changes(int16_t *changes)
@@ -59,7 +79,7 @@ static void apply_changes(Player *player, Modifiers *modifiers, int16_t *changes
         lock(&player->attributes.mutex);
         player->attributes.modifiers.dealt_damage -= modifiers->dealt_damage;
         player->attributes.modifiers.traveled -= modifiers->traveled;
-        player->attributes.modifiers.updated = modifiers->updated;
+        player->attributes.modifiers.updated = time(NULL);
 
         repeat(PLAYER_ATTR_NUM,
                player->attributes.state[i].current += changes[i];

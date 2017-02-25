@@ -96,6 +96,7 @@ void player_attributes_display(Player *player)
     WINDOW *win = WINDOW_PLAYER_ATTRIBUTES;
     int width = getmaxx(win) - 2 * PADDING;
     int line = 0;
+    wclear(win);
 
     lock(&player->attributes.mutex);
 

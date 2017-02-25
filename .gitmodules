@@ -7,3 +7,6 @@
 [submodule "lib/worker"]
 	path = lib/worker
 	url = https://github.com/rogue-craft/worker
+[submodule "lib/collection"]
+	path = lib/collection
+	url = https://github.com/rogue-craft/collection

@@ -19,6 +19,8 @@
 /** Attributes */
 #define PLAYER_DEFAULT_EYESIGHT         5
 
+extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
+
 
 /**
  * KEYBINDINGS

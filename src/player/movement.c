@@ -30,6 +30,7 @@ void player_move(Player *player, Direction direction)
     if (can_move_to(player, target)) {
         player->position.previous = player->position.current;
         player->position.current = target;
+        player->attributes.modifiers.traveled++;
 
         player_position_on_level(player);
      }

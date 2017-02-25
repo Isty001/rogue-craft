@@ -10,7 +10,6 @@ void run_util_test(void);
 void run_player_manager_test(void);
 void run_camera_test(void);
 void run_consumable_test(void);
-void run_buffer_test(void);
 void run_inventory_test(void);
 void run_level_interaction_test(void);
 void run_cell_test(void);
@@ -44,7 +43,6 @@ int main(void)
     run_player_manager_test();
     run_camera_test();
     run_consumable_test();
-    run_buffer_test();
     run_inventory_test();
     run_level_interaction_test();
     run_cell_test();
