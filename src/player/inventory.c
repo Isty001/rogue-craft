@@ -3,7 +3,7 @@
 
 Inventory *inventory_new(uint16_t size)
 {
-    Inventory *inventory = alloc(sizeof(Inventory) + (size * sizeof(Item *)));
+    Inventory *inventory = allocate(sizeof(Inventory) + (size * sizeof(Item *)));
     inventory->size = size;
     inventory->selected = 0;
     repeat(inventory->size, inventory->items[i] = NULL)
@@ -13,7 +13,7 @@ Inventory *inventory_new(uint16_t size)
 
 void inventory_free(Inventory *inventory)
 {
-    free(inventory);
+    release(inventory);
 }
 
 static inline bool in_inventory(Inventory *inventory, Item *item)

@@ -70,11 +70,11 @@ static void collect_points(Sight *sight, Level *level)
 
 Sight *sight_new(Level *level, Point center, uint16_t radius)
 {
-    Sight *sight = alloc(sizeof(Sight));
+    Sight *sight = allocate(sizeof(Sight));
     sight->center = center;
     sight->radius = radius;
     sight->count = 0;
-    sight->points = alloc(area_size(radius));
+    sight->points = allocate(area_size(radius));
 
     collect_points(sight, level);
 
@@ -112,6 +112,6 @@ void sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
 
 void sight_free(Sight *sight)
 {
-    free(sight->points);
-    free(sight);
+    release(sight->points);
+    release(sight);
 }

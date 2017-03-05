@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <worker.h>
+#include "debug.h"
 
 
 #define repeat(times, body)             \
@@ -58,15 +59,22 @@ static inline uint16_t max(uint16_t a, uint16_t b)
     return a < b ? a : b;
 }
 
-static inline void *alloc(unsigned size)
+static inline void *allocate(unsigned size)
 {
     void *ptr = malloc(size);
 
     if (!ptr) {
         fatal("Unable to allocate memory count of [%u]", size);
     }
+    profile_allocate(size, ptr);
 
     return ptr;
+}
+
+static inline void release(void *ptr)
+{
+    free(ptr);
+    profile_release(ptr);
 }
 
 typedef struct {

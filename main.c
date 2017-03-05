@@ -6,7 +6,6 @@
 #include "src/level/camera.h"
 #include "config/config.h"
 #include "src/player/inventory.h"
-#include "src/debug.h"
 #include "src/worker/worker.h"
 
 
@@ -15,6 +14,7 @@ static void init(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
 
+    profiler_init();
     ncurses_init();
     mouse_init();
     cell_pool_init();
@@ -32,6 +32,7 @@ static void cleanup(Player *player)
     cell_pool_cleanup();
     level_free(player->level);
     player_free(player);
+    profiler_cleanup();
 }
 
 static void update(Player *player)

@@ -2,7 +2,6 @@
 #include <memory.h>
 #include "../player/item.h"
 #include "../../config/config.h"
-#include "../debug.h"
 
 
 static MemPool *CELL_POOL;
@@ -11,7 +10,7 @@ static MemPool *CELL_POOL;
 static Cell *init_cells(CellRegistryConfig *cfg)
 {
     CellPrototype prototype;
-    Cell *cells = alloc(cfg->count * sizeof(Cell));
+    Cell *cells = allocate(cfg->count * sizeof(Cell));
 
     for (uint16_t i = 0; i < cfg->count; i++) {
         prototype = cfg->cells[i];

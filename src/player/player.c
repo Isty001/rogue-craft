@@ -46,7 +46,7 @@ static void find_starting_point(Player *player)
 
 Player *player_new(Level *level, Camera *camera)
 {
-    Player *player = alloc(sizeof(Player));
+    Player *player = allocate(sizeof(Player));
     player->level = level;
     player->cell.prototype.type = PLAYER;
     player->camera = camera;
@@ -69,7 +69,7 @@ void player_free(Player *player)
     pthread_mutex_destroy(&player->attributes.mutex);
     inventory_free(player->inventory);
     sight_free(player->sight);
-    free(player);
+    release(player);
 }
 
 static inline void display_attribute_bar(int width, Attribute *attr, WINDOW *win)

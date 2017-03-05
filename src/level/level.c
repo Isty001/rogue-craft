@@ -7,7 +7,7 @@ static void allocate_rows(Level *level)
 {
     Size size = level->size;
 
-    Cell ***cells = alloc(sizeof(Cell[size.height][size.width]));
+    Cell ***cells = allocate(sizeof(Cell[size.height][size.width]));
     Cell **from = (Cell **) cells + size.height;
 
     for (int i = 0; i < size.height; i++) {
@@ -44,7 +44,7 @@ static void add_items(Level *level)
 
 Level *level_new(Size size, LevelConfig *cfg)
 {
-    Level *level = alloc(sizeof(Level));
+    Level *level = allocate(sizeof(Level));
     level->size = size;
 
     level_add_bounds(level);
@@ -141,8 +141,8 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 
 void level_free(Level *level)
 {
-    free(level->registry.hollow.cells);
-    free(level->registry.solid.cells);
-    free(level->cells);
-    free(level);
+    release(level->registry.hollow.cells);
+    release(level->registry.solid.cells);
+    release(level->cells);
+    release(level);
 }
