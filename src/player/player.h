@@ -6,6 +6,7 @@
 #include <memory.h>
 #include "../level/point.h"
 #include "../level/level.h"
+#include "../sight.h"
 
 
 #define PLAYER_ATTR_NUM      4
@@ -52,11 +53,7 @@ typedef struct Player {
     Camera *camera;
     Inventory *inventory;
     PlayerAttributes attributes;
-    struct {
-        uint16_t radius;
-        uint16_t visible_count;
-        Point *visible;
-    } sight;
+    Sight *sight;
     struct {
         Point current;
         Point previous;
@@ -96,7 +93,7 @@ void player_free(Player *player);
 
 void player_move(Player *player, Direction direction);
 
-void player_calculate_sight(Player *player);
+void player_update_sight(Player *player);
 
 bool player_can_see(Player *player, Point point);
 

@@ -59,10 +59,7 @@ Player *player_new(Level *level, Camera *camera)
     find_starting_point(player);
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
-
-    player->sight.radius = PLAYER_DEFAULT_EYESIGHT;
-    player->sight.visible_count = 0;
-    player->sight.visible = alloc(500 * sizeof(Point));
+    player->sight = sight_new(level, player->position.current, PLAYER_DEFAULT_EYESIGHT);
 
     return player;
 }
@@ -71,7 +68,7 @@ void player_free(Player *player)
 {
     pthread_mutex_destroy(&player->attributes.mutex);
     inventory_free(player->inventory);
-    free(player->sight.visible);
+    sight_free(player->sight);
     free(player);
 }
 

@@ -27,7 +27,7 @@ static void initialize_cells(Level *level)
 
 static void add_items(Level *level)
 {
-    uint16_t remaining = level->item_count;
+    uint16_t remaining = LEVEL_ITEM_COUNT(level);
     Point point;
     Cell *cell;
 
@@ -46,7 +46,6 @@ Level *level_new(Size size, LevelConfig *cfg)
 {
     Level *level = alloc(sizeof(Level));
     level->size = size;
-    level->item_count = LEVEL_ITEM_COUNT(level);
 
     level_add_bounds(level);
     level->registry.hollow = cell_registry_new(cfg->cell.hollow);

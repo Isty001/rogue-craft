@@ -37,7 +37,7 @@ static void cleanup(Player *player)
 static void update(Player *player)
 {
     camera_update(player, WINDOW_MAIN);
-    player_calculate_sight(player);
+    player_update_sight(player);
 }
 
 static void render(Player *player)
@@ -82,7 +82,7 @@ int main(void)
         flushinp();
         napms(60);
 
-        if (i++ == 30){
+        if (i++ == 30) {
             message_player_state_send(player);
             i = 0;
         }

@@ -46,36 +46,11 @@ MU_TEST(test_movement)
     fixture_level_free(player.level);
 }
 
-MU_TEST(test_eyesight)
-{
-    Player player;
-    player.position.current = point_new(1, 0);
-
-    Point *visible = alloc(5 * sizeof(Point));
-    player.sight.radius = 1;
-    player.sight.visible = visible;
-    player.sight.visible_count = 0;
-
-    player.level = fixture_level();
-
-    player_calculate_sight(&player);
-
-    mu_assert(point_eq(point_new(1, 0), visible[0]), "");
-    mu_assert(point_eq(point_new(1, 1), visible[1]), "");
-    mu_assert(point_eq(point_new(1, 2), visible[2]), "");
-
-    mu_assert_int_eq(3, player.sight.visible_count);
-
-    fixture_level_free(player.level);
-    free(player.sight.visible);
-}
-
 void run_player_movement_test(void)
 {
     TEST_NAME("Player Movement");
 
     MU_RUN_TEST(test_movement);
-    MU_RUN_TEST(test_eyesight);
 
     MU_REPORT();
 }

@@ -40,7 +40,6 @@ typedef enum {
 typedef struct Level {
     Size size;
     Cell ***cells;
-    uint16_t item_count;
     struct {
         Range y;
         Range x;
