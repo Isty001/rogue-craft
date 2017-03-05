@@ -9,13 +9,6 @@
     inc = current.axis < target.axis ? 1 : -1;
 
 
-struct Sight {
-    uint16_t radius;
-    uint16_t count;
-    Point center;
-    Point *points;
-};
-
 static void ray_cast(Sight *sight, Point target, Level *level)
 {
     Point current = sight->center;
@@ -91,7 +84,7 @@ bool sight_has(Sight *sight, Point point)
     return false;
 }
 
-void sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
+uint16_t sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
 {
     bool changed = false;
 
@@ -108,6 +101,8 @@ void sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
         sight->count = 0;
         collect_points(sight, level);
     }
+
+    return changed ? SIGHT_UPDATED : SIGHT_REMAINED;
 }
 
 void sight_free(Sight *sight)

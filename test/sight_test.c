@@ -13,6 +13,11 @@ MU_TEST(test_sight)
     mu_assert(sight_has(sight, point_new(1, 0)), "");
     mu_assert(sight_has(sight, point_new(1, 1)), "");
 
+    mu_assert(!sight_has(sight, point_new(0, 2)), "");
+
+    sight_update(sight, level, point_new(1, 1), 2);
+    mu_assert(sight_has(sight, point_new(0, 2)), "");
+
     sight_free(sight);
     fixture_level_free(level);
 }

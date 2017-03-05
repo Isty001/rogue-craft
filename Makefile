@@ -11,7 +11,7 @@ run-debug:
 	./rogue.o
 
 test:
-	$(CC) $(TEST_SRC) $(CFLAGS) -D UNIT_TEST -D DEBUG_MODE -o test.o
+	$(CC) $(TEST_SRC) $(CFLAGS) -D UNIT_TEST  -o test.o
 	./test.o
 
 test-valgrind:

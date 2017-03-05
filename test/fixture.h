@@ -6,6 +6,10 @@
 #include "../src/player/item.h"
 
 
+#define FIXTURE_SOLID_STYLE 900
+#define FIXTURE_HOLLOW_STYLE 1900
+
+
 /**
  * Level cells will look like this:
  *

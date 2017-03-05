@@ -7,6 +7,7 @@
 #include "config/config.h"
 #include "src/player/inventory.h"
 #include "src/worker/worker.h"
+#include "src/level/lighting.h"
 
 
 static void init(void)
@@ -19,6 +20,7 @@ static void init(void)
     mouse_init();
     cell_pool_init();
     item_pool_init();
+    lighted_cell_pool_init();
     message_pool_init();
     worker_init();
 }
@@ -30,6 +32,7 @@ static void cleanup(Player *player)
     message_pool_cleanup();
     item_pool_cleanup();
     cell_pool_cleanup();
+    lighted_cell_pool_cleanup();
     level_free(player->level);
     player_free(player);
     profiler_cleanup();

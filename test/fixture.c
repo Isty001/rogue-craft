@@ -12,6 +12,7 @@ Level *fixture_level(void)
     level->registry.hollow.cells[0].in_registry = true;
     level->registry.hollow.cells[0].material = VOID;
     level->registry.hollow.cells[0].state = 100;
+    level->registry.hollow.cells[0].style = FIXTURE_HOLLOW_STYLE;
 
     level->registry.solid.size = 1;
     level->registry.solid.cells = allocate(sizeof(Cell));
@@ -19,6 +20,7 @@ Level *fixture_level(void)
     level->registry.solid.cells[0].in_registry = true;
     level->registry.solid.cells[0].material = STONE;
     level->registry.solid.cells[0].state = 100;
+    level->registry.solid.cells[0].style = FIXTURE_SOLID_STYLE;
 
     level_add_bounds(level);
 

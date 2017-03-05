@@ -5,6 +5,7 @@
 
 #include "player/item.h"
 #include "worker/worker.h"
+#include "level/lighting.h"
 
 
 typedef struct Chunk {
@@ -27,8 +28,13 @@ static int sum_chunks(void)
 void _profiler_display(void)
 {
     mvwprintw(WINDOW_MAIN, 1, 2, "CELL POOL: [%d][%d byte]", PROFILER.cell, PROFILER.cell * sizeof(Cell));
-    mvwprintw(WINDOW_MAIN, 2, 2, "ITEM POOL: [%d][%d byte]", PROFILER.item, PROFILER.item * sizeof(Item));
-    mvwprintw(WINDOW_MAIN, 3, 2,
+
+    mvwprintw(WINDOW_MAIN, 2, 2, "LIGHTED CELL POOL: [%d][%d byte]", PROFILER.lighted_cell,
+              PROFILER.lighted_cell * lighted_cell_size());
+
+    mvwprintw(WINDOW_MAIN, 3, 2, "ITEM POOL: [%d][%d byte]", PROFILER.item, PROFILER.item * sizeof(Item));
+
+    mvwprintw(WINDOW_MAIN, 4, 2,
               "MALLOC: [%d][%d byte]", PROFILER.chunks->count, sum_chunks());
 
     mvwprintw(WINDOW_MAIN, 1, 40, "WORKER: Messages: Pool: [%d][%d byte] In Queue: [%d]",
