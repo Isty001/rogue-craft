@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Potion",
+    "char": "ð",
+    "style": ["COLOR_PAIR_RED_F", "A_BOLD", "A_UNDERLINE"],
+    "valueRange": [1, 30],
+    "chance": 10,
+    "consumable": {
+      "permanent": true,
+      "attribute": "STAMINA"
+    }
+  }
+]

@@ -2,7 +2,7 @@
 #define ROGUECRAFT_CAMERA_H
 
 
-#include "../player/player.h"
+#include "../player/config.h"
 
 
 typedef struct Camera {

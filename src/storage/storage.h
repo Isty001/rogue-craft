@@ -2,7 +2,7 @@
 #define ROGUECRAFT_STORAGE_H
 
 
-#include "../player/player.h"
+#include "../player/config.h"
 
 
 typedef enum {

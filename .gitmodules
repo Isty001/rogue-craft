@@ -10,3 +10,9 @@
 [submodule "lib/collection"]
 	path = lib/collection
 	url = https://github.com/rogue-craft/collection
+[submodule "lib/parson"]
+	path = lib/parson
+	url = https://github.com/kgabis/parson
+[submodule "lib/tinydir"]
+	path = lib/tinydir
+	url = https://github.com/cxong/tinydir

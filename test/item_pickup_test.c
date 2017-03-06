@@ -28,7 +28,7 @@ MU_TEST(test_item_pickup)
 
     level_interact(player, click);
     mu_assert(&item == player->inventory->items[0], "Items are not the same");
-    mu_assert(NULL == player->inventory->items[1], "There should be no item");
+    mu_assert(NULL == player->inventory->items[1], "There should be no items");
 
     mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
 

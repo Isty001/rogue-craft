@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <time.h>
+#include <locale.h>
 #include "../src/color.h"
 #include "../src/player/item.h"
 #include "../src/worker/worker.h"
@@ -18,10 +19,12 @@ void run_player_hit_test(void);
 void run_player_state_test(void);
 void run_sight_test(void);
 void run_lighting_test(void);
+void run_item_loader_test(void);
 
 
 static void init(void)
 {
+    setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned int) time(NULL));
 
     item_pool_init();
@@ -55,6 +58,7 @@ int main(void)
     run_player_state_test();
     run_sight_test();
     run_lighting_test();
+    run_item_loader_test();
 
     cleanup();
 

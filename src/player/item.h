@@ -2,7 +2,7 @@
 #define ROGUECRAFT_ITEM_H
 
 
-#include "player.h"
+#include "config.h"
 #include "../ncurses/ncurses.h"
 
 
@@ -12,12 +12,13 @@ typedef enum {
     IE_INVALID_ARGUMENT,
     IE_DUPLICATE,
     IE_OK,
-    IE_OVERFLOW
+    IE_OVERFLOW,
+    IE_IO
 } ItemError;
 
 typedef enum {
     CONSUMABLE,
-    TOOL,
+    TOOL
 } ItemType;
 
 typedef struct {
@@ -35,11 +36,15 @@ typedef struct {
 
 typedef struct Consumable {
     bool permanent;
-    AttributeType type;
+    AttributeType attribute;
 } Consumable;
 
+typedef struct {
+    Style style;
+} LightSource;
+
 typedef struct Item {
-    char *name;
+    char name[20];
     wchar_t chr;
     Style style;
     int16_t value;
@@ -47,17 +52,21 @@ typedef struct Item {
     union {
         Consumable consumable;
         Tool tool;
+        LightSource light_source;
     };
 } Item;
 
-typedef const struct ItemPrototype {
-    Item item;
+typedef struct ItemPrototype {
     Range value_range;
-    Item *(*randomize)(const struct ItemPrototype *);
+    Item item;
 } ItemPrototype;
 
 
 void item_pool_init(void);
+
+void item_load(char *dir);
+
+void item_unload(void);
 
 Item *item_clone(ItemPrototype *prototype);
 

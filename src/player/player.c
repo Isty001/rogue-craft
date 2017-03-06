@@ -1,5 +1,5 @@
 
-#include "player.h"
+#include "config.h"
 #include "inventory.h"
 #include "../../config/config.h"
 
@@ -13,22 +13,22 @@ static void add_default_attributes(Player *player)
 
     map[HEALTH] = (Attribute) {
         .current = 100, .max = 100,
-        .name = "Health", .style  = COLOR_PAIR(COLOR_HEALTH)
+        .name = "Health", .style  = COLOR_PAIR(COLOR_PAIR_RED_F)
     };
 
     map[STAMINA] = (Attribute) {
         .current = 100, .max = 100,
-        .name = "Stamina", .style = COLOR_PAIR(COLOR_STAMINA)
+        .name = "Stamina", .style = COLOR_PAIR(COLOR_PAIR_GREEN_F)
     };
 
     map[HUNGER] = (Attribute) {
         .current = 0, .max = 100,
-        .name = "Hunger", .style = COLOR_PAIR(COLOR_FOOD)
+        .name = "Hunger", .style = COLOR_PAIR(COLOR_PAIR_YELLOW_F)
     };
 
     map[THIRST] = (Attribute) {
         .current = 0, .max = 100,
-        .name = "Thirst", .style = COLOR_PAIR(COLOR_WATER)
+        .name = "Thirst", .style = COLOR_PAIR(COLOR_PAIR_BLUE_F)
     };
 
     pthread_check(pthread_mutex_init(&player->attributes.mutex, NULL));

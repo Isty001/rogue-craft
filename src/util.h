@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <worker.h>
+#include <memory.h>
 #include "debug.h"
 
 
@@ -49,6 +50,31 @@
 #endif
 
 
+typedef struct {
+    char *name;
+    int value;
+} ConstLookup;
+
+extern ConstLookup CONST_LOOKUP[];
+
+
+static inline int find_constant(const char *search)
+{
+    int i = 0;
+    char *name;
+
+    if (search) {
+        while ((name = CONST_LOOKUP[i].name)) {
+            if (0 == strcmp(name, search)) {
+                return CONST_LOOKUP[i].value;
+            }
+            i++;
+        }
+    }
+    fatal("Constant [%s] not found\n", search);
+}
+
+
 static inline uint16_t sqr(uint16_t x)
 {
     return x * x;
@@ -61,6 +87,8 @@ static inline uint16_t max(uint16_t a, uint16_t b)
 
 static inline void *allocate(unsigned size)
 {
+    if (0 == size) return NULL;
+
     void *ptr = malloc(size);
 
     if (!ptr) {

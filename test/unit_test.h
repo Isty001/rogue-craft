@@ -5,6 +5,7 @@
 #include <string.h>
 #include <minunit.h>
 #include "../src/level/point.h"
+#include "../src/util.h"
 
 
 #define FIXTURE_DIR "./test/fixture"
@@ -24,6 +25,11 @@ static inline void assert_point(Point point, int y, int x)
 {
     mu_assert_int_eq(y, point.y);
     mu_assert_int_eq(x, point.x);
+}
+
+static inline void assert_range(Range a, Range b)
+{
+    mu_assert(a.from == b.from && a.to == b.to, "Ranges are not equal");
 }
 
 

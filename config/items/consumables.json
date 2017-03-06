@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Health Potion",
+    "char": "ð",
+    "style": ["COLOR_PAIR_RED_F"],
+    "valueRange": [1, 50],
+    "chance": 10,
+    "consumable": {
+      "permanent": false,
+      "attribute": "HEALTH"
+    }
+  },
+  {
+    "name": "Max Health Potion",
+    "char": "ð",
+    "style": ["COLOR_PAIR_RED_F", "A_BOLD", "A_UNDERLINE"],
+    "valueRange": [1, 6],
+    "chance": 4,
+    "consumable": {
+      "permanent": true,
+      "attribute": "HEALTH"
+    }
+  },
+  {
+    "name": "Max Stamina",
+    "char": "ð",
+    "style": ["COLOR_PAIR_GREEN_F", "A_BOLD", "A_UNDERLINE"],
+    "valueRange": [1, 6],
+    "chance": 4,
+    "consumable": {
+      "permanent": true,
+      "attribute": "STAMINA"
+    }
+  },
+  {
+    "name": "Om nom nom",
+    "char": "f",
+    "style": ["COLOR_PAIR_YELLOW_F", "A_BOLD"],
+    "valueRange": [-20, -5],
+    "chance": 20,
+    "consumable": {
+      "permanent": false,
+      "attribute": "HUNGER"
+    }
+  },
+  {
+    "name": "Drinking water",
+    "char": "w",
+    "style": ["COLOR_PAIR_BLUE_F", "A_BOLD"],
+    "valueRange": [-20, -5],
+    "chance": 30,
+    "consumable": {
+      "permanent": false,
+      "attribute": "THIRST"
+    }
+  }
+]

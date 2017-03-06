@@ -61,7 +61,7 @@ MU_TEST(test_negative)
     setup_player(&player);
 
     Item item = fixture_consumable(false);
-    item.consumable.type = HUNGER;
+    item.consumable.attribute = HUNGER;
     item.value = -50;
 
     mu_assert_int_eq(IE_REPEAT, item_consume(&item, &player));

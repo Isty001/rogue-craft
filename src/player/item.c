@@ -1,7 +1,6 @@
 #include <memory.h>
 #include <mem_pool.h>
 #include "../../config/config.h"
-#include "../debug.h"
 
 
 #define check_type(i, t) \
@@ -14,6 +13,11 @@ static MemPool *ITEM_POOL;
 void item_pool_init(void)
 {
     ITEM_POOL = pool_init(sizeof(Item), 100);
+}
+
+MemPool *item_pool(void)
+{
+    return ITEM_POOL;
 }
 
 void item_pool_cleanup(void)
@@ -36,12 +40,20 @@ Item *item_clone(ItemPrototype *prototype)
     return item;
 }
 
+static Item *item_randomize_value(ItemPrototype *prototype)
+{
+    Item *item = item_clone(prototype);
+    item->value = rand_in_range(prototype->value_range);
+
+    return item;
+}
+
 Item *item_random(void)
 {
     Probability *type = random_from(&ITEM_TYPE_PROBABILITY);
     ItemPrototype *prototype = random_from(type);
 
-    return prototype->randomize(prototype);
+    return item_randomize_value(prototype);
 }
 
 /**
@@ -73,7 +85,7 @@ ItemError item_consume(Item *parent, Player *player)
     check_type(parent, CONSUMABLE);
 
     Consumable *consumable = &parent->consumable;
-    Attribute *attribute = &player->attributes.state[consumable->type];
+    Attribute *attribute = &player->attributes.state[consumable->attribute];
     ItemError err;
 
     lock(&player->attributes.mutex);

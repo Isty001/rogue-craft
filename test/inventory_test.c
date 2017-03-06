@@ -30,8 +30,8 @@ MU_TEST(test_remove)
 
     mu_assert_int_eq(IE_OK, inventory_remove(inventory, &item2));
 
-    mu_assert(NULL == inventory->items[0], "The item should be removed");
-    mu_assert(NULL == inventory->items[1], "The item should be removed");
+    mu_assert(NULL == inventory->items[0], "The items should be removed");
+    mu_assert(NULL == inventory->items[1], "The items should be removed");
 
     inventory_free(inventory);
 }

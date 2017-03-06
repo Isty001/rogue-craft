@@ -3,7 +3,7 @@
 
 
 #include <worker.h>
-#include "../player/player.h"
+#include "../player/config.h"
 
 
 #define MESSAGE_TYPE_NUM 1

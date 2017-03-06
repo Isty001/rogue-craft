@@ -27,7 +27,7 @@ static inline bool in_inventory(Inventory *inventory, Item *item)
 ItemError inventory_add(Inventory *inventory, Item *item)
 {
     if (in_inventory(inventory, item)) {
-        event("Something went wrong. The exact same item is already in your Inventory");
+        event("Something went wrong. The exact same items is already in your Inventory");
 
         return IE_DUPLICATE;
     }

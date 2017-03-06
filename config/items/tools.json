@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Pickaxe",
+    "char": "p",
+    "style": ["COLOR_PAIR_GRAY_F"],
+    "valueRange": [1, 100],
+    "chance": 10,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 1.1, "creature": 1.0},
+        "materials": {"STONE": 1.4, "DIRT": 1.1}
+      }
+    }
+  }
+]

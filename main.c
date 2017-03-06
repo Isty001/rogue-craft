@@ -16,6 +16,7 @@ static void init(void)
     srand((unsigned) time(NULL));
 
     profiler_init();
+    item_load(CONFIG_DIR"/items");
     ncurses_init();
     mouse_init();
     cell_pool_init();
@@ -35,6 +36,7 @@ static void cleanup(Player *player)
     lighted_cell_pool_cleanup();
     level_free(player->level);
     player_free(player);
+    item_unload();
     profiler_cleanup();
 }
 

@@ -1,4 +1,4 @@
-#include "../src/player/player.h"
+#include "../src/player/config.h"
 #include "../src/level/camera.h"
 #include "unit_test.h"
 

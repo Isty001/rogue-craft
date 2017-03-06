@@ -3,7 +3,7 @@
 
 
 #include <ncurses.h>
-#include "../player/player.h"
+#include "../player/config.h"
 
 
 #define PADDING 2

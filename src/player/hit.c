@@ -1,4 +1,4 @@
-#include "player.h"
+#include "config.h"
 #include "item.h"
 #include "inventory.h"
 

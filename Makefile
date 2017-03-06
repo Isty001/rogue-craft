@@ -1,13 +1,13 @@
-SRC = $(shell find src lib/*/src config -name '*.c')
-TEST_SRC = $(SRC) $(shell find test -name '*.c')
-CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -I lib/collection/src -l lua -l ncursesw -l pthread -l m -isystem lib -D _GNU_SOURCE
+SRC = $(shell find src lib/*/src config -path '*.c') lib/parson/parson.* lib/tinydir/tinydir.h
+TEST_SRC = $(SRC) $(shell find test -path '*.c')
+CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -I lib/collection/src -I lib/tinydir -I lib/parson -l ncursesw -l pthread -l m -isystem lib -D _GNU_SOURCE
 
 
 .PHONY: test
 
 
 run-debug:
-	$(CC) $(SRC) main.c $(CFLAGS) -gdwarf -D DEBUG_MODE -o rogue.o
+	$(CC) $(SRC) main.c $(CFLAGS) -gdwarf -D DEBUG_MODE -D CONFIG_DIR=\"./config\" -o rogue.o
 	./rogue.o
 
 test:

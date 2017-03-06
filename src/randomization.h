@@ -2,23 +2,24 @@
 #define ROGUE_CRAFT_RANDOMIZE_H
 
 
-#include "item.h"
+#include "player/item.h"
 
 
-typedef const void *Randomizable;
+#define PROBABILITY_ITEM_NUM 20
 
 
-typedef const struct {
+typedef void *Randomizable;
+
+
+typedef struct {
     uint16_t count;
     uint16_t sum;
     struct {
         uint16_t chance;
         Randomizable value;
-    } items[];
+    } items[PROBABILITY_ITEM_NUM];
 } Probability;
 
-
-Item *item_randomize_value(ItemPrototype *prototype);
 
 Randomizable random_from(Probability *probability);
 
