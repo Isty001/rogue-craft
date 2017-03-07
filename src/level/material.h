@@ -10,7 +10,8 @@ typedef enum  {
     VOID,
     STONE,
     DIRT,
-    WATER
+    WATER,
+    WOOD
 } Material;
 
 

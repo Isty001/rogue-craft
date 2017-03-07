@@ -3,30 +3,51 @@
 #include "player/config.h"
 
 
-#define pair(nm)  \
+#define color(nm)  \
     {.name = #nm, .value = COLOR_PAIR(nm)}
 
-#define constant(nm) \
+#define simple(nm) \
     {.name = #nm, .value = nm}
 
-
 ConstLookup CONST_LOOKUP[] = {
-    pair(COLOR_PAIR_NONE),
-    pair(COLOR_PAIR_RED_F),
-    pair(COLOR_PAIR_GREEN_F),
-    pair(COLOR_PAIR_BLUE_F),
-    pair(COLOR_PAIR_YELLOW_F),
-    pair(COLOR_PAIR_GRAY_F),
-    constant(A_BOLD),
-    constant(A_UNDERLINE),
-    constant(HEALTH),
-    constant(STAMINA),
-    constant(HUNGER),
-    constant(THIRST),
-    constant(STONE),
-    constant(DIRT),
-    constant(VOID),
-    constant(WATER),
+    color(COLOR_PAIR_NONE),
+    color(COLOR_PAIR_RED_F),
+    color(COLOR_PAIR_GREEN_F),
+    color(COLOR_PAIR_BLUE_F),
+    color(COLOR_PAIR_YELLOW_F),
+    color(COLOR_PAIR_GRAY_F),
+    color(COLOR_PAIR_BROWN_F),
+
+    simple(A_BOLD),
+    simple(A_UNDERLINE),
+
+    /** Attributes */
+    simple(HEALTH),
+    simple(STAMINA),
+    simple(HUNGER),
+    simple(THIRST),
+
+    /** Materials */
+    simple(STONE),
+    simple(DIRT),
+    simple(VOID),
+    simple(WATER),
+    simple(WOOD),
     {NULL, -1}
 };
 
+int constant(const char *search)
+{
+    int i = 0;
+    char *name;
+
+    if (search) {
+        while ((name = CONST_LOOKUP[i].name)) {
+            if (0 == strcmp(name, search)) {
+                return CONST_LOOKUP[i].value;
+            }
+            i++;
+        }
+    }
+    fatal("Constant [%s] not found\n", search);
+}

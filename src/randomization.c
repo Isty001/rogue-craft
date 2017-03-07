@@ -13,5 +13,5 @@ Randomizable random_from(Probability *probability)
             return probability->items[i].value;
         }
     }
-    fatal("Unable to pick random items");
+    fatal("Unable to pick random value");
 }

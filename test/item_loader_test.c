@@ -1,3 +1,4 @@
+#include <wchar.h>
 #include "unit_test.h"
 #include "../src/player/item.h"
 #include "../config/config.h"
@@ -11,8 +12,8 @@ static void assert_tool(ItemPrototype *prototype)
     assert_string("Pickaxe", item->name);
     assert_range(range_new(1, 100), prototype->value_range);
     mu_assert_int_eq(TOOL, prototype->item.type);
-    mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_GRAY_F), prototype->item.style);
-//    mu_assert_int_eq('p', prototype->items.chr);
+    mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_GRAY_F), item->style);
+    mu_assert_int_eq('p', item->chr);
 
     mu_assert_int_eq(1, tool->range);
     mu_assert_double_eq(1.5, tool->multipliers.defaults.solid);
@@ -29,8 +30,13 @@ static void assert_consumable(ItemPrototype *prototype)
 
     assert_string("Potion", item->name);
     assert_range(range_new(1, 30), prototype->value_range);
-    mu_assert_int_eq(CONSUMABLE, prototype->item.type);
-    mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_RED_F) | A_BOLD | A_UNDERLINE, prototype->item.style);
+    mu_assert_int_eq(CONSUMABLE, item->type);
+    mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_RED_F) | A_BOLD | A_UNDERLINE, item->style);
+
+    char actual[1];
+    wcstombs(actual, &item->chr, 2);
+
+    assert_string("ð", actual);
 
     mu_assert(consumable->permanent, "should be permanent");
     mu_assert_int_eq(STAMINA, consumable->attribute);

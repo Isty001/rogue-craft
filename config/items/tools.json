@@ -4,12 +4,40 @@
     "char": "p",
     "style": ["COLOR_PAIR_GRAY_F"],
     "valueRange": [1, 100],
+    "chance": 12,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 1.1, "creature": 1.1},
+        "materials": {"STONE": 1.4}
+      }
+    }
+  },
+  {
+    "name": "Shovel",
+    "char": "s",
+    "style": ["COLOR_PAIR_BROWN_F"],
+    "valueRange": [1, 100],
     "chance": 10,
     "tool": {
       "range": 1,
       "multipliers": {
-        "defaults": {"solid": 1.1, "creature": 1.0},
-        "materials": {"STONE": 1.4, "DIRT": 1.1}
+        "defaults": {"solid": 0.8, "creature": 0.9},
+        "materials": {"STONE": 0.7, "DIRT": 1.4}
+      }
+    }
+  },
+  {
+    "name": "Axe",
+    "char": "a",
+    "style": ["COLOR_PAIR_GRAY_F"],
+    "valueRange": [1, 100],
+    "chance": 10,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 0.9, "creature": 1.0},
+        "materials": {"STONE": 0.8, "WOOD": 1.4}
       }
     }
   }

@@ -13,7 +13,7 @@
 #define COLOR_PAIR_BLUE_F       4
 #define COLOR_PAIR_YELLOW_F     5
 #define COLOR_PAIR_GRAY_F       6
-
+#define COLOR_PAIR_BROWN_F      7
 
 typedef short Color;
 

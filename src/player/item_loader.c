@@ -29,7 +29,7 @@ static void build_consumable(ItemPrototype *prototype, JSON_Object *json)
 {
     Consumable *consumable = &prototype->item.consumable;
 
-    consumable->attribute = (AttributeType) find_constant(get_string(json, "attribute"));
+    consumable->attribute = (AttributeType) constant(get_string(json, "attribute"));
     consumable->permanent = (bool) get_bool(json, "permanent");
 }
 
@@ -40,7 +40,7 @@ static void build_tool_material_multipliers(Tool *tool, JSON_Object *json)
     double multiplier;
 
     for (size_t i = 0; i < count; i++) {
-        material = (Material) find_constant(json_object_get_name(json, i));
+        material = (Material) constant(json_object_get_name(json, i));
         multiplier = json_value_get_number(json_object_get_value_at(json, i));
         tool->multipliers.materials[material] = multiplier;
     }
@@ -95,7 +95,7 @@ static Style build_style(JSON_Array *attributes)
     size_t count = json_array_get_count(attributes);
 
     for (size_t i = 0; i < count; ++i) {
-        style |= find_constant((char *) json_array_get_string(attributes, i));
+        style |= constant((char *) json_array_get_string(attributes, i));
     }
 
     return style;
@@ -107,12 +107,11 @@ static void create_prototype_from(JSON_Object *json)
     Item *item = &prototype->item;
     char *name = get_string(json, "name");
 
-    memcpy(item->name, name, strlen(name) + 1);
     item->style = build_style(get_array(json, "style"));
 
-
+    memcpy(item->name, name, strlen(name) + 1);
+    mbtowc(&item->chr, get_string(json, "char"), 2);
     build_value_range(&prototype->value_range, get_array(json, "valueRange"));
-//    swprintf(&items->chr, 2, L"%s", get_string(json, "char"));
     build_type_specific(prototype, json);
 }
 

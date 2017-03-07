@@ -57,22 +57,7 @@ typedef struct {
 
 extern ConstLookup CONST_LOOKUP[];
 
-
-static inline int find_constant(const char *search)
-{
-    int i = 0;
-    char *name;
-
-    if (search) {
-        while ((name = CONST_LOOKUP[i].name)) {
-            if (0 == strcmp(name, search)) {
-                return CONST_LOOKUP[i].value;
-            }
-            i++;
-        }
-    }
-    fatal("Constant [%s] not found\n", search);
-}
+int constant(const char *search);
 
 
 static inline uint16_t sqr(uint16_t x)

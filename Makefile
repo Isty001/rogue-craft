@@ -17,3 +17,6 @@ test:
 test-valgrind:
 	make test
 	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./test.o
+
+palette:
+	make -C ./lib/dev palette
