@@ -8,7 +8,7 @@
 #include "src/player/inventory.h"
 #include "src/worker/worker.h"
 #include "src/level/lighting.h"
-
+#include "src/storage/cache.h"
 
 static void init(void)
 {
@@ -16,7 +16,8 @@ static void init(void)
     srand((unsigned) time(NULL));
 
     profiler_init();
-    item_load(CONFIG_DIR"/items");
+    cache_init(DIR_CACHE);
+    item_load(DIR_CONFIG"/items");
     ncurses_init();
     mouse_init();
     cell_pool_init();

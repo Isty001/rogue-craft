@@ -5,6 +5,7 @@
 #include "../src/player/item.h"
 #include "../src/worker/worker.h"
 #include "../src/level/lighting.h"
+#include "../src/storage/cache.h"
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -20,6 +21,8 @@ void run_player_state_test(void);
 void run_sight_test(void);
 void run_lighting_test(void);
 void run_item_loader_test(void);
+void run_storage_test(void);
+void run_cache_test(void);
 
 
 static void init(void)
@@ -27,6 +30,7 @@ static void init(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned int) time(NULL));
 
+    cache_init("./test/fixture/cache");
     item_pool_init();
     cell_pool_init();
     lighted_cell_pool_init();
@@ -59,6 +63,8 @@ int main(void)
     run_sight_test();
     run_lighting_test();
     run_item_loader_test();
+    run_storage_test();
+    run_cache_test();
 
     cleanup();
 

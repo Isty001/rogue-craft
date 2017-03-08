@@ -1,50 +1,36 @@
-#include <stdio.h>
-#include <sys/stat.h>
-#include <ftw.h>
-#include <errno.h>
-#include "../util.h"
 #include "storage.h"
 
 
-#define ROOT_DIR_NAME ".rogue-craft"
-
-
-static char ROOT_DIR[100];
-
-
-void storage_rm_rf(char *path)
+void dir_check(char *dir)
 {
-    nftw(path, (__nftw_func_t) remove, 0, 0);
-}
-
-static StorageError create_dir(char *dir)
-{
-    if (0 != mkdir(dir, 0600) && errno != EEXIST) {
-        return SE_CREATE_DIR;
-    }
-
-    return SE_OK;
-}
-
-void storage_init(char *base_dir)
-{
-    sprintf(ROOT_DIR, "%s/"ROOT_DIR_NAME, base_dir);
-
-    if (SE_OK != create_dir(ROOT_DIR)) {
-        fatal("Unable to create [%s] directory with permission [0600]", ROOT_DIR);
+    if (0 != mkdir(dir, 0700) && errno != EEXIST) {
+        fatal("Unable to create directory [%s]", dir);
     }
 }
 
-StorageError storage_save(char *name, Player *player)
+FILE *file_open(char *path, char *mode)
 {
-    StorageError err;
-    char path[100 + strlen(name)];
+    FILE *file = fopen(path, mode);
 
-    sprintf(path, "%s/%s", ROOT_DIR, name);
-
-    if (SE_OK != (err = create_dir(path))) {
-        return err;
+    if (NULL == file) {
+        fatal("Unable to open [%s] with [%s] mode", path, mode);
     }
 
-    return err;
+    return file;
+}
+
+bool file_exists(char *file)
+{
+    struct stat stats;
+
+    return 0 == stat(file, &stats);
+}
+
+size_t file_size(FILE *file)
+{
+    fseek(file,0, SEEK_END);
+    size_t size = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    return size;
 }

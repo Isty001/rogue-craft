@@ -22,8 +22,8 @@
     "tool": {
       "range": 1,
       "multipliers": {
-        "defaults": {"solid": 0.8, "creature": 0.9},
-        "materials": {"STONE": 0.7, "DIRT": 1.4}
+        "defaults": {"solid": 0.7, "creature": 0.8},
+        "materials": {"STONE": 0.6, "DIRT": 1.4}
       }
     }
   },
@@ -36,8 +36,8 @@
     "tool": {
       "range": 1,
       "multipliers": {
-        "defaults": {"solid": 0.9, "creature": 1.0},
-        "materials": {"STONE": 0.8, "WOOD": 1.4}
+        "defaults": {"solid": 0.8, "creature": 0.9},
+        "materials": {"STONE": 0.7, "WOOD": 1.4}
       }
     }
   }

@@ -2,6 +2,7 @@
 
 
 #ifdef DEBUG_MODE
+#ifndef UNIT_TEST
 
 #include "player/item.h"
 #include "worker/worker.h"
@@ -70,4 +71,5 @@ void _profiler_cleanup(void)
     PROFILER.chunks->free(PROFILER.chunks);
 }
 
+#endif
 #endif

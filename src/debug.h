@@ -3,6 +3,7 @@
 
 
 #ifdef DEBUG_MODE
+#ifndef UNIT_TEST
 
 
 #include <stdint.h>
@@ -65,5 +66,6 @@ void _profiler_cleanup(void);
 #define profiler_display
 
 
+#endif
 #endif
 #endif

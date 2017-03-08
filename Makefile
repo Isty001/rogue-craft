@@ -7,11 +7,11 @@ CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunrea
 
 
 run-debug:
-	$(CC) $(SRC) main.c $(CFLAGS) -gdwarf -D DEBUG_MODE -D CONFIG_DIR=\"./config\" -o rogue.o
+	$(CC) $(SRC) main.c $(CFLAGS) -D DEBUG_MODE -D DIR_CONFIG=\"./config\" -D DIR_CACHE=\"./cache\" -o rogue.o
 	./rogue.o
 
 test:
-	$(CC) $(TEST_SRC) $(CFLAGS) -D UNIT_TEST  -o test.o
+	$(CC) $(TEST_SRC) $(CFLAGS) -D UNIT_TEST -D DEBUG_MODE -o test.o
 	./test.o
 
 test-valgrind:
@@ -20,3 +20,6 @@ test-valgrind:
 
 palette:
 	make -C ./lib/dev palette
+
+cache-clear:
+	rm -rf ./cache/*.cache

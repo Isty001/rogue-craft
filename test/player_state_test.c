@@ -1,5 +1,5 @@
-#include "../unit_test.h"
-#include "../../src/worker/worker.h"
+#include "unit_test.h"
+#include "../src/worker/worker.h"
 
 
 static AttributeConfig TEST_CFG = {

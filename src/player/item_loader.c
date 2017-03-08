@@ -14,7 +14,7 @@ static void add_item(JSON_Object *json, ItemType type, ItemPrototype *prototype,
     int chance = (int) get_number(json, "chance");
 
     if (0 >= chance) {
-        fatal("Item change must greater than 0");
+        fatal("Item chance must be greater than 0");
     }
 
     probability->items[probability->count].chance = chance;

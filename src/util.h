@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <worker.h>
 #include <memory.h>
+#include <errno.h>
 #include "debug.h"
 
 
@@ -86,6 +87,10 @@ static inline void *allocate(unsigned size)
 
 static inline void release(void *ptr)
 {
+    if (NULL == ptr) {
+        return;
+    }
+
     free(ptr);
     profile_release(ptr);
 }

@@ -1,21 +1,24 @@
-#ifndef ROGUECRAFT_STORAGE_H
-#define ROGUECRAFT_STORAGE_H
+#ifndef ROGUE_CRAFT_STORAGE_H
+#define ROGUE_CRAFT_STORAGE_H
 
 
-#include "../player/config.h"
+#include <sys/stat.h>
+#include <errno.h>
+#include <stdbool.h>
+#include "../util.h"
 
 
-typedef enum {
-    SE_OK,
-    SE_CREATE_DIR
-} StorageError;
+/** PATH_MAX is unnecessarily big for us */
+#define MAX_PATH 300
 
 
-void storage_init(char *base_dir);
+void dir_check(char *dir);
 
-void storage_rm_rf(char *path);
+FILE *file_open(char *path, char *mode);
 
-StorageError storage_save(char *name, Player *player);
+bool file_exists(char *file);
+
+size_t file_size(FILE *file);
 
 
 #endif

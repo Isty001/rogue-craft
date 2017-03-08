@@ -2,7 +2,7 @@
 #define ROGUE_CRAFT_MATERIAL_H
 
 
-#define MATERIAL_NUM 3
+#define MATERIAL_NUM 5
 #define MATERIAL_LIQUID_NUM 1
 
 
