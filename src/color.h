@@ -14,6 +14,8 @@
 #define COLOR_PAIR_YELLOW_F     5
 #define COLOR_PAIR_GRAY_F       6
 #define COLOR_PAIR_BROWN_F      7
+#define COLOR_PAIR_CLARET_F     8
+#define COLOR_PAIR_DARK_GREEN_F 9
 
 typedef short Color;
 

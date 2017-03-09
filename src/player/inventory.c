@@ -85,7 +85,7 @@ void inventory_display(Inventory *inventory)
             styled(win, item->style,
                    wprintw(win, "%lc", item->chr);
             );
-            wprintw(win, " | %d | %s", abs(item->value), item->name);
+            wprintw(win, " | %d | %s", item->value, item->name);
         }
     }
     refresh_boxed(win);

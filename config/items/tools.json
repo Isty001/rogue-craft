@@ -3,12 +3,12 @@
     "name": "Pickaxe",
     "char": "p",
     "style": ["COLOR_PAIR_GRAY_F"],
-    "valueRange": [1, 100],
-    "chance": 12,
+    "valueRange": [10, 100],
+    "chance": 50,
     "tool": {
       "range": 1,
       "multipliers": {
-        "defaults": {"solid": 1.1, "creature": 1.1},
+        "defaults": {"solid": 1.1, "creature": 1.0},
         "materials": {"STONE": 1.4}
       }
     }
@@ -17,8 +17,8 @@
     "name": "Shovel",
     "char": "s",
     "style": ["COLOR_PAIR_BROWN_F"],
-    "valueRange": [1, 100],
-    "chance": 10,
+    "valueRange": [10, 100],
+    "chance": 50,
     "tool": {
       "range": 1,
       "multipliers": {
@@ -31,8 +31,8 @@
     "name": "Axe",
     "char": "a",
     "style": ["COLOR_PAIR_GRAY_F"],
-    "valueRange": [1, 100],
-    "chance": 10,
+    "valueRange": [10, 100],
+    "chance": 35,
     "tool": {
       "range": 1,
       "multipliers": {

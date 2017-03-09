@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Sword",
+    "char": "S",
+    "style": ["COLOR_PAIR_GRAY_F"],
+    "valueRange": [1, 100],
+    "chance": 30,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 0.8, "creature": 1.2}
+      }
+    }
+  },
+  {
+    "name": "Longsword",
+    "char": "S",
+    "style": ["COLOR_PAIR_GRAY_F", "A_UNDERLINE"],
+    "valueRange": [20, 200],
+    "chance": 15,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 0.8, "creature": 1.6}
+      }
+    }
+  }
+]

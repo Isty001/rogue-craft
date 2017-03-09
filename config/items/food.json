@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Om nom nom",
+    "char": "F",
+    "style": ["COLOR_PAIR_YELLOW_F", "A_BOLD"],
+    "valueRange": [-50, -30],
+    "chance": 1,
+    "consumable": {
+      "permanent": false,
+      "attribute": "HUNGER"
+    }
+  },
+  {
+    "name": "Raw meet",
+    "char": "m",
+    "style": ["COLOR_PAIR_CLARET_F"],
+    "valueRange": [-5, 10],
+    "chance": 100,
+    "consumable": {
+      "permanent": false,
+      "attribute": "HUNGER"
+    }
+  },
+  {
+    "name": "Bread",
+    "char": "b",
+    "style": ["COLOR_PAIR_BROWN_F", "A_BOLD"],
+    "valueRange": [-20, -4],
+    "chance": 70,
+    "consumable": {
+      "permanent": false,
+      "attribute": "HUNGER"
+    }
+  },
+  {
+    "name": "Drinking water",
+    "char": "w",
+    "style": ["COLOR_PAIR_BLUE_F", "A_BOLD"],
+    "valueRange": [-20, -5],
+    "chance": 50,
+    "consumable": {
+      "permanent": false,
+      "attribute": "THIRST"
+    }
+  },
+  {
+    "name": "Dirty water",
+    "char": "w",
+    "style": ["COLOR_PAIR_DARK_GREEN_F", "A_BOLD"],
+    "valueRange": [-5, 10],
+    "chance": 100,
+    "consumable": {
+      "permanent": false,
+      "attribute": "THIRST"
+    }
+  },
+  {
+    "name": "Beer",
+    "char": "B",
+    "style": ["COLOR_PAIR_YELLOW_F"],
+    "valueRange": [10, 30],
+    "chance": 10,
+    "consumable": {
+      "permanent": false,
+      "attribute": "STAMINA"
+    }
+  }
+]

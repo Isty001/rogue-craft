@@ -15,11 +15,6 @@ void item_pool_init(void)
     ITEM_POOL = pool_init(sizeof(Item), 100);
 }
 
-MemPool *item_pool(void)
-{
-    return ITEM_POOL;
-}
-
 void item_pool_cleanup(void)
 {
     pool_destroy(ITEM_POOL);
