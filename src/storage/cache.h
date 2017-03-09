@@ -32,6 +32,8 @@ void cache_foreach(Cache *cache, Reader read);
 
 void cache_clear(Cache *cache);
 
+void cache_delete(char *name);
+
 void cache_close(Cache *cache);
 
 

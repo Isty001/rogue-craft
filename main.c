@@ -17,7 +17,7 @@ static void init(void)
 
     profiler_init();
     cache_init(DIR_CACHE);
-    item_load(DIR_CONFIG"/items");
+    item_load(DIR_CONFIG_ITEMS);
     ncurses_init();
     mouse_init();
     cell_pool_init();

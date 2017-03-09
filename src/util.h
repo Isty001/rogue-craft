@@ -66,9 +66,9 @@ static inline uint16_t sqr(uint16_t x)
     return x * x;
 }
 
-static inline uint16_t max(uint16_t a, uint16_t b)
+static inline long max(long a, long b)
 {
-    return a < b ? a : b;
+    return a > b ? a : b;
 }
 
 static inline void *allocate(unsigned size)

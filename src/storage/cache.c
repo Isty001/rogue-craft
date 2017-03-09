@@ -2,21 +2,21 @@
 #include "cache.h"
 
 
-#define path_of(name) ({                        \
-    char path[MAX_PATH];                        \
-    sprintf(path, "%s/%s.cache", DIR, name);    \
-    path;                                       \
+#define path_of(name) ({                            \
+    char _path[MAX_PATH];                            \
+    sprintf(_path, "%s/%s.cache", DIRECTORY, name);  \
+    _path;                                           \
 })
 
 
-static char *DIR;
+static char *DIRECTORY;
 
 
 void cache_init(char *dir)
 {
     dir_check(dir);
 
-    DIR = dir;
+    DIRECTORY = dir;
 }
 
 bool cache_exists(char *name)
@@ -41,7 +41,7 @@ void cache_open(Cache *cache, char *name, size_t entry_size)
 
 void cache_add(Cache *cache, void *entry)
 {
-    if (1 != fwrite(entry, sizeof(Point), 1, cache->file)) {
+    if (1 != fwrite(entry, cache->entry_size, 1, cache->file)) {
         fatal("Something went wrong while writing [%s] cache", cache->path);
     }
 }
@@ -61,6 +61,15 @@ void cache_clear(Cache *cache)
 {
     fflush(cache->file);
     ftruncate(fileno(cache->file), 0);
+}
+
+void cache_delete(char *name)
+{
+    char *path = path_of(name);
+
+    if (file_exists(path) && 0 != unlink(path)) {
+        fatal("Unable to unlink [%s]", path);
+    }
 }
 
 void cache_close(Cache *cache)

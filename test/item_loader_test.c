@@ -2,6 +2,7 @@
 #include "unit_test.h"
 #include "../src/player/item.h"
 #include "../config/config.h"
+#include "../src/storage/cache.h"
 
 
 static void assert_tool(ItemPrototype *prototype)
@@ -42,10 +43,8 @@ static void assert_consumable(ItemPrototype *prototype)
     mu_assert_int_eq(STAMINA, consumable->attribute);
 }
 
-MU_TEST(test_load)
+static void assert_loaded_items(void)
 {
-    item_load(FIXTURE_DIR"/config/items");
-
     mu_assert_int_eq(1, ITEM_CONSUMABLE_PROBABILITY.count);
     mu_assert_int_eq(10, ITEM_CONSUMABLE_PROBABILITY.sum);
 
@@ -55,6 +54,26 @@ MU_TEST(test_load)
     mu_assert_int_eq(15, ITEM_TOOL_PROBABILITY.sum);
 
     assert_tool(ITEM_TOOL_PROBABILITY.items[0].value);
+}
+
+MU_TEST(test_load)
+{
+    item_load(FIXTURE_DIR"/config/items");
+
+    assert_loaded_items();
+
+    item_unload();
+}
+
+/**
+ * After test_load
+ */
+MU_TEST(test_cache)
+{
+    item_load("Doesn't matter, as we already cached the items in the previous test case");
+
+    mu_assert(cache_exists(ITEM_CACHE), "Items cache should exist");
+    assert_loaded_items();
 
     item_unload();
 }
@@ -64,6 +83,7 @@ void run_item_loader_test(void)
     TEST_NAME("Item loader");
 
     MU_RUN_TEST(test_load);
+    MU_RUN_TEST(test_cache);
 
     MU_REPORT();
 }

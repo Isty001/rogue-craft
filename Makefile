@@ -11,7 +11,8 @@ run-debug:
 	./rogue.o
 
 test:
-	$(CC) $(TEST_SRC) $(CFLAGS) -D UNIT_TEST -D DEBUG_MODE -o test.o
+	rm -rf ./test/fixture/cache/*.cache
+	$(CC) $(TEST_SRC) $(CFLAGS) -D UNIT_TEST -D DEBUG_MODE -D DIR_CONFIG=\"./test/fixture/config\" -D DIR_CACHE=\"./test/fixture/cache\" -o test.o
 	./test.o
 
 test-valgrind:

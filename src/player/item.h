@@ -6,6 +6,9 @@
 #include "../ncurses/ncurses.h"
 
 
+#define ITEM_CACHE "items"
+
+
 typedef enum {
     IE_CONSUMED,
     IE_REPEAT,
@@ -13,7 +16,8 @@ typedef enum {
     IE_DUPLICATE,
     IE_OK,
     IE_OVERFLOW,
-    IE_IO
+    IE_CACHE_LOADED,
+    IE_NO_CACHE_FOUND
 } ItemError;
 
 typedef enum {
@@ -65,6 +69,10 @@ typedef struct ItemPrototype {
 void item_pool_init(void);
 
 void item_load(char *dir);
+
+ItemError item_cache_load(void);
+
+void item_cache_save(void);
 
 void item_unload(void);
 

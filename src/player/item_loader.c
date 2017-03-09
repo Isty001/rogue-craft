@@ -1,8 +1,10 @@
 #include <wchar.h>
 #include <tinydir.h>
+#include <list.h>
 #include "item.h"
 #include "../json.h"
 #include "../randomization.h"
+#include "../storage/storage.h"
 
 
 Probability ITEM_CONSUMABLE_PROBABILITY;
@@ -128,35 +130,35 @@ static void parse_json(JSON_Array *items)
 
 void item_load(char *path)
 {
-    tinydir_dir dir;
-    tinydir_file file;
-    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
-
-    if (0 != tinydir_open(&dir, path)) {
-        fatal("Unable to open dir [%s]", path);
+    if (IE_CACHE_LOADED == item_cache_load()) {
+        return;
     }
+
+    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
 
     JSON_Value *json;
     JSON_Array *array;
 
-    while (dir.has_next) {
-        tinydir_readfile(&dir, &file);
-        json = json_parse_file(file.path);
+    dir_foreach(path, function(void, (tinydir_file *file) {
+        json = json_parse_file(file->path);
 
         if (json && (array = json_value_get_array(json))) {
             parse_json(array);
             json_value_free(json);
         }
-        tinydir_next(&dir);
-    }
-    tinydir_close(&dir);
+    }));
+
+    item_cache_save();
 }
 
 static void clean_probability(Probability *probability)
 {
+
     for (int i = 0; i < probability->count; i++) {
         release(probability->items[i].value);
     }
+    probability->count = 0;
+    probability->sum = 0;
 }
 
 void item_unload(void)

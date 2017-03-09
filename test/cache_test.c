@@ -43,6 +43,9 @@ MU_TEST(test_io)
     cache_clear(&cache);
     cache_foreach(&cache, (Reader) assert_items);
 
+    cache_delete("test");
+    mu_assert(!file_exists(DIR_CACHE"/test.cache"), "");
+
     cache_close(&cache);
 }
 
@@ -59,7 +62,7 @@ MU_TEST(test_modified_date)
 
 static void teardown(void)
 {
-    unlink("./test/fixture/cache/test.cache");
+    unlink(DIR_CACHE"/test.cache");
 }
 
 void run_cache_test(void)

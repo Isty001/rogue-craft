@@ -9,6 +9,13 @@
 #include "../src/player/item.h"
 #include "../src/randomization.h"
 
+
+/**
+ * DIRECTORIES
+ */
+#define DIR_CONFIG_ITEMS DIR_CONFIG"/items"
+
+
 /**
  * PLAYER
  */
