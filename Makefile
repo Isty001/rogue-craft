@@ -2,7 +2,6 @@ SRC = $(shell find src lib/*/src config -path '*.c') lib/parson/parson.* lib/tin
 TEST_SRC = $(SRC) $(shell find test -path '*.c')
 CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -I lib/collection/src -I lib/tinydir -I lib/parson -l ncursesw -l pthread -l m -isystem lib -D _GNU_SOURCE
 
-
 .PHONY: test
 
 
