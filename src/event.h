@@ -4,35 +4,34 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include "level/level.h"
 
 
-#define EVENT_LISTENER_MAX 100
-
-
-#define event_new(t, d) (Event) {.type = t, .data = d}
+#define EVENT_LISTENER_MAX 20
 
 
 typedef enum {
-    LEVEL_INTERACT
-} EventType;
+    EVENT_INTERACTION
+} Event;
 
 typedef struct {
-    EventType type;
-    void *data;
-} Event;
+    Player *player;
+    Cell *cell;
+    Point point;
+} InteractionEvent;
 
 typedef enum {
     EE_OK,
+    EE_CONTINUE,
     EE_BREAK
 } EventError;
 
-typedef EventError (*EventHandler)(Event *data);
+typedef EventError (*EventHandler)(void *data);
 
 typedef struct {
-    EventType listening;
+    Event listening;
     EventHandler handle;
 } Listener;
-
 
 
 void event_register_listener(Listener *listener);
@@ -43,7 +42,7 @@ void event_register_listener(Listener *listener);
  */
 void event_register_listeners(Listener *listeners);
 
-void event_dispatch(Event *event);
+void event_dispatch(Event event, void *data);
 
 
 #endif

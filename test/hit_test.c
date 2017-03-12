@@ -1,6 +1,8 @@
 #include "unit_test.h"
 #include "fixture.h"
 #include "../src/player/inventory.h"
+#include "../src/level/cell.h"
+#include "../src/player/player.h"
 
 
 static ItemPrototype TEST_TOOL = {
@@ -34,6 +36,15 @@ static Player create_player(void)
     };
 }
 
+static InteractionEvent create_event(Player *player, Point point)
+{
+    return (InteractionEvent) {
+        .player = player,
+        .cell = player->level->cells[point.y][point.x],
+        .point =point
+    };
+}
+
 static void free_fixtures(Player *player)
 {
     inventory_free(player->inventory);
@@ -43,11 +54,15 @@ static void free_fixtures(Player *player)
 MU_TEST(test_range)
 {
     Player player = create_player();
+    InteractionEvent event = create_event(&player, point_new(0, 2));
 
-    mu_assert_int_eq(PE_OUT_OF_RANGE, player_hit(&player, point_new(0, 2)));
+    player_hit(&event);
 
     player.inventory->items[0]->tool.range = 2;
-    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 2)));
+
+    player_hit(&event);
+    mu_assert_double_eq(94.72, player.level->cells[0][2]->state);
+    mu_assert_double_eq(5.28, player.attributes.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -57,7 +72,9 @@ MU_TEST(test_defaults)
     Player player = create_player();
     Cell *cell;
 
-    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
+    InteractionEvent event = create_event(&player, point_new(0, 0));
+
+    player_hit(&event);
 
     cell = player.level->cells[0][0];
     mu_assert(false == cell->in_registry, "The cell hit should be cloned");
@@ -75,7 +92,9 @@ MU_TEST(test_material_and_tired_damage)
     player.attributes.state[THIRST].current = 30;
     player.inventory->items[0]->tool.multipliers.materials[STONE] = 2;
 
-    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
+    InteractionEvent event = create_event(&player, point_new(0, 0));
+
+    player_hit(&event);
 
     mu_assert_double_eq(92.9, player.level->cells[0][0]->state);
     mu_assert_int_eq(7.1, player.attributes.modifiers.dealt_damage);
@@ -86,9 +105,10 @@ MU_TEST(test_material_and_tired_damage)
 MU_TEST(test_bare_hands)
 {
     Player player = create_player();
+    InteractionEvent event = create_event(&player, point_new(0, 0));
     player.inventory->selected = 1;
 
-    mu_assert_int_eq(PE_DEALT_DAMAGE, player_hit(&player, point_new(0, 0)));
+    player_hit(&event);
 
     mu_assert_double_eq(95.2, player.level->cells[0][0]->state);
     mu_assert_double_eq(4.8, player.attributes.modifiers.dealt_damage);
@@ -99,9 +119,12 @@ MU_TEST(test_bare_hands)
 MU_TEST(test_invalid_cell_type)
 {
     Player player = create_player();
-    player.level->cells[0][0]->type = HOLLOW;
+    InteractionEvent event = create_event(&player, point_new(0, 0));
+    Cell *cell = player.level->cells[0][0];
+    cell->type = HOLLOW;
 
-    mu_assert_int_eq(PE_INVALID_CELL, player_hit(&player, point_new(0, 0)));
+    player_hit(&event);
+    mu_assert(cell->in_registry, "Shouldn't be touched");
 
     free_fixtures(&player);
 }

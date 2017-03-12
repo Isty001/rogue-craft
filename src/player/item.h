@@ -4,6 +4,7 @@
 
 #include "player.h"
 #include "../ncurses/ncurses.h"
+#include "../event.h"
 
 
 #define ITEM_CACHE "items"
@@ -81,6 +82,8 @@ Item *item_clone(ItemPrototype *prototype);
 Item *item_random(void);
 
 ItemError item_consume(Item *item, Player *player);
+
+EventError item_pickup(InteractionEvent *event);
 
 void item_free(Item *item);
 

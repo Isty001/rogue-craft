@@ -7,6 +7,7 @@
 #include "../level/point.h"
 #include "../level/level.h"
 #include "../sight.h"
+#include "../event.h"
 
 
 #define PLAYER_ATTR_NUM      4
@@ -22,12 +23,6 @@ typedef enum {
     HUNGER,
     THIRST
 } AttributeType;
-
-typedef enum {
-    PE_OUT_OF_RANGE,
-    PE_INVALID_CELL,
-    PE_DEALT_DAMAGE
-} PlayerError;
 
 typedef struct {
     char name[PLAYER_ATTR_NAME_MAX];
@@ -97,7 +92,7 @@ void player_update_sight(Player *player);
 
 bool player_can_see(Player *player, Point point);
 
-PlayerError player_hit(Player *player, Point at);
+EventError player_hit(InteractionEvent *event);
 
 void player_attributes_display(Player *player);
 

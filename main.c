@@ -15,11 +15,13 @@ static void init(void)
 {
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
+    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
 
     profiler_init();
-    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
+    event_register_listeners(LISTENERS);
     cache_init(DIR_CACHE);
     item_load(DIR_CONFIG_ITEMS);
+
     ncurses_init();
     mouse_init();
     cell_pool_init();

@@ -14,50 +14,50 @@ static int TEST_EVENT_1_INVOKED = 0;
 static int TEST_EVENT_2_INVOKED = 0;
 
 
-static EventError on_test_event_1(Event *event)
+static EventError on_test_event_1(Event *data)
 {
-    mark(1, event);
+    TEST_EVENT_1_INVOKED += *data;
 
     return EE_OK;
 }
 
-static EventError on_test_event_1_again(Event *event)
+static EventError on_test_event_1_again(Event *data)
 {
-    mark(1, event);
+    TEST_EVENT_1_INVOKED += *data;
 
     return EE_OK;
 }
 
-static EventError on_test_event_2(Event *event)
+static EventError on_test_event_2(Event *data)
 {
-    mark(2, event);
+    TEST_EVENT_2_INVOKED += *data;
 
     return EE_BREAK;
 }
 
-static EventError on_test_event_2_again(Event *event)
+static EventError on_test_event_2_again(int *data)
 {
-    mark(2, event);
+    TEST_EVENT_2_INVOKED += *data;
 
     return EE_OK;
 }
 
-Listener LISTENERS[5] = {
-    {.listening = TEST_EVENT_1, .handle = on_test_event_1},
-    {.listening = TEST_EVENT_1, .handle = on_test_event_1_again},
-    {.listening = TEST_EVENT_2, .handle = on_test_event_2},
-    {.listening = TEST_EVENT_2, .handle = on_test_event_2_again},
+Listener TEST_LISTENERS[5] = {
+    {.listening = TEST_EVENT_1, .handle = (EventHandler) on_test_event_1},
+    {.listening = TEST_EVENT_1, .handle = (EventHandler) on_test_event_1_again},
+    {.listening = TEST_EVENT_2, .handle = (EventHandler) on_test_event_2},
+    {.listening = TEST_EVENT_2, .handle = (EventHandler) on_test_event_2_again},
     {.handle = NULL}
 };
 
 MU_TEST(test_event)
 {
-    event_register_listeners(LISTENERS);
+    event_register_listeners(TEST_LISTENERS);
 
     int data = 100;
 
-    event_dispatch(&event_new(TEST_EVENT_1, &data));
-    event_dispatch(&event_new(TEST_EVENT_2, &data));
+    event_dispatch(TEST_EVENT_1, &data);
+    event_dispatch(TEST_EVENT_2, &data);
 
     mu_assert_int_eq(200, TEST_EVENT_1_INVOKED);
     mu_assert_int_eq(100, TEST_EVENT_2_INVOKED);

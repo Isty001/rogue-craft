@@ -53,7 +53,7 @@ static Hit calculate_hit(Player *player, Item *selected_item, Cell *target)
     };
 }
 
-static PlayerError apply_hit(Hit hit, Player *player, Cell *target, Point point)
+static void apply_hit(Hit hit, Player *player, Cell *target, Point point)
 {
     if (target->in_registry) {
         target = level_replace_cell_with_new(player->level, point);
@@ -66,31 +66,28 @@ static PlayerError apply_hit(Hit hit, Player *player, Cell *target, Point point)
         level_set_hollow(player->level, point);
     }
     ncurses_event("Dealt %d damage", (int) round(hit.damage));
-
-    return PE_DEALT_DAMAGE;
 }
 
-PlayerError player_hit(Player *player, Point at)
+EventError player_hit(InteractionEvent *event)
 {
-    Cell *target = player->level->cells[at.y][at.x];
+    Cell *target = event->cell;
+    Player *player = event->player;
+    Point point = event->point;
 
     if (!cell_damageable(target)) {
-        return PE_INVALID_CELL;
+        return EE_CONTINUE;
     }
 
     Inventory *inventory = player->inventory;
     Item *selected_item = inventory->items[inventory->selected];
-    PlayerError err;
     lock(&player->attributes.mutex);
 
     Hit hit = calculate_hit(player, selected_item, target);
 
-    if (hit.allowed_range < point_distance(player->position.current, at)) {
-        err = PE_OUT_OF_RANGE;
-    } else {
-        err = apply_hit(hit, player, target, at);
+    if (hit.allowed_range >= point_distance(player->position.current, point)) {
+        apply_hit(hit, player, target, point);
     }
     unlock(&player->attributes.mutex);
 
-    return err;
+    return EE_OK;
 }

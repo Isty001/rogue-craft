@@ -21,16 +21,21 @@ MU_TEST(test_item_pickup)
     Player *player = player_new(level, &camera);
     player->position.current = point_new(0, 1);
 
-    Point click = point_new(0, 0);
+    InteractionEvent event = {
+        .cell = level->cells[0][0],
+        .player = player,
+        .point = point_new(0, 0)
+    };
 
-    level_interact(player, click);
+    item_pickup(&event);
     mu_assert(&item == player->inventory->items[0], "Items are not the same");
 
-    level_interact(player, click);
+    item_pickup(&event);
     mu_assert(&item == player->inventory->items[0], "Items are not the same");
     mu_assert(NULL == player->inventory->items[1], "There should be no items");
 
     mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
+    mu_assert(level->cells[0][0]->in_registry, "");
 
     player_free(player);
     fixture_level_free(level);

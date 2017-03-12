@@ -8,6 +8,7 @@
 #include "../src/player/player.h"
 #include "../src/player/item.h"
 #include "../src/randomization.h"
+#include "../src/event.h"
 
 
 /**
@@ -15,6 +16,7 @@
  */
 #define DIR_CONFIG_ITEMS DIR_CONFIG"/items"
 
+extern Listener LISTENERS[];
 
 /**
  * PLAYER

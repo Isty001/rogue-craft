@@ -20,15 +20,15 @@ void event_register_listeners(Listener *listeners)
     }
 }
 
-void event_dispatch(Event *event)
+void event_dispatch(Event event, void *data)
 {
     Listener *listener;
 
     for (uint16_t i = 0; i < COUNT; i++) {
         listener = LISTENERS[i];
 
-        if (event->type == listener->listening) {
-            if (EE_BREAK == listener->handle(event)) {
+        if (event == listener->listening) {
+            if (EE_BREAK == listener->handle(data)) {
                 break;
             }
         }

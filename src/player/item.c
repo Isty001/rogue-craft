@@ -1,6 +1,9 @@
 #include <memory.h>
 #include <mem_pool.h>
 #include "../../config/config.h"
+#include "inventory.h"
+#include "../event.h"
+#include "../level/cell.h"
 
 
 #define check_type(i, t) \
@@ -93,4 +96,23 @@ ItemError item_consume(Item *parent, Player *player)
     unlock(&player->attributes.mutex);
 
     return err;
+}
+
+EventError item_pickup(InteractionEvent *event)
+{
+    Cell *cell = event->cell;
+
+    if (cell->type != ITEM_) {
+        return EE_CONTINUE;
+    }
+
+    Player *player = event->player;
+
+    if (1 == point_distance(player->position.current, event->point)) {
+        if (IE_OK == inventory_add(player->inventory, event->cell->item)) {
+            level_set_hollow(player->level, event->point);
+        }
+    }
+
+    return EE_OK;
 }
