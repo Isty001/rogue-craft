@@ -16,12 +16,19 @@ MU_TEST(test_max)
     mu_assert_int_eq(32, max(11, 32));
 }
 
+MU_TEST(test_min)
+{
+    mu_assert_int_eq(5, min(10, 5));
+    mu_assert_int_eq(11, min(11, 32));
+}
+
 void run_util_test(void)
 {
     TEST_NAME("Util");
 
     MU_RUN_TEST(test_rand);
     MU_RUN_TEST(test_max);
+    MU_RUN_TEST(test_min);
 
     MU_REPORT();
 }

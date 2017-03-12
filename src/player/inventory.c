@@ -1,12 +1,16 @@
 #include "inventory.h"
 
 
+#define SHORTCUT_LENGTH 13
+
+
 Inventory *inventory_new(uint16_t size)
 {
     Inventory *inventory = allocate(sizeof(Inventory) + (size * sizeof(Item *)));
     inventory->size = size;
     inventory->selected = 0;
     repeat(inventory->size, inventory->items[i] = NULL)
+    repeat(INVENTORY_SHORTCUT_NUM, inventory->on_shortcut[i] = NULL)
 
     return inventory;
 }
@@ -54,57 +58,69 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
     repeat(inventory->size,
            if (item == inventory->items[i]) {
                inventory->items[i] = NULL;
-               wclear(WINDOW_INVENTORY);
+               wclear(WINDOW_INVENTORY_SHORTCUT);
                break;
            }
     )
     return IE_OK;
 }
 
-static inline void add_menu_mark(WINDOW *win, Inventory *inventory, int current)
+static void display_shortcut(Inventory *inventory, WINDOW *win, uint16_t i)
 {
-    if (current == inventory->selected) {
-        styled(win, COLOR_PAIR(COLOR_PAIR_RED_F),
-               waddstr(win, "* ");
+    Item *item = inventory->items[i];
+
+    styled_if(win, INVENTORY_SELECTED_STYLE, i == inventory->selected,
+              wprintw(win, "| %d - ", i + 1);
+    )
+
+    if (item) {
+        styled(win, item->style,
+               wprintw(win, "%lc", item->chr);
         );
-    } else {
-        waddstr(win, "* ");
+        wprintw(win, " %d ", item->value);
     }
 }
 
-void inventory_display(Inventory *inventory)
+void inventory_shortcut_display(Inventory *inventory)
 {
-    Item *item;
-    WINDOW *win = WINDOW_INVENTORY;
+    WINDOW *win = WINDOW_INVENTORY_SHORTCUT;
 
-    for (int i = 0; i < inventory->size; i++) {
-        wmove(win, i + PADDING, PADDING);
-        add_menu_mark(win, inventory, i);
+    wclear(win);
+    wmove(win, 1, 1);
 
-        if ((item = inventory->items[i])) {
-            styled(win, item->style,
-                   wprintw(win, "%lc", item->chr);
-            );
-            wprintw(win, " | %d | %s", item->value, item->name);
-        }
+    int displayed = min(getmaxx(win) / SHORTCUT_LENGTH, INVENTORY_SHORTCUT_NUM);
+    int length = getmaxx(win) / displayed;
+
+    for (uint16_t i = 0; i < displayed; i++) {
+        display_shortcut(inventory, win, i);
+        wmove(win, 1, (i + 1) * length);
     }
+
     refresh_boxed(win);
 }
 
-void inventory_select(Inventory *inventory, Direction direction)
+EventError inventory_shortcut_select(InputEvent *event)
 {
-    uint16_t selected = inventory->selected;
-    direction == NORTH ? selected-- : selected++;
+    int input = event->input;
+
+    if (input < INVENTORY_SHORTCUT_FIRST || input >= INVENTORY_SHORTCUT_FIRST + INVENTORY_SHORTCUT_NUM) {
+        return EE_CONTINUE;
+    }
+
+    Inventory *inventory = event->player->inventory;
+    uint16_t selected = input % INVENTORY_SHORTCUT_FIRST;
 
     if (selected < inventory->size) {
         inventory->selected = selected;
     }
+
+    return EE_OK;
 }
 
 void inventory_use_selected(Player *player)
 {
     Inventory *inventory = player->inventory;
-    Item *selected = inventory->items[inventory->selected];
+    Item *selected = inventory_selected(inventory);
 
     if (NULL == selected) {
         return;

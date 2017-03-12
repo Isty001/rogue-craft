@@ -18,7 +18,6 @@ static void init(void)
     json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
 
     profiler_init();
-    event_register_listeners(LISTENERS);
     cache_init(DIR_CACHE);
     item_load(DIR_CONFIG_ITEMS);
 
@@ -54,7 +53,7 @@ static void update(Player *player)
 static void render(Player *player)
 {
     level_display(player);
-    inventory_display(player->inventory);
+    inventory_shortcut_display(player->inventory);
     player_attributes_display(player);
     profiler_display();
 }

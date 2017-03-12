@@ -1,6 +1,8 @@
 #include "unit_test.h"
 #include "../src/player/inventory.h"
 #include "fixture.h"
+#include "../src/ncurses/ncurses.h"
+#include "../config/config.h"
 
 
 MU_TEST(test_add)
@@ -39,16 +41,21 @@ MU_TEST(test_remove)
 MU_TEST(test_select)
 {
     Inventory *inv = inventory_new(3);
+    Player player;
+    player.inventory = inv;
 
-    inventory_select(inv, NORTH);
-    mu_assert_int_eq(0, inv->selected);
+    InputEvent event = {.input = '2', .player = &player};
 
-    inventory_select(inv, SOUTH);
+    inventory_shortcut_select(&event);
     mu_assert_int_eq(1, inv->selected);
 
-    inventory_select(inv, SOUTH);
-    inventory_select(inv, SOUTH);
-    mu_assert_int_eq(2, inv->selected);
+    event.input = INVENTORY_SHORTCUT_FIRST + INVENTORY_SHORTCUT_NUM;
+    inventory_shortcut_select(&event);
+    mu_assert_int_eq(1, inv->selected);
+
+    event.input = 'a';
+    inventory_shortcut_select(&event);
+    mu_assert_int_eq(1, inv->selected);
 
     inventory_free(inv);
 }

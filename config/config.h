@@ -16,19 +16,24 @@
  */
 #define DIR_CONFIG_ITEMS DIR_CONFIG"/items"
 
-extern Listener LISTENERS[];
+extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
 
 /**
  * PLAYER
  */
 #define PLAYER_CHAR                     '@'
-
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-
-/** Attributes */
 #define PLAYER_DEFAULT_EYESIGHT         5
 
 extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
+
+
+/**
+ * INVENTORY
+ */
+#define INVENTORY_SHORTCUT_FIRST '1'
+#define INVENTORY_SHORTCUT_NUM 6
+#define INVENTORY_SELECTED_STYLE COLOR_PAIR(COLOR_PAIR_RED_F)
 
 
 /**
@@ -38,6 +43,7 @@ extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 #define KEY_EAST    'd'
 #define KEY_SOUTH   's'
 #define KEY_WEST    'a'
+#define KEY_USE     'f'
 
 /**
  * MATERIAL
@@ -49,7 +55,7 @@ extern Range MATERIAL_STRENGTH[];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 500);
+    (uint16_t) ((level->size.height * level->size.width) / 20);
 
 
 extern LevelConfig LEVEL_CAVE;

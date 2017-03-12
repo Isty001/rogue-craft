@@ -1,9 +1,18 @@
 #include "../src/event.h"
 #include "../src/player/item.h"
+#include "../src/player/inventory.h"
 
 
-Listener LISTENERS[EVENT_LISTENER_MAX] = {
-    {.listening = EVENT_INTERACTION, .handle = (EventHandler) item_pickup},
-    {.listening = EVENT_INTERACTION, .handle = (EventHandler) player_hit},
-    {.handle = NULL}
+Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
+    [EVENT_CLICK] = {
+        (Listener) level_interact
+    },
+    [EVENT_INTERACTION] = {
+        (Listener) player_hit,
+        (Listener) item_pickup
+    },
+    [EVENT_INPUT] = {
+        (Listener) inventory_shortcut_select,
+        (Listener) mouse_handler
+    }
 };

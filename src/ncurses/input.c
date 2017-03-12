@@ -24,7 +24,6 @@ static void process_main(int input, Player *player)
 {
     switch (input) {
         case KEY_MOUSE:
-            mouse_interact(player);
             break;
         default: {
             Direction direction;
@@ -38,12 +37,8 @@ static void process_main(int input, Player *player)
 
 static void process_inventory(int input, Player *player)
 {
-    switch (input){
-        case KEY_NORTH:
-        case KEY_SOUTH:
-            inventory_select(player->inventory, direction_lookup(input));
-            break;
-        case 'f':
+    switch (input) {
+        case KEY_USE:
             inventory_use_selected(player);
             break;
         default:
@@ -60,15 +55,18 @@ static uint16_t SELECTED = 1;
 
 void input_process(int input, Player *player)
 {
+    if (ERR == input) {
+        return;
+    }
+
+    InputEvent event = {
+        .input = input,
+        .player = player
+    };
+
+    event_dispatch(EVENT_INPUT, &event);
+
     switch (input) {
-        case ERR:
-            return;
-        case 'q':
-            if (0 < SELECTED) SELECTED--;
-            break;
-        case 'e':
-            if (3 > SELECTED) SELECTED++;
-            break;
         default:
             INPUT_PROCESSORS[SELECTED](input, player);
     }

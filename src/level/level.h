@@ -10,6 +10,8 @@
 #include "../util.h"
 #include "../color.h"
 #include "liquid.h"
+#include "../event.h"
+#include "../ncurses/ncurses.h"
 
 
 #define iterate_matrix(from, size, ...)             \
@@ -60,6 +62,12 @@ typedef const struct {
     } cell;
 } LevelConfig;
 
+typedef struct {
+    Player *player;
+    Cell *cell;
+    Point point;
+} InteractionEvent;
+
 
 Level *level_new(Size size, LevelConfig *cfg);
 
@@ -67,7 +75,7 @@ void level_display(Player *player);
 
 void level_generate_cave(Level *level);
 
-void level_interact(Player *player, Point click);
+EventError level_interact(ClickEvent *click);
 
 void level_set_hollow(Level *level, Point at);
 

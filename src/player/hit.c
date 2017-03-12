@@ -79,7 +79,7 @@ EventError player_hit(InteractionEvent *event)
     }
 
     Inventory *inventory = player->inventory;
-    Item *selected_item = inventory->items[inventory->selected];
+    Item *selected_item = inventory_selected(inventory);
     lock(&player->attributes.mutex);
 
     Hit hit = calculate_hit(player, selected_item, target);

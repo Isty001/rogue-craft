@@ -1,41 +1,38 @@
 #include "ncurses.h"
 
 
-#define CLICKABLE_NUM 1
-
-
-typedef struct {
-    WINDOW **window;
-    void (*interact)(Player *, Point );
-} Clickable;
-
-Clickable CLICKABLE_WINDOWS[CLICKABLE_NUM] = {
-    {.window = &WINDOW_MAIN, .interact = level_interact}
-};
-
-
 void mouse_init(void)
 {
     mousemask(ALL_MOUSE_EVENTS, NULL);
     mouseinterval(70);
 }
 
-void mouse_interact(Player *player)
+static void dispatch_click_event(MEVENT *mevent, WINDOW *window, Player *player)
 {
-    MEVENT event;
-    Clickable clickable;
-    getmouse(&event);
+    ClickEvent event = {
+        .point = point_new(mevent->y, mevent->x),
+        .window = window,
+        .player = player
+    };
 
-    repeat(CLICKABLE_NUM,
-       clickable = CLICKABLE_WINDOWS[i];
+    event_dispatch(EVENT_CLICK, &event);
+}
 
-       if (wmouse_trafo(*clickable.window, &event.y, &event.x, false)) {
-           Point click = point_new(
-               event.y,
-               event.x
-           );
+EventError mouse_handler(InputEvent *event)
+{
+    MEVENT mevent;
+    getmouse(&mevent);
 
-           clickable.interact(player, click);
-       }
-    )
+    int i = 0;
+    WINDOW *window;
+
+    while ((window = *WINDOW_LIST[i++])) {
+        if (wmouse_trafo(window, &mevent.y, &mevent.x, false)) {
+            dispatch_click_event(&mevent, window, event->player);
+
+            return EE_BREAK;
+        }
+    }
+
+    return EE_OK;
 }

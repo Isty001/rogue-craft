@@ -8,6 +8,7 @@
 
 
 #define ITEM_CACHE "items"
+#define ITEM_NAME_MAX 20
 
 
 typedef enum {
@@ -49,7 +50,7 @@ typedef struct {
 } LightSource;
 
 typedef struct Item {
-    char name[20];
+    char name[ITEM_NAME_MAX];
     wchar_t chr;
     Style style;
     int16_t value;

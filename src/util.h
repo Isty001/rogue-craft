@@ -32,6 +32,10 @@
     __VA_ARGS__;                \
     wattroff(win, style)        \
 
+#define styled_if(win, style, cond, ...) \
+    if (cond) { styled(win, style, __VA_ARGS__); } \
+    else { __VA_ARGS__; }
+
 #define has_flag(mask, flag) (flag == (flag & mask))
 
 #define range_new(f, t) (Range) {.from = f, .to = t}
@@ -69,6 +73,11 @@ static inline uint16_t sqr(uint16_t x)
 static inline long max(long a, long b)
 {
     return a > b ? a : b;
+}
+
+static inline long min(long a, long b)
+{
+    return a < b ? a : b;
 }
 
 static inline void *allocate(int size)

@@ -21,7 +21,6 @@ void run_player_state_test(void);
 void run_sight_test(void);
 void run_lighting_test(void);
 void run_item_loader_test(void);
-void run_event_test(void);
 void run_storage_test(void);
 void run_cache_test(void);
 
@@ -64,7 +63,6 @@ int main(void)
     run_sight_test();
     run_lighting_test();
     run_item_loader_test();
-    run_event_test();
     run_storage_test();
     run_cache_test();
 

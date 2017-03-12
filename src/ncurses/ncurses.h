@@ -3,7 +3,8 @@
 
 
 #include <ncurses.h>
-#include "../player/player.h"
+#include "../level/point.h"
+#include "../event.h"
 
 
 #define PADDING 2
@@ -20,14 +21,31 @@
 #endif
 
 
-extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
+extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
+
+extern WINDOW **WINDOW_LIST[];
+
+
+typedef struct Player Player;
+
+
+typedef struct {
+    int input;
+    Player *player;
+} InputEvent;
+
+typedef struct {
+    Point point;
+    Player *player;
+    WINDOW *window;
+} ClickEvent;
 
 
 void ncurses_init(void);
 
 void mouse_init(void);
 
-void mouse_interact(Player *player);
+EventError mouse_handler(InputEvent *event);
 
 void input_process(int input, Player *player);
 
