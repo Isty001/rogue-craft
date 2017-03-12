@@ -56,36 +56,35 @@ MU_TEST(test_select)
 MU_TEST(test_use_consumable)
 {
     Item item = fixture_consumable(false);
-    Inventory inv;
-    inv.selected = 0;
-    inv.items[0] = &item;
-    inv.size = 1;
+    Inventory *inv = inventory_new(1);
+    inventory_add(inv, &item);
 
     Player player;
 
+    player.inventory = inv;
     player.attributes.state[HEALTH].current = 95;
     player.attributes.state[HEALTH].max = 100;
 
-    player.inventory = &inv;
-
     inventory_use_selected(&player);
     mu_assert_int_eq(100, player.attributes.state[HEALTH].current);
-    mu_assert(&item == inv.items[0], "Item should not be removed");
+    mu_assert(&item == inv->items[0], "Item should not be removed");
 
     player.attributes.state[HEALTH].current = 92;
     inventory_use_selected(&player);
     mu_assert_int_eq(97, player.attributes.state[HEALTH].current);
-    mu_assert(NULL == inv.items[0], "Item should be removed");
+    mu_assert(NULL == inv->items[0], "Item should be removed");
+
+    inventory_free(inv);
 }
 
 void run_inventory_test(void)
 {
     TEST_NAME("Inventory");
 
-    MU_RUN_TEST(test_add);
-    MU_RUN_TEST(test_remove);
-    MU_RUN_TEST(test_select);
     MU_RUN_TEST(test_use_consumable);
+    MU_RUN_TEST(test_add);
+    MU_RUN_TEST(test_select);
+    MU_RUN_TEST(test_remove);
 
     MU_REPORT();
 }

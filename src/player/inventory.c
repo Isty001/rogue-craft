@@ -27,7 +27,7 @@ static inline bool in_inventory(Inventory *inventory, Item *item)
 ItemError inventory_add(Inventory *inventory, Item *item)
 {
     if (in_inventory(inventory, item)) {
-        event("Something went wrong. The exact same items is already in your Inventory");
+        ncurses_event("Something went wrong. The exact same items is already in your Inventory");
 
         return IE_DUPLICATE;
     }
@@ -35,12 +35,12 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     repeat(inventory->size,
            if (NULL == inventory->items[i]) {
                inventory->items[i] = item;
-               event("Picked up %s", item->name);
+               ncurses_event("Picked up %s", item->name);
 
                return IE_OK;
            }
     )
-    event("Your Inventory is full");
+    ncurses_event("Your Inventory is full");
 
     return IE_OVERFLOW;
 }
@@ -106,7 +106,7 @@ void inventory_use_selected(Player *player)
     Inventory *inventory = player->inventory;
     Item *selected = inventory->items[inventory->selected];
 
-    if (!selected) {
+    if (NULL == selected) {
         return;
     }
     if (CONSUMABLE == selected->type) {

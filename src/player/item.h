@@ -2,7 +2,7 @@
 #define ROGUECRAFT_ITEM_H
 
 
-#include "config.h"
+#include "player.h"
 #include "../ncurses/ncurses.h"
 
 

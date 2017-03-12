@@ -34,8 +34,9 @@ static void assert_consumable(ItemPrototype *prototype)
     mu_assert_int_eq(CONSUMABLE, item->type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_RED_F) | A_BOLD | A_UNDERLINE, item->style);
 
-    char actual[1];
+    char actual[2];
     wcstombs(actual, &item->chr, 2);
+    actual[2] = '\0';
 
     assert_string("ð", actual);
 

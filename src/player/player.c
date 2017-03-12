@@ -1,5 +1,5 @@
 
-#include "config.h"
+#include "player.h"
 #include "inventory.h"
 #include "../../config/config.h"
 

@@ -13,7 +13,7 @@ Probability ITEM_TOOL_PROBABILITY;
 
 static void add_item(JSON_Object *json, ItemType type, ItemPrototype *prototype, Probability *probability)
 {
-    int chance = (int) get_number(json, "chance");
+    int chance = (uint16_t) get_number(json, "chance");
 
     if (0 >= chance) {
         fatal("Item chance must be greater than 0");
@@ -134,8 +134,6 @@ void item_load(char *path)
         return;
     }
 
-    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
-
     JSON_Value *json;
     JSON_Array *array;
 
@@ -153,7 +151,6 @@ void item_load(char *path)
 
 static void clean_probability(Probability *probability)
 {
-
     for (int i = 0; i < probability->count; i++) {
         release(probability->items[i].value);
     }

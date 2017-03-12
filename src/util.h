@@ -71,14 +71,14 @@ static inline long max(long a, long b)
     return a > b ? a : b;
 }
 
-static inline void *allocate(unsigned size)
+static inline void *allocate(int size)
 {
-    if (0 == size) return NULL;
+    if (0 >= size) return NULL;
 
     void *ptr = malloc(size);
 
-    if (!ptr) {
-        fatal("Unable to allocate memory count of [%u]", size);
+    if (NULL == ptr) {
+        fatal("Unable to allocate [%u]byte memory ", size);
     }
     profile_allocate(size, ptr);
 

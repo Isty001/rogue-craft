@@ -1,6 +1,6 @@
 #include "util.h"
 #include "color.h"
-#include "player/config.h"
+#include "player/player.h"
 
 
 #define color(nm)  \

@@ -5,7 +5,7 @@
 #include "../src/color.h"
 #include "../src/level/cell.h"
 #include "../src/level/level.h"
-#include "../src/player/config.h"
+#include "../src/player/player.h"
 #include "../src/player/item.h"
 #include "../src/randomization.h"
 

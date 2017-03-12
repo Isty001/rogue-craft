@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <locale.h>
 #include <time.h>
+#include <parson.h>
 #include "src/level/level.h"
 #include "src/ncurses/ncurses.h"
 #include "src/level/camera.h"
@@ -16,6 +17,7 @@ static void init(void)
     srand((unsigned) time(NULL));
 
     profiler_init();
+    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
     cache_init(DIR_CACHE);
     item_load(DIR_CONFIG_ITEMS);
     ncurses_init();
@@ -58,6 +60,10 @@ static void render(Player *player)
 int main(void)
 {
     init();
+
+    if (!has_colors() || !can_change_color()) {
+        fatal("Please make sure that your terminal has 256 color support.");
+    }
 
     Camera camera;
     Size size = size_new(300, 300);

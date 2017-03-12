@@ -1,7 +1,8 @@
 #include "sight.h"
 
-
-#define area_size(r) (M_PI * sqr(r)) * sizeof(Point)
+/** The collected points wont always be exactly the same amount,
+ * so just in case, allocate a bigger buffer */
+#define area_size(r) (M_PI * sqr(r + 1)) * sizeof(Point)
 
 
 #define setup_modifiers(d, inc, target, current, axis)  \

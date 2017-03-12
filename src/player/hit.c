@@ -1,4 +1,4 @@
-#include "config.h"
+#include "player.h"
 #include "item.h"
 #include "inventory.h"
 
@@ -65,7 +65,7 @@ static PlayerError apply_hit(Hit hit, Player *player, Cell *target, Point point)
     if (target->state <= 0) {
         level_set_hollow(player->level, point);
     }
-    event("Dealt %d damage", (int) round(hit.damage));
+    ncurses_event("Dealt %d damage", (int) round(hit.damage));
 
     return PE_DEALT_DAMAGE;
 }
