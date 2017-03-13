@@ -20,6 +20,10 @@ static void dispatch_click_event(MEVENT *mevent, WINDOW *window, Player *player)
 
 EventError mouse_handler(InputEvent *event)
 {
+    if (KEY_MOUSE != event->input) {
+        return EE_CONTINUE;
+    }
+
     MEVENT mevent;
     getmouse(&mevent);
 

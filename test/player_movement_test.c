@@ -1,6 +1,7 @@
 #include "unit_test.h"
 #include "../src/player/player.h"
 #include "fixture.h"
+#include "../config/config.h"
 
 
 static void assert_position(Player player, int y, int x)
@@ -21,15 +22,20 @@ MU_TEST(test_movement)
     player.position.previous = point_new(1, 1);
     player.position.current = point_new(1, 1);
 
+    InputEvent event = {.player = &player, .input = KEY_NORTH};
+
     repeat(4,
-           player_move(&player, NORTH);
+           player_move(&event);
     )
 
     assert_position(player, 0, 1);
 
-    player_move(&player, SOUTH_EAST);
+    event.input = KEY_SOUTH;
+    player_move(&event);
+
+    event.input = KEY_WEST;
     repeat(3,
-           player_move(&player, WEST);
+           player_move(&event);
     )
     assert_position(player, 1, 0);
 

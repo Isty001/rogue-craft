@@ -86,7 +86,7 @@ Player *player_new(Level *level, Camera *camera);
 
 void player_free(Player *player);
 
-void player_move(Player *player, Direction direction);
+EventError player_move(InputEvent *event);
 
 void player_update_sight(Player *player);
 
