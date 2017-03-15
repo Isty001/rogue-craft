@@ -1,6 +1,5 @@
 #include <mem_pool.h>
 #include "worker.h"
-#include "../debug.h"
 #include "../../config/config.h"
 
 
@@ -58,7 +57,7 @@ void message_pool_cleanup(void)
 void message_free(Message *message)
 {
     profile_message(--);
-    pool_free(MESSAGE_POOL, message);
+    pool_release(MESSAGE_POOL, message);
 }
 
 void message_player_state_send(Player *player)

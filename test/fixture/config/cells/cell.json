@@ -1,0 +1,21 @@
+[
+  {
+    "name": "hollow.default",
+    "type": "HOLLOW",
+    "material": "VOID",
+    "char": " ",
+    "style": ["COLOR_PAIR_NONE"]
+  },
+  {
+    "name": "stone.cobble",
+    "type": "SOLID",
+    "material": "STONE",
+    "char": "#",
+    "style": ["COLOR_PAIR_GRAY_F"]
+  },
+  {
+    "name": "stone.mossy",
+    "extends": "stone.cobble",
+    "char": "*"
+  }
+]

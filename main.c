@@ -3,13 +3,13 @@
 #include <time.h>
 #include <parson.h>
 #include "src/level/level.h"
-#include "src/ncurses/ncurses.h"
 #include "src/level/camera.h"
 #include "config/config.h"
 #include "src/player/inventory.h"
 #include "src/worker/worker.h"
 #include "src/level/lighting.h"
 #include "src/storage/cache.h"
+
 
 static void init(void)
 {
@@ -18,15 +18,20 @@ static void init(void)
     json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
 
     profiler_init();
-    cache_init(DIR_CACHE);
-    item_load(DIR_CONFIG_ITEMS);
-
     ncurses_init();
-    mouse_init();
-    cell_pool_init();
-    item_pool_init();
-    lighted_cell_pool_init();
+
+    list_node_pool_init();
     message_pool_init();
+    item_pool_init();
+    cell_pool_init();
+    lighted_cell_pool_init();
+
+    cache_init(DIR_CACHE);
+    item_load();
+    cell_load();
+    level_load();
+
+    mouse_init();
     worker_init();
 }
 
@@ -34,13 +39,19 @@ static void cleanup(Player *player)
 {
     ncurses_cleanup();
     worker_cleanup();
+
     message_pool_cleanup();
     item_pool_cleanup();
     cell_pool_cleanup();
     lighted_cell_pool_cleanup();
+
     level_free(player->level);
     player_free(player);
     item_unload();
+    cell_unload();
+    level_unload();
+
+    list_node_pool_cleanup();
     profiler_cleanup();
 }
 
@@ -68,7 +79,7 @@ int main(void)
 
     Camera camera;
     Size size = size_new(300, 300);
-    Level *level = level_new(size, &LEVEL_CAVE);
+    Level *level = level_new(size);
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
     int in;

@@ -14,6 +14,7 @@ struct {
     uint16_t cell;
     uint16_t lighted_cell;
     uint16_t item;
+    uint16_t list_node;
     uint16_t message;
     List *chunks;
 } PROFILER;
@@ -23,13 +24,17 @@ struct {
 #define profile_lighted_cell(op) PROFILER.lighted_cell op
 #define profile_item(op) PROFILER.item op
 #define profile_message(op) PROFILER.message op
+#define profile_list_node(op) PROFILER.list_node op
 
 #define profile_allocate(size, ptr) _profile_allocate(size, ptr);
 #define profile_release(ptr) _profile_release(ptr);
 
-#define profiler_init()                     \
-        PROFILER.chunks = list_new();       \
-        PROFILER.chunks->free_item = free
+#define profiler_init()                       \
+        PROFILER.chunks = list_new();         \
+        PROFILER.chunks->release_item = free; \
+        PROFILER.chunks->release_node = free; \
+        PROFILER.chunks->alloc_node = malloc; \
+
 #define profiler_cleanup() _profiler_cleanup();
 #define profiler_display() _profiler_display();
 
@@ -57,8 +62,9 @@ void _profiler_cleanup(void);
 #define profile_item(op)
 #define profile_lighted_cell(op)
 #define profile_message(op)
+#define profile_list_node(op)
 
-#define profile_allocate(size, ptr)
+#define profile_allocate(count, ptr)
 #define profile_release(ptr)
 
 #define profiler_init()

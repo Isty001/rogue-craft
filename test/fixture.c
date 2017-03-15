@@ -6,7 +6,7 @@ Level *fixture_level(void)
     Level *level = malloc(sizeof(Level));
     level->size = (Size) {2, 3};
 
-    level->registry.hollow.size = 1;
+    level->registry.hollow.count = 1;
     level->registry.hollow.cells = allocate(sizeof(Cell));
     level->registry.hollow.cells[0].type = HOLLOW;
     level->registry.hollow.cells[0].in_registry = true;
@@ -14,7 +14,7 @@ Level *fixture_level(void)
     level->registry.hollow.cells[0].state = 100;
     level->registry.hollow.cells[0].style = FIXTURE_HOLLOW_STYLE;
 
-    level->registry.solid.size = 1;
+    level->registry.solid.count = 1;
     level->registry.solid.cells = allocate(sizeof(Cell));
     level->registry.solid.cells[0].type = SOLID;
     level->registry.solid.cells[0].in_registry = true;

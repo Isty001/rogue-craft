@@ -25,13 +25,16 @@ run-debug:
 	$(CC) $(SRC) main.c $(CFLAGS) -l$(DEP_LIB) -D DEBUG_MODE -D DIR_CONFIG=\"./config\" -D DIR_CACHE=\"./cache\" -o $(OBJ)
 	./$(OBJ)
 
-test:
+new-test:
 	rm -rf ./test/fixture/cache/*.cache
 	$(CC) $(TEST_SRC) $(CFLAGS) -l$(DEP_LIB) -D UNIT_TEST -D DEBUG_MODE -D DIR_CONFIG=\"./test/fixture/config\" -D DIR_CACHE=\"./test/fixture/cache\" -o $(TEST_OBJ)
+
+test:
+	make new-test
 	./$(TEST_OBJ)
 
 test-valgrind:
-	make test
+	make new-test
 	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_OBJ)
 
 palette:

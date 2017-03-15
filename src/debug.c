@@ -35,7 +35,9 @@ void _profiler_display(void)
 
     mvwprintw(WINDOW_MAIN, 3, 2, "ITEM POOL: [%d][%d byte]", PROFILER.item, PROFILER.item * sizeof(Item));
 
-    mvwprintw(WINDOW_MAIN, 4, 2,
+    mvwprintw(WINDOW_MAIN, 4, 2, "LIST NODE POOL: [%d][%d byte]", PROFILER.list_node, PROFILER.list_node * list_node_size());
+
+    mvwprintw(WINDOW_MAIN, 5, 2,
               "MALLOC: [%d][%d byte]", PROFILER.chunks->count, sum_chunks());
 
     mvwprintw(WINDOW_MAIN, 1, 40, "WORKER: Messages: Pool: [%d][%d byte] In Queue: [%d]",

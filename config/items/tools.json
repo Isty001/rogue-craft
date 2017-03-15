@@ -4,7 +4,7 @@
     "char": "p",
     "style": ["COLOR_PAIR_GRAY_F"],
     "valueRange": [10, 100],
-    "chance": 50,
+    "probability": 50,
     "tool": {
       "range": 1,
       "multipliers": {
@@ -18,7 +18,7 @@
     "char": "s",
     "style": ["COLOR_PAIR_BROWN_F"],
     "valueRange": [10, 100],
-    "chance": 50,
+    "probability": 50,
     "tool": {
       "range": 1,
       "multipliers": {
@@ -32,7 +32,7 @@
     "char": "a",
     "style": ["COLOR_PAIR_GRAY_F"],
     "valueRange": [10, 100],
-    "chance": 35,
+    "probability": 35,
     "tool": {
       "range": 1,
       "multipliers": {

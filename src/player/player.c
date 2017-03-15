@@ -1,7 +1,6 @@
 
 #include "player.h"
 #include "inventory.h"
-#include "../../config/config.h"
 
 
 #define CHAR_BAR '|'

@@ -12,9 +12,17 @@
 
 
 /**
- * DIRECTORIES
+ * STORAGE/CACHE
  */
 #define DIR_CONFIG_ITEMS DIR_CONFIG"/items"
+#define CACHE_CONFIG_ITEM "item-config"
+
+#define DIR_CONFIG_CELLS DIR_CONFIG"/cells"
+#define CACHE_CONFIG_CELL "cell-config"
+
+#define DIR_CONFIG_LEVEL DIR_CONFIG"/levels"
+#define CACHE_CONFIG_LEVEL "level-config"
+
 
 extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
 
@@ -43,12 +51,13 @@ extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 #define KEY_EAST    'd'
 #define KEY_SOUTH   's'
 #define KEY_WEST    'a'
+/** @TODO Listener */
 #define KEY_USE     'f'
 
 /**
  * MATERIAL
  */
-extern Range MATERIAL_STRENGTH[];
+extern uint16_t MATERIAL_STRENGTH[MATERIAL_NUM];
 
 
 /**
@@ -58,17 +67,7 @@ extern Range MATERIAL_STRENGTH[];
     (uint16_t) ((level->size.height * level->size.width) / 20);
 
 
-extern LevelConfig LEVEL_CAVE;
-
-
-/**
- * CELL
- */
-extern CellRegistryConfig CELL_REGISTRY_VOID;
-
-extern CellRegistryConfig CELL_REGISTRY_CAVE;
-
-extern CellRegistryConfig CELL_REGISTRY_WATER;
+extern Probability LEVEL_PROBABILITY;
 
 
 /**

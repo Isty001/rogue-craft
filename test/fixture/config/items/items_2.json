@@ -4,7 +4,7 @@
     "char": "p",
     "style": ["COLOR_PAIR_GRAY_F"],
     "valueRange": [1, 100],
-    "chance": 15,
+    "probability": 15,
     "tool": {
       "range": 1,
       "multipliers": {

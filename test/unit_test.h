@@ -8,7 +8,7 @@
 #include "../src/util.h"
 
 
-#define FIXTURE_DIR "./test/fixture"
+#define DIR_FIXTURE "./test/fixture"
 
 #define TEST_NAME(name) puts("\x1B[33m[" name "] test case:\x1B[0m")
 
@@ -19,6 +19,15 @@ static inline void assert_string(char *expected, char *actual)
     sprintf(buff, "Strings are not equal. Expected %s got %s", expected, actual);
 
     mu_assert(0 == strcmp(expected, actual), buff);
+}
+
+static inline void assert_wchar(char *expected, wchar_t actual, size_t size)
+{
+    char converted[2];
+    wcstombs(converted, &actual, 2);
+    converted[size] = '\0';
+
+    assert_string(expected, converted);
 }
 
 static inline void assert_point(Point point, int y, int x)

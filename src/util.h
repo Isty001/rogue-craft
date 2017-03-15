@@ -8,6 +8,7 @@
 #include <worker.h>
 #include <memory.h>
 #include <errno.h>
+#include <mem_pool.h>
 #include "debug.h"
 
 
@@ -20,12 +21,13 @@
 
 #define rand_in_range(r) rand_in(r.from, r.to)
 
-#define rand_true(probability) ((rand() / (double)RAND_MAX) < probability)
+#define rand_bool(probability) ((rand() / (double)RAND_MAX) < probability)
 
 #define in_range(i, range) \
     i >= range.from && i <= range.to
 
-#define fatal(...) fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
+#define fatal(...) fprintf(stderr,"[%s:%d] ", __FUNCTION__, __LINE__);\
+    fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
 
 #define styled(win, style, ...) \
     wattron(win, style);        \
@@ -39,6 +41,17 @@
 #define has_flag(mask, flag) (flag == (flag & mask))
 
 #define range_new(f, t) (Range) {.from = f, .to = t}
+
+#define pool_release(pool, ptr) \
+    if (0 != pool_free(pool, ptr)) { fatal("[%s] unable to free item", #pool) }
+
+#define safe_alloc(...)             \
+    if (0 >= size) return NULL;     \
+    __VA_ARGS__                     \
+    if (NULL == ptr) {              \
+        fatal("[%s] failed to allocate [%u]byte memory ", __FUNCTION__, size);  \
+    } profile_allocate(size, ptr);
+
 
 #ifndef UNIT_TEST
 
@@ -62,8 +75,6 @@ typedef struct {
 
 extern ConstLookup CONST_LOOKUP[];
 
-int constant(const char *search);
-
 
 static inline uint16_t sqr(uint16_t x)
 {
@@ -82,14 +93,18 @@ static inline long min(long a, long b)
 
 static inline void *allocate(int size)
 {
-    if (0 >= size) return NULL;
+    safe_alloc(
+        void *ptr = malloc(size);
+    )
 
-    void *ptr = malloc(size);
+    return ptr;
+}
 
-    if (NULL == ptr) {
-        fatal("Unable to allocate [%u]byte memory ", size);
-    }
-    profile_allocate(size, ptr);
+static inline void *callocate(int nmemb, int size)
+{
+    safe_alloc(
+        void *ptr = calloc(nmemb, size);
+    )
 
     return ptr;
 }
@@ -108,6 +123,15 @@ typedef struct {
     int from;
     int to;
 } Range;
+
+/**
+ * @return COLOR_PAIR_* constants will be returned already wrapped in COLOR_PAIR()
+ */
+uint64_t constant(const char *search);
+
+void list_node_pool_init(void);
+
+void list_node_pool_cleanup(void);
 
 
 #endif

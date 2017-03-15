@@ -1,0 +1,29 @@
+[
+  {
+    "name": "stone",
+    "type": "SOLID",
+    "material": "STONE",
+    "char": "#",
+    "style": ["COLOR_PAIR_GRAY_F"]
+  },
+  {
+    "name": "stone.dark",
+    "extends": "stone",
+    "style": ["COLOR_PAIR_DARK_GRAY_F"]
+  },
+  {
+    "name": "stone.mossy",
+    "extends": "stone",
+    "style": ["COLOR_PAIR_DARK_GREEN_F"]
+  },
+  {
+    "name": "stone.mossy.broken",
+    "extends": "stone.mossy",
+    "char": "*"
+  },
+  {
+    "name": "stone.snowy",
+    "extends": "stone",
+    "style": [{"fore": 7, "back": 239}]
+  }
+]

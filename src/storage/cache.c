@@ -57,6 +57,23 @@ void cache_foreach(Cache *cache, Reader reader)
     }
 }
 
+CacheError cache_foreach_valid(Cache *cache, char *last_modified_in, Reader reader)
+{
+    time_t value_modified = dir_latest_modified_time(last_modified_in);
+    CacheError err;
+
+    if (cache_valid(cache, value_modified)) {
+        cache_foreach(cache, reader);
+        err =  CE_LOADED;
+    } else {
+        cache_clear(cache);
+        err = CE_NOT_FOUND;
+    }
+    cache_close(cache);
+
+    return err;
+}
+
 void cache_clear(Cache *cache)
 {
     fflush(cache->file);

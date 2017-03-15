@@ -32,23 +32,19 @@ static inline bool can_move_to(Player *player, Point target)
 
 static inline Direction direction_lookup(int input)
 {
-    if (KEY_MOUSE == input) {
-        return -1;
-    }
-
     for (int i = 0; i < 4; ++i) {
         if (input == KEY_MAIN_DIRECTION_MAP[i][0]) {
             return (Direction) KEY_MAIN_DIRECTION_MAP[i][1];
         }
     }
-    return -1;
+    return 0;
 }
 
 EventError player_move(InputEvent *event)
 {
     Direction direction;
 
-    if (!(direction = direction_lookup(event->input))) {
+    if (KEY_MOUSE == event->input || 0 == (direction = direction_lookup(event->input))) {
         return EE_CONTINUE;
     }
 

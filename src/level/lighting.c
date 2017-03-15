@@ -99,7 +99,7 @@ static void free_cells(Lighting *lighting, Cell ***cells)
         cells[point.y][point.x] = tmp->original;
 
         cell_free_custom(tmp->current);
-        pool_free(POOL, tmp);
+        pool_release(POOL, tmp);
         profile_lighted_cell(--);
     }
     lighting->cells = NULL;

@@ -1,0 +1,50 @@
+[
+  {
+    "type": "CELLULAR",
+    "probability": 15,
+    "cells": {
+      "HOLLOW": [
+        {"hollow.empty": 1}
+      ],
+      "SOLID": [
+        {"stone": 10},
+        {"stone.dark": 7},
+        {"stone.mossy": 5},
+        {"stone.mossy.broken": 3}
+      ]
+    }
+  },
+  {
+    "type": "CELLULAR",
+    "probability": 12,
+    "cells": {
+      "HOLLOW": [
+        {"hollow.empty": 15},
+        {"grass.hollow": 2},
+        {"grass.dark.hollow": 2}
+      ],
+      "SOLID": [
+        {"dirt": 10},
+        {"dirt.dark": 7},
+        {"grass": 10},
+        {"grass.dark": 7},
+        {"sand": 7},
+        {"stone": 3}
+      ]
+    }
+  },
+  {
+    "type": "CELLULAR",
+    "probability": 50,
+    "cells": {
+      "HOLLOW": [
+        {"hollow.empty": 15}
+      ],
+      "SOLID": [
+        {"dirt.snowy": 10},
+        {"stone.snowy": 5},
+        {"grass.snowy": 5}
+      ]
+    }
+  }
+]

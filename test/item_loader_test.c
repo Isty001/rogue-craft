@@ -34,11 +34,7 @@ static void assert_consumable(ItemPrototype *prototype)
     mu_assert_int_eq(CONSUMABLE, item->type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_RED_F) | A_BOLD | A_UNDERLINE, item->style);
 
-    char actual[2];
-    wcstombs(actual, &item->chr, 2);
-    actual[2] = '\0';
-
-    assert_string("ð", actual);
+    assert_wchar("ð", item->chr, 2);
 
     mu_assert(consumable->permanent, "should be permanent");
     mu_assert_int_eq(STAMINA, consumable->attribute);
@@ -59,7 +55,10 @@ static void assert_loaded_items(void)
 
 MU_TEST(test_load)
 {
-    item_load(FIXTURE_DIR"/config/items");
+    mu_assert(!cache_exists(CACHE_CONFIG_ITEM), "Items cache should not exist");
+
+    item_load();
+    mu_assert(cache_exists(CACHE_CONFIG_ITEM), "Items cache should exist");
 
     assert_loaded_items();
 
@@ -71,12 +70,18 @@ MU_TEST(test_load)
  */
 MU_TEST(test_cache)
 {
-    item_load("Doesn't matter, as we already cached the items in the previous test case");
+    rename(DIR_CONFIG_ITEMS"/items.json", DIR_CONFIG"/tmp/items.json");
+    rename(DIR_CONFIG_ITEMS"/items_2.json", DIR_CONFIG"/tmp/items_2.json");
 
-    mu_assert(cache_exists(ITEM_CACHE), "Items cache should exist");
+    mu_assert(cache_exists(CACHE_CONFIG_ITEM), "Items cache should exist");
+    item_load();
+
     assert_loaded_items();
 
     item_unload();
+
+    rename(DIR_CONFIG"/tmp/items.json", DIR_CONFIG_ITEMS"/items.json");
+    rename(DIR_CONFIG"/tmp/items_2.json", DIR_CONFIG_ITEMS"/items_2.json");
 }
 
 void run_item_loader_test(void)

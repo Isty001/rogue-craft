@@ -2,8 +2,6 @@
 #include <mem_pool.h>
 #include "../../config/config.h"
 #include "inventory.h"
-#include "../event.h"
-#include "../level/cell.h"
 
 
 #define check_type(i, t) \
@@ -25,7 +23,7 @@ void item_pool_cleanup(void)
 
 void item_free(Item *item)
 {
-    pool_free(ITEM_POOL, item);
+    pool_release(ITEM_POOL, item);
     profile_item(--);
 }
 
@@ -33,25 +31,18 @@ Item *item_clone(ItemPrototype *prototype)
 {
     Item *item = pool_alloc(ITEM_POOL);
     memcpy(item, &prototype->item, sizeof(Item));
-    profile_item(++);
-
-    return item;
-}
-
-static Item *item_randomize_value(ItemPrototype *prototype)
-{
-    Item *item = item_clone(prototype);
     item->value = rand_in_range(prototype->value_range);
+    profile_item(++);
 
     return item;
 }
 
 Item *item_random(void)
 {
-    Probability *type = random_from(&ITEM_TYPE_PROBABILITY);
-    ItemPrototype *prototype = random_from(type);
+    Probability *type = probability_pick(&ITEM_TYPE_PROBABILITY);
+    ItemPrototype *prototype = probability_pick(type);
 
-    return item_randomize_value(prototype);
+    return item_clone(prototype);
 }
 
 /**

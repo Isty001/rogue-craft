@@ -19,9 +19,13 @@ static void allocate_rows(Level *level)
 
 static void initialize_cells(Level *level)
 {
+    probability_pick(&level->cfg->cells.solid);
+
     iterate_matrix(
         0, level->size,
-        level->cells[y][x] = rand_true(0.54) ? &cell_registry_rand(level, solid) : &cell_registry_rand(level, hollow);
+        level->cells[y][x] = rand_bool(0.54)
+                             ? probability_pick(&level->cfg->cells.solid)
+                             : probability_pick(&level->cfg->cells.hollow)
     );
 }
 
@@ -42,19 +46,18 @@ static void add_items(Level *level)
     } while (remaining);
 }
 
-Level *level_new(Size size, LevelConfig *cfg)
+Level *level_new(Size size)
 {
     Level *level = allocate(sizeof(Level));
     level->size = size;
+    level->cfg = probability_pick(&LEVEL_PROBABILITY);
 
     level_add_bounds(level);
-    level->registry.hollow = cell_registry_new(cfg->cell.hollow);
-    level->registry.solid = cell_registry_new(cfg->cell.solid);
 
     allocate_rows(level);
     initialize_cells(level);
 
-    if (CAVE == cfg->type) {
+    if (CELLULAR == level->cfg->type) {
         level_generate_cave(level);
     }
 
@@ -124,7 +127,7 @@ void level_display(Player *player)
 void level_set_hollow(Level *level, Point at)
 {
     cell_free_custom(level->cells[at.y][at.x]);
-    level->cells[at.y][at.x] = &cell_registry_rand(level, hollow);
+    level->cells[at.y][at.x] = probability_pick(&level->cfg->cells.hollow);
 }
 
 Cell *level_replace_cell_with_new(Level *level, Point at)
@@ -141,8 +144,6 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 
 void level_free(Level *level)
 {
-    release(level->registry.hollow.cells);
-    release(level->registry.solid.cells);
     release(level->cells);
     release(level);
 }

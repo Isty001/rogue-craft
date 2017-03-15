@@ -41,6 +41,7 @@ static void evolve(Level *level, Cell *(*tmp)[level->size.height][level->size.wi
 {
     int neighbours;
     Cell *cell, *new;
+    LevelCells *cells = &level->cfg->cells;
 
     iterate_matrix(
         0, level->size,
@@ -50,21 +51,24 @@ static void evolve(Level *level, Cell *(*tmp)[level->size.height][level->size.wi
 
         if (cell->type == SOLID) {
             if (neighbours < 4) {
-                new = &cell_registry_rand(level, solid);
+                new = probability_pick(&cells->solid);
             } else {
-                new = &cell_registry_rand(level, hollow);
+                new = probability_pick(&cells->hollow);
             }
         } else {
             if (neighbours > 4) {
-                new = &cell_registry_rand(level, hollow);
+                new = probability_pick(&cells->hollow);
             } else {
-                new = &cell_registry_rand(level, solid);
+                new = probability_pick(&cells->solid);
             }
         }
         (*tmp)[y][x] = new;
     )
 }
 
+/**
+ * @TODO nasty stack overflow
+ */
 void level_generate_cave(Level *level)
 {
     Size size = level->size;

@@ -30,6 +30,8 @@ void cache_add(Cache *cache, void *entry);
 
 void cache_foreach(Cache *cache, Reader read);
 
+CacheError cache_foreach_valid(Cache *cache, char *last_modified_in, Reader reader);
+
 void cache_clear(Cache *cache);
 
 void cache_delete(char *name);

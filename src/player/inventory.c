@@ -127,8 +127,8 @@ void inventory_use_selected(Player *player)
     }
     if (CONSUMABLE == selected->type) {
         if (IE_CONSUMED == item_consume(selected, player)) {
-            inventory_remove(inventory, selected);
             item_free(selected);
+            inventory_remove(inventory, selected);
         }
     }
 }

@@ -12,6 +12,7 @@
 #include "liquid.h"
 #include "../event.h"
 #include "../ncurses/ncurses.h"
+#include "../randomization.h"
 
 
 #define iterate_matrix(from, size, ...)             \
@@ -36,31 +37,28 @@ typedef struct Camera Camera;
 
 
 typedef enum {
-    CAVE
+    CELLULAR
 } LevelType;
+
+typedef struct {
+    Probability hollow;
+    Probability solid;
+} LevelCells;
+
+typedef struct {
+    LevelType type;
+    LevelCells cells;
+} LevelConfig;
 
 typedef struct Level {
     Size size;
     Cell ***cells;
+    LevelConfig *cfg;
     struct {
         Range y;
         Range x;
     } bounds;
-    struct {
-        CellRegistry solid;
-        CellRegistry hollow;
-        CellRegistry liquids[MATERIAL_LIQUID_NUM];
-    } registry;
 } Level;
-
-typedef const struct {
-    LevelType type;
-    struct {
-        CellRegistryConfig *solid;
-        CellRegistryConfig *hollow;
-        CellRegistryConfig liquids[MATERIAL_LIQUID_NUM];
-    } cell;
-} LevelConfig;
 
 typedef struct {
     Player *player;
@@ -69,7 +67,15 @@ typedef struct {
 } InteractionEvent;
 
 
-Level *level_new(Size size, LevelConfig *cfg);
+Level *level_new(Size size);
+
+void level_load(void);
+
+CacheError level_cache_load(void);
+
+void level_cache_save(void);
+
+void level_unload(void);
 
 void level_display(Player *player);
 

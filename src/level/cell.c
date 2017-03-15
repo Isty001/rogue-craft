@@ -1,41 +1,12 @@
 #include <mem_pool.h>
 #include <memory.h>
 #include "../player/item.h"
-#include "../../config/config.h"
 
 
 static MemPool *CELL_POOL;
 
 
-static Cell *init_cells(CellRegistryConfig *cfg)
-{
-    CellPrototype prototype;
-    Cell *cells = allocate(cfg->count * sizeof(Cell));
-
-    for (uint16_t i = 0; i < cfg->count; i++) {
-        prototype = cfg->cells[i];
-        cells[i].style = COLOR_PAIR(prototype.color.id);
-        cells[i].material = prototype.material;
-        cells[i].chr = cfg->chr;
-        cells[i].type = cfg->type;
-        cells[i].in_registry = true;
-        cells[i].state = rand_in_range(MATERIAL_STRENGTH[prototype.material]);
-    }
-
-    return cells;
-}
-
-CellRegistry cell_registry_new(CellRegistryConfig *cfg)
-{
-    CellRegistry registry;
-
-    registry.size = cfg->count;
-    registry.cells = init_cells(cfg);;
-
-    return registry;
-}
-
-static inline Cell *alloc_cell(void)
+Cell *cell_alloc(void)
 {
     profile_cell(++);
 
@@ -45,7 +16,7 @@ static inline Cell *alloc_cell(void)
 Cell *cell_with_random_item(void)
 {
     Item *item = item_random();
-    Cell *cell = alloc_cell();
+    Cell *cell = cell_alloc();
 
     cell->chr = item->chr;
     cell->style = item->style;
@@ -56,9 +27,9 @@ Cell *cell_with_random_item(void)
     return cell;
 }
 
-Cell *cell_clone(Cell *cell)
+Cell *cell_clone(const Cell *cell)
 {
-    Cell *new = alloc_cell();
+    Cell *new = cell_alloc();
     memcpy(new, cell, sizeof(Cell));
     new->in_registry = false;
 

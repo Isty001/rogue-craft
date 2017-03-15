@@ -5,9 +5,9 @@
 #include "player.h"
 #include "../ncurses/ncurses.h"
 #include "../event.h"
+#include "../storage/storage.h"
 
 
-#define ITEM_CACHE "items"
 #define ITEM_NAME_MAX 20
 
 
@@ -17,9 +17,7 @@ typedef enum {
     IE_INVALID_ARGUMENT,
     IE_DUPLICATE,
     IE_OK,
-    IE_OVERFLOW,
-    IE_CACHE_LOADED,
-    IE_NO_CACHE_FOUND
+    IE_OVERFLOW
 } ItemError;
 
 typedef enum {
@@ -70,9 +68,9 @@ typedef struct ItemPrototype {
 
 void item_pool_init(void);
 
-void item_load(char *dir);
+void item_load(void);
 
-ItemError item_cache_load(void);
+CacheError item_cache_load(void);
 
 void item_cache_save(void);
 

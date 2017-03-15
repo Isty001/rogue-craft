@@ -2,26 +2,42 @@
 #define ROGUE_CRAFT_RANDOMIZE_H
 
 
-#include "player/item.h"
+#include <stdint.h>
+#include <list.h>
 
 
-#define PROBABILITY_ITEM_NUM 20
+#define PROBABILITY_MAX_ITEM_NUM 30
+
+
+#define probability_add_to_cache(cache, probability, entry, memb, size)     \
+    repeat(probability->count,                                      \
+         entry.chance = probability->items[i].chance;               \
+         memcpy(&entry.memb, probability->items[i].value, size);    \
+         cache_add(cache, &entry);                                  \
+    )
 
 
 typedef void *Randomizable;
 
 
 typedef struct {
+    uint16_t chance;
+    Randomizable value;
+} ProbabilityItem;
+
+typedef struct {
     uint16_t count;
     uint16_t sum;
-    struct {
-        uint16_t chance;
-        Randomizable value;
-    } items[PROBABILITY_ITEM_NUM];
+    /** @TODO Dynamic */
+    ProbabilityItem items[PROBABILITY_MAX_ITEM_NUM];
 } Probability;
 
 
-Randomizable random_from(Probability *probability);
+Randomizable probability_pick(Probability *probability);
+
+void probability_add(Probability *probability, uint16_t chance, Randomizable item);
+
+void probability_clean(Probability *probability, Release clear);
 
 
 #endif
