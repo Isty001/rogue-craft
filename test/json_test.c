@@ -30,10 +30,15 @@ MU_TEST(test_optional_style)
 
 void run_json_test(void)
 {
+    color_init();
+
     TEST_NAME("Json");
 
     MU_RUN_TEST(test_style);
     MU_RUN_TEST(test_optional_style);
 
     MU_REPORT();
+
+    color_cleanup();
+    unlink(DIR_CACHE"/"CACHE_COLORS".cache");
 }

@@ -19,9 +19,9 @@ void cache_init(char *dir)
     DIRECTORY = dir;
 }
 
-bool cache_exists(char *name)
+bool cache_is_empty(char *name)
 {
-    return file_exists(path_of(name));
+    return file_is_empty(path_of(name));
 }
 
 bool cache_valid(Cache *cache, time_t value_modified)

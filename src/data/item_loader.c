@@ -3,7 +3,6 @@
 #include <list.h>
 #include "../player/item.h"
 #include "../json.h"
-#include "../../config/config.h"
 
 
 Probability ITEM_CONSUMABLE_PROBABILITY;

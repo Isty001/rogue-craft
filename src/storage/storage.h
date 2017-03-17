@@ -30,6 +30,8 @@ FILE *file_open(char *path, char *mode);
 
 bool file_exists(char *file);
 
+bool file_is_empty(char *path);
+
 size_t file_size(FILE *file);
 
 time_t dir_latest_modified_time(char *dir);

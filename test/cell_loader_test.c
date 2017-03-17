@@ -1,7 +1,5 @@
 #include "unit_test.h"
 #include "../src/level/cell.h"
-#include "../config/config.h"
-#include "../src/storage/cache.h"
 
 
 static void assert_common(const Cell *cell)
@@ -25,13 +23,13 @@ static void assert_cells()
 
 MU_TEST(test_load)
 {
-    mu_assert(!cache_exists(CACHE_CONFIG_CELL), "");
+    mu_assert(!cache_is_empty(CACHE_CONFIG_CELL), "");
 
     cell_load();
     assert_cells();
     cell_unload();
 
-    mu_assert(cache_exists(CACHE_CONFIG_CELL), "");
+    mu_assert(cache_is_empty(CACHE_CONFIG_CELL), "");
 
     rename(DIR_CONFIG_CELLS"/cell.json", DIR_CONFIG"/tmp/cell.json");
 

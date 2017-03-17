@@ -4,7 +4,9 @@
 
 #include <stddef.h>
 #include <ncurses.h>
+#include "storage/cache.h"
 #include "util.h"
+#include "../config/paths.h"
 
 
 #define COLOR_PAIR_NONE           1
@@ -22,11 +24,21 @@
 #define COLOR_PAIR_BROWN_B       13
 
 
+#define cache_open_colors(cache) \
+    cache_open(cache, CACHE_COLORS, sizeof(CachedColor))
+
+
 typedef short Color;
 
 typedef unsigned long ColorPair;
 
 typedef unsigned long Style;
+
+typedef struct {
+    Color fore;
+    Color back;
+    uint16_t id;
+} CachedColor;
 
 
 void color_init(void);
@@ -35,6 +47,10 @@ void color_init(void);
  * @see make palette
  */
 ColorPair color_add(Color fore, Color back);
+
+uint16_t color_last(void);
+
+void color_cleanup(void);
 
 
 #endif

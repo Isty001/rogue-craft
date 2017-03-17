@@ -5,15 +5,16 @@
 
 MU_TEST(test_exists)
 {
-    mu_assert(!cache_exists("test"), "Should not exist");
+    mu_assert(!cache_is_empty("test"), "Should not exist");
 
     Cache cache;
     cache_open(&cache, "test", sizeof(Point));
 
-    mu_assert(cache_exists("test"), "Should exist");
-
+    mu_assert(!cache_is_empty("test"), "Should not exist");
+    cache_add(&cache, &point_new(1, 1));
     cache_close(&cache);
 
+    mu_assert(cache_is_empty("test"), "Should exist");
     mu_assert(NULL == cache.file, "");
 }
 
@@ -44,7 +45,8 @@ MU_TEST(test_io)
     cache_foreach(&cache, (Reader) assert_items);
 
     cache_delete("test");
-    mu_assert(!file_exists(DIR_CACHE"/test.cache"), "");
+    mu_assert(!file_exists(DIR_CACHE
+                  "/test.cache"), "");
 
     cache_close(&cache);
 }

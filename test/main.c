@@ -6,7 +6,6 @@
 #include "../src/player/item.h"
 #include "../src/worker/worker.h"
 #include "../src/level/lighting.h"
-#include "../src/storage/cache.h"
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -27,6 +26,7 @@ void run_storage_test(void);
 void run_cache_test(void);
 void run_cell_loader_test(void);
 void run_level_loader_test(void);
+void run_color_cache_test(void);
 
 
 static void init(void)
@@ -75,6 +75,7 @@ int main(void)
     run_cache_test();
     run_cell_loader_test();
     run_level_loader_test();
+    run_color_cache_test();
 
     cleanup();
 

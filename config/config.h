@@ -14,15 +14,6 @@
 /**
  * STORAGE/CACHE
  */
-#define DIR_CONFIG_ITEMS DIR_CONFIG"/items"
-#define CACHE_CONFIG_ITEM "item-config"
-
-#define DIR_CONFIG_CELLS DIR_CONFIG"/cells"
-#define CACHE_CONFIG_CELL "cell-config"
-
-#define DIR_CONFIG_LEVEL DIR_CONFIG"/levels"
-#define CACHE_CONFIG_LEVEL "level-config"
-
 
 extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
 
@@ -31,7 +22,7 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
  */
 #define PLAYER_CHAR                     '@'
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_DEFAULT_EYESIGHT         5
+#define PLAYER_DEFAULT_EYESIGHT         10
 
 extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 
@@ -64,7 +55,7 @@ extern uint16_t MATERIAL_STRENGTH[MATERIAL_NUM];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 20);
+    (uint16_t) ((level->size.height * level->size.width) / 200);
 
 
 extern Probability LEVEL_PROBABILITY;

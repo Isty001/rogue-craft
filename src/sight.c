@@ -85,7 +85,7 @@ bool sight_has(Sight *sight, Point point)
     return false;
 }
 
-uint16_t sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
+SightChange sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
 {
     bool changed = false;
 

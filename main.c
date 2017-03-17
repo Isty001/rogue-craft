@@ -8,7 +8,6 @@
 #include "src/player/inventory.h"
 #include "src/worker/worker.h"
 #include "src/level/lighting.h"
-#include "src/storage/cache.h"
 
 
 static void init(void)
@@ -16,6 +15,8 @@ static void init(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
+
+    cache_init(DIR_CACHE);
 
     profiler_init();
     ncurses_init();
@@ -26,7 +27,7 @@ static void init(void)
     cell_pool_init();
     lighted_cell_pool_init();
 
-    cache_init(DIR_CACHE);
+    color_init();
     item_load();
     cell_load();
     level_load();
@@ -50,6 +51,7 @@ static void cleanup(Player *player)
     item_unload();
     cell_unload();
     level_unload();
+    color_cleanup();
 
     list_node_pool_cleanup();
     profiler_cleanup();

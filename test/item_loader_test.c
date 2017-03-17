@@ -2,7 +2,6 @@
 #include "unit_test.h"
 #include "../src/player/item.h"
 #include "../config/config.h"
-#include "../src/storage/cache.h"
 
 
 static void assert_tool(ItemPrototype *prototype)
@@ -55,10 +54,10 @@ static void assert_loaded_items(void)
 
 MU_TEST(test_load)
 {
-    mu_assert(!cache_exists(CACHE_CONFIG_ITEM), "Items cache should not exist");
+    mu_assert(!cache_is_empty(CACHE_CONFIG_ITEM), "Items cache should not exist");
 
     item_load();
-    mu_assert(cache_exists(CACHE_CONFIG_ITEM), "Items cache should exist");
+    mu_assert(cache_is_empty(CACHE_CONFIG_ITEM), "Items cache should exist");
 
     assert_loaded_items();
 
@@ -73,7 +72,7 @@ MU_TEST(test_cache)
     rename(DIR_CONFIG_ITEMS"/items.json", DIR_CONFIG"/tmp/items.json");
     rename(DIR_CONFIG_ITEMS"/items_2.json", DIR_CONFIG"/tmp/items_2.json");
 
-    mu_assert(cache_exists(CACHE_CONFIG_ITEM), "Items cache should exist");
+    mu_assert(cache_is_empty(CACHE_CONFIG_ITEM), "Items cache should exist");
     item_load();
 
     assert_loaded_items();

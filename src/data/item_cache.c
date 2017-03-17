@@ -35,7 +35,7 @@ static void load_item(CachedItem *cached)
 
 CacheError item_cache_load(void)
 {
-    if (!cache_exists(CACHE_CONFIG_ITEM)) {
+    if (!cache_is_empty(CACHE_CONFIG_ITEM)) {
         return CE_NOT_FOUND;
     }
 

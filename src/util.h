@@ -26,7 +26,7 @@
 #define in_range(i, range) \
     i >= range.from && i <= range.to
 
-#define fatal(...) fprintf(stderr,"[%s:%d] ", __FUNCTION__, __LINE__);\
+#define fatal(...) fprintf(stderr, "[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);\
     fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
 
 #define styled(win, style, ...) \

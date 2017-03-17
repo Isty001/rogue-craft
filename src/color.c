@@ -2,19 +2,43 @@
 
 
 static uint16_t LAST_PAIR = 100;
+static Cache CACHE;
 
+
+static void new_cached(CachedColor *color, Color fore, Color back)
+{
+    memset(color, 0, sizeof(CachedColor));
+
+    color->id = LAST_PAIR;
+    color->fore = fore;
+    color->back = back;
+}
 
 ColorPair color_add(Color fore, Color back)
 {
     init_pair(LAST_PAIR, fore, back);
 
+    CachedColor color;
+    new_cached(&color, fore, back);
+    cache_add(&CACHE, &color);
+
     return COLOR_PAIR(LAST_PAIR++);
+}
+
+static void load_color(CachedColor *color)
+{
+    init_pair(color->id, color->fore, color->back);
+
+    LAST_PAIR = max(LAST_PAIR, color->id);
 }
 
 void color_init(void)
 {
-    start_color();
-    use_default_colors();
+    cache_open_colors(&CACHE);
+
+    if (cache_is_empty(CACHE_COLORS)) {
+        cache_foreach(&CACHE, (Reader) load_color);
+    }
 
     init_pair(COLOR_PAIR_RED_F, COLOR_RED, -1);
     init_pair(COLOR_PAIR_GREEN_F, COLOR_GREEN, -1);
@@ -29,4 +53,14 @@ void color_init(void)
     init_pair(COLOR_PAIR_NONE, -1, -1);
     init_pair(COLOR_PAIR_DARK_GREEN_B, -1, 22);
     init_pair(COLOR_PAIR_BROWN_B, -1, 94);
+}
+
+uint16_t color_last(void)
+{
+    return LAST_PAIR;
+}
+
+void color_cleanup(void)
+{
+    cache_close(&CACHE);
 }

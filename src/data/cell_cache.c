@@ -1,7 +1,8 @@
 #include <list.h>
 #include "../storage/storage.h"
 #include "../storage/cache.h"
-#include "../../config/config.h"
+#include "../../config/paths.h"
+#include "../level/cell.h"
 
 
 #define CELL_SIZE sizeof(NamedCell)
@@ -21,7 +22,7 @@ static void load_cell(List *prototypes, NamedCell *loaded)
 
 CacheError cell_cache_load(List *prototypes)
 {
-    if (!cache_exists(CACHE_CONFIG_CELL)) {
+    if (!cache_is_empty(CACHE_CONFIG_CELL)) {
         return CE_NOT_FOUND;
     }
 

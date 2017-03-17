@@ -55,6 +55,13 @@ bool file_exists(char *file)
     return 0 == stat(file, &stats);
 }
 
+bool file_is_empty(char *path)
+{
+    struct stat stats;
+
+    return 0 == stat(path, &stats) && 0 != stats.st_size;
+}
+
 size_t file_size(FILE *file)
 {
     fseek(file, 0, SEEK_END);

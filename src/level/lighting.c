@@ -19,14 +19,10 @@ struct Lighting {
 };
 
 
-#ifdef DEBUG_MODE
-
 size_t lighted_cell_size(void)
 {
     return sizeof(LightedCell);
 }
-
-#endif
 
 void lighted_cell_pool_init(void)
 {

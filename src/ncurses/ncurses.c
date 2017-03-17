@@ -29,7 +29,8 @@ WINDOW *ncurses_subwin(int height, int width, int y, int x)
 void ncurses_init(void)
 {
     initscr();
-    color_init();
+    start_color();
+    use_default_colors();
     curs_set(false);
     noecho();
     cbreak();

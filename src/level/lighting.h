@@ -8,9 +8,7 @@
 typedef struct Lighting Lighting;
 
 
-#ifdef DEBUG_MODE
 size_t lighted_cell_size(void);
-#endif
 
 void lighted_cell_pool_init(void);
 

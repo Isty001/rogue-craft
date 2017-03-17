@@ -5,8 +5,10 @@
 #include "level/level.h"
 
 
-#define SIGHT_UPDATED 0
-#define SIGHT_REMAINED 1
+typedef enum {
+    SIGHT_UPDATED,
+    SIGHT_REMAINED
+} SightChange;
 
 
 typedef struct {
@@ -21,10 +23,7 @@ Sight *sight_new(Level *level, Point center, uint16_t radius);
 
 bool sight_has(Sight *sight, Point point);
 
-/**
- * @return SIGHT_UPDATED or SIGHT_REMAINED
- */
-uint16_t sight_update(Sight *sight, Level *level, Point center, uint16_t radius);
+SightChange sight_update(Sight *sight, Level *level, Point center, uint16_t radius);
 
 void sight_free(Sight *sight);
 
