@@ -66,8 +66,6 @@ typedef struct ItemPrototype {
 } ItemPrototype;
 
 
-void item_pool_init(void);
-
 void item_load(void);
 
 CacheError item_cache_load(void);
@@ -75,6 +73,8 @@ CacheError item_cache_load(void);
 void item_cache_save(void);
 
 void item_unload(void);
+
+void item_pool_init(void);
 
 Item *item_clone(ItemPrototype *prototype);
 

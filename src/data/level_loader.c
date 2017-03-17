@@ -1,5 +1,5 @@
-#include "../../json.h"
-#include "../../../config/config.h"
+#include "../json.h"
+#include "../../config/config.h"
 
 
 Probability LEVEL_PROBABILITY;

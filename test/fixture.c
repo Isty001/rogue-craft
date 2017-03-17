@@ -3,24 +3,36 @@
 
 Level *fixture_level(void)
 {
-    Level *level = malloc(sizeof(Level));
+    Level *level = allocate(sizeof(Level));
     level->size = (Size) {2, 3};
 
-    level->registry.hollow.count = 1;
-    level->registry.hollow.cells = allocate(sizeof(Cell));
-    level->registry.hollow.cells[0].type = HOLLOW;
-    level->registry.hollow.cells[0].in_registry = true;
-    level->registry.hollow.cells[0].material = VOID;
-    level->registry.hollow.cells[0].state = 100;
-    level->registry.hollow.cells[0].style = FIXTURE_HOLLOW_STYLE;
+    Cell *hollow = allocate(sizeof(Cell));
+    hollow->type = HOLLOW;
+    hollow->in_registry = true;
+    hollow->material = VOID;
+    hollow->state = 100;
+    hollow->style = FIXTURE_HOLLOW_STYLE;
 
-    level->registry.solid.count = 1;
-    level->registry.solid.cells = allocate(sizeof(Cell));
-    level->registry.solid.cells[0].type = SOLID;
-    level->registry.solid.cells[0].in_registry = true;
-    level->registry.solid.cells[0].material = STONE;
-    level->registry.solid.cells[0].state = 100;
-    level->registry.solid.cells[0].style = FIXTURE_SOLID_STYLE;
+    Cell *solid = allocate(sizeof(Cell));
+    solid->type = SOLID;
+    solid->in_registry = true;
+    solid->material = STONE;
+    solid->state = 100;
+    solid->style = FIXTURE_SOLID_STYLE;
+
+    level->cfg = allocate(sizeof(LevelConfig));
+
+    level->cfg->type = CELLULAR;
+    level->cfg->cells = (LevelCells) {
+        .hollow = (Probability) {
+            .count = 1,
+            .items = {{.chance = 1, .value = hollow}}
+        },
+        .solid = (Probability) {
+            .count = 1,
+            .items = {{.chance=1, .value = solid}}
+        }
+    };
 
     level_add_bounds(level);
 
@@ -32,9 +44,9 @@ Level *fixture_level(void)
         0, level->size,
 
         if (y == 1 || ((y == 0) & (x == 1))) {
-            level->cells[y][x] = &level->registry.hollow.cells[0];
+            level->cells[y][x] = level_registy_rand(level, hollow);
         } else {
-            level->cells[y][x] = &level->registry.solid.cells[0];
+            level->cells[y][x] = level_registy_rand(level, solid);
         }
     )
 
@@ -43,8 +55,11 @@ Level *fixture_level(void)
 
 void fixture_level_free(Level *level)
 {
+    probability_clean(&level->cfg->cells.hollow, release);
+    probability_clean(&level->cfg->cells.solid, release);
     release(level->cells[0]);
     release(level->cells[1]);
+    release(level->cfg);
 
     level_free(level);
 }

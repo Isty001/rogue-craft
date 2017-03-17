@@ -24,8 +24,8 @@ static void initialize_cells(Level *level)
     iterate_matrix(
         0, level->size,
         level->cells[y][x] = rand_bool(0.54)
-                             ? probability_pick(&level->cfg->cells.solid)
-                             : probability_pick(&level->cfg->cells.hollow)
+                             ? level_registy_rand(level, solid)
+                             : level_registy_rand(level, hollow)
     );
 }
 

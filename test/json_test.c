@@ -24,6 +24,8 @@ MU_TEST(test_optional_style)
     JSON_Object *obj = json_value_get_object(root);
 
     mu_assert_int_eq(13, json_get_optional_style(obj, 13));
+
+    json_value_free(root);
 }
 
 void run_json_test(void)
@@ -31,6 +33,7 @@ void run_json_test(void)
     TEST_NAME("Json");
 
     MU_RUN_TEST(test_style);
+    MU_RUN_TEST(test_optional_style);
 
     MU_REPORT();
 }

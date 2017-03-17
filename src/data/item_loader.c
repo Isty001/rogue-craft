@@ -1,9 +1,9 @@
 #include <wchar.h>
 #include <tinydir.h>
 #include <list.h>
-#include "../item.h"
-#include "../../json.h"
-#include "../../../config/config.h"
+#include "../player/item.h"
+#include "../json.h"
+#include "../../config/config.h"
 
 
 Probability ITEM_CONSUMABLE_PROBABILITY;

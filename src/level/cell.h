@@ -45,12 +45,6 @@ typedef struct {
 } NamedCell;
 
 
-void cell_pool_init(void);
-
-Cell *cell_alloc(void);
-
-Cell *cell_with_random_item(void);
-
 void cell_load(void);
 
 CacheError cell_cache_load(List *prototypes);
@@ -58,6 +52,12 @@ CacheError cell_cache_load(List *prototypes);
 void cell_cache_save(List *prototypes);
 
 void cell_unload(void);
+
+void cell_pool_init(void);
+
+Cell *cell_alloc(void);
+
+Cell *cell_with_random_item(void);
 
 const Cell *cell_get(char *name);
 

@@ -1,6 +1,6 @@
 #include <list.h>
-#include "../../../config/config.h"
-#include "../../json.h"
+#include "../../config/config.h"
+#include "../json.h"
 
 
 static List *PROTOTYPES;

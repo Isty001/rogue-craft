@@ -29,6 +29,8 @@
 #define level_rand_point(level) \
     point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
 
+#define level_registy_rand(level, type) \
+    probability_pick(&level->cfg->cells.type)
 
 /** Avoiding circular references */
 typedef struct Player Player;
@@ -67,7 +69,6 @@ typedef struct {
 } InteractionEvent;
 
 
-Level *level_new(Size size);
 
 void level_load(void);
 
@@ -76,6 +77,8 @@ CacheError level_cache_load(void);
 void level_cache_save(void);
 
 void level_unload(void);
+
+Level *level_new(Size size);
 
 void level_display(Player *player);
 

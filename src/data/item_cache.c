@@ -1,5 +1,5 @@
-#include "../../storage/cache.h"
-#include "../../../config/config.h"
+#include "../storage/cache.h"
+#include "../../config/config.h"
 
 
 #define cache_open_items(cache)                                  \

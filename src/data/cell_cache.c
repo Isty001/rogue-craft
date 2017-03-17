@@ -1,7 +1,7 @@
 #include <list.h>
-#include "../../storage/storage.h"
-#include "../../storage/cache.h"
-#include "../../../config/config.h"
+#include "../storage/storage.h"
+#include "../storage/cache.h"
+#include "../../config/config.h"
 
 
 #define CELL_SIZE sizeof(NamedCell)

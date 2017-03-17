@@ -1,5 +1,5 @@
-#include "../../storage/cache.h"
-#include "../../../config/config.h"
+#include "../storage/cache.h"
+#include "../../config/config.h"
 
 
 CacheError level_cache_load(void)
