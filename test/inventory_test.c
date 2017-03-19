@@ -1,8 +1,6 @@
 #include "unit_test.h"
 #include "../src/player/inventory.h"
 #include "fixture.h"
-#include "../src/ncurses/ncurses.h"
-#include "../config/config.h"
 
 
 MU_TEST(test_add)
@@ -23,6 +21,7 @@ MU_TEST(test_remove)
 {
     Item item, item2;
     Inventory *inventory = inventory_new(2);
+    List *items = inventory->items;
 
     inventory_add(inventory, &item);
     inventory_add(inventory, &item2);
@@ -32,8 +31,8 @@ MU_TEST(test_remove)
 
     mu_assert_int_eq(IE_OK, inventory_remove(inventory, &item2));
 
-    mu_assert(NULL == inventory->items[0], "The items should be removed");
-    mu_assert(NULL == inventory->items[1], "The items should be removed");
+    mu_assert(NULL == items->head(items), "The items should be removed");
+    mu_assert(NULL == items->get(items, 1), "The items should be removed");
 
     inventory_free(inventory);
 }
@@ -62,9 +61,12 @@ MU_TEST(test_select)
 
 MU_TEST(test_use_consumable)
 {
-    Item item = fixture_consumable(false);
+    Item *item = item_allocate();
+    *item = fixture_consumable(false);
+
     Inventory *inv = inventory_new(1);
-    inventory_add(inv, &item);
+    List *items = inv->items;
+    inventory_add(inv, item);
 
     Player player;
 
@@ -74,12 +76,12 @@ MU_TEST(test_use_consumable)
 
     inventory_use_selected(&player);
     mu_assert_int_eq(100, player.attributes.state[HEALTH].current);
-    mu_assert(&item == inv->items[0], "Item should not be removed");
+    mu_assert(item == items->head(items), "Item should not be removed");
 
     player.attributes.state[HEALTH].current = 92;
     inventory_use_selected(&player);
     mu_assert_int_eq(97, player.attributes.state[HEALTH].current);
-    mu_assert(NULL == inv->items[0], "Item should be removed");
+    mu_assert(NULL == items->head(items), "Item should be removed");
 
     inventory_free(inv);
 }

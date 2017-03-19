@@ -84,6 +84,8 @@ ItemError item_consume(Item *item, Player *player);
 
 EventError item_pickup(InteractionEvent *event);
 
+Item *item_allocate(void);
+
 void item_free(Item *item);
 
 void item_pool_cleanup(void);

@@ -19,6 +19,7 @@ MU_TEST(test_item_pickup)
     };
 
     Player *player = player_new(level, &camera);
+    List *items = player->inventory->items;
     player->position.current = point_new(0, 1);
 
     InteractionEvent event = {
@@ -28,11 +29,11 @@ MU_TEST(test_item_pickup)
     };
 
     item_pickup(&event);
-    mu_assert(&item == player->inventory->items[0], "Items are not the same");
+    mu_assert(&item == items->head(items), "Items are not the same");
 
     item_pickup(&event);
-    mu_assert(&item == player->inventory->items[0], "Items are not the same");
-    mu_assert(NULL == player->inventory->items[1], "There should be no items");
+    mu_assert(&item == items->head(items), "Items are not the same");
+    mu_assert(NULL == items->get(items, 1), "There should be no items");
 
     mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
     mu_assert(level->cells[0][0]->in_registry, "");

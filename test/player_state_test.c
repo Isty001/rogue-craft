@@ -41,13 +41,13 @@ static Player create_player(void)
 
 MU_TEST(test_state)
 {
-    Message msg;
+    Message *msg = message_allocate();
     Player player = create_player();
 
-    msg.player_state.player = &player;
-    msg.player_state.cfg = &TEST_CFG;
+    msg->player_state.player = &player;
+    msg->player_state.cfg = &TEST_CFG;
 
-    message_player_state_execute(&msg);
+    message_player_state_execute(msg);
 
     Modifiers modifiers = player.attributes.modifiers;
     Attribute *state = player.attributes.state;

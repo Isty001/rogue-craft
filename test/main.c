@@ -35,12 +35,13 @@ static void init(void)
     srand((unsigned int) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
 
-    cache_init("./test/fixture/cache");
+    profiler_init();
+    list_node_pool_init();
+    cache_init();
     item_pool_init();
     cell_pool_init();
     lighted_cell_pool_init();
     message_pool_init();
-    list_node_pool_init();
 }
 
 static void cleanup(void)
@@ -50,6 +51,7 @@ static void cleanup(void)
     message_pool_cleanup();
     item_pool_cleanup();
     list_node_pool_cleanup();
+    profiler_cleanup();
 }
 
 int main(void)

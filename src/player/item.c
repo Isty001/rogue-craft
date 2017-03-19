@@ -21,6 +21,14 @@ void item_pool_cleanup(void)
     pool_destroy(ITEM_POOL);
 }
 
+Item *item_allocate(void)
+{
+    Item *item = pool_alloc(ITEM_POOL);
+    profile_item(++);
+
+    return item;
+}
+
 void item_free(Item *item)
 {
     pool_release(ITEM_POOL, item);
@@ -29,10 +37,9 @@ void item_free(Item *item)
 
 Item *item_clone(ItemPrototype *prototype)
 {
-    Item *item = pool_alloc(ITEM_POOL);
+    Item *item = item_allocate();
     memcpy(item, &prototype->item, sizeof(Item));
     item->value = rand_in_range(prototype->value_range);
-    profile_item(++);
 
     return item;
 }

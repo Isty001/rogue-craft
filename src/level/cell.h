@@ -55,7 +55,7 @@ void cell_unload(void);
 
 void cell_pool_init(void);
 
-Cell *cell_alloc(void);
+Cell *cell_allocate(void);
 
 Cell *cell_with_random_item(void);
 

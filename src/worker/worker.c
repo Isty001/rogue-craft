@@ -37,12 +37,6 @@ void worker_cleanup(void)
     queue_free(QUEUE);
 }
 
-static inline Message *alloc_message(void)
-{
-    profile_message(++);
-
-    return pool_alloc(MESSAGE_POOL);
-}
 
 void message_pool_init(void)
 {
@@ -54,6 +48,13 @@ void message_pool_cleanup(void)
     pool_destroy(MESSAGE_POOL);
 }
 
+Message *message_allocate(void)
+{
+    profile_message(++);
+
+    return pool_alloc(MESSAGE_POOL);
+}
+
 void message_free(Message *message)
 {
     profile_message(--);
@@ -62,7 +63,7 @@ void message_free(Message *message)
 
 void message_player_state_send(Player *player)
 {
-    Message *msg = alloc_message();
+    Message *msg = message_allocate();
     msg->type = PLAYER_STATE;
     msg->player_state.player = player;
     msg->player_state.cfg = &PLAYER_ATTRIBUTE_CONFIG;
@@ -70,11 +71,7 @@ void message_player_state_send(Player *player)
     queue_add(QUEUE, msg);
 }
 
-#ifdef DEBUG_MODE
-
 uint16_t worker_remaining(void)
 {
     return queue_count(QUEUE);
 }
-
-#endif

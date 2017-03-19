@@ -6,19 +6,19 @@
 #include "../../config/config.h"
 
 
-#define inventory_selected(inventory) \
-    inventory->items[inventory->selected]
+#define inventory_selected(inv) \
+    inv->items->get(inv->items, inv->selected)
 
 
 typedef struct Inventory {
-    uint16_t size;
+    uint16_t max_size;
     uint16_t selected;
+    List *items;
     Item **on_shortcut[INVENTORY_SHORTCUT_NUM];
-    Item *items[];
 } Inventory;
 
 
-Inventory *inventory_new(uint16_t size);
+Inventory *inventory_new(uint16_t max_size);
 
 ItemError inventory_add(Inventory *inventory, Item *item);
 

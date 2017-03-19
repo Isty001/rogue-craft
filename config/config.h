@@ -22,7 +22,7 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
  */
 #define PLAYER_CHAR                     '@'
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_DEFAULT_EYESIGHT         10
+#define PLAYER_DEFAULT_EYESIGHT         7
 
 extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 
@@ -43,8 +43,8 @@ extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 #define KEY_SOUTH       's'
 #define KEY_WEST        'a'
 #define KEY_ESCAPE       KEY_F(2)
-#define KEY_INVENTORY   'i'
 /** @TODO Listener */
+#define KEY_INVENTORY   'i'
 #define KEY_USE     'f'
 
 /**

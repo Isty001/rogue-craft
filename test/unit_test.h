@@ -1,5 +1,5 @@
-#ifndef API_TEST_UNIT_TEST_H
-#define API_TEST_UNIT_TEST_H
+#ifndef ROGUECRAFT_UNIT_TEST_H
+#define ROGUECRAFT_UNIT_TEST_H
 
 
 #include <string.h>

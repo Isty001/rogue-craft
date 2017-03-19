@@ -16,7 +16,7 @@ static void init(void)
     srand((unsigned) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
 
-    cache_init(DIR_CACHE);
+    cache_init();
 
     profiler_init();
     ncurses_init();

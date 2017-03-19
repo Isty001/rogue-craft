@@ -1,8 +1,6 @@
 #include "unit_test.h"
 #include "fixture.h"
 #include "../src/player/inventory.h"
-#include "../src/level/cell.h"
-#include "../src/player/player.h"
 
 
 static ItemPrototype TEST_TOOL = {
@@ -20,10 +18,10 @@ static ItemPrototype TEST_TOOL = {
 
 static Inventory *create_inventory(void)
 {
-    Inventory *inventory = inventory_new(2);
-    inventory->items[0] = item_clone(&TEST_TOOL);
+    Inventory *inv = inventory_new(2);
+    inv->items->append(inv->items, item_clone(&TEST_TOOL));
 
-    return inventory;
+    return inv;
 }
 
 static Player create_player(void)
@@ -54,11 +52,13 @@ static void free_fixtures(Player *player)
 MU_TEST(test_range)
 {
     Player player = create_player();
+    List *items = player.inventory->items;
     InteractionEvent event = create_event(&player, point_new(0, 2));
 
     player_hit(&event);
 
-    player.inventory->items[0]->tool.range = 2;
+    Item *tool = items->head(items);
+    tool->tool.range = 2;
 
     player_hit(&event);
     mu_assert_double_eq(94.72, player.level->cells[0][2]->state);
@@ -88,9 +88,13 @@ MU_TEST(test_defaults)
 MU_TEST(test_material_and_tired_damage)
 {
     Player player = create_player();
+    List *items = player.inventory->items;
+    Item *tool;
+
     player.attributes.state[HUNGER].current = 20;
     player.attributes.state[THIRST].current = 30;
-    player.inventory->items[0]->tool.multipliers.materials[STONE] = 2;
+    tool = items->head(items);
+    tool->tool.multipliers.materials[STONE] = 2;
 
     InteractionEvent event = create_event(&player, point_new(0, 0));
 

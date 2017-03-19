@@ -43,7 +43,7 @@
 #define range_new(f, t) (Range) {.from = f, .to = t}
 
 #define pool_release(pool, ptr) \
-    if (0 != pool_free(pool, ptr)) { fatal("[%s] unable to free item", #pool) }
+    if (0 != pool_free(pool, ptr)) { fatal("[%s] unable to release", #pool) }
 
 #define safe_alloc(...)             \
     if (0 >= size) return NULL;     \

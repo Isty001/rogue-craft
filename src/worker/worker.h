@@ -32,20 +32,17 @@ void worker_cleanup(void);
 
 void message_pool_init(void);
 
+Message *message_allocate(void);
+
+void message_free(Message *message);
+
 void message_pool_cleanup(void);
 
 void message_player_state_send(Player *player);
 
 int message_player_state_execute(Message *message);
 
-void message_free(Message *message);
-
-
-#ifdef DEBUG_MODE
-
 uint16_t worker_remaining(void);
-
-#endif
 
 
 #endif

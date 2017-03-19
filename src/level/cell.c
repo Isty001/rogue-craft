@@ -6,7 +6,7 @@
 static MemPool *CELL_POOL;
 
 
-Cell *cell_alloc(void)
+Cell *cell_allocate(void)
 {
     profile_cell(++);
 
@@ -16,7 +16,7 @@ Cell *cell_alloc(void)
 Cell *cell_with_random_item(void)
 {
     Item *item = item_random();
-    Cell *cell = cell_alloc();
+    Cell *cell = cell_allocate();
 
     cell->chr = item->chr;
     cell->style = item->style;
@@ -29,7 +29,7 @@ Cell *cell_with_random_item(void)
 
 Cell *cell_clone(const Cell *cell)
 {
-    Cell *new = cell_alloc();
+    Cell *new = cell_allocate();
     memcpy(new, cell, sizeof(Cell));
     new->in_registry = false;
 

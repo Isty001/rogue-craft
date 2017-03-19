@@ -18,7 +18,7 @@ typedef struct {
 } Cache;
 
 
-void cache_init(char *dir);
+void cache_init();
 
 bool cache_is_empty(char *name);
 

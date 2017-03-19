@@ -4,19 +4,14 @@
 
 #define path_of(name) ({                            \
     char _path[MAX_PATH];                            \
-    sprintf(_path, "%s/%s.cache", DIRECTORY, name);  \
+    sprintf(_path, "%s/%s.cache", DIR_CACHE, name);  \
     _path;                                           \
 })
 
 
-static char *DIRECTORY;
-
-
-void cache_init(char *dir)
+void cache_init()
 {
-    dir_check(dir);
-
-    DIRECTORY = dir;
+    dir_check(DIR_CACHE);
 }
 
 bool cache_is_empty(char *name)
