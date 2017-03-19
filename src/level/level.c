@@ -42,7 +42,7 @@ static void add_items(Level *level)
         if (HOLLOW == cell->type) {
             level->cells[point.y][point.x] = cell_with_random_item();
             remaining--;
-        };
+        }
     } while (remaining);
 }
 
@@ -58,7 +58,7 @@ Level *level_new(Size size)
     initialize_cells(level);
 
     if (CELLULAR == level->cfg->type) {
-        level_generate_cave(level);
+        level_generate_cellular(level);
     }
 
     add_items(level);

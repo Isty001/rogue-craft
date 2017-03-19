@@ -82,7 +82,7 @@ Level *level_new(Size size);
 
 void level_display(Player *player);
 
-void level_generate_cave(Level *level);
+void level_generate_cellular(Level *level);
 
 EventError level_interact(ClickEvent *click);
 

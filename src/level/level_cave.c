@@ -69,7 +69,7 @@ static void evolve(Level *level, Cell *(*tmp)[level->size.height][level->size.wi
 /**
  * @TODO nasty stack overflow
  */
-void level_generate_cave(Level *level)
+void level_generate_cellular(Level *level)
 {
     Size size = level->size;
     Cell *tmp[level->size.height][level->size.width];
