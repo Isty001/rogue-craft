@@ -38,10 +38,12 @@ extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 /**
  * KEYBINDINGS
  */
-#define KEY_NORTH   'w'
-#define KEY_EAST    'd'
-#define KEY_SOUTH   's'
-#define KEY_WEST    'a'
+#define KEY_NORTH       'w'
+#define KEY_EAST        'd'
+#define KEY_SOUTH       's'
+#define KEY_WEST        'a'
+#define KEY_ESCAPE       KEY_F(2)
+#define KEY_INVENTORY   'i'
 /** @TODO Listener */
 #define KEY_USE     'f'
 

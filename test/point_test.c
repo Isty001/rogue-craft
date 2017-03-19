@@ -32,30 +32,19 @@ MU_TEST(test_distance)
     mu_assert_int_eq(2, point_distance(a, b));
 }
 
-MU_TEST(test_square_ha_point)
-{
-    Square rect = square_new(0, 0, 10);
-    Point point = point_new(9, 10);
-
-    mu_assert(square_has_point(rect, point), "Point should be inside");
-
-    point.y = 100;
-    mu_assert(false == square_has_point(rect, point), "Point should not be inside");
-}
-
 MU_TEST(test_rect_equal)
 {
-    Square a = square_new(0, 0, 10);
-    Square b = square_new(0, 0, 10);
+    Rectangle a = rectangle_new(0, 0, 10, 10);
+    Rectangle b = rectangle_new(0, 0, 10, 10);
 
-    mu_assert(square_eq(a, b), "Rectangles should be equal");
+    mu_assert(rectangle_eq(a, b), "Rectangles should be equal");
 
     b.left_upper.y = 10;
-    mu_assert(false == square_eq(a, b), "Squares should not be equal");
+    mu_assert(false == rectangle_eq(a, b), "Squares should not be equal");
 
     b.left_upper.y = 0;
-    b.size = 90;
-    mu_assert(false == square_eq(a, b), "Squares should not be equal");
+    b.size.width = 90;
+    mu_assert(false == rectangle_eq(a, b), "Squares should not be equal");
 }
 
 void run_point_test(void)
@@ -65,7 +54,6 @@ void run_point_test(void)
     MU_RUN_TEST(test_equal);
     MU_RUN_TEST(test_move);
     MU_RUN_TEST(test_distance);
-    MU_RUN_TEST(test_square_ha_point);
     MU_RUN_TEST(test_rect_equal);
 
     MU_REPORT();

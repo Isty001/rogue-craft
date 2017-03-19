@@ -2,7 +2,7 @@
 #include "../../config/config.h"
 
 
-void player_update_sight(Player *player)
+void player_sight_update(Player *player)
 {
     sight_update(player->sight, player->level, player->position.current, PLAYER_DEFAULT_EYESIGHT);
 }

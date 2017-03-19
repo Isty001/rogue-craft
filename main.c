@@ -60,7 +60,7 @@ static void cleanup(Player *player)
 static void update(Player *player)
 {
     camera_update(player, WINDOW_MAIN);
-    player_update_sight(player);
+    player_sight_update(player);
 }
 
 static void render(Player *player)

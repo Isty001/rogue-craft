@@ -11,15 +11,15 @@
 
 #define point_eq(p1, p2) (p1.x == p2.x && p1.y == p2.y)
 
-#define square_new(y, x, s) \
-     (Square) {.left_upper = point_new(y ,x), .size = s }
-
-#define square_eq(a, b) \
-     (point_eq(a.left_upper, b.left_upper) && (a.size == b.size))
-
 #define size_new(h, w) (Size) {.height = h, .width = w}
 
 #define size_eq(a, b) (a.width == b.width && a.height == b.height)
+
+#define rectangle_new(y, x, h, w) \
+     (Rectangle) {.left_upper = point_new(y ,x), .size = size_new(h, w) }
+
+#define rectangle_eq(a, b) \
+     (point_eq(a.left_upper, b.left_upper) && size_eq(a.size, b.size))
 
 
 typedef struct {
@@ -34,8 +34,8 @@ typedef struct {
 
 typedef struct {
     Point left_upper;
-    uint16_t size;
-} Square;
+    Size size;
+} Rectangle;
 
 typedef enum {
     NORTH = 1,
@@ -52,8 +52,6 @@ typedef enum {
 Point point_move(Point point, Direction direction, uint16_t distance);
 
 uint16_t point_distance(Point a, Point b);
-
-bool square_has_point(Square square, Point point);
 
 
 #endif

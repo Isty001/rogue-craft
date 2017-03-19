@@ -3,7 +3,6 @@
 
 
 #ifdef DEBUG_MODE
-#ifndef UNIT_TEST
 
 
 #include <stdint.h>
@@ -57,7 +56,6 @@ void _profiler_cleanup(void);
 
 #else
 
-
 #define profile_cell(op)
 #define profile_item(op)
 #define profile_lighted_cell(op)
@@ -69,9 +67,8 @@ void _profiler_cleanup(void);
 
 #define profiler_init()
 #define profiler_cleanup()
-#define profiler_display
+#define profiler_display()
 
 
-#endif
 #endif
 #endif

@@ -88,7 +88,7 @@ void player_free(Player *player);
 
 EventError player_move(InputEvent *event);
 
-void player_update_sight(Player *player);
+void player_sight_update(Player *player);
 
 bool player_can_see(Player *player, Point point);
 
