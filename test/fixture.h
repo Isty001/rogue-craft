@@ -15,6 +15,8 @@
  *
  * S H S
  * H H H
+ * H H H
+ * S S S
  */
 Level *fixture_level(void);
 

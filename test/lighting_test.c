@@ -7,19 +7,17 @@ MU_TEST(test_lighting)
 {
     Style style = 666;
     Level *level = fixture_level();
-    Lighting *lighting = lighting_new(level, point_new(1, 1), 2, style);
-
-    mu_assert_int_eq(style, level->cells[0][0]->style);
-    mu_assert_int_eq(style, level->cells[0][2]->style);
+    Lighting *lighting = lighting_new(level, point_new(0, 1), 5, style);
 
     mu_assert_int_eq(FIXTURE_HOLLOW_STYLE, level->cells[0][1]->style);
-    mu_assert_int_eq(FIXTURE_HOLLOW_STYLE, level->cells[1][0]->style);
-    mu_assert_int_eq(FIXTURE_HOLLOW_STYLE, level->cells[1][1]->style);
-    mu_assert_int_eq(FIXTURE_HOLLOW_STYLE, level->cells[1][2]->style);
+    mu_assert_int_eq(style, level->cells[2][2]->style);
+    mu_assert_int_eq(style, level->cells[1][2]->style);
+    mu_assert_int_eq(style, level->cells[2][1]->style);
+    mu_assert_int_eq(FIXTURE_SOLID_STYLE, level->cells[0][0]->style);
 
-    lighting_update(lighting, level, point_new(1, 0), 1);
+    lighting_update(lighting, level, point_new(2, 1), 5);
 
-    mu_assert_int_eq(style, level->cells[0][0]->style);
+    mu_assert_int_eq(style, level->cells[2][2]->style);
     mu_assert_int_eq(FIXTURE_SOLID_STYLE, level->cells[0][2]->style);
 
     lighting_free(lighting, level);

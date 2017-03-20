@@ -22,7 +22,7 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
  */
 #define PLAYER_CHAR                     '@'
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_DEFAULT_EYESIGHT         7
+#define PLAYER_DEFAULT_EYESIGHT         6
 
 extern AttributeConfig PLAYER_ATTRIBUTE_CONFIG;
 

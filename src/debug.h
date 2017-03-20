@@ -26,6 +26,7 @@ struct {
 #define profile_list_node(op) PROFILER.list_node op
 
 #define profile_allocate(size, ptr) _profile_allocate(size, ptr);
+#define profile_reallocate(old, new, size) _profile_reallocate(old, new, size);
 #define profile_release(ptr) _profile_release(ptr);
 
 #define profiler_init()                       \
@@ -48,6 +49,8 @@ struct {
 void _profiler_display(void);
 
 void _profile_allocate(unsigned size, void *ptr);
+
+void _profile_reallocate(void *old, void *new, unsigned size);
 
 void _profile_release(void *ptr);
 

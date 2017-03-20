@@ -22,7 +22,7 @@
 #define COLOR_PAIR_GREEN_B       11
 #define COLOR_PAIR_DARK_GREEN_B  12
 #define COLOR_PAIR_BROWN_B       13
-
+#define COLOR_PAIR_YELLOW_B      14
 
 #define cache_open_colors(cache) \
     cache_open(cache, CACHE_COLORS, sizeof(CachedColor))

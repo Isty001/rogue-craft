@@ -57,7 +57,7 @@ Player *player_new(Level *level, Camera *camera)
     find_starting_point(player);
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
-    player->sight = sight_new(level, player->position.current, PLAYER_DEFAULT_EYESIGHT);
+    player->sight = sight_new(level, player->position.current, PLAYER_DEFAULT_EYESIGHT, ALL);
 
     return player;
 }

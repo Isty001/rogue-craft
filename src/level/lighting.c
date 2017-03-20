@@ -60,7 +60,7 @@ static void light_cells(Lighting *lighting, Cell ***cells)
         point = sight->points[i];
         original = cells[point.y][point.x];
 
-        if (SOLID == original->type) {
+        if (PLAYER != original->type && !point_eq(point, lighting->sight->center)) {
             lighted = light_cell(lighting, original);
             lighted->point = point;
             cells[point.y][point.x] = lighted->current;
@@ -73,7 +73,7 @@ Lighting *lighting_new(Level *level, Point source, uint16_t radius, Style style)
     Lighting *lighting = allocate(sizeof(Lighting));
     lighting->style = style;
 
-    Sight *sight = sight_new(level, source, radius);
+    Sight *sight = sight_new(level, source, radius, EDGES);
     lighting->sight = sight;
     lighting->cells = NULL;
 
@@ -103,7 +103,7 @@ static void free_cells(Lighting *lighting, Cell ***cells)
 
 void lighting_update(Lighting *lighting, Level *level, Point source, uint16_t radius)
 {
-    if (SIGHT_UPDATED == sight_update(lighting->sight, level, source, radius)) {
+    if (UPDATED == sight_update(lighting->sight, level, source, radius)) {
 
         /** It's ok to 'throw away' all the LightedCells at each update,
          * because we'll just grab them from the pool anyway */

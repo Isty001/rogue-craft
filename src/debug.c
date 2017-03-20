@@ -55,6 +55,13 @@ void _profile_allocate(unsigned size, void *ptr)
     PROFILER.chunks->append(PROFILER.chunks, chunk);
 }
 
+void _profile_reallocate(void *old, void *new, unsigned size)
+{
+    PROFILER.chunks->delete(PROFILER.chunks, old);
+
+    _profile_allocate(size, new);
+}
+
 void _profile_release(void *ptr)
 {
     PROFILER.chunks->filter(PROFILER.chunks, (Predicate) function(bool, (Chunk * chunk) {

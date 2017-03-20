@@ -4,7 +4,7 @@
 Level *fixture_level(void)
 {
     Level *level = allocate(sizeof(Level));
-    level->size = (Size) {2, 3};
+    level->size = (Size) {4, 3};
 
     Cell *hollow = allocate(sizeof(Cell));
     hollow->type = HOLLOW;
@@ -36,19 +36,29 @@ Level *fixture_level(void)
 
     level_add_bounds(level);
 
-    level->cells = allocate(2 * sizeof(Cell **));
-    level->cells[0] = allocate(3 * sizeof(Cell *));
-    level->cells[1] = allocate(3 * sizeof(Cell *));
+    Cell ***cells = allocate(4 * sizeof(Cell **));
+    cells[0] = allocate(3 * sizeof(Cell *));
+    cells[1] = allocate(3 * sizeof(Cell *));
+    cells[2] = allocate(3 * sizeof(Cell *));
+    cells[3] = allocate(3 * sizeof(Cell *));
 
-    iterate_matrix(
-        0, level->size,
+    cells[0][0] = solid;
+    cells[0][1] = hollow;
+    cells[0][2] = solid;
 
-        if (y == 1 || ((y == 0) & (x == 1))) {
-            level->cells[y][x] = level_registy_rand(level, hollow);
-        } else {
-            level->cells[y][x] = level_registy_rand(level, solid);
-        }
-    )
+    cells[1][0] = hollow;
+    cells[1][1] = hollow;
+    cells[1][2] = hollow;
+
+    cells[2][0] = hollow;
+    cells[2][1] = hollow;
+    cells[2][2] = hollow;
+
+    cells[3][0] = solid;
+    cells[3][1] = solid;
+    cells[3][2] = solid;
+
+    level->cells = cells;
 
     return level;
 }
@@ -59,6 +69,8 @@ void fixture_level_free(Level *level)
     probability_clean(&level->cfg->cells.solid, release);
     release(level->cells[0]);
     release(level->cells[1]);
+    release(level->cells[2]);
+    release(level->cells[3]);
     release(level->cfg);
 
     level_free(level);

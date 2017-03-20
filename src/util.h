@@ -50,7 +50,7 @@
     __VA_ARGS__                     \
     if (NULL == ptr) {              \
         fatal("[%s] failed to allocate [%u]byte memory ", __FUNCTION__, size);  \
-    } profile_allocate(size, ptr);
+    }
 
 
 #ifndef UNIT_TEST
@@ -96,6 +96,7 @@ static inline void *allocate(int size)
     safe_alloc(
         void *ptr = malloc(size);
     )
+    profile_allocate(size, ptr);
 
     return ptr;
 }
@@ -105,6 +106,17 @@ static inline void *callocate(int nmemb, int size)
     safe_alloc(
         void *ptr = calloc(nmemb, size);
     )
+    profile_allocate(size, ptr);
+
+    return ptr;
+}
+
+static inline void *reallocate(void *old, unsigned size)
+{
+    safe_alloc(
+        void *ptr = realloc(old, size);
+    );
+    profile_reallocate(old, ptr, size);
 
     return ptr;
 }
