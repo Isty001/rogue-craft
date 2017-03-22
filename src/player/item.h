@@ -6,6 +6,7 @@
 #include "../ncurses/ncurses.h"
 #include "../event.h"
 #include "../storage/storage.h"
+#include "../level/lighting.h"
 
 
 #define ITEM_NAME_MAX 20
@@ -22,7 +23,8 @@ typedef enum {
 
 typedef enum {
     CONSUMABLE,
-    TOOL
+    TOOL,
+    LIGHT_SOURCE
 } ItemType;
 
 typedef struct {
@@ -44,7 +46,8 @@ typedef struct Consumable {
 } Consumable;
 
 typedef struct {
-    Style style;
+    time_t updated;
+    Lighting *lighting;
 } LightSource;
 
 typedef struct Item {
@@ -56,7 +59,7 @@ typedef struct Item {
     union {
         Consumable consumable;
         Tool tool;
-        LightSource light_source;
+        LightSource *light_source;
     };
 } Item;
 
