@@ -28,8 +28,6 @@ static void add_default_attributes(Player *player)
         .current = 0, .max = 100,
         .name = "Thirst", .style = COLOR_PAIR(COLOR_PAIR_BLUE_F)
     };
-
-    pthread_check(pthread_mutex_init(&player->attributes.mutex, NULL));
 }
 
 static void find_starting_point(Player *player)
@@ -64,7 +62,6 @@ Player *player_new(Level *level, Camera *camera)
 
 void player_free(Player *player)
 {
-    pthread_mutex_destroy(&player->attributes.mutex);
     inventory_free(player->inventory);
     sight_free(player->sight);
     release(player);
@@ -93,8 +90,6 @@ void player_attributes_display(Player *player)
     int line = 0;
     wclear(win);
 
-    lock(&player->attributes.mutex);
-
     for (int i = 0; i < PLAYER_ATTR_NUM; i++) {
         attr = &player->attributes.state[i];
 
@@ -107,7 +102,6 @@ void player_attributes_display(Player *player)
         display_attribute_bar(width, attr, win);
         line++;
     }
-    unlock(&player->attributes.mutex);
 
     refresh_boxed(win);
 }

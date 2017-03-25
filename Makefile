@@ -1,7 +1,7 @@
 SRC = $(shell find src config -name '*.c')
 LIB = $(shell find lib/*/src -name '*.c') lib/parson/parson.c
 TEST_SRC = $(SRC) $(shell find test -name '*.c')
-CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -I lib/collection/src -I lib/tinydir -I lib/parson -l ncursesw -l panel -l pthread -l m -isystem lib -D _GNU_SOURCE
+CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -I lib/collection/src -I lib/tinydir -I lib/parson -l ncursesw -l panel -l m -isystem lib -D _GNU_SOURCE
 
 OBJ = rogue-craft
 TEST_OBJ = rogue-craft-test

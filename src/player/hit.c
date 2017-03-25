@@ -80,14 +80,12 @@ EventError player_hit(InteractionEvent *event)
 
     Inventory *inventory = player->inventory;
     Item *selected_item = inventory_selected(inventory);
-    lock(&player->attributes.mutex);
 
     Hit hit = calculate_hit(player, selected_item, target);
 
     if (hit.allowed_range >= point_distance(player->position.current, point)) {
         apply_hit(hit, player, target, point);
     }
-    unlock(&player->attributes.mutex);
 
     return EE_OK;
 }

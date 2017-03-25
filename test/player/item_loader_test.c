@@ -1,7 +1,7 @@
 #include <wchar.h>
-#include "unit_test.h"
-#include "../src/player/item.h"
-#include "../config/config.h"
+#include "../unit_test.h"
+#include "../../src/player/item.h"
+#include "../../config/config.h"
 
 
 static void assert_tool(ItemPrototype *prototype)

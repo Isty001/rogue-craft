@@ -37,7 +37,7 @@ static int count_surrounding_walls(Level *level, Point position)
     return count;
 }
 
-static void evolve(Level *level, Cell *(*tmp)[level->size.height][level->size.width])
+static void evolve(Level *level, Cell ***tmp)
 {
     int neighbours;
     Cell *cell, *new;
@@ -62,7 +62,7 @@ static void evolve(Level *level, Cell *(*tmp)[level->size.height][level->size.wi
                 new = probability_pick(&cells->solid);
             }
         }
-        (*tmp)[y][x] = new;
+        tmp[y][x] = new;
     )
 }
 
@@ -72,13 +72,14 @@ static void evolve(Level *level, Cell *(*tmp)[level->size.height][level->size.wi
 void level_generate_cellular(Level *level)
 {
     Size size = level->size;
-    Cell *tmp[level->size.height][level->size.width];
+    Cell ***tmp = level_allocate_cells(level->size);
 
     repeat(5,
-       evolve(level, &tmp);
+       evolve(level, tmp);
 
        for (int y = 0; y < size.height; y++) {
            memcpy(level->cells[y], tmp[y], size.width * sizeof(Cell *));
        }
     )
+    release(tmp);
 }

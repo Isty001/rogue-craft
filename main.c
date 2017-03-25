@@ -6,7 +6,6 @@
 #include "src/level/camera.h"
 #include "config/config.h"
 #include "src/player/inventory.h"
-#include "src/worker/worker.h"
 
 
 static void init(void)
@@ -21,7 +20,6 @@ static void init(void)
     ncurses_init();
 
     list_node_pool_init();
-    message_pool_init();
     item_pool_init();
     cell_pool_init();
     lighted_cell_pool_init();
@@ -32,15 +30,11 @@ static void init(void)
     level_load();
 
     mouse_init();
-    worker_init();
 }
 
 static void cleanup(Player *player)
 {
     ncurses_cleanup();
-    worker_cleanup();
-
-    message_pool_cleanup();
     item_pool_cleanup();
     cell_pool_cleanup();
     lighted_cell_pool_cleanup();

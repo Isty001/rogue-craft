@@ -1,6 +1,6 @@
-#include "unit_test.h"
-#include "fixture.h"
-#include "../src/player/inventory.h"
+#include "../unit_test.h"
+#include "../fixture.h"
+#include "../../src/player/inventory.h"
 
 
 static ItemPrototype TEST_TOOL = {

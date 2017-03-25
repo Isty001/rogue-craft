@@ -1,7 +1,7 @@
-#include "unit_test.h"
-#include "../src/player/player.h"
-#include "fixture.h"
-#include "../config/config.h"
+#include "../unit_test.h"
+#include "../../src/player/player.h"
+#include "../fixture.h"
+#include "../../config/config.h"
 
 
 static void assert_position(Player player, int y, int x)
@@ -18,7 +18,7 @@ MU_TEST(test_movement)
     player.level = fixture_level();
     player.cell.prototype.type = PLAYER;
     player.cell.prototype.in_registry = true;
-    player.cell.previous = level_registy_rand(player.level, hollow);
+    player.cell.previous = level_registry_rand(player.level, hollow);
     player.position.previous = point_new(1, 1);
     player.position.current = point_new(1, 1);
 

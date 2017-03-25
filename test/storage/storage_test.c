@@ -1,5 +1,5 @@
-#include "unit_test.h"
-#include "../src/storage/storage.h"
+#include "../unit_test.h"
+#include "../../src/storage/storage.h"
 
 
 MU_TEST(test_file_exists)

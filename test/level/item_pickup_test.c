@@ -1,9 +1,9 @@
-#include "unit_test.h"
-#include "../src/level/level.h"
-#include "../src/level/camera.h"
-#include "../config/config.h"
-#include "../src/player/inventory.h"
-#include "fixture.h"
+#include "../unit_test.h"
+#include "../../src/level/level.h"
+#include "../../src/level/camera.h"
+#include "../../config/config.h"
+#include "../../src/player/inventory.h"
+#include "../fixture.h"
 
 
 MU_TEST(test_item_pickup)

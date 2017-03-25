@@ -1,5 +1,5 @@
-#include "unit_test.h"
-#include "../src/color.h"
+#include "../unit_test.h"
+#include "../../src/color.h"
 
 
 static void assert_color(CachedColor *color)

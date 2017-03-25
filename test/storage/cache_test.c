@@ -1,6 +1,6 @@
 #include <list.h>
-#include "unit_test.h"
-#include "../src/storage/cache.h"
+#include "../unit_test.h"
+#include "../../src/storage/cache.h"
 
 
 MU_TEST(test_exists)

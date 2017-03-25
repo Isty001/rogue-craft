@@ -4,8 +4,6 @@
 #ifdef DEBUG_MODE
 
 #include "player/item.h"
-#include "worker/worker.h"
-#include "level/lighting.h"
 
 
 typedef struct Chunk {
@@ -38,10 +36,6 @@ void _profiler_display(void)
 
     mvwprintw(WINDOW_MAIN, 5, 2,
               "MALLOC: [%d][%d byte]", PROFILER.chunks->count, sum_chunks());
-
-    mvwprintw(WINDOW_MAIN, 1, 40, "WORKER: Messages: Pool: [%d][%d byte] In Queue: [%d]",
-              PROFILER.message, PROFILER.message * sizeof(Message), worker_remaining()
-    );
 
     wrefresh(WINDOW_MAIN);
 }

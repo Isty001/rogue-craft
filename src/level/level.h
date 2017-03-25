@@ -29,7 +29,7 @@
 #define level_rand_point(level) \
     point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
 
-#define level_registy_rand(level, type) \
+#define level_registry_rand(level, type) \
     probability_pick(&level->cfg->cells.type)
 
 /** Avoiding circular references */
@@ -79,6 +79,8 @@ void level_cache_save(void);
 void level_unload(void);
 
 Level *level_new(Size size);
+
+Cell ***level_allocate_cells(Size size);
 
 void level_display(Player *player);
 

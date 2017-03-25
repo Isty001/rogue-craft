@@ -34,7 +34,8 @@ typedef struct {
 typedef struct {
     double dealt_damage;
     uint32_t traveled;
-    time_t updated;
+    time_t fatigue_updated;
+    time_t fatigue_damage_updated;
 } Modifiers;
 
 typedef struct {
@@ -60,18 +61,18 @@ typedef struct Player {
 } Player;
 
 typedef const struct {
-    uint16_t time;
     uint16_t traveled;
     uint16_t dealt_damage;
+    uint16_t time_limit;
     Range thirst;
     Range hunger;
     Range stamina;
 } Fatigue;
 
 typedef const struct {
-    uint16_t hunger;
-    uint16_t thirst;
-    uint16_t time;
+    uint16_t hunger_limit;
+    uint16_t thirst_limit;
+    uint16_t time_limit;
     Range health;
     Range stamina;
 } FatigueDamage;
@@ -97,6 +98,8 @@ EventError player_hit(InteractionEvent *event);
 void player_attributes_display(Player *player);
 
 void player_position_on_level(Player *player);
+
+void player_state_update(Player *player, AttributeConfig *cfg);
 
 
 #endif

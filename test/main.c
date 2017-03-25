@@ -4,8 +4,6 @@
 #include <parson.h>
 #include "../src/color.h"
 #include "../src/player/item.h"
-#include "../src/worker/worker.h"
-#include "../src/level/lighting.h"
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -41,14 +39,12 @@ static void init(void)
     item_pool_init();
     cell_pool_init();
     lighted_cell_pool_init();
-    message_pool_init();
 }
 
 static void cleanup(void)
 {
     cell_pool_cleanup();
     lighted_cell_pool_cleanup();
-    message_pool_cleanup();
     item_pool_cleanup();
     list_node_pool_cleanup();
     profiler_cleanup();

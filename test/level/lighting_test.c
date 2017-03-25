@@ -1,6 +1,5 @@
-#include "unit_test.h"
-#include "fixture.h"
-#include "../src/level/lighting.h"
+#include "../unit_test.h"
+#include "../fixture.h"
 
 
 MU_TEST(test_lighting)

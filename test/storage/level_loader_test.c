@@ -1,6 +1,6 @@
-#include "unit_test.h"
-#include "../src/level/level.h"
-#include "../config/config.h"
+#include "../unit_test.h"
+#include "../../src/level/level.h"
+#include "../../config/config.h"
 
 
 static void assert_probability(void)

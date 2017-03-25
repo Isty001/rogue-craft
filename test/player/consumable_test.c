@@ -1,6 +1,6 @@
-#include "unit_test.h"
-#include "../src/player/item.h"
-#include "fixture.h"
+#include "../unit_test.h"
+#include "../../src/player/item.h"
+#include "../fixture.h"
 
 
 MU_TEST(test_non_consumable)

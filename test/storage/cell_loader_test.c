@@ -1,5 +1,5 @@
-#include "unit_test.h"
-#include "../src/level/cell.h"
+#include "../unit_test.h"
+#include "../../src/level/cell.h"
 
 
 static void assert_common(const Cell *cell)

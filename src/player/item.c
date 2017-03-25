@@ -82,18 +82,14 @@ ItemError item_consume(Item *parent, Player *player)
 
     Consumable *consumable = &parent->consumable;
     Attribute *attribute = &player->attributes.state[consumable->attribute];
-    ItemError err;
 
-    lock(&player->attributes.mutex);
     if (consumable->permanent) {
         attribute->max += parent->value;
-        err = IE_CONSUMED;
-    } else {
-        err = consume_non_permanent(parent, attribute);
-    }
-    unlock(&player->attributes.mutex);
 
-    return err;
+        return IE_CONSUMED;
+    }
+
+    return consume_non_permanent(parent, attribute);
 }
 
 EventError item_pickup(InteractionEvent *event)

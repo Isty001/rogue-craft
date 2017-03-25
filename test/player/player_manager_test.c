@@ -1,6 +1,6 @@
-#include "unit_test.h"
-#include "fixture.h"
-#include "../src/level/camera.h"
+#include "../unit_test.h"
+#include "../fixture.h"
+#include "../../src/level/camera.h"
 
 
 MU_TEST(test_new_player)

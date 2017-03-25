@@ -3,10 +3,8 @@
 #include "camera.h"
 
 
-static void allocate_rows(Level *level)
+Cell ***level_allocate_cells(Size size)
 {
-    Size size = level->size;
-
     Cell ***cells = allocate(sizeof(Cell[size.height][size.width]));
     Cell **from = (Cell **) cells + size.height;
 
@@ -14,7 +12,7 @@ static void allocate_rows(Level *level)
         cells[i] = from + i * size.height;
     }
 
-    level->cells = cells;
+    return cells;
 }
 
 static void initialize_cells(Level *level)
@@ -24,8 +22,8 @@ static void initialize_cells(Level *level)
     iterate_matrix(
         0, level->size,
         level->cells[y][x] = rand_bool(0.54)
-                             ? level_registy_rand(level, solid)
-                             : level_registy_rand(level, hollow)
+                             ? level_registry_rand(level, solid)
+                             : level_registry_rand(level, hollow)
     );
 }
 
@@ -54,7 +52,7 @@ Level *level_new(Size size)
 
     level_add_bounds(level);
 
-    allocate_rows(level);
+    level->cells = level_allocate_cells(level->size);
     initialize_cells(level);
 
     if (CELLULAR == level->cfg->type) {

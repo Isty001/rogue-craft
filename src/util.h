@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <worker.h>
 #include <memory.h>
 #include <errno.h>
 #include <mem_pool.h>
@@ -51,21 +50,6 @@
     if (NULL == ptr) {              \
         fatal("[%s] failed to allocate [%u]byte memory ", __FUNCTION__, size);  \
     }
-
-
-#ifndef UNIT_TEST
-
-#define lock(mutex) pthread_check(pthread_mutex_lock(mutex))
-
-#define unlock(mutex) pthread_check(pthread_mutex_unlock(mutex))
-
-#else
-
-#define lock(mutex)
-
-#define unlock(mutex)
-
-#endif
 
 
 typedef struct {
