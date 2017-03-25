@@ -84,6 +84,8 @@ int main(void)
     update(player);
     render(player);
 
+    int i = 0;
+
     while (1) {
         if ((in = wgetch(WINDOW_MAIN))) {
             if (KEY_F(2) == in) break;
@@ -99,6 +101,12 @@ int main(void)
         }
         flushinp();
         napms(60);
+
+
+        if (i++ == 10) {
+            player_state_update(player, &PLAYER_STATE_CONFIG);
+            i = 0;
+        }
     }
     cleanup(player);
 

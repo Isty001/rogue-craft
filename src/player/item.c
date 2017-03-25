@@ -81,7 +81,7 @@ ItemError item_consume(Item *parent, Player *player)
     check_type(parent, CONSUMABLE);
 
     Consumable *consumable = &parent->consumable;
-    Attribute *attribute = &player->attributes.state[consumable->attribute];
+    Attribute *attribute = &player->state.attributes[consumable->attribute];
 
     if (consumable->permanent) {
         attribute->max += parent->value;

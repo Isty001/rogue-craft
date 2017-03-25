@@ -54,7 +54,7 @@ EventError player_move(InputEvent *event)
     if (can_move_to(player, target)) {
         player->position.previous = player->position.current;
         player->position.current = target;
-        player->attributes.modifiers.traveled++;
+        player->state.modifiers.traveled++;
 
         player_position_on_level(player);
     }

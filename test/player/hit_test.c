@@ -30,7 +30,7 @@ static Player create_player(void)
         .level = fixture_level(),
         .inventory = create_inventory(),
         .position = {.current = point_new(1, 0), .previous = point_new(1000, 1000)},
-        .attributes.state = {[STAMINA] = {.current = 80}}
+        .state.attributes = {[STAMINA] = {.current = 80}}
     };
 }
 
@@ -62,7 +62,7 @@ MU_TEST(test_range)
 
     player_hit(&event);
     mu_assert_double_eq(94.72, player.level->cells[0][2]->state);
-    mu_assert_double_eq(5.28, player.attributes.modifiers.dealt_damage);
+    mu_assert_double_eq(5.28, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -80,7 +80,7 @@ MU_TEST(test_defaults)
     mu_assert(false == cell->in_registry, "The cell hit should be cloned");
 
     mu_assert_double_eq(94.72, cell->state);
-    mu_assert_int_eq(5.38, player.attributes.modifiers.dealt_damage);
+    mu_assert_int_eq(5.38, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -91,8 +91,8 @@ MU_TEST(test_material_and_tired_damage)
     List *items = player.inventory->items;
     Item *tool;
 
-    player.attributes.state[HUNGER].current = 20;
-    player.attributes.state[THIRST].current = 30;
+    player.state.attributes[HUNGER].current = 20;
+    player.state.attributes[THIRST].current = 30;
     tool = items->head(items);
     tool->tool.multipliers.materials[STONE] = 2;
 
@@ -101,7 +101,7 @@ MU_TEST(test_material_and_tired_damage)
     player_hit(&event);
 
     mu_assert_double_eq(92.9, player.level->cells[0][0]->state);
-    mu_assert_int_eq(7.1, player.attributes.modifiers.dealt_damage);
+    mu_assert_int_eq(7.1, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -115,7 +115,7 @@ MU_TEST(test_bare_hands)
     player_hit(&event);
 
     mu_assert_double_eq(95.2, player.level->cells[0][0]->state);
-    mu_assert_double_eq(4.8, player.attributes.modifiers.dealt_damage);
+    mu_assert_double_eq(4.8, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }

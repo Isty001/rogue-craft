@@ -23,7 +23,7 @@ static double tool_damage_multiplier(Tool *tool, Cell *cell)
 
 static double calculate_damage(Player *player, Tool *tool, Cell *target)
 {
-    Attribute *state = player->attributes.state;
+    Attribute *state = player->state.attributes;
 
     double positive = state[STAMINA].current * 1.2;
     double negative = state[HUNGER].current + state[THIRST].current;
@@ -60,7 +60,7 @@ static void apply_hit(Hit hit, Player *player, Cell *target, Point point)
     }
 
     target->state -= hit.damage;
-    player->attributes.modifiers.dealt_damage += hit.damage;
+    player->state.modifiers.dealt_damage += hit.damage;
 
     if (target->state <= 0) {
         level_set_hollow(player->level, point);

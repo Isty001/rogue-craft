@@ -34,21 +34,23 @@ typedef struct {
 typedef struct {
     double dealt_damage;
     uint32_t traveled;
-    time_t fatigue_updated;
-    time_t fatigue_damage_updated;
+    struct {
+        time_t fatigue;
+        time_t fatigue_damage;
+    } timestamp;
 } Modifiers;
 
 typedef struct {
     pthread_mutex_t mutex;
     Modifiers modifiers;
-    Attribute state[PLAYER_ATTR_NUM];
-} PlayerAttributes;
+    Attribute attributes[PLAYER_ATTR_NUM];
+} PlayerState;
 
 typedef struct Player {
     Level *level;
     Camera *camera;
     Inventory *inventory;
-    PlayerAttributes attributes;
+    PlayerState state;
     Sight *sight;
     struct {
         Point current;
@@ -63,24 +65,23 @@ typedef struct Player {
 typedef const struct {
     uint16_t traveled;
     uint16_t dealt_damage;
-    uint16_t time_limit;
+    uint16_t elapsed_time;
     Range thirst;
     Range hunger;
     Range stamina;
 } Fatigue;
 
 typedef const struct {
-    uint16_t hunger_limit;
-    uint16_t thirst_limit;
-    uint16_t time_limit;
+    uint16_t hunger;
+    uint16_t thirst;
+    uint16_t elapsed_time;
     Range health;
-    Range stamina;
 } FatigueDamage;
 
 typedef const struct {
     Fatigue fatigue;
-    FatigueDamage damage;
-} AttributeConfig;
+    FatigueDamage fatigue_damage;
+} PlayerStateConfig;
 
 
 Player *player_new(Level *level, Camera *camera);
@@ -99,7 +100,7 @@ void player_attributes_display(Player *player);
 
 void player_position_on_level(Player *player);
 
-void player_state_update(Player *player, AttributeConfig *cfg);
+void player_state_update(Player *player, PlayerStateConfig *cfg);
 
 
 #endif

@@ -42,6 +42,7 @@ ItemError inventory_add(Inventory *inventory, Item *item)
         return IE_OVERFLOW;
     }
     items->append(items, item);
+    ncurses_event("Picked up a(n) %s", item->name);
 
     return IE_OK;
 }

@@ -1,21 +1,20 @@
 #include "config.h"
 
 
-AttributeConfig PLAYER_ATTRIBUTE_CONFIG = {
+PlayerStateConfig PLAYER_STATE_CONFIG = {
     .fatigue = {
         .traveled = 3000,
         .dealt_damage = 1000,
-        .time_limit = 300,
+        .elapsed_time = 300,
         .thirst = range_new(1, 5),
         .hunger = range_new(1, 6),
         .stamina = range_new(-5, -1)
     },
-    .damage = {
-        .hunger_limit = 75,
-        .thirst_limit = 60,
-        .time_limit = 60,
-        .health = range_new(1, 2),
-        .stamina = range_new(2, 3)
+    .fatigue_damage = {
+        .hunger = 75,
+        .thirst = 60,
+        .elapsed_time = 60,
+        .health = range_new(1, 2)
     }
 };
 

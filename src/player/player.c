@@ -1,3 +1,4 @@
+#include <time.h>
 #include "player.h"
 #include "inventory.h"
 
@@ -5,9 +6,19 @@
 #define CHAR_BAR '|'
 
 
+static void init_modifiers(Player *player)
+{
+    Modifiers *modifiers = &player->state.modifiers;
+
+    modifiers->traveled = 0;
+    modifiers->dealt_damage = 0;
+    modifiers->timestamp.fatigue = time(NULL);
+    modifiers->timestamp.fatigue_damage = time(NULL);
+}
+
 static void add_default_attributes(Player *player)
 {
-    Attribute *map = player->attributes.state;
+    Attribute *map = player->state.attributes;
 
     map[HEALTH] = (Attribute) {
         .current = 100, .max = 100,
@@ -48,6 +59,7 @@ Player *player_new(Level *level, Camera *camera)
     player->camera = camera;
 
     add_default_attributes(player);
+    init_modifiers(player);
 
     player->cell.prototype.style = COLOR_PAIR(COLOR_PAIR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
@@ -91,7 +103,7 @@ void player_attributes_display(Player *player)
     wclear(win);
 
     for (int i = 0; i < PLAYER_ATTR_NUM; i++) {
-        attr = &player->attributes.state[i];
+        attr = &player->state.attributes[i];
 
         styled(win, attr->style,
                mvwprintw(win, ++line, PADDING, attr->name);

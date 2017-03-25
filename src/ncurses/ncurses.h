@@ -14,7 +14,7 @@
 
 #ifndef UNIT_TEST
 #define ncurses_event(msg, ...)                             \
-    wprintw(WINDOW_EVENT, " " msg "\n", ##__VA_ARGS__);     \
+    wprintw(WINDOW_EVENT, "\n " msg, ##__VA_ARGS__);     \
     refresh_boxed(WINDOW_EVENT);
 #else
 #define ncurses_event(msg, ...)
