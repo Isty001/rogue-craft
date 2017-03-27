@@ -28,6 +28,7 @@ ConstLookup CONST_LOOKUP[] = {
     color(COLOR_PAIR_GREEN_B),
     color(COLOR_PAIR_DARK_GREEN_B),
     color(COLOR_PAIR_BROWN_B),
+    color(COLOR_PAIR_YELLOW_B),
 
     simple(A_BOLD),
     simple(A_UNDERLINE),

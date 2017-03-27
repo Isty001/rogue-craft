@@ -56,6 +56,4 @@ void run_player_state_test(void)
     MU_RUN_TEST(test_player_state);
 
     MU_REPORT();
-
-    exit(0);
 }
