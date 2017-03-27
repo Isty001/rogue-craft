@@ -1,0 +1,6 @@
+language: c
+
+before_install:
+  - sudo apt-get install -qq libncursesw5-dev
+install: make dependency-update
+script: make test-valgrind
