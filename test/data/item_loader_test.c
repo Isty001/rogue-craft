@@ -39,6 +39,20 @@ static void assert_consumable(ItemPrototype *prototype)
     mu_assert_int_eq(STAMINA, consumable->attribute);
 }
 
+static void assert_light_source(ItemPrototype *prototype)
+{
+    Item *item = &prototype->item;
+    LightSource *light_source = &prototype->item.light_source;
+
+    mu_assert_int_eq(LIGHT_SOURCE, item->type);
+    assert_range(range_new(200, 300), prototype->value_range);
+
+    mu_assert(NULL == light_source->lighting, "Actual Lighingt shouldn't be initialized yet");
+    mu_assert_int_eq(5, light_source->radius);
+    mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_YELLOW_B), light_source->style);
+    mu_assert(true == light_source->portable, "");
+}
+
 static void assert_loaded_items(void)
 {
     mu_assert_int_eq(1, ITEM_CONSUMABLE_PROBABILITY.count);
@@ -50,6 +64,11 @@ static void assert_loaded_items(void)
     mu_assert_int_eq(15, ITEM_TOOL_PROBABILITY.sum);
 
     assert_tool(ITEM_TOOL_PROBABILITY.items[0].value);
+
+    mu_assert_int_eq(1, ITEM_LIGHT_SOURCE_PROBABILITY.count);
+    mu_assert_int_eq(5, ITEM_LIGHT_SOURCE_PROBABILITY.sum);
+
+    assert_light_source(ITEM_LIGHT_SOURCE_PROBABILITY.items[0].value);
 }
 
 MU_TEST(test_load)

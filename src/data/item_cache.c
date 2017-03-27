@@ -19,6 +19,8 @@ static Probability *probability_for(ItemType type)
             return &ITEM_TOOL_PROBABILITY;
         case CONSUMABLE:
             return &ITEM_CONSUMABLE_PROBABILITY;
+        case LIGHT_SOURCE:
+            return &ITEM_LIGHT_SOURCE_PROBABILITY;
         default:
             fatal("No Probability found for ItemType [%d]", type)
     }

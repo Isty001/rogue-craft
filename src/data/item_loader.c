@@ -7,6 +7,7 @@
 
 Probability ITEM_CONSUMABLE_PROBABILITY;
 Probability ITEM_TOOL_PROBABILITY;
+Probability ITEM_LIGHT_SOURCE_PROBABILITY;
 
 
 static void add_item(JSON_Object *json, ItemType type, ItemPrototype *prototype, Probability *map)
@@ -17,7 +18,7 @@ static void add_item(JSON_Object *json, ItemType type, ItemPrototype *prototype,
         fatal("Item probability must be greater than 0");
     }
 
-    probability_add(map,  probability, prototype);
+    probability_add(map, probability, prototype);
     prototype->item.type = type;
 }
 
@@ -58,6 +59,15 @@ static void build_tool(ItemPrototype *prototype, JSON_Object *json)
     }
 }
 
+static void build_light_source(ItemPrototype *prototype, JSON_Object *json)
+{
+    LightSource *light_source = &prototype->item.light_source;
+    light_source->radius = (uint16_t) json_get_number(json, "radius");
+    light_source->style = json_get_style(json);
+    light_source->portable = (bool) json_get_bool(json, "portable");
+    light_source->lighting = NULL;
+}
+
 static void build_type_specific(ItemPrototype *prototype, JSON_Object *json)
 {
     if (json_has_object(json, "consumable")) {
@@ -66,6 +76,9 @@ static void build_type_specific(ItemPrototype *prototype, JSON_Object *json)
     } else if (json_has_object(json, "tool")) {
         build_tool(prototype, json_get_object(json, "tool"));
         add_item(json, TOOL, prototype, &ITEM_TOOL_PROBABILITY);
+    } else if (json_has_object(json, "lightSource")) {
+        build_light_source(prototype, json_get_object(json, "lightSource"));
+        add_item(json, LIGHT_SOURCE, prototype, &ITEM_LIGHT_SOURCE_PROBABILITY);
     } else {
         fatal("Unable to determine the Item's type");
     }
@@ -112,4 +125,5 @@ void item_unload(void)
 {
     probability_clean(&ITEM_CONSUMABLE_PROBABILITY, release);
     probability_clean(&ITEM_TOOL_PROBABILITY, release);
+    probability_clean(&ITEM_LIGHT_SOURCE_PROBABILITY, release);
 }

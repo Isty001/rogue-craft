@@ -22,7 +22,7 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
  */
 #define PLAYER_CHAR                     '@'
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_DEFAULT_EYESIGHT         6
+#define PLAYER_DEFAULT_EYESIGHT         4
 
 extern PlayerStateConfig PLAYER_STATE_CONFIG;
 
@@ -71,6 +71,8 @@ extern Probability ITEM_TYPE_PROBABILITY;
 extern Probability ITEM_CONSUMABLE_PROBABILITY;
 
 extern Probability ITEM_TOOL_PROBABILITY;
+
+extern Probability ITEM_LIGHT_SOURCE_PROBABILITY;
 
 
 #endif

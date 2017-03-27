@@ -18,5 +18,17 @@
         }
       }
     }
+  },
+  {
+    "name": "Torch",
+    "char": "t",
+    "style": ["COLOR_PAIR_YELLOW_B"],
+    "valueRange": [200, 300],
+    "probability": 5,
+    "lightSource": {
+      "style": ["COLOR_PAIR_YELLOW_B"],
+      "radius": 5,
+      "portable": true
+    }
   }
 ]

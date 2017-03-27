@@ -46,7 +46,9 @@ typedef struct Consumable {
 } Consumable;
 
 typedef struct {
-    time_t updated;
+    uint16_t radius;
+    Style style;
+    bool portable;
     Lighting *lighting;
 } LightSource;
 
@@ -59,7 +61,7 @@ typedef struct Item {
     union {
         Consumable consumable;
         Tool tool;
-        LightSource *light_source;
+        LightSource light_source;
     };
 } Item;
 

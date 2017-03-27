@@ -19,10 +19,11 @@ PlayerStateConfig PLAYER_STATE_CONFIG = {
 };
 
 Probability ITEM_TYPE_PROBABILITY = {
-    .count = 2,
-    .sum = 60,
+    .count = 3,
+    .sum = 70,
     .items = {
-        {.chance = 50, .value = &ITEM_CONSUMABLE_PROBABILITY},
-        {.chance = 10, .value = &ITEM_TOOL_PROBABILITY}
+        {.chance = 40, .value = &ITEM_CONSUMABLE_PROBABILITY},
+        {.chance = 20, .value = &ITEM_LIGHT_SOURCE_PROBABILITY},
+        {.chance = 10, .value = &ITEM_TOOL_PROBABILITY},
     }
 };
