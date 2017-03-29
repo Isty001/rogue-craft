@@ -49,6 +49,7 @@ typedef struct {
     uint16_t radius;
     Style style;
     bool portable;
+    Point *source;
     Lighting *lighting;
 } LightSource;
 

@@ -66,6 +66,7 @@ static void build_light_source(ItemPrototype *prototype, JSON_Object *json)
     light_source->style = json_get_style(json);
     light_source->portable = (bool) json_get_bool(json, "portable");
     light_source->lighting = NULL;
+    light_source->source = NULL;
 }
 
 static void build_type_specific(ItemPrototype *prototype, JSON_Object *json)

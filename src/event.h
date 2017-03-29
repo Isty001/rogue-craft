@@ -17,7 +17,6 @@ typedef enum {
 } Event;
 
 typedef enum {
-    EE_OK,
     EE_CONTINUE,
     EE_BREAK
 } EventError;

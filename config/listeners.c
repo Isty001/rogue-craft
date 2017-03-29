@@ -14,6 +14,7 @@ Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
     [EVENT_INPUT] = {
         (Listener) player_move,
         (Listener) mouse_handler,
+        (Listener) inventory_use_selected,
         (Listener) inventory_shortcut_select,
     }
 };

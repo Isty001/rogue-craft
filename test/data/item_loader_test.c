@@ -47,7 +47,8 @@ static void assert_light_source(ItemPrototype *prototype)
     mu_assert_int_eq(LIGHT_SOURCE, item->type);
     assert_range(range_new(200, 300), prototype->value_range);
 
-    mu_assert(NULL == light_source->lighting, "Actual Lighingt shouldn't be initialized yet");
+    mu_assert(NULL == light_source->lighting, "Actual Lighting shouldn't be initialized yet");
+    mu_assert(NULL == light_source->source, "Actual Lighting shouldn't be initialized yet");
     mu_assert_int_eq(5, light_source->radius);
     mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_YELLOW_B), light_source->style);
     mu_assert(true == light_source->portable, "");

@@ -6,7 +6,7 @@
 
 Inventory *inventory_new(uint16_t max_size)
 {
-    Inventory *inventory = allocate(sizeof(Inventory) + (max_size * sizeof(Item *)));
+    Inventory *inventory = allocate(sizeof(Inventory) + (max_size * sizeof(Item * )));
     inventory->max_size = max_size;
     inventory->selected = 0;
     inventory->items = list_new();
@@ -110,21 +110,23 @@ EventError inventory_shortcut_select(InputEvent *event)
         inventory->selected = selected;
     }
 
-    return EE_OK;
+    return EE_BREAK;
 }
 
-void inventory_use_selected(Player *player)
+EventError inventory_use_selected(InputEvent *event)
 {
-    Inventory *inventory = player->inventory;
+    if (KEY_USE != event->input) return EE_CONTINUE;
+
+    Inventory *inventory = event->player->inventory;
     Item *selected = inventory_selected(inventory);
 
-    if (NULL == selected) {
-        return;
-    }
-    if (CONSUMABLE == selected->type) {
-        if (IE_CONSUMED == item_consume(selected, player)) {
-            inventory_remove(inventory, selected);
-            item_free(selected);
+    if (selected) {
+        if (CONSUMABLE == selected->type) {
+            if (IE_CONSUMED == item_consume(selected, event->player)) {
+                inventory_remove(inventory, selected);
+                item_free(selected);
+            }
         }
     }
+    return EE_BREAK;
 }

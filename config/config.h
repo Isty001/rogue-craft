@@ -45,7 +45,7 @@ extern PlayerStateConfig PLAYER_STATE_CONFIG;
 #define KEY_ESCAPE       KEY_F(2)
 /** @TODO Listener */
 #define KEY_INVENTORY   'i'
-#define KEY_USE     'f'
+#define KEY_USE         'f'
 
 /**
  * MATERIAL

@@ -38,5 +38,5 @@ EventError mouse_handler(InputEvent *event)
         }
     }
 
-    return EE_OK;
+    return EE_CONTINUE;
 }

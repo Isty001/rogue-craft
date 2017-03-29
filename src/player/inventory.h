@@ -26,7 +26,7 @@ ItemError inventory_remove(Inventory *inventory, Item *item);
 
 EventError inventory_shortcut_select(InputEvent *event);
 
-void inventory_use_selected(Player *player);
+EventError inventory_use_selected(InputEvent *event);
 
 void inventory_shortcut_display(Inventory *inventory);
 

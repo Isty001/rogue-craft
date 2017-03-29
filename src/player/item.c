@@ -108,5 +108,5 @@ EventError item_pickup(InteractionEvent *event)
         }
     }
 
-    return EE_OK;
+    return EE_CONTINUE;
 }

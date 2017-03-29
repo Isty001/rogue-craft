@@ -87,5 +87,5 @@ EventError player_hit(InteractionEvent *event)
         apply_hit(hit, player, target, point);
     }
 
-    return EE_OK;
+    return EE_CONTINUE;
 }

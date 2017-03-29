@@ -69,17 +69,21 @@ MU_TEST(test_use_consumable)
     inventory_add(inv, item);
 
     Player player;
+    InputEvent event = {
+        .input = KEY_USE,
+        .player = &player
+    };
 
     player.inventory = inv;
     player.state.attributes[HEALTH].current = 95;
     player.state.attributes[HEALTH].max = 100;
 
-    inventory_use_selected(&player);
+    inventory_use_selected(&event);
     mu_assert_int_eq(100, player.state.attributes[HEALTH].current);
     mu_assert(item == items->head(items), "Item should not be removed");
 
     player.state.attributes[HEALTH].current = 92;
-    inventory_use_selected(&player);
+    inventory_use_selected(&event);
     mu_assert_int_eq(97, player.state.attributes[HEALTH].current);
     mu_assert(NULL == items->head(items), "Item should be removed");
 
