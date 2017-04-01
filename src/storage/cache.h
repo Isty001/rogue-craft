@@ -20,6 +20,8 @@ typedef struct {
 
 void cache_init();
 
+bool cache_exists(char *name);
+
 bool cache_is_empty(char *name);
 
 bool cache_valid(Cache *cache, time_t value_modified);

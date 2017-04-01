@@ -36,10 +36,10 @@ static void cleanup(Player *player)
 {
     ncurses_cleanup();
     item_pool_cleanup();
+    level_free(player->level);
     cell_pool_cleanup();
     lighted_cell_pool_cleanup();
 
-    level_free(player->level);
     player_free(player);
     item_unload();
     cell_unload();
@@ -67,6 +67,10 @@ static void render(Player *player)
 int main(void)
 {
     init();
+
+    if (!has_mouse()) {
+        fatal("Your terminal or ncurses version has no mouse support.")
+    }
 
     if (!has_colors() || !can_change_color()) {
         fatal("Please make sure that your terminal has 256 color support.");
@@ -99,9 +103,7 @@ int main(void)
             update(player);
             render(player);
         }
-        flushinp();
         napms(60);
-
 
         if (i++ == 10) {
             player_state_update(player, &PLAYER_STATE_CONFIG);

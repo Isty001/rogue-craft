@@ -48,10 +48,11 @@ static void assert_light_source(ItemPrototype *prototype)
     assert_range(range_new(200, 300), prototype->value_range);
 
     mu_assert(NULL == light_source->lighting, "Actual Lighting shouldn't be initialized yet");
-    mu_assert(NULL == light_source->source, "Actual Lighting shouldn't be initialized yet");
     mu_assert_int_eq(5, light_source->radius);
     mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_YELLOW_B), light_source->style);
     mu_assert(true == light_source->portable, "");
+
+    mu_assert(prototype->item.clean == item_light_source_clean, "");
 }
 
 static void assert_loaded_items(void)
@@ -74,10 +75,10 @@ static void assert_loaded_items(void)
 
 MU_TEST(test_load)
 {
-    mu_assert(!cache_is_empty(CACHE_CONFIG_ITEM), "Items cache should not exist");
+    mu_assert(!cache_exists(CACHE_CONFIG_ITEM), "Items cache should not exist");
 
     item_load();
-    mu_assert(cache_is_empty(CACHE_CONFIG_ITEM), "Items cache should exist");
+    mu_assert(cache_exists(CACHE_CONFIG_ITEM), "Items cache should exist");
 
     assert_loaded_items();
 
@@ -92,7 +93,7 @@ MU_TEST(test_cache)
     rename(DIR_CONFIG_ITEMS"/items.json", DIR_CONFIG"/tmp/items.json");
     rename(DIR_CONFIG_ITEMS"/items_2.json", DIR_CONFIG"/tmp/items_2.json");
 
-    mu_assert(cache_is_empty(CACHE_CONFIG_ITEM), "Items cache should exist");
+    mu_assert(cache_exists(CACHE_CONFIG_ITEM), "Items cache should exist");
     item_load();
 
     assert_loaded_items();

@@ -11,7 +11,7 @@
 #define CELL_NAME_MAX 20
 
 
-#define cell_damageable(cell) \
+#define cell_is_damageable(cell) \
     (SOLID == cell->type || CREATURE == cell->type)
 
 
@@ -56,6 +56,8 @@ void cell_unload(void);
 void cell_pool_init(void);
 
 Cell *cell_allocate(void);
+
+Cell *cell_with_item(Item *item);
 
 Cell *cell_with_random_item(void);
 

@@ -15,7 +15,8 @@ typedef struct LightedCell {
 struct Lighting {
     Sight *sight;
     Style style;
-    LightedCell *cells;
+    Level *level;
+    LightedCell *lighted;
 };
 
 
@@ -43,24 +44,25 @@ static LightedCell *light_cell(Lighting *lighting, Cell *original)
     lighted->current = cell_clone(original);
     lighted->current->style = lighting->style;
 
-    lighted->next = lighting->cells;
-    lighting->cells = lighted;
+    lighted->next = lighting->lighted;
+    lighting->lighted = lighted;
 
     return lighted;
 }
 
-static void light_cells(Lighting *lighting, Cell ***cells)
+static void light_cells(Lighting *lighting)
 {
     Point point;
     Cell *original;
     LightedCell *lighted;
+    Cell ***cells = lighting->level->cells;
     Sight *sight = lighting->sight;
 
     for (int i = 0; i < sight->count; i++) {
         point = sight->points[i];
         original = cells[point.y][point.x];
 
-        if (PLAYER != original->type && !point_eq(point, lighting->sight->center)) {
+        if (HOLLOW == original->type) {
             lighted = light_cell(lighting, original);
             lighted->point = point;
             cells[point.y][point.x] = lighted->current;
@@ -71,21 +73,24 @@ static void light_cells(Lighting *lighting, Cell ***cells)
 Lighting *lighting_new(Level *level, Point source, uint16_t radius, Style style)
 {
     Lighting *lighting = allocate(sizeof(Lighting));
-    lighting->style = style;
+    level->lightings->append(level->lightings, lighting);
 
     Sight *sight = sight_new(level, source, radius, EDGES);
     lighting->sight = sight;
-    lighting->cells = NULL;
+    lighting->level = level;
+    lighting->style = style;
+    lighting->lighted = NULL;
 
-    light_cells(lighting, level->cells);
+    light_cells(lighting);
 
     return lighting;
 }
 
-static void free_cells(Lighting *lighting, Cell ***cells)
+static void free_cells(Lighting *lighting)
 {
     Point point;
-    LightedCell *tmp, *head = lighting->cells;
+    Cell ***cells = lighting->level->cells;
+    LightedCell *tmp, *head = lighting->lighted;
 
     while (head) {
         tmp = head;
@@ -98,23 +103,33 @@ static void free_cells(Lighting *lighting, Cell ***cells)
         pool_release(POOL, tmp);
         profile_lighted_cell(--);
     }
-    lighting->cells = NULL;
+    lighting->lighted = NULL;
 }
 
-void lighting_update(Lighting *lighting, Level *level, Point source, uint16_t radius)
+void lighting_update(Lighting *lighting, Point source, uint16_t radius)
 {
-    if (UPDATED == sight_update(lighting->sight, level, source, radius)) {
-
+    if (UPDATED == sight_update(lighting->sight, lighting->level, source, radius)) {
         /** It's ok to 'throw away' all the LightedCells at each update,
          * because we'll just grab them from the pool anyway */
-        free_cells(lighting, level->cells);
-        light_cells(lighting, level->cells);
+        free_cells(lighting);
+        light_cells(lighting);
     }
 }
 
-void lighting_free(Lighting *lighting, Level *level)
+bool lighting_has(Lighting *lighting, Point point)
 {
-    free_cells(lighting, level->cells);
+    return sight_has(lighting->sight, point);
+}
+
+void lighting_free(Lighting *lighting)
+{
     sight_free(lighting->sight);
+    free_cells(lighting);
     release(lighting);
+}
+
+void lighting_detach(Lighting *lighting)
+{
+    List *attached = lighting->level->lightings;
+    attached->delete(attached, lighting);
 }

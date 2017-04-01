@@ -5,6 +5,7 @@ Level *fixture_level(void)
 {
     Level *level = allocate(sizeof(Level));
     level->size = (Size) {4, 3};
+    level->lightings = list_new();
 
     Cell *hollow = allocate(sizeof(Cell));
     hollow->type = HOLLOW;
@@ -67,13 +68,19 @@ void fixture_level_free(Level *level)
 {
     probability_clean(&level->cfg->cells.hollow, release);
     probability_clean(&level->cfg->cells.solid, release);
+
+    List *lightings = level->lightings;
+
+    lightings->release_item = (Release) lighting_free;
+    lightings->free(lightings);
+
     release(level->cells[0]);
     release(level->cells[1]);
     release(level->cells[2]);
     release(level->cells[3]);
     release(level->cfg);
-
-    level_free(level);
+    release(level->cells);
+    release(level);
 }
 
 Item fixture_consumable(bool permanent)

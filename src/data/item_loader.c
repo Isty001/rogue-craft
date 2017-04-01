@@ -61,12 +61,12 @@ static void build_tool(ItemPrototype *prototype, JSON_Object *json)
 
 static void build_light_source(ItemPrototype *prototype, JSON_Object *json)
 {
-    LightSource *light_source = &prototype->item.light_source;
-    light_source->radius = (uint16_t) json_get_number(json, "radius");
-    light_source->style = json_get_style(json);
-    light_source->portable = (bool) json_get_bool(json, "portable");
-    light_source->lighting = NULL;
-    light_source->source = NULL;
+    LightSource *source = &prototype->item.light_source;
+    prototype->item.clean = item_light_source_clean;
+    source->radius = (uint16_t) json_get_number(json, "radius");
+    source->style = json_get_style(json);
+    source->portable = (bool) json_get_bool(json, "portable");
+    source->lighting = NULL;
 }
 
 static void build_type_specific(ItemPrototype *prototype, JSON_Object *json)
@@ -105,10 +105,12 @@ static void create_prototype_from(JSON_Object *json)
     Item *item = &prototype->item;
     char *name = json_get_string(json, "name");
 
+    item->occupied_cell = NULL;
+    item->clean = NULL;
     item->style = json_get_style(json);
 
     json_get_wchar(&item->chr, json, "char");
-    memcpy(item->name, name, strlen(name) + 1);
+    memcpy(item->name, name, min(strlen(name) + 1, ITEM_NAME_MAX));
 
     build_value_range(&prototype->value_range, json_get_array(json, "valueRange"));
     build_type_specific(prototype, json);
@@ -122,9 +124,15 @@ void item_load(void)
     }
 }
 
+static void release_item(void *item)
+{
+    item_clean(item);
+    release(item);
+}
+
 void item_unload(void)
 {
-    probability_clean(&ITEM_CONSUMABLE_PROBABILITY, release);
-    probability_clean(&ITEM_TOOL_PROBABILITY, release);
-    probability_clean(&ITEM_LIGHT_SOURCE_PROBABILITY, release);
+    probability_clean(&ITEM_CONSUMABLE_PROBABILITY, release_item);
+    probability_clean(&ITEM_TOOL_PROBABILITY, release_item);
+    probability_clean(&ITEM_LIGHT_SOURCE_PROBABILITY, release_item);
 }

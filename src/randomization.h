@@ -9,10 +9,11 @@
 #define PROBABILITY_MAX_ITEM_NUM 30
 
 
-#define probability_add_to_cache(cache, probability, entry, memb, size)     \
+#define probability_add_to_cache(cache, probability, entry, memb, size, ...)     \
     repeat(probability->count,                                      \
          entry.chance = probability->items[i].chance;               \
          memcpy(&entry.memb, probability->items[i].value, size);    \
+         __VA_ARGS__;                                               \
          cache_add(cache, &entry);                                  \
     )
 

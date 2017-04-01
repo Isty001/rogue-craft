@@ -9,7 +9,8 @@ Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
     },
     [EVENT_INTERACTION] = {
         (Listener) player_hit,
-        (Listener) item_pickup
+        (Listener) item_pickup,
+        (Listener) item_light_source_place
     },
     [EVENT_INPUT] = {
         (Listener) player_move,

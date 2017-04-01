@@ -14,6 +14,11 @@ void cache_init()
     dir_check(DIR_CACHE);
 }
 
+bool cache_exists(char *name)
+{
+    return file_exists(path_of(name));
+}
+
 bool cache_is_empty(char *name)
 {
     return file_is_empty(path_of(name));
@@ -21,10 +26,12 @@ bool cache_is_empty(char *name)
 
 bool cache_valid(Cache *cache, time_t value_modified)
 {
+    fflush(cache->file);
+
     struct stat stats;
     stat(cache->path, &stats);
 
-    return value_modified <= stats.st_mtim.tv_sec;
+    return value_modified <= stats.st_mtim.tv_sec && 0 != stats.st_size;
 }
 
 void cache_open(Cache *cache, char *name, size_t entry_size)

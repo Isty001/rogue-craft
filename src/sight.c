@@ -10,9 +10,9 @@
     inc = current.axis < target.axis ? 1 : -1;
 
 
-static void add_point_by_type(Sight *sight, Point point, SightType required_type)
+static void add_point(Sight *sight, Point point)
 {
-    if (required_type == sight->type && !sight_has(sight, point)) {
+    if (!sight_has(sight, point)) {
         sight->points[sight->count++] = point;
     }
 }
@@ -21,6 +21,8 @@ static void ray_cast(Sight *sight, Point target, Level *level)
 {
     Point current = sight->center;
     Point prev = current;
+    bool is_solid = false;
+    bool in_bounds;
 
     int dx, inc_x, dy, inc_y;
     setup_modifiers(dx, inc_x, target, current, x);
@@ -39,10 +41,19 @@ static void ray_cast(Sight *sight, Point target, Level *level)
             err += dx;
             current.y += inc_y;
         }
-        add_point_by_type(sight, current, ALL);
+        in_bounds = level_in_bounds(level, current);
 
-        if (!level_in_bounds(level, current) || SOLID == level->cells[current.y][current.x]->type) {
-            add_point_by_type(sight, prev, EDGES);
+        if (in_bounds) {
+            is_solid = SOLID == level->cells[current.y][current.x]->type;
+
+            if (ALL == sight->type) {
+                add_point(sight, current);
+            } else if (EDGES == sight->type && is_solid) {
+                add_point(sight, current);
+                add_point(sight, prev);
+            }
+        }
+        if (!in_bounds || is_solid) {
             break;
         }
         prev = current;

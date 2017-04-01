@@ -74,7 +74,7 @@ EventError player_hit(InteractionEvent *event)
     Player *player = event->player;
     Point point = event->point;
 
-    if (!cell_damageable(target)) {
+    if (!cell_is_damageable(target)) {
         return EE_CONTINUE;
     }
 

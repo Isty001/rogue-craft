@@ -3,8 +3,8 @@
 
 void mouse_init(void)
 {
-    mousemask(ALL_MOUSE_EVENTS, NULL);
-    mouseinterval(70);
+    mousemask(BUTTON1_PRESSED | REPORT_MOUSE_POSITION, NULL);
+    mouseinterval(100);
 }
 
 static void dispatch_click_event(MEVENT *mevent, WINDOW *window, Player *player)

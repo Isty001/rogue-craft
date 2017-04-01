@@ -29,8 +29,16 @@ Item *item_allocate(void)
     return item;
 }
 
+void item_clean(Item *item)
+{
+    if (item->clean) {
+        item->clean(item);
+    }
+}
+
 void item_free(Item *item)
 {
+    item_clean(item);
     pool_release(ITEM_POOL, item);
     profile_item(--);
 }
@@ -92,19 +100,29 @@ ItemError item_consume(Item *parent, Player *player)
     return consume_non_permanent(parent, attribute);
 }
 
+static void restore_occupied_cell(Item *item, Level *level, Point point)
+{
+    level->cells[point.y][point.x] = item->occupied_cell;
+}
+
 EventError item_pickup(InteractionEvent *event)
 {
     Cell *cell = event->cell;
-
-    if (cell->type != ITEM_) {
-        return EE_CONTINUE;
-    }
-
     Player *player = event->player;
 
-    if (1 == point_distance(player->position.current, event->point)) {
-        if (IE_OK == inventory_add(player->inventory, event->cell->item)) {
-            level_set_hollow(player->level, event->point);
+    if (ITEM_ == cell->type && 1 == event->player_distance) {
+        Item *item = event->cell->item;
+        Level *level = player->level;
+
+        if (IE_OK == inventory_add(player->inventory, item)) {
+            if (item->occupied_cell) {
+                restore_occupied_cell(item, level, event->point);
+            } else {
+                level_set_hollow(level, event->point);
+            }
+            item_clean(item);
+
+            return EE_BREAK;
         }
     }
 

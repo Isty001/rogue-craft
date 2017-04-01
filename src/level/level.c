@@ -49,7 +49,7 @@ Level *level_new(Size size)
     Level *level = allocate(sizeof(Level));
     level->size = size;
     level->cfg = probability_pick(&LEVEL_PROBABILITY);
-
+    level->lightings = list_new();
     level_add_bounds(level);
 
     level->cells = level_allocate_cells(level->size);
@@ -105,7 +105,7 @@ void level_display(Player *player)
     wclear(WINDOW_MAIN);
 
     for (uint16_t y = camera->position.y; y <= until.y; y++) {
-        for (uint16_t  x = camera->position.x; x <= until.x; x++) {
+        for (uint16_t x = camera->position.x; x <= until.x; x++) {
             cell = cells[y][x];
 
             if (player_can_see(player, point_new(y, x))) {
@@ -142,6 +142,11 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 
 void level_free(Level *level)
 {
+    List *lightings = level->lightings;
+
+    lightings->release_item = (Release) lighting_free;
+    lightings->free(lightings);
+
     release(level->cells);
     release(level);
 }

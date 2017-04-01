@@ -56,8 +56,10 @@ MU_TEST(test_modified_date)
     Cache cache;
     cache_open(&cache, "test", sizeof(Point));
 
-    mu_assert(cache_valid(&cache, time(NULL)), "Should be valid");
-    mu_assert(!cache_valid(&cache, time(NULL) + 1), "Should not be valid");
+    mu_assert(!cache_valid(&cache, time(NULL)), "Should be valid");
+
+    cache_add(&cache, &point_new(1, 1));
+    mu_assert(cache_valid(&cache, time(NULL) - 1), "Should be valid");
 
     cache_close(&cache);
 }

@@ -13,4 +13,5 @@ void input_process(int input, Player *player)
     };
 
     event_dispatch(EVENT_INPUT, &event);
+    flushinp();
 }

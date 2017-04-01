@@ -115,7 +115,9 @@ EventError inventory_shortcut_select(InputEvent *event)
 
 EventError inventory_use_selected(InputEvent *event)
 {
-    if (KEY_USE != event->input) return EE_CONTINUE;
+    if (KEY_USE != event->input) {
+        return EE_CONTINUE;
+    }
 
     Inventory *inventory = event->player->inventory;
     Item *selected = inventory_selected(inventory);

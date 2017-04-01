@@ -22,7 +22,7 @@ static Probability *probability_for(ItemType type)
         case LIGHT_SOURCE:
             return &ITEM_LIGHT_SOURCE_PROBABILITY;
         default:
-            fatal("No Probability found for ItemType [%d]", type)
+        fatal("No Probability found for ItemType [%d]", type)
     }
 }
 
@@ -31,16 +31,18 @@ static void load_item(CachedItem *cached)
     ItemPrototype *prototype = allocate(sizeof(ItemPrototype));
     *prototype = cached->prototype;
 
+    Item *item = &prototype->item;
+
+    if (LIGHT_SOURCE == item->type) {
+        item->clean = item_light_source_clean;
+    }
+
     Probability *probability = probability_for(prototype->item.type);
     probability_add(probability, cached->chance, prototype);
 }
 
 CacheError item_cache_load(void)
 {
-    if (!cache_is_empty(CACHE_CONFIG_ITEM)) {
-        return CE_NOT_FOUND;
-    }
-
     Cache cache;
     cache_open_items(&cache);
 
@@ -52,7 +54,9 @@ static void save_probability(Cache *cache, Probability *probability)
     CachedItem entry;
     memset(&entry, 0, sizeof(CachedItem));
 
-    probability_add_to_cache(cache, probability, entry, prototype, sizeof(ItemPrototype));
+    probability_add_to_cache(cache, probability, entry, prototype, sizeof(ItemPrototype),
+        entry.prototype.item.clean = NULL
+    );
 }
 
 void item_cache_save(void)

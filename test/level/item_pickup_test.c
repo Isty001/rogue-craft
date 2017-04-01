@@ -6,10 +6,23 @@
 #include "../fixture.h"
 
 
+static InteractionEvent create_event(Player *player, Level *level)
+{
+    return (InteractionEvent) {
+        .cell = level->cells[0][0],
+        .player = player,
+        .point = point_new(0, 0),
+        .player_distance = 1
+    };
+}
+
 MU_TEST(test_item_pickup)
 {
     Level *level = fixture_level();
     Item item;
+    item.clean = NULL;
+    item.occupied_cell = NULL;
+
     level->cells[0][0]->item = &item;
     level->cells[0][0]->type = ITEM_;
 
@@ -22,16 +35,13 @@ MU_TEST(test_item_pickup)
     List *items = player->inventory->items;
     player->position.current = point_new(0, 1);
 
-    InteractionEvent event = {
-        .cell = level->cells[0][0],
-        .player = player,
-        .point = point_new(0, 0)
-    };
+    InteractionEvent event = create_event(player, level);
 
-    item_pickup(&event);
+    mu_assert_int_eq(EE_BREAK, item_pickup(&event));
     mu_assert(&item == items->head(items), "Items are not the same");
 
-    item_pickup(&event);
+    event.cell = level->cells[0][0];
+    mu_assert_int_eq(EE_CONTINUE, item_pickup(&event));
     mu_assert(&item == items->head(items), "Items are not the same");
     mu_assert(NULL == items->get(items, 1), "There should be no items");
 
@@ -42,17 +52,32 @@ MU_TEST(test_item_pickup)
     fixture_level_free(level);
 }
 
-MU_TEST(test_bounds)
+MU_TEST(test_pickup_lighting)
 {
     Level *level = fixture_level();
+    Lighting *lighting = lighting_new(level, point_new(0, 0), 5, 100);
+    Cell occupied = {.type = HOLLOW};
+    Item item = {
+        .type = LIGHT_SOURCE,
+        .occupied_cell = &occupied,
+        .light_source = {.lighting = lighting},
+        .clean = item_light_source_clean
+    };
+    level->cells[0][0] = cell_with_item(&item);
 
-    mu_assert(level_in_bounds(level, point_new(1, 0)), "Should be in bounds");
-    mu_assert(level_in_bounds(level, point_new(1, 2)), "Should be in bounds");
+    Player player = {
+        .inventory = inventory_new(1),
+        .level = level
+    };
 
-    mu_assert(false == level_in_bounds(level, point_new(-1, 2)), "Should not be in bounds");
-    mu_assert(false == level_in_bounds(level, point_new(1, 3)), "Should not be in bounds");
+    InteractionEvent event = create_event(&player, level);
+
+    mu_assert_int_eq(EE_BREAK, item_pickup(&event));
+    mu_assert(&occupied == level->cells[0][0], "");
+    mu_assert(NULL == item.light_source.lighting, "");
 
     fixture_level_free(level);
+    inventory_free(player.inventory);
 }
 
 void run_level_interaction_test(void)
@@ -60,7 +85,7 @@ void run_level_interaction_test(void)
     TEST_NAME("Item Pickup");
 
     MU_RUN_TEST(test_item_pickup);
-    MU_RUN_TEST(test_bounds);
+    MU_RUN_TEST(test_pickup_lighting);
 
     MU_REPORT();
 }

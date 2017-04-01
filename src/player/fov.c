@@ -9,10 +9,12 @@ void player_sight_update(Player *player)
 
 bool player_can_see(Player *player, Point point)
 {
-    Point player_pos = player->position.current;
-    bool in_distance = PLAYER_DEFAULT_EYESIGHT >= point_distance(point, player_pos);
+    bool in_player_sight = sight_has(player->sight, point);
+    List *lightings = player->level->lightings;
 
-    if (!in_distance) return false;
+    if (in_player_sight) return true;
 
-    return sight_has(player->sight, point);
+    return lightings->exists(lightings, (Predicate )function(bool, (Lighting *lighting) {
+        return lighting_has(lighting, point);
+    }));
 }

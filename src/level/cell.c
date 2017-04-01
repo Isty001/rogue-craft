@@ -15,7 +15,11 @@ Cell *cell_allocate(void)
 
 Cell *cell_with_random_item(void)
 {
-    Item *item = item_random();
+    return cell_with_item(item_random());
+}
+
+Cell *cell_with_item(Item *item)
+{
     Cell *cell = cell_allocate();
 
     cell->chr = item->chr;
