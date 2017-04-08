@@ -55,6 +55,7 @@ void color_init(void)
     init_pair(COLOR_PAIR_BROWN_B, -1, 94);
     init_pair(COLOR_PAIR_ORANGE_B, -1, 202);
     init_pair(COLOR_PAIR_YELLOW_B, -1, COLOR_YELLOW);
+    init_pair(COLOR_PAIR_RED_F_B, COLOR_RED, COLOR_RED);
 }
 
 uint16_t color_last(void)

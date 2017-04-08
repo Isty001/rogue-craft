@@ -24,6 +24,8 @@
 #define COLOR_PAIR_BROWN_B       13
 #define COLOR_PAIR_YELLOW_B      14
 #define COLOR_PAIR_ORANGE_B      15
+#define COLOR_PAIR_RED_F_B       16
+
 
 #define cache_open_colors(cache) \
     cache_open(cache, CACHE_COLORS, sizeof(CachedColor))

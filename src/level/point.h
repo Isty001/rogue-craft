@@ -13,6 +13,8 @@
 
 #define size_new(h, w) (Size) {.height = h, .width = w}
 
+#define size_inc(size, h, w) size_new(size.height + h, size.width + w)
+
 #define size_eq(a, b) (a.width == b.width && a.height == b.height)
 
 #define rectangle_new(y, x, h, w) \

@@ -11,10 +11,6 @@
 #include "../src/event.h"
 
 
-/**
- * STORAGE/CACHE
- */
-
 extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
 
 /**

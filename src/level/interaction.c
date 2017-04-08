@@ -10,8 +10,7 @@ EventError level_interact(ClickEvent *click)
 
     Player *player = click->player;
     Point on_level = camera_to_level_point(player->camera, click->point);
-    Cell ***cells = player->level->cells;
-    Cell *cell = cells[on_level.y][on_level.x];
+    Cell *cell = player->level->cells[on_level.y][on_level.x];
 
     InteractionEvent event = {
         .player = player, .cell = cell, .point = on_level,

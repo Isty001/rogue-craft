@@ -17,5 +17,6 @@ Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
         (Listener) mouse_handler,
         (Listener) inventory_use_selected,
         (Listener) inventory_shortcut_select,
+        (Listener) inventory_display
     }
 };

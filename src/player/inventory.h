@@ -28,6 +28,8 @@ EventError inventory_shortcut_select(InputEvent *event);
 
 EventError inventory_use_selected(InputEvent *event);
 
+EventError inventory_display(InputEvent *event);
+
 void inventory_shortcut_display(Inventory *inventory);
 
 void inventory_free(Inventory *inventory);

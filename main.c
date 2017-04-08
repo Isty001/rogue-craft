@@ -58,10 +58,12 @@ static void update(Player *player)
 
 static void render(Player *player)
 {
+    panel_hide();
     level_display(player);
     inventory_shortcut_display(player->inventory);
     player_attributes_display(player);
     profiler_display();
+    panel_show();
 }
 
 int main(void)
@@ -92,14 +94,19 @@ int main(void)
 
     while (1) {
         if ((in = wgetch(WINDOW_MAIN))) {
-            if (KEY_F(2) == in) break;
+            if (KEY_F(2) == in) {
+                if (panel_is_open()) {
+                    panel_close_top();
+                } else {
+                    break;
+                }
+            }
 
             input_process(in, player);
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {
                 napms(20);
             }
-
             update(player);
             render(player);
         }
