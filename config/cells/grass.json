@@ -4,12 +4,12 @@
     "type": "SOLID",
     "material": "DIRT",
     "char": "%",
-    "style": ["COLOR_PAIR_GREEN_F"]
+    "style": ["COLOR_GREEN_F"]
   },
   {
     "name": "grass.dark",
     "extends": "grass",
-    "style": ["COLOR_PAIR_DARK_GREEN_F"]
+    "style": ["COLOR_DARK_GREEN_F"]
   },
   {
     "name": "grass.snowy",

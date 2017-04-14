@@ -2,7 +2,7 @@
   {
     "name": "Pickaxe",
     "char": "p",
-    "style": ["COLOR_PAIR_GRAY_F"],
+    "style": ["COLOR_GRAY_F"],
     "valueRange": [1, 100],
     "probability": 15,
     "tool": {
@@ -22,11 +22,11 @@
   {
     "name": "Torch",
     "char": "t",
-    "style": ["COLOR_PAIR_YELLOW_B"],
+    "style": ["COLOR_YELLOW_B"],
     "valueRange": [200, 300],
     "probability": 5,
     "lightSource": {
-      "style": ["COLOR_PAIR_YELLOW_B"],
+      "style": ["COLOR_YELLOW_B"],
       "radius": 5,
       "portable": true
     }

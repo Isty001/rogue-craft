@@ -10,7 +10,7 @@ MU_TEST(test_style)
     JSON_Array *array = json_value_get_array(root);
 
     Style actual = json_get_style(json_array_get_object(array, 0));
-    mu_assert_int_eq(0 | COLOR_PAIR(COLOR_PAIR_RED_F) | A_BOLD, actual);
+    mu_assert_int_eq(0 | COLOR_PAIR(COLOR_RED_F) | A_BOLD, actual);
 
     actual = json_get_style(json_array_get_object(array, 1));
     mu_assert_int_eq(COLOR_PAIR(100) | A_BOLD, actual);

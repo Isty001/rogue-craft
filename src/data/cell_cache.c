@@ -9,7 +9,7 @@
 
 
 #define cache_open_items(cache)                                  \
-    cache_open(cache, CACHE_CONFIG_CELL, CELL_SIZE);             \
+    cache_open(cache, CACHE_CONFIG_CELLS, CELL_SIZE);             \
 
 
 
@@ -22,7 +22,7 @@ static void load_cell(List *prototypes, NamedCell *loaded)
 
 CacheError cell_cache_load(List *prototypes)
 {
-    if (!cache_is_empty(CACHE_CONFIG_CELL)) {
+    if (!cache_is_empty(CACHE_CONFIG_CELLS)) {
         return CE_NOT_FOUND;
     }
 

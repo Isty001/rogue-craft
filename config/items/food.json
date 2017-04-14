@@ -2,7 +2,7 @@
   {
     "name": "Om nom nom",
     "char": "F",
-    "style": ["COLOR_PAIR_YELLOW_F", "A_BOLD"],
+    "style": ["COLOR_YELLOW_F", "A_BOLD"],
     "valueRange": [-50, -30],
     "probability": 1,
     "consumable": {
@@ -13,7 +13,7 @@
   {
     "name": "Raw meet",
     "char": "m",
-    "style": ["COLOR_PAIR_CLARET_F"],
+    "style": ["COLOR_CLARET_F"],
     "valueRange": [-5, 10],
     "probability": 100,
     "consumable": {
@@ -24,7 +24,7 @@
   {
     "name": "Bread",
     "char": "b",
-    "style": ["COLOR_PAIR_BROWN_F", "A_BOLD"],
+    "style": ["COLOR_BROWN_F", "A_BOLD"],
     "valueRange": [-20, -4],
     "probability": 70,
     "consumable": {
@@ -35,7 +35,7 @@
   {
     "name": "Drinking water",
     "char": "w",
-    "style": ["COLOR_PAIR_BLUE_F", "A_BOLD"],
+    "style": ["COLOR_BLUE_F", "A_BOLD"],
     "valueRange": [-20, -5],
     "probability": 50,
     "consumable": {
@@ -46,7 +46,7 @@
   {
     "name": "Dirty water",
     "char": "w",
-    "style": ["COLOR_PAIR_DARK_GREEN_F", "A_BOLD"],
+    "style": ["COLOR_DARK_GREEN_F", "A_BOLD"],
     "valueRange": [-5, 10],
     "probability": 100,
     "consumable": {
@@ -57,7 +57,7 @@
   {
     "name": "Beer",
     "char": "B",
-    "style": ["COLOR_PAIR_YELLOW_F"],
+    "style": ["COLOR_YELLOW_F"],
     "valueRange": [10, 30],
     "probability": 10,
     "consumable": {

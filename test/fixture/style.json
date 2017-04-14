@@ -1,6 +1,6 @@
 [
   {
-    "style": ["COLOR_PAIR_RED_F", "A_BOLD"]
+    "style": ["COLOR_RED_F", "A_BOLD"]
   },
   {
     "style": ["A_BOLD", {"fore": 10, "back": 100}]

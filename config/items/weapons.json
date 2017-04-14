@@ -2,7 +2,7 @@
   {
     "name": "Sword",
     "char": "S",
-    "style": ["COLOR_PAIR_GRAY_F"],
+    "style": ["COLOR_GRAY_F"],
     "valueRange": [1, 100],
     "probability": 30,
     "tool": {
@@ -15,7 +15,7 @@
   {
     "name": "Longsword",
     "char": "S",
-    "style": ["COLOR_PAIR_GRAY_F", "A_UNDERLINE"],
+    "style": ["COLOR_GRAY_F", "A_UNDERLINE"],
     "valueRange": [20, 200],
     "probability": 15,
     "tool": {

@@ -4,14 +4,14 @@
     "type": "HOLLOW",
     "material": "VOID",
     "char": " ",
-    "style": ["COLOR_PAIR_NONE"]
+    "style": ["COLOR_NONE"]
   },
   {
     "name": "stone.cobble",
     "type": "SOLID",
     "material": "STONE",
     "char": "#",
-    "style": ["COLOR_PAIR_GRAY_F"]
+    "style": ["COLOR_GRAY_F"]
   },
   {
     "name": "stone.mossy",

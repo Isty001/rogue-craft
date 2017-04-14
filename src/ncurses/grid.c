@@ -39,7 +39,7 @@ void grid_display(Grid *grid)
     for (int y = from.y; y <= until.y; y += INC_Y) {
         mvwhline(window, y, from.x, 0, size.width);
         if (y + GRID_PADDING == selected.y) {
-            styled(window, COLOR_PAIR(COLOR_PAIR_RED_F_B),
+            styled(window, COLOR_PAIR(COLOR_RED_F_B),
                 mvwaddch(window, y + 1, from.x + 3, ' ');
             );
         }

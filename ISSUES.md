@@ -1,1 +1,0 @@
-- Sometimes after a crash, the dumped colors are corrupted

@@ -2,7 +2,7 @@
   {
     "name": "Potion",
     "char": "ð",
-    "style": ["COLOR_PAIR_RED_F", "A_BOLD", "A_UNDERLINE"],
+    "style": ["COLOR_RED_F", "A_BOLD", "A_UNDERLINE"],
     "valueRange": [1, 30],
     "probability": 10,
     "consumable": {

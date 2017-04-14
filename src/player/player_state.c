@@ -27,12 +27,17 @@ static void apply_fatigue_by_modifiers(Modifiers *modifiers, Fatigue *fatigue, A
 {
     if (modifiers->traveled >= fatigue->traveled) {
         apply_fatigue(attributes, fatigue);
+        modifiers->traveled = 0;
     }
     if (modifiers->dealt_damage >= fatigue->dealt_damage) {
         apply_fatigue(attributes, fatigue);
+        modifiers->dealt_damage = 0;
     }
-    if (difftime(time(NULL), modifiers->timestamp.fatigue) >= fatigue->elapsed_time) {
+    time_t now = time(NULL);
+
+    if (difftime(now, modifiers->timestamp.fatigue) >= fatigue->elapsed_time) {
         apply_fatigue(attributes, fatigue);
+        modifiers->timestamp.fatigue = now;
     }
 }
 
@@ -44,8 +49,11 @@ static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, A
     if (attributes[THIRST].current >= damage->thirst) {
         apply_fatigue_damage(attributes, damage);
     }
-    if (difftime(time(NULL), modifiers->timestamp.fatigue_damage) >= damage->elapsed_time) {
+    time_t now = time(NULL);
+
+    if (difftime(now, modifiers->timestamp.fatigue_damage) >= damage->elapsed_time) {
         apply_fatigue_damage(attributes, damage);
+        modifiers->timestamp.fatigue_damage = now;
     }
 }
 

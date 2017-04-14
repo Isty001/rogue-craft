@@ -3,7 +3,7 @@
 
 
 #define cache_open_items(cache)                                  \
-    cache_open(cache, CACHE_CONFIG_ITEM, sizeof(CachedItem));    \
+    cache_open(cache, CACHE_CONFIG_ITEMS, sizeof(CachedItem));    \
 
 
 typedef struct {

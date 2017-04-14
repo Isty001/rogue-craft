@@ -66,8 +66,8 @@ WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust)
         fatal("Inner WINDOW can't be bigger");
     }
 
-    int y = getbegy(adjust) + size.height / 2;
-    int x = getbegx(adjust) + size.width / 2;
+    int y = getbegy(adjust) + (adjust_size.height - size.height) / 2;
+    int x = getbegx(adjust) + (adjust_size.width - size.width) / 2;
 
     return newwin(size.height, size.width, y, x);
 }

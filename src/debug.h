@@ -66,6 +66,7 @@ void _profiler_cleanup(void);
 #define profile_list_node(op)
 
 #define profile_allocate(count, ptr)
+#define profile_reallocate(old, new, size)
 #define profile_release(ptr)
 
 #define profiler_init()

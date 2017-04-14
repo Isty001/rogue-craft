@@ -3,15 +3,15 @@
 
 
 #define DIR_CONFIG_ITEMS DIR_CONFIG"/items"
-#define CACHE_CONFIG_ITEM "item"
+#define CACHE_CONFIG_ITEMS "items"
 
 #define DIR_CONFIG_CELLS DIR_CONFIG"/cells"
-#define CACHE_CONFIG_CELL "cell"
+#define CACHE_CONFIG_CELLS "cells"
 
-#define DIR_CONFIG_LEVEL DIR_CONFIG"/levels"
-#define CACHE_CONFIG_LEVEL "level"
+#define DIR_CONFIG_LEVELS DIR_CONFIG"/levels"
+#define CACHE_CONFIG_LEVELS "levels"
 
-#define CACHE_COLORS "color"
+#define CACHE_COLORS "colors"
 
 
 #endif

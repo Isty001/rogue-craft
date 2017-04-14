@@ -4,12 +4,12 @@
     "type": "SOLID",
     "material": "DIRT",
     "char": "%",
-    "style": ["COLOR_PAIR_BROWN_F"]
+    "style": ["COLOR_BROWN_F"]
   },
   {
     "name": "dirt.dark",
     "extends": "dirt",
-    "style": ["COLOR_PAIR_BROWN_F", "A_BOLD"]
+    "style": ["COLOR_BROWN_F", "A_BOLD"]
   },
   {
     "name": "dirt.snowy",
@@ -21,6 +21,6 @@
     "type": "SOLID",
     "material": "SAND",
     "char": "%",
-    "style": ["COLOR_PAIR_YELLOW_F"]
+    "style": ["COLOR_YELLOW_F"]
   }
 ]

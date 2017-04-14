@@ -9,22 +9,22 @@
 #include "../config/paths.h"
 
 
-#define COLOR_PAIR_NONE           1
-#define COLOR_PAIR_RED_F          2
-#define COLOR_PAIR_GREEN_F        3
-#define COLOR_PAIR_BLUE_F         4
-#define COLOR_PAIR_YELLOW_F       5
-#define COLOR_PAIR_GRAY_F         6
-#define COLOR_PAIR_BROWN_F        7
-#define COLOR_PAIR_CLARET_F       8
-#define COLOR_PAIR_DARK_GREEN_F   9
-#define COLOR_PAIR_DARK_GRAY_F   10
-#define COLOR_PAIR_GREEN_B       11
-#define COLOR_PAIR_DARK_GREEN_B  12
-#define COLOR_PAIR_BROWN_B       13
-#define COLOR_PAIR_YELLOW_B      14
-#define COLOR_PAIR_ORANGE_B      15
-#define COLOR_PAIR_RED_F_B       16
+#define COLOR_NONE           1
+#define COLOR_RED_F          2
+#define COLOR_GREEN_F        3
+#define COLOR_BLUE_F         4
+#define COLOR_YELLOW_F       5
+#define COLOR_GRAY_F         6
+#define COLOR_BROWN_F        7
+#define COLOR_CLARET_F       8
+#define COLOR_DARK_GREEN_F   9
+#define COLOR_DARK_GRAY_F   10
+#define COLOR_GREEN_B       11
+#define COLOR_DARK_GREEN_B  12
+#define COLOR_BROWN_B       13
+#define COLOR_YELLOW_B      14
+#define COLOR_ORANGE_B      15
+#define COLOR_RED_F_B       16
 
 
 #define cache_open_colors(cache) \

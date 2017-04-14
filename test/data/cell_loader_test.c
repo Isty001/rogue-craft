@@ -6,7 +6,7 @@ static void assert_common(const Cell *cell)
 {
     mu_assert_int_eq(STONE, cell->material);
     mu_assert_int_eq(SOLID, cell->type);
-    mu_assert_int_eq(COLOR_PAIR(COLOR_PAIR_GRAY_F), cell->style);
+    mu_assert_int_eq(COLOR_PAIR(COLOR_GRAY_F), cell->style);
 }
 
 static void assert_cells()
@@ -23,13 +23,13 @@ static void assert_cells()
 
 MU_TEST(test_load)
 {
-    mu_assert(!cache_is_empty(CACHE_CONFIG_CELL), "");
+    mu_assert(!cache_is_empty(CACHE_CONFIG_CELLS), "");
 
     cell_load();
     assert_cells();
     cell_unload();
 
-    mu_assert(cache_is_empty(CACHE_CONFIG_CELL), "");
+    mu_assert(cache_is_empty(CACHE_CONFIG_CELLS), "");
 
     rename(DIR_CONFIG_CELLS"/cell.json", DIR_CONFIG"/tmp/cell.json");
 

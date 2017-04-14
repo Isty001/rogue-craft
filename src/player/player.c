@@ -19,22 +19,22 @@ static void add_default_attributes(Player *player)
 
     map[HEALTH] = (Attribute) {
         .current = 100, .max = 100,
-        .name = "Health", .style  = COLOR_PAIR(COLOR_PAIR_RED_F)
+        .name = "Health", .style  = COLOR_PAIR(COLOR_RED_F)
     };
 
     map[STAMINA] = (Attribute) {
         .current = 100, .max = 100,
-        .name = "Stamina", .style = COLOR_PAIR(COLOR_PAIR_GREEN_F)
+        .name = "Stamina", .style = COLOR_PAIR(COLOR_GREEN_F)
     };
 
     map[HUNGER] = (Attribute) {
         .current = 0, .max = 100,
-        .name = "Hunger", .style = COLOR_PAIR(COLOR_PAIR_YELLOW_F)
+        .name = "Hunger", .style = COLOR_PAIR(COLOR_YELLOW_F)
     };
 
     map[THIRST] = (Attribute) {
         .current = 0, .max = 100,
-        .name = "Thirst", .style = COLOR_PAIR(COLOR_PAIR_BLUE_F)
+        .name = "Thirst", .style = COLOR_PAIR(COLOR_BLUE_F)
     };
 }
 
@@ -58,7 +58,7 @@ Player *player_new(Level *level, Camera *camera)
     add_default_attributes(player);
     init_modifiers(player);
 
-    player->cell.prototype.style = COLOR_PAIR(COLOR_PAIR_RED_F);
+    player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
 
     find_starting_point(player);

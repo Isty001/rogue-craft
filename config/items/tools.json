@@ -2,7 +2,7 @@
   {
     "name": "Pickaxe",
     "char": "p",
-    "style": ["COLOR_PAIR_GRAY_F"],
+    "style": ["COLOR_GRAY_F"],
     "valueRange": [10, 100],
     "probability": 50,
     "tool": {
@@ -16,7 +16,7 @@
   {
     "name": "Shovel",
     "char": "s",
-    "style": ["COLOR_PAIR_BROWN_F"],
+    "style": ["COLOR_BROWN_F"],
     "valueRange": [10, 100],
     "probability": 50,
     "tool": {
@@ -30,7 +30,7 @@
   {
     "name": "Axe",
     "char": "a",
-    "style": ["COLOR_PAIR_GRAY_F"],
+    "style": ["COLOR_GRAY_F"],
     "valueRange": [10, 100],
     "probability": 35,
     "tool": {

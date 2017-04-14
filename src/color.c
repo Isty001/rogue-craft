@@ -40,22 +40,22 @@ void color_init(void)
         cache_foreach(&CACHE, (Reader) load_color);
     }
 
-    init_pair(COLOR_PAIR_RED_F, COLOR_RED, -1);
-    init_pair(COLOR_PAIR_GREEN_F, COLOR_GREEN, -1);
-    init_pair(COLOR_PAIR_GREEN_B, -1, COLOR_GREEN);
-    init_pair(COLOR_PAIR_BLUE_F, COLOR_BLUE, -1);
-    init_pair(COLOR_PAIR_YELLOW_F, COLOR_YELLOW, -1);
-    init_pair(COLOR_PAIR_GRAY_F, 8, -1);
-    init_pair(COLOR_PAIR_DARK_GRAY_F, 235, -1);
-    init_pair(COLOR_PAIR_BROWN_F, 94, -1);
-    init_pair(COLOR_PAIR_DARK_GREEN_F, 22, -1);
-    init_pair(COLOR_PAIR_CLARET_F, 52, -1);
-    init_pair(COLOR_PAIR_NONE, -1, -1);
-    init_pair(COLOR_PAIR_DARK_GREEN_B, -1, 22);
-    init_pair(COLOR_PAIR_BROWN_B, -1, 94);
-    init_pair(COLOR_PAIR_ORANGE_B, -1, 202);
-    init_pair(COLOR_PAIR_YELLOW_B, -1, COLOR_YELLOW);
-    init_pair(COLOR_PAIR_RED_F_B, COLOR_RED, COLOR_RED);
+    init_pair(COLOR_RED_F, COLOR_RED, -1);
+    init_pair(COLOR_GREEN_F, COLOR_GREEN, -1);
+    init_pair(COLOR_GREEN_B, -1, COLOR_GREEN);
+    init_pair(COLOR_BLUE_F, COLOR_BLUE, -1);
+    init_pair(COLOR_YELLOW_F, COLOR_YELLOW, -1);
+    init_pair(COLOR_GRAY_F, 8, -1);
+    init_pair(COLOR_DARK_GRAY_F, 235, -1);
+    init_pair(COLOR_BROWN_F, 94, -1);
+    init_pair(COLOR_DARK_GREEN_F, 22, -1);
+    init_pair(COLOR_CLARET_F, 52, -1);
+    init_pair(COLOR_NONE, -1, -1);
+    init_pair(COLOR_DARK_GREEN_B, -1, 22);
+    init_pair(COLOR_BROWN_B, -1, 94);
+    init_pair(COLOR_ORANGE_B, -1, 202);
+    init_pair(COLOR_YELLOW_B, -1, COLOR_YELLOW);
+    init_pair(COLOR_RED_F_B, COLOR_RED, COLOR_RED);
 }
 
 uint16_t color_last(void)

@@ -32,7 +32,8 @@ MU_TEST(test_player_state)
     attr[STAMINA] = attr_init(2);
     attr[THIRST] = attr_init(97);
 
-    player.state.modifiers = (Modifiers) {
+    Modifiers *modifiers = &player.state.modifiers;
+    *modifiers = (Modifiers) {
         .traveled = 10,
         .dealt_damage = 14,
         .timestamp = {
@@ -47,6 +48,11 @@ MU_TEST(test_player_state)
     mu_assert_int_eq(100, attr[THIRST].current);
 
     mu_assert_int_eq(97, attr[HEALTH].current);
+
+    mu_assert_int_eq(0, modifiers->traveled);
+    mu_assert_int_eq(0, modifiers->dealt_damage);
+    mu_assert_int_eq(time(NULL), modifiers->timestamp.fatigue);
+    mu_assert_int_eq(time(NULL), modifiers->timestamp.fatigue_damage);
 }
 
 void run_player_state_test(void)

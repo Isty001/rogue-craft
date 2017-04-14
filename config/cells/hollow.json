@@ -4,21 +4,21 @@
     "type": "HOLLOW",
     "material": "VOID",
     "char": " ",
-    "style": ["COLOR_PAIR_NONE"]
+    "style": ["COLOR_NONE"]
   },
   {
     "name": "grass.hollow",
     "extends": "hollow.empty",
-    "style": ["COLOR_PAIR_GREEN_B"]
+    "style": ["COLOR_GREEN_B"]
   },
   {
     "name": "grass.dark.hollow",
     "extends": "grass.hollow",
-    "style": ["COLOR_PAIR_DARK_GREEN_B"]
+    "style": ["COLOR_DARK_GREEN_B"]
   },
   {
     "name": "dirt.hollow",
     "extends": "hollow.empty",
-    "style": ["COLOR_PAIR_BROWN_B"]
+    "style": ["COLOR_BROWN_B"]
   }
 ]
