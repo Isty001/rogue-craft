@@ -15,16 +15,11 @@ MU_TEST(test_sight_all)
 
     mu_assert(!sight_has(sight, point_new(0, 2)), "");
 
-    mu_assert_int_eq(UPDATED, sight_update(sight, level, point_new(1, 1), 2));
+    mu_assert_int_eq(UPDATED, sight_update(sight, point_new(1, 1), 2));
     mu_assert(sight_has(sight, point_new(0, 2)), "");
 
     sight_free(sight);
     fixture_level_free(level);
-}
-
-MU_TEST(test_sight_edges)
-{
-
 }
 
 void run_sight_test(void)
@@ -32,7 +27,6 @@ void run_sight_test(void)
     TEST_NAME("Sight");
 
     MU_RUN_TEST(test_sight_all);
-    MU_RUN_TEST(test_sight_edges);
 
     MU_REPORT();
 }

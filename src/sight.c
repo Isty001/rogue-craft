@@ -17,10 +17,11 @@ static void add_point(Sight *sight, Point point)
     }
 }
 
-static void ray_cast(Sight *sight, Point target, Level *level)
+static void ray_cast(Sight *sight, Point target)
 {
     Point current = sight->center;
     Point prev = current;
+    Cell *cell;
     bool is_solid = false;
     bool in_bounds;
 
@@ -41,10 +42,11 @@ static void ray_cast(Sight *sight, Point target, Level *level)
             err += dx;
             current.y += inc_y;
         }
-        in_bounds = level_in_bounds(level, current);
+        in_bounds = level_in_bounds(sight->level, current);
 
         if (in_bounds) {
-            is_solid = SOLID == level->cells[current.y][current.x]->type;
+            cell = sight->level->cells[current.y][current.x];
+            is_solid = SOLID == cell->type;
 
             if (ALL == sight->type) {
                 add_point(sight, current);
@@ -52,6 +54,7 @@ static void ray_cast(Sight *sight, Point target, Level *level)
                 add_point(sight, current);
                 add_point(sight, prev);
             }
+            cell->lighted = true;
         }
         if (!in_bounds || is_solid) {
             break;
@@ -64,17 +67,17 @@ static void ray_cast(Sight *sight, Point target, Level *level)
  * @see http://www.roguebasin.com/index.php?title=Ray_casting
  * @see https://en.wikipedia.org/wiki/Bresenham's_line_algorithm
  */
-static void collect_points(Sight *sight, Level *level)
+static void collect_points(Sight *sight)
 {
     int16_t y, x;
 
-    for (double deg = 0; deg < 360; deg++) {
+    for (double deg = 0; deg < 360; deg += 3) {
 
         y = sight->center.y + (int16_t) (sight->radius * sin(deg));
         x = sight->center.x + (int16_t) (sight->radius * cos(deg));
 
         if (y >= 0 && x >= 0) {
-            ray_cast(sight, point_new(y, x), level);
+            ray_cast(sight, point_new(y, x));
         }
     }
     sight->points[sight->count++] = sight->center;
@@ -88,8 +91,9 @@ Sight *sight_new(Level *level, Point center, uint16_t radius, SightType type)
     sight->count = 0;
     sight->points = allocate(area_size(radius));
     sight->type = type;
+    sight->level = level;
 
-    collect_points(sight, level);
+    collect_points(sight);
 
     return sight;
 }
@@ -104,7 +108,7 @@ bool sight_has(Sight *sight, Point point)
     return false;
 }
 
-SightChange sight_update(Sight *sight, Level *level, Point center, uint16_t radius)
+SightChange sight_update(Sight *sight, Point center, uint16_t radius)
 {
     bool changed = false;
 
@@ -119,7 +123,7 @@ SightChange sight_update(Sight *sight, Level *level, Point center, uint16_t radi
     }
     if (changed) {
         sight->count = 0;
-        collect_points(sight, level);
+        collect_points(sight);
     }
 
     return changed ? UPDATED : REMAINED;

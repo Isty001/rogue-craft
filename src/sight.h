@@ -17,10 +17,11 @@ typedef enum {
 
 typedef struct {
     uint16_t radius;
-    uint16_t count;
+    uint64_t count;
     Point center;
     Point *points;
     SightType type;
+    Level *level;
 } Sight;
 
 
@@ -28,7 +29,7 @@ Sight *sight_new(Level *level, Point center, uint16_t radius, SightType type);
 
 bool sight_has(Sight *sight, Point point);
 
-SightChange sight_update(Sight *sight, Level *level, Point center, uint16_t radius);
+SightChange sight_update(Sight *sight, Point center, uint16_t radius);
 
 void sight_free(Sight *sight);
 

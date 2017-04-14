@@ -51,8 +51,6 @@ static void assert_light_source(ItemPrototype *prototype)
     mu_assert_int_eq(5, light_source->radius);
     mu_assert_int_eq(COLOR_PAIR(COLOR_YELLOW_B), light_source->style);
     mu_assert(true == light_source->portable, "");
-
-    mu_assert(prototype->item.clean == item_light_source_clean, "");
 }
 
 static void assert_loaded_items(void)

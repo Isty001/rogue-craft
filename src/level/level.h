@@ -56,8 +56,6 @@ typedef struct Level {
     Size size;
     Cell ***cells;
     LevelConfig *cfg;
-    List *lightings;
-
     struct {
         Range y;
         Range x;

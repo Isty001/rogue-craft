@@ -11,11 +11,6 @@
 
 #define ITEM_NAME_MAX 20
 
-/**
- * This should be used to deallocate resources attached to the Item, if necessary
- * (ie.: LightSource.Lighting)
- */
-typedef void (*ItemCleaner)(Item *);
 
 typedef enum {
     IE_CONSUMED,
@@ -64,7 +59,6 @@ typedef struct Item {
     int16_t value;
     ItemType type;
     Cell *occupied_cell;
-    ItemCleaner clean;
     union {
         Consumable consumable;
         Tool tool;
@@ -92,17 +86,19 @@ Item *item_clone(ItemPrototype *prototype);
 
 Item *item_random(void);
 
+/**
+ * This function wont destroy the Item itself, only the data associated with it.
+ * ie.: Item.LightSource.Lighting
+ */
+void item_clean(Item *item);
+
 ItemError item_consume(Item *item, Player *player);
 
 EventError item_pickup(InteractionEvent *event);
 
 EventError item_light_source_place(InteractionEvent *event);
 
-void item_light_source_clean(Item *item);
-
 Item *item_allocate(void);
-
-void item_clean(Item *item);
 
 void item_free(Item *item);
 

@@ -22,9 +22,10 @@ static void build_new(Cell *cell, JSON_Object *json)
     cell->material = (Material) constant(json_get_string(json, "material"));
 }
 
-static void finalize(JSON_Object *json, NamedCell *prototype, Cell *cell)
+static void finalize(JSON_Object *json, CellPrototype *prototype, Cell *cell)
 {
     cell->in_registry = true;
+    cell->lighted = false;
     cell->state = MATERIAL_STRENGTH[cell->material];
     prototype->cell = *cell;
 
@@ -38,7 +39,7 @@ static void build_cell(JSON_Object *json)
     const Cell *parent;
     memset(&building, 0, sizeof(Cell));
 
-    NamedCell *with_name = callocate(1, sizeof(NamedCell));
+    CellPrototype *with_name = callocate(1, sizeof(CellPrototype));
 
     if (json_has_string(json, "extends")) {
         parent = cell_get(json_get_string(json, "extends"));
@@ -53,7 +54,7 @@ static void build_cell(JSON_Object *json)
 
 const Cell *cell_get(char *name)
 {
-    NamedCell *found = PROTOTYPES->find(PROTOTYPES, (Predicate) function(bool, (NamedCell * cell) {
+    CellPrototype *found = PROTOTYPES->find(PROTOTYPES, (Predicate) function(bool, (CellPrototype * cell) {
         return 0 == strcmp(name, cell->name);
     }));
 

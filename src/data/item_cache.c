@@ -31,12 +31,6 @@ static void load_item(CachedItem *cached)
     ItemPrototype *prototype = allocate(sizeof(ItemPrototype));
     *prototype = cached->prototype;
 
-    Item *item = &prototype->item;
-
-    if (LIGHT_SOURCE == item->type) {
-        item->clean = item_light_source_clean;
-    }
-
     Probability *probability = probability_for(prototype->item.type);
     probability_add(probability, cached->chance, prototype);
 }
@@ -54,9 +48,7 @@ static void save_probability(Cache *cache, Probability *probability)
     CachedItem entry;
     memset(&entry, 0, sizeof(CachedItem));
 
-    probability_add_to_cache(cache, probability, entry, prototype, sizeof(ItemPrototype),
-        entry.prototype.item.clean = NULL
-    );
+    probability_add_to_cache(cache, probability, entry, prototype, sizeof(ItemPrototype));
 }
 
 void item_cache_save(void)

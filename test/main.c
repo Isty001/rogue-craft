@@ -44,9 +44,9 @@ static void init(void)
 
 static void cleanup(void)
 {
+    item_pool_cleanup();
     cell_pool_cleanup();
     lighted_cell_pool_cleanup();
-    item_pool_cleanup();
     list_node_pool_cleanup();
     profiler_cleanup();
 }

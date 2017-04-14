@@ -19,7 +19,7 @@ static void assert_probability(void)
     mu_assert(cell_get("stone.mossy") == cfg->cells.solid.items[1].value, "");
 }
 
-static void test_cache(void)
+MU_TEST(test_cache)
 {
     level_unload();
     rename(DIR_CONFIG_LEVELS"/levels.json", DIR_CONFIG"/tmp//levels.json");

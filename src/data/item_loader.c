@@ -62,7 +62,6 @@ static void build_tool(ItemPrototype *prototype, JSON_Object *json)
 static void build_light_source(ItemPrototype *prototype, JSON_Object *json)
 {
     LightSource *source = &prototype->item.light_source;
-    prototype->item.clean = item_light_source_clean;
     source->radius = (uint16_t) json_get_number(json, "radius");
     source->style = json_get_style(json);
     source->portable = (bool) json_get_bool(json, "portable");
@@ -106,7 +105,6 @@ static void create_prototype_from(JSON_Object *json)
     char *name = json_get_string(json, "name");
 
     item->occupied_cell = NULL;
-    item->clean = NULL;
     item->style = json_get_style(json);
 
     json_get_wchar(&item->chr, json, "char");
@@ -124,15 +122,9 @@ void item_load(void)
     }
 }
 
-static void release_item(void *item)
-{
-    item_clean(item);
-    release(item);
-}
-
 void item_unload(void)
 {
-    probability_clean(&ITEM_CONSUMABLE_PROBABILITY, release_item);
-    probability_clean(&ITEM_TOOL_PROBABILITY, release_item);
-    probability_clean(&ITEM_LIGHT_SOURCE_PROBABILITY, release_item);
+    probability_clean(&ITEM_CONSUMABLE_PROBABILITY, release);
+    probability_clean(&ITEM_TOOL_PROBABILITY, release);
+    probability_clean(&ITEM_LIGHT_SOURCE_PROBABILITY, release);
 }

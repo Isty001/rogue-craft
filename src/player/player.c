@@ -75,3 +75,13 @@ void player_free(Player *player)
     sight_free(player->sight);
     release(player);
 }
+
+void player_sight_update(Player *player)
+{
+    sight_update(player->sight, player->position.current, PLAYER_DEFAULT_EYESIGHT);
+}
+
+bool player_can_see(Player *player, Point point)
+{
+    return sight_has(player->sight, point);
+}

@@ -1,9 +1,10 @@
-#### Tasks:
+#### TODO:
 * Inventory improvements:
     * ~~Full view~~
     * Navigating in the inventory
-* Light source:
-    * Portable
+* Lighting/Light source:
+    * Portable type
+    * More tests
 * Level JSON cache
 * Improving the build process (Cmake)
 * Probability.items should be dynamic

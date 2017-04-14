@@ -16,8 +16,23 @@ void item_pool_init(void)
     ITEM_POOL = pool_init(sizeof(Item), 100);
 }
 
+void item_clean(Item *item)
+{
+    if (!item) {
+        return;
+    }
+    LightSource *source = &item->light_source;
+
+    if (LIGHT_SOURCE == item->type && source->lighting) {
+        lighting_free(source->lighting);
+        source->lighting = NULL;
+    }
+}
+
 void item_pool_cleanup(void)
 {
+    pool_foreach(ITEM_POOL, (PoolForeach) item_clean);
+
     pool_destroy(ITEM_POOL);
 }
 
@@ -27,13 +42,6 @@ Item *item_allocate(void)
     profile_item(++);
 
     return item;
-}
-
-void item_clean(Item *item)
-{
-    if (item->clean) {
-        item->clean(item);
-    }
 }
 
 void item_free(Item *item)

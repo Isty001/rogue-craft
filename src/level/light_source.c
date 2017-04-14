@@ -1,5 +1,5 @@
-#include "item.h"
-#include "inventory.h"
+#include "../player/item.h"
+#include "../player/inventory.h"
 
 
 static void add_lighting(Player *player, Point point, LightSource *source)
@@ -37,15 +37,4 @@ EventError item_light_source_place(InteractionEvent *event)
     place_on_level(event, item);
 
     return EE_BREAK;
-}
-
-void item_light_source_clean(Item *item)
-{
-    LightSource *source = &item->light_source;
-
-    if (LIGHT_SOURCE == item->type && source->lighting) {
-        lighting_detach(source->lighting);
-        lighting_free(source->lighting);
-        source->lighting = NULL;
-    }
 }

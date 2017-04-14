@@ -5,7 +5,7 @@
 #include "../level/cell.h"
 
 
-#define CELL_SIZE sizeof(NamedCell)
+#define CELL_SIZE sizeof(CellPrototype)
 
 
 #define cache_open_items(cache)                                  \
@@ -13,9 +13,9 @@
 
 
 
-static void load_cell(List *prototypes, NamedCell *loaded)
+static void load_cell(List *prototypes, CellPrototype *loaded)
 {
-    NamedCell *cell = allocate(CELL_SIZE);
+    CellPrototype *cell = allocate(CELL_SIZE);
     memcpy(cell, loaded, CELL_SIZE);
     prototypes->append(prototypes, cell);
 }

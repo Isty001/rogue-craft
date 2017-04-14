@@ -49,7 +49,6 @@ Level *level_new(Size size)
     Level *level = allocate(sizeof(Level));
     level->size = size;
     level->cfg = probability_pick(&LEVEL_PROBABILITY);
-    level->lightings = list_new();
     level_add_bounds(level);
 
     level->cells = level_allocate_cells(level->size);
@@ -142,11 +141,6 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 
 void level_free(Level *level)
 {
-    List *lightings = level->lightings;
-
-    lightings->release_item = (Release) lighting_free;
-    lightings->free(lightings);
-
     release(level->cells);
     release(level);
 }

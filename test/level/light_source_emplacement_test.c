@@ -40,23 +40,23 @@ MU_TEST(test_non_light_source)
 MU_TEST(test_placement)
 {
     Style style = 100;
-    Item item = {
+    Item *item = item_allocate();
+    *item = (Item) {
         .type = LIGHT_SOURCE,
         .light_source = {.radius = 5, .style = style}
     };
-    LightSource *source = &item.light_source;
+    LightSource *source = &item->light_source;
     Cell ***cells = TEST_PLAYER.level->cells;
 
-    inventory_add(TEST_PLAYER.inventory, &item);
+    inventory_add(TEST_PLAYER.inventory, item);
 
-    mu_assert(NULL == item.occupied_cell, "");
+    mu_assert(NULL == item->occupied_cell, "");
     mu_assert_int_eq(EE_BREAK, item_light_source_place(&TEST_EVENT));
     mu_assert_int_eq(0, TEST_PLAYER.inventory->items->count);
-    mu_assert_int_eq(1, TEST_PLAYER.level->lightings->count);
 
-    mu_assert(NULL != item.occupied_cell, "");
+    mu_assert(NULL != item->occupied_cell, "");
     mu_assert(NULL != source->lighting, "");
-    mu_assert(TEST_EVENT.cell == item.occupied_cell, "");
+    mu_assert(TEST_EVENT.cell == item->occupied_cell, "");
 
     mu_assert_int_eq(style, cells[2][1]->style);
 }

@@ -34,6 +34,7 @@ typedef struct {
     CellType type;
     double state;
     Material material;
+    bool lighted;
     union {
         Item *item;
     };
@@ -42,7 +43,7 @@ typedef struct {
 typedef struct {
     char name[CELL_NAME_MAX];
     Cell cell;
-} NamedCell;
+} CellPrototype;
 
 
 void cell_load(void);

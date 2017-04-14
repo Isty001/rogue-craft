@@ -3,7 +3,7 @@
 
 Inventory *inventory_new(uint16_t max_size)
 {
-    Inventory *inventory = allocate(sizeof(Inventory) + (max_size * sizeof(Item * )));
+    Inventory *inventory = allocate(sizeof(Inventory) + (max_size * sizeof(Item *)));
     inventory->max_size = max_size;
     inventory->selected = 0;
     inventory->items = list_new();

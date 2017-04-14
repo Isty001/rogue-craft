@@ -5,11 +5,11 @@ Level *fixture_level(void)
 {
     Level *level = allocate(sizeof(Level));
     level->size = (Size) {4, 3};
-    level->lightings = list_new();
 
     Cell *hollow = allocate(sizeof(Cell));
     hollow->type = HOLLOW;
     hollow->in_registry = true;
+    hollow->lighted = false;
     hollow->material = VOID;
     hollow->state = 100;
     hollow->style = FIXTURE_HOLLOW_STYLE;
@@ -17,6 +17,7 @@ Level *fixture_level(void)
     Cell *solid = allocate(sizeof(Cell));
     solid->type = SOLID;
     solid->in_registry = true;
+    solid->lighted = false;
     solid->material = STONE;
     solid->state = 100;
     solid->style = FIXTURE_SOLID_STYLE;
@@ -68,11 +69,6 @@ void fixture_level_free(Level *level)
 {
     probability_clean(&level->cfg->cells.hollow, release);
     probability_clean(&level->cfg->cells.solid, release);
-
-    List *lightings = level->lightings;
-
-    lightings->release_item = (Release) lighting_free;
-    lightings->free(lightings);
 
     release(level->cells[0]);
     release(level->cells[1]);

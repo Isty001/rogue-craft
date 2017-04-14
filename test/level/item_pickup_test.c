@@ -20,7 +20,6 @@ MU_TEST(test_item_pickup)
 {
     Level *level = fixture_level();
     Item item;
-    item.clean = NULL;
     item.occupied_cell = NULL;
 
     level->cells[0][0]->item = &item;
@@ -60,8 +59,7 @@ MU_TEST(test_pickup_lighting)
     Item item = {
         .type = LIGHT_SOURCE,
         .occupied_cell = &occupied,
-        .light_source = {.lighting = lighting},
-        .clean = item_light_source_clean
+        .light_source = {.lighting = lighting}
     };
     level->cells[0][0] = cell_with_item(&item);
 

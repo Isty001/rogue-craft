@@ -18,8 +18,8 @@ MU_TEST(test_new_player)
     mu_assert_int_eq(prev.x, curr.x);
     mu_assert(&camera == player->camera, "Cam is not the same");
 
-    fixture_level_free(level);
     player_free(player);
+    fixture_level_free(level);
 }
 
 void run_player_manager_test(void)
