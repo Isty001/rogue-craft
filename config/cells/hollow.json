@@ -7,6 +7,11 @@
     "style": ["COLOR_NONE"]
   },
   {
+    "name": "hollow.snowy",
+    "extends": "hollow.empty",
+    "style": ["COLOR_WHITE_B"]
+  },
+  {
     "name": "grass.hollow",
     "extends": "hollow.empty",
     "style": ["COLOR_GREEN_B"]

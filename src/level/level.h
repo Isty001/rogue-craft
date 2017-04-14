@@ -57,6 +57,7 @@ typedef struct Level {
     Cell ***cells;
     LevelConfig *cfg;
     List *lightings;
+
     struct {
         Range y;
         Range x;
@@ -69,7 +70,6 @@ typedef struct {
     Point point;
     uint16_t player_distance;
 } InteractionEvent;
-
 
 
 void level_load(void);

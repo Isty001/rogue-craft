@@ -1,3 +1,4 @@
+#### Tasks:
 * Inventory improvements:
     * ~~Full view~~
     * Navigating in the inventory
@@ -5,6 +6,7 @@
     * Portable
 * Level JSON cache
 * Improving the build process (Cmake)
+* Probability.items should be dynamic
 
-Possible optimizations:
+#### Possible optimizations:
 * Sight point lookup

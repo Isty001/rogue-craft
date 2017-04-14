@@ -1,13 +1,6 @@
 #include "../../config/config.h"
 
 
-static int KEY_MAIN_DIRECTION_MAP[4][2] = {
-    {KEY_NORTH, NORTH},
-    {KEY_EAST,  EAST},
-    {KEY_SOUTH, SOUTH},
-    {KEY_WEST,  WEST},
-};
-
 void player_position_on_level(Player *player)
 {
     Cell ***cells = player->level->cells;
@@ -28,16 +21,6 @@ static inline bool can_move_to(Player *player, Point target)
         level_in_bounds(level, target)
         &&
         SOLID != level->cells[target.y][target.x]->type;
-}
-
-static inline Direction direction_lookup(int input)
-{
-    for (int i = 0; i < 4; ++i) {
-        if (input == KEY_MAIN_DIRECTION_MAP[i][0]) {
-            return (Direction) KEY_MAIN_DIRECTION_MAP[i][1];
-        }
-    }
-    return 0;
 }
 
 EventError player_move(InputEvent *event)

@@ -53,6 +53,8 @@ typedef enum {
 
 Point point_move(Point point, Direction direction, uint16_t distance);
 
+Direction direction_lookup(int input);
+
 uint16_t point_distance(Point a, Point b);
 
 

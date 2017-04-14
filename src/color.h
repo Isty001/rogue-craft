@@ -25,6 +25,7 @@
 #define COLOR_YELLOW_B      14
 #define COLOR_ORANGE_B      15
 #define COLOR_RED_F_B       16
+#define COLOR_WHITE_B       17
 
 
 #define cache_open_colors(cache) \

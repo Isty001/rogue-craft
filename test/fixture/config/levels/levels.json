@@ -3,13 +3,13 @@
     "type": "CELLULAR",
     "probability": 10,
     "cells": {
-      "HOLLOW": [
-        {"hollow.default": 1}
-      ],
-      "SOLID": [
-        {"stone.cobble": 10},
-        {"stone.mossy": 5}
-      ]
+      "HOLLOW": {
+        "hollow.default": 1
+      },
+      "SOLID": {
+        "stone.cobble": 10,
+        "stone.mossy": 5
+      }
     }
   }
 ]

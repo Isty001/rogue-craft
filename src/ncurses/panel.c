@@ -33,7 +33,7 @@ void panel_show(void)
 
 void panel_close_top(void)
 {
-    PANEL *prev = panel_userptr(TOP);
+    PANEL *prev = (void *) panel_userptr(TOP);
     delwin(panel_window(TOP));
     del_panel(TOP);
 

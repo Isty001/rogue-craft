@@ -7,12 +7,13 @@
 
 
 #define EVENT_LISTENER_MAX  20
-#define EVENT_TYPE_NUM 3
+#define EVENT_TYPE_NUM 4
 
 
 typedef enum {
     EVENT_INTERACTION,
     EVENT_INPUT,
+    EVENT_PANEL_INPUT,
     EVENT_CLICK
 } Event;
 

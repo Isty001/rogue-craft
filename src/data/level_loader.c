@@ -5,19 +5,17 @@
 Probability LEVEL_PROBABILITY;
 
 
-static void build_cells(Probability *cells, JSON_Array *array)
+static void build_cells(Probability *cells, JSON_Object *map)
 {
     const Cell *cell;
-    JSON_Object *cell_json;
     uint16_t chance;
     char *name;
-    size_t count = json_array_get_count(array);
+    size_t count = json_object_get_count(map);
 
     for (size_t i = 0; i < count; i++) {
-        cell_json = json_array_get_object(array, i);
-        name = (char *) json_object_get_name(cell_json, 0);
+        name = (char *) json_object_get_name(map, i);
+        chance = (uint16_t) json_get_number(map, name);
         cell = cell_get(name);
-        chance = (uint16_t) json_get_number(cell_json, name);
 
         probability_add(cells, chance, (Randomizable) cell);
     }
@@ -37,8 +35,8 @@ static void parse_json(JSON_Object *json)
 
     JSON_Object *cells = json_get_object(json, "cells");
 
-    build_cells(&cfg->cells.hollow, json_get_array(cells, "HOLLOW"));
-    build_cells(&cfg->cells.solid, json_get_array(cells, "SOLID"));
+    build_cells(&cfg->cells.hollow, json_get_object(cells, "HOLLOW"));
+    build_cells(&cfg->cells.solid, json_get_object(cells, "SOLID"));
 
     add_level(cfg, json);
 }

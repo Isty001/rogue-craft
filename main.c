@@ -66,10 +66,8 @@ static void render(Player *player)
     panel_show();
 }
 
-int main(void)
+static void check_env(void)
 {
-    init();
-
     if (!has_mouse()) {
         fatal("Your terminal or ncurses version has no mouse support.")
     }
@@ -77,19 +75,23 @@ int main(void)
     if (!has_colors() || !can_change_color()) {
         fatal("Please make sure that your terminal has 256 color support.");
     }
+}
+
+int main(void)
+{
+    init();
+    check_env();
 
     Camera camera;
     Size size = size_new(300, 300);
     Level *level = level_new(size);
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
-    int in;
-
-    liquid_add(level);
 
     update(player);
     render(player);
 
+    int in;
     int i = 0;
 
     while (1) {
@@ -101,7 +103,6 @@ int main(void)
                     break;
                 }
             }
-
             input_process(in, player);
 
             if (in == KEY_NORTH || in == KEY_SOUTH) {
