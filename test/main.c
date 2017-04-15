@@ -2,6 +2,7 @@
 #include <time.h>
 #include <locale.h>
 #include <parson.h>
+#include <pthread.h>
 #include "../src/color.h"
 #include "../src/player/item.h"
 #include "../src/environment.h"
@@ -85,5 +86,8 @@ int main(int argc, char *argv[])
 
     cleanup();
 
-    return 0;
+    /**
+     * @see http://stackoverflow.com/questions/1542457/memory-leak-reported-by-valgrind-in-dlopen/3649846#comment1773664_1874334
+     */
+    pthread_exit(NULL);
 }

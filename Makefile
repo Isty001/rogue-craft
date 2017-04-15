@@ -69,8 +69,9 @@ test:
 	./$(TEST_OBJ) --env=test
 
 test-valgrind:
+	make env-setup
 	make new-test
-	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_OBJ)
+	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_OBJ) --env=test
 
 palette:
 	make -C ./lib/dev palette
