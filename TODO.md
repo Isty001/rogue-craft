@@ -17,6 +17,7 @@
 * Timers for periodic executions
 * Multiple panels
 * Normalize the Player's speed
+* Debug mode should be an environment variable
 
 #### Possible optimizations:
 * Sight point lookup

@@ -32,13 +32,16 @@ MU_TEST(test_load)
 
     mu_assert(cache_is_empty(CACHE_CONFIG_CELLS), "");
 
-    rename(DIR_CONFIG_CELLS"/cell.json", DIR_CONFIG"/tmp/cell.json");
+    char *from = DIR_FIXTURE"/config/cells/cell.json";
+    char *to = DIR_FIXTURE"/config/tmp/cell.json";
+
+    rename(from, to);
 
     cell_load();
     assert_cells();
     cell_unload();
 
-    rename(DIR_CONFIG"/tmp/cell.json", DIR_CONFIG_CELLS"/cell.json");
+    rename(to, from);
 }
 
 void run_cell_loader_test(void)

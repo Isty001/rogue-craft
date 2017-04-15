@@ -1,6 +1,7 @@
 #include <list.h>
 #include "../../config/config.h"
 #include "../json.h"
+#include "../environment.h"
 
 
 static List *PROTOTYPES;
@@ -71,7 +72,7 @@ void cell_load(void)
     PROTOTYPES->release_item = release;
 
     if (CE_LOADED != cell_cache_load(PROTOTYPES)) {
-        json_parse_in_dir(DIR_CONFIG_CELLS, build_cell);
+        json_parse_in_dir(env_config(CONFIG_CELLS), build_cell);
         cell_cache_save(PROTOTYPES);
     }
 }

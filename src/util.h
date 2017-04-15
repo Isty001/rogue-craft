@@ -11,6 +11,8 @@
 #include "debug.h"
 
 
+#define stringify(a) #a
+
 #define repeat(times, body)             \
     for (int i = 0; i < times; i++) {   \
         body;                           \

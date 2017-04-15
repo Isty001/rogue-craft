@@ -22,12 +22,16 @@ static void assert_probability(void)
 MU_TEST(test_cache)
 {
     level_unload();
-    rename(DIR_CONFIG_LEVELS"/levels.json", DIR_CONFIG"/tmp//levels.json");
+
+    char *from = DIR_FIXTURE"/config/levels/levels.json";
+    char *to = DIR_FIXTURE"/config/tmp/levels.json";
+
+    rename(from, to);
 
     level_load();
     assert_probability();
 
-    rename(DIR_CONFIG"/tmp//levels.json", DIR_CONFIG_LEVELS"/levels.json");
+    rename(to, from);
 }
 
 MU_TEST(test_load)

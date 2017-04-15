@@ -8,6 +8,14 @@
 #include "storage.h"
 
 
+
+#define CACHE_CONFIG_ITEMS "items"
+#define CACHE_CONFIG_CELLS "cells"
+#define CACHE_CONFIG_LEVELS "levels"
+#define CACHE_COLORS "colors"
+
+
+
 typedef void (*Reader)(void *entry);
 
 
@@ -17,8 +25,6 @@ typedef struct {
     size_t entry_size;
 } Cache;
 
-
-void cache_init();
 
 bool cache_exists(char *name);
 

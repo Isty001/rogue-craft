@@ -1,27 +1,16 @@
 #include <unistd.h>
 #include "cache.h"
+#include "../environment.h"
 
-
-#define path_of(name) ({                            \
-    char _path[MAX_PATH];                            \
-    sprintf(_path, "%s/%s.cache", DIR_CACHE, name);  \
-    _path;                                           \
-})
-
-
-void cache_init()
-{
-    dir_check(DIR_CACHE);
-}
 
 bool cache_exists(char *name)
 {
-    return file_exists(path_of(name));
+    return file_exists(env_cache_file(name));
 }
 
 bool cache_is_empty(char *name)
 {
-    return file_is_empty(path_of(name));
+    return file_is_empty(env_cache_file(name));
 }
 
 bool cache_valid(Cache *cache, time_t value_modified)
@@ -37,7 +26,7 @@ bool cache_valid(Cache *cache, time_t value_modified)
 void cache_open(Cache *cache, char *name, size_t entry_size)
 {
     cache->entry_size = entry_size;
-    memcpy(cache->path, path_of(name), MAX_PATH);
+    memcpy(cache->path, env_cache_file(name), MAX_PATH);
     cache->file = file_open(cache->path, "ab+");
 }
 
@@ -84,7 +73,7 @@ void cache_clear(Cache *cache)
 
 void cache_delete(char *name)
 {
-    char *path = path_of(name);
+    char *path = env_cache_file(name);
 
     if (file_exists(path) && 0 != unlink(path)) {
         fatal("Unable to unlink [%s]", path);

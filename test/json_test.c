@@ -1,5 +1,6 @@
 #include "unit_test.h"
 #include "../src/json.h"
+#include "../src/environment.h"
 
 /**
  * color_add() starts from 100, to have space for custom pairs
@@ -40,5 +41,5 @@ void run_json_test(void)
     MU_REPORT();
 
     color_cleanup();
-    unlink(DIR_CACHE"/"CACHE_COLORS".cache");
+    unlink(env_cache_file(CACHE_COLORS));
 }

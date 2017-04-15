@@ -4,6 +4,7 @@
 #include <parson.h>
 #include "../src/color.h"
 #include "../src/player/item.h"
+#include "../src/environment.h"
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -38,7 +39,6 @@ static void init(void)
 
     profiler_init();
     list_node_pool_init();
-    cache_init();
     item_pool_init();
     cell_pool_init();
     lighted_cell_pool_init();
@@ -53,8 +53,10 @@ static void cleanup(void)
     profiler_cleanup();
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    env_setup(argc, argv);
+
     init();
 
     run_player_movement_test();

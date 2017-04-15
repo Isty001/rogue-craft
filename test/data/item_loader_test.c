@@ -88,8 +88,13 @@ MU_TEST(test_load)
  */
 MU_TEST(test_cache)
 {
-    rename(DIR_CONFIG_ITEMS"/items.json", DIR_CONFIG"/tmp/items.json");
-    rename(DIR_CONFIG_ITEMS"/items_2.json", DIR_CONFIG"/tmp/items_2.json");
+    char *from_1 = DIR_FIXTURE"/config/items/items.json";
+    char *to_1 = DIR_FIXTURE"/config/tmp/items.json";
+    char *from_2 = DIR_FIXTURE"/config/items/items_2.json";
+    char *to_2 = DIR_FIXTURE"/tmp/items_2.json";
+
+    rename(from_1, to_1);
+    rename(from_2, to_2);
 
     mu_assert(cache_exists(CACHE_CONFIG_ITEMS), "Items cache should exist");
     item_load();
@@ -98,8 +103,8 @@ MU_TEST(test_cache)
 
     item_unload();
 
-    rename(DIR_CONFIG"/tmp/items.json", DIR_CONFIG_ITEMS"/items.json");
-    rename(DIR_CONFIG"/tmp/items_2.json", DIR_CONFIG_ITEMS"/items_2.json");
+    rename(to_1, from_1);
+    rename(to_2, from_2);
 }
 
 void run_item_loader_test(void)

@@ -6,7 +6,6 @@
 #include <ncurses.h>
 #include "storage/cache.h"
 #include "util.h"
-#include "../config/paths.h"
 
 
 #define COLOR_NONE           1

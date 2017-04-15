@@ -7,6 +7,7 @@
 #include "config/config.h"
 #include "src/player/inventory.h"
 #include "src/loop.h"
+#include "src/environment.h"
 
 
 static void init(void)
@@ -14,8 +15,6 @@ static void init(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
-
-    cache_init();
 
     profiler_init();
     ncurses_init();
@@ -76,8 +75,10 @@ Player *load_player(void)
     return player;
 }
 
-int main(void)
+int main(int arc, char *argv[])
 {
+    env_setup(arc, argv);
+
     init();
     check_env();
 

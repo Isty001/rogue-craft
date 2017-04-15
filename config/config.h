@@ -13,6 +13,14 @@
 
 extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
 
+
+/**
+ * CONFIGS
+ */
+#define CONFIG_LEVELS "levels"
+#define CONFIG_ITEMS "items"
+#define CONFIG_CELLS "cells"
+
 /**
  * PLAYER
  */

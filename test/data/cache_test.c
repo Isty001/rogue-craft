@@ -1,6 +1,7 @@
 #include <list.h>
 #include "../unit_test.h"
 #include "../../src/storage/cache.h"
+#include "../../src/environment.h"
 
 
 MU_TEST(test_exists)
@@ -45,8 +46,7 @@ MU_TEST(test_io)
     cache_foreach(&cache, (Reader) assert_items);
 
     cache_delete("test");
-    mu_assert(!file_exists(DIR_CACHE
-                  "/test.cache"), "");
+    mu_assert(!file_exists(env_cache_file("test")), "");
 
     cache_close(&cache);
 }
@@ -66,7 +66,7 @@ MU_TEST(test_modified_date)
 
 static void teardown(void)
 {
-    unlink(DIR_CACHE"/test.cache");
+    unlink(env_cache_file("test"));
 }
 
 void run_cache_test(void)
