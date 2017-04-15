@@ -21,7 +21,7 @@ For running `ncursesw5` is required, and your terminal must support 256 colors.
 For example put this line in your .bashrc/.zshrc or whatever you use, `export TERM=xterm-256color`.
 Depending on your system, they can be called slightly differently, or not even separated.
 
-##### From source
+#### From source
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
@@ -33,7 +33,7 @@ make install
 To play, simply execute `rogue-craft` in your terminal.
 Please note that it's still a very early development stage.
 
-##### From release tar
+#### From release tar
 *Soon...*
 
 ### <a name="Plans"></a>Plans
