@@ -1,12 +1,14 @@
 [
   {
     "type": "CELLULAR",
-    "probability": 15,
+    "probability": 10,
     "cells": {
       "HOLLOW": {
-        "hollow.empty": 20,
         "stone.hollow": 10,
-        "stone.broken.hollow": 5
+        "stone.dark.hollow": 10,
+        "stone.broken.hollow": 5,
+        "stone.dark.broken.hollow": 5,
+        "stone.mossy.hollow": 3
       },
       "SOLID": {
         "stone": 10,
@@ -18,35 +20,41 @@
   },
   {
     "type": "CELLULAR",
-    "probability": 12,
+    "probability": 10,
     "cells": {
       "HOLLOW": {
-        "hollow.empty": 15,
-        "grass.hollow": 2,
-        "grass.dark.hollow": 2
+        "grass.hollow": 10,
+        "grass.dark.hollow": 8,
+        "dirt.hollow": 6,
+        "dirt.dark.hollow": 10
       },
       "SOLID": {
+        "grass": 15,
+        "tree": 15,
+        "tree.dead": 5,
+        "grass.dark": 10,
         "dirt": 10,
         "dirt.dark": 7,
-        "grass": 10,
-        "grass.dark": 7,
         "sand": 7,
-        "stone": 3
+        "stone": 5
       }
     }
   },
   {
     "type": "CELLULAR",
-    "probability": 50,
+    "probability": 10,
     "cells": {
       "HOLLOW": {
-        "hollow.empty": 15,
-        "hollow.snowy": 3
+        "snow.hollow": 10,
+        "snow.dark.hollow": 5
       },
       "SOLID": {
+        "snow": 10,
+        "grass.snowy": 15,
+        "tree.snowy": 15,
+        "tree.dead.snowy": 5,
         "dirt.snowy": 10,
-        "stone.snowy": 5,
-        "grass.snowy": 5
+        "stone.snowy": 5
       }
     }
   }

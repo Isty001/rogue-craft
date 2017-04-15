@@ -16,6 +16,7 @@
 * Probability.items should be dynamic
 * Timers for periodic executions
 * Multiple panels
+* Normalize the Player's speed
 
 #### Possible optimizations:
 * Sight point lookup

@@ -27,6 +27,9 @@
 #define COLOR_RED_F_B       16
 #define COLOR_WHITE_B       17
 #define COLOR_GRAY_B        18
+#define COLOR_DARK_GRAY_B   19
+#define COLOR_DARK_BROWN_B  20
+#define COLOR_DARK_BROWN_F  21
 
 
 #define cache_open_colors(cache) \

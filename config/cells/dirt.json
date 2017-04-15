@@ -20,7 +20,14 @@
     "name": "sand",
     "type": "SOLID",
     "material": "SAND",
-    "char": "%",
+    "char": "¤",
     "style": ["COLOR_YELLOW_F"]
+  },
+  {
+    "name": "snow",
+    "type": "SOLID",
+    "material": "SNOW",
+    "char": "×",
+    "style": [{"fore": 8, "back": 7}]
   }
 ]

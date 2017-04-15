@@ -29,7 +29,6 @@ typedef struct {
 typedef struct {
     uint16_t count;
     uint16_t sum;
-    /** @TODO Dynamic */
     ProbabilityItem items[PROBABILITY_MAX_ITEM_NUM];
 } Probability;
 

@@ -33,6 +33,9 @@ ConstLookup CONST_LOOKUP[] = {
     color(COLOR_RED_F_B),
     color(COLOR_WHITE_B),
     color(COLOR_GRAY_B),
+    color(COLOR_DARK_GRAY_B),
+    color(COLOR_DARK_BROWN_B),
+    color(COLOR_DARK_BROWN_F),
 
     simple(A_BOLD),
     simple(A_UNDERLINE),
@@ -50,6 +53,7 @@ ConstLookup CONST_LOOKUP[] = {
     simple(VOID),
     simple(WATER),
     simple(WOOD),
+    simple(SNOW),
 
     /** CellType */
     simple(SOLID),

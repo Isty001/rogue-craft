@@ -81,9 +81,6 @@ Point level_rand_hollow(Level *level)
     return point;
 }
 
-
-
-
 void level_set_hollow(Level *level, Point at)
 {
     cell_free_custom(level->cells[at.y][at.x]);

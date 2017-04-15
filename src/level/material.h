@@ -2,7 +2,7 @@
 #define ROGUE_CRAFT_MATERIAL_H
 
 
-#define MATERIAL_NUM 6
+#define MATERIAL_NUM 7
 #define MATERIAL_LIQUID_NUM 1
 
 
@@ -12,7 +12,8 @@ typedef enum  {
     DIRT,
     SAND,
     WATER,
-    WOOD
+    WOOD,
+    SNOW
 } Material;
 
 
