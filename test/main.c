@@ -26,6 +26,8 @@ void run_cell_loader_test(void);
 void run_level_loader_test(void);
 void run_color_cache_test(void);
 void run_light_source_placement_test(void);
+void run_inventory_display_test(void);
+void run_grid_test(void);
 
 
 static void init(void)
@@ -76,6 +78,8 @@ int main(void)
     run_level_loader_test();
     run_color_cache_test();
     run_light_source_placement_test();
+    run_inventory_display_test();
+    run_grid_test();
 
     cleanup();
 

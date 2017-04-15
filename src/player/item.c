@@ -32,7 +32,6 @@ void item_clean(Item *item)
 void item_pool_cleanup(void)
 {
     pool_foreach(ITEM_POOL, (PoolForeach) item_clean);
-
     pool_destroy(ITEM_POOL);
 }
 
@@ -108,9 +107,10 @@ ItemError item_consume(Item *parent, Player *player)
     return consume_non_permanent(parent, attribute);
 }
 
-static void restore_occupied_cell(Item *item, Level *level, Point point)
+static void restore_occupied_cell(Level *level, Item *item, Point point)
 {
     level->cells[point.y][point.x] = item->occupied_cell;
+    item->occupied_cell = NULL;
 }
 
 EventError item_pickup(InteractionEvent *event)
@@ -123,12 +123,13 @@ EventError item_pickup(InteractionEvent *event)
         Level *level = player->level;
 
         if (IE_OK == inventory_add(player->inventory, item)) {
+            item_clean(item);
+
             if (item->occupied_cell) {
-                restore_occupied_cell(item, level, event->point);
+                restore_occupied_cell(level, item, event->point);
             } else {
                 level_set_hollow(level, event->point);
             }
-            item_clean(item);
 
             return EE_BREAK;
         }

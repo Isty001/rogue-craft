@@ -20,7 +20,6 @@ static void add_point(Sight *sight, Point point)
 static void ray_cast(Sight *sight, Point target)
 {
     Point current = sight->center;
-    Point prev = current;
     Cell *cell;
     bool is_solid = false;
     bool in_bounds;
@@ -48,18 +47,11 @@ static void ray_cast(Sight *sight, Point target)
             cell = sight->level->cells[current.y][current.x];
             is_solid = SOLID == cell->type;
 
-            if (ALL == sight->type) {
-                add_point(sight, current);
-            } else if (EDGES == sight->type && is_solid) {
-                add_point(sight, current);
-                add_point(sight, prev);
-            }
-            cell->lighted = true;
+            add_point(sight, current);
         }
         if (!in_bounds || is_solid) {
             break;
         }
-        prev = current;
     }
 }
 
@@ -83,14 +75,13 @@ static void collect_points(Sight *sight)
     sight->points[sight->count++] = sight->center;
 }
 
-Sight *sight_new(Level *level, Point center, uint16_t radius, SightType type)
+Sight *sight_new(Level *level, Point center, uint16_t radius)
 {
     Sight *sight = allocate(sizeof(Sight));
     sight->center = center;
     sight->radius = radius;
     sight->count = 0;
     sight->points = allocate(area_size(radius));
-    sight->type = type;
     sight->level = level;
 
     collect_points(sight);

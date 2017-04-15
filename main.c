@@ -6,6 +6,7 @@
 #include "src/level/camera.h"
 #include "config/config.h"
 #include "src/player/inventory.h"
+#include "src/loop.h"
 
 
 static void init(void)
@@ -18,6 +19,8 @@ static void init(void)
 
     profiler_init();
     ncurses_init();
+    mouse_init();
+    panel_init();
 
     list_node_pool_init();
     item_pool_init();
@@ -29,12 +32,12 @@ static void init(void)
     cell_load();
     level_load();
 
-    mouse_init();
 }
 
 static void cleanup(Player *player)
 {
     ncurses_cleanup();
+    panel_cleanup();
     item_pool_cleanup();
     level_free(player->level);
     cell_pool_cleanup();
@@ -50,21 +53,6 @@ static void cleanup(Player *player)
     profiler_cleanup();
 }
 
-static void update(Player *player)
-{
-    camera_update(player, WINDOW_MAIN);
-    player_sight_update(player);
-}
-
-static void render(Player *player)
-{
-    panel_hide();
-    level_display(player);
-    inventory_shortcut_display(player->inventory);
-    player_attributes_display(player);
-    profiler_display();
-    panel_show();
-}
 
 static void check_env(void)
 {
@@ -77,47 +65,24 @@ static void check_env(void)
     }
 }
 
-int main(void)
+Player *load_player(void)
 {
-    init();
-    check_env();
-
     Camera camera;
     Size size = size_new(300, 300);
     Level *level = level_new(size);
     Player *player = player_new(level, &camera);
     player_position_on_level(player);
 
-    update(player);
-    render(player);
+    return player;
+}
 
-    int in;
-    int i = 0;
+int main(void)
+{
+    init();
+    check_env();
 
-    while (1) {
-        if ((in = wgetch(WINDOW_MAIN))) {
-            if (KEY_F(2) == in) {
-                if (panel_is_open()) {
-                    panel_close_top();
-                } else {
-                    break;
-                }
-            }
-            input_process(in, player);
-
-            if (in == KEY_NORTH || in == KEY_SOUTH) {
-                napms(20);
-            }
-            update(player);
-            render(player);
-        }
-        napms(60);
-
-        if (i++ == 10) {
-            player_state_update(player, &PLAYER_STATE_CONFIG);
-            i = 0;
-        }
-    }
+    Player *player = load_player();
+    loop_run(player);
     cleanup(player);
 
     return 0;

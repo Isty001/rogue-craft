@@ -6,7 +6,7 @@
 MU_TEST(test_sight_all)
 {
     Level *level = fixture_level();
-    Sight *sight = sight_new(level, point_new(1, 0), 2, ALL);
+    Sight *sight = sight_new(level, point_new(1, 0), 2);
 
     mu_assert(sight_has(sight, point_new(0, 0)), "");
     mu_assert(sight_has(sight, point_new(0, 1)), "");

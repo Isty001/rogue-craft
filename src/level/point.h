@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <math.h>
+#include "../util.h"
 
 
 #define point_new(y, x) (Point) {y, x}
@@ -15,13 +16,13 @@
 
 #define size_inc(size, h, w) size_new(size.height + h, size.width + w)
 
+#define bounds_new(size) \
+     (Bounds) {.y = range_new(0, size.height - 1), .x = range_new(0, size.width - 1)}
+
+#define bounds_has(bounds, point) \
+            (in_range(point.x, bounds.x) && in_range(point.y, bounds.y))
+
 #define size_eq(a, b) (a.width == b.width && a.height == b.height)
-
-#define rectangle_new(y, x, h, w) \
-     (Rectangle) {.left_upper = point_new(y ,x), .size = size_new(h, w) }
-
-#define rectangle_eq(a, b) \
-     (point_eq(a.left_upper, b.left_upper) && size_eq(a.size, b.size))
 
 
 typedef struct {
@@ -35,9 +36,9 @@ typedef struct {
 } Point;
 
 typedef struct {
-    Point left_upper;
-    Size size;
-} Rectangle;
+    Range y;
+    Range x;
+} Bounds;
 
 typedef enum {
     NORTH = 1,

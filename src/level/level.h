@@ -23,8 +23,7 @@
     }
 
 #define level_add_bounds(level)                                                       \
-    level->bounds.y = (Range) {.from = 0, .to = level->size.height - 1};       \
-    level->bounds.x = (Range) {.from = 0, .to = level->size.width - 1};        \
+    level->bounds = bounds_new(level->size)
 
 #define level_rand_point(level) \
     point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
@@ -56,10 +55,7 @@ typedef struct Level {
     Size size;
     Cell ***cells;
     LevelConfig *cfg;
-    struct {
-        Range y;
-        Range x;
-    } bounds;
+    Bounds bounds;
 } Level;
 
 typedef struct {

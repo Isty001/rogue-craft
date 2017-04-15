@@ -1,6 +1,5 @@
 #include "../ncurses/ncurses.h"
 #include "../../config/config.h"
-#include "camera.h"
 
 
 Cell ***level_allocate_cells(Size size)
@@ -65,10 +64,7 @@ Level *level_new(Size size)
 
 bool level_in_bounds(Level *level, Point point)
 {
-    return
-        in_range(point.x, level->bounds.x)
-        &&
-        in_range(point.y, level->bounds.y);
+    return bounds_has(level->bounds, point);
 }
 
 Point level_rand_hollow(Level *level)
@@ -85,41 +81,8 @@ Point level_rand_hollow(Level *level)
     return point;
 }
 
-static Point displayed_bounds(Camera *camera)
-{
-    return point_new(
-        camera->position.y + camera->size.height,
-        camera->position.x + camera->size.width
-    );
-}
 
-void level_display(Player *player)
-{
-    Cell *cell;
-    Point win_pos = point_new(0, 0);
-    Camera *camera = player->camera;
-    Point until = displayed_bounds(camera);
-    Cell ***cells = player->level->cells;
 
-    wclear(WINDOW_MAIN);
-
-    for (uint16_t y = camera->position.y; y <= until.y; y++) {
-        for (uint16_t x = camera->position.x; x <= until.x; x++) {
-            cell = cells[y][x];
-
-            if (player_can_see(player, point_new(y, x))) {
-                styled(WINDOW_MAIN, cell->style,
-                       mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
-                );
-            }
-            win_pos.x++;
-        }
-        win_pos.y++;
-        win_pos.x = 0;
-    }
-
-    wrefresh(WINDOW_MAIN);
-}
 
 void level_set_hollow(Level *level, Point at)
 {

@@ -40,6 +40,7 @@ struct {
 
 #define size_dump(s) printf("Height: %d Width: %d\n", s.height, s.width)
 #define point_dump(p) printf("Y: %d X: %d\n", p.y, p.x)
+#define ptr_dump(p) printf("%p\n", p)
 #define range_dump(r) printf("From: %d To: %d\n", r.from, r.to)
 #define rectangle_dump(r)                               \
     printf("Size: [H:%d W:%d] Point: [Y:%d X:%d]\n",      \

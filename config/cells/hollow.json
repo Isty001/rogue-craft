@@ -25,5 +25,16 @@
     "name": "dirt.hollow",
     "extends": "hollow.empty",
     "style": ["COLOR_BROWN_B"]
+  },
+  {
+    "name": "stone.hollow",
+    "extends": "hollow.empty",
+    "style": ["COLOR_GRAY_B"]
+  },
+  {
+    "name": "stone.broken.hollow",
+    "extends": "stone.hollow",
+    "style": ["COLOR_GRAY_B"],
+    "char": "*"
   }
 ]

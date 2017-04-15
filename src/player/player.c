@@ -64,7 +64,7 @@ Player *player_new(Level *level, Camera *camera)
     find_starting_point(player);
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
-    player->sight = sight_new(level, player->position.current, PLAYER_DEFAULT_EYESIGHT, ALL);
+    player->sight = sight_new(level, player->position.current, PLAYER_DEFAULT_EYESIGHT);
 
     return player;
 }
@@ -81,7 +81,7 @@ void player_sight_update(Player *player)
     sight_update(player->sight, player->position.current, PLAYER_DEFAULT_EYESIGHT);
 }
 
-bool player_can_see(Player *player, Point point)
+bool player_can_see(Player *player, Cell *cell, Point point)
 {
-    return sight_has(player->sight, point);
+    return cell->lighted || sight_has(player->sight, point);
 }

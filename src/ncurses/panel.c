@@ -1,41 +1,82 @@
 #include <list.h>
 #include "ncurses.h"
+#include "panel.h"
+#include "../../config/config.h"
 
 
-static PANEL *TOP = NULL;
+static List *PANELS = NULL;
 
 
-PANEL *panel_push_new(WINDOW *win)
+void panel_init(void)
+{
+    PANELS = list_new();
+}
+
+void panel_cleanup(void)
+{
+    PANELS->free(PANELS);
+}
+
+static PanelInfo *copy_to_heap(PanelInfo info)
+{
+    PanelInfo *copy = allocate(sizeof(PanelInfo));
+    *copy = info;
+
+    return copy;
+}
+
+PANEL *panel_push_new(WINDOW *win, PanelInfo info)
 {
     PANEL *panel = new_panel(win);
-    set_panel_userptr(panel, TOP);
-    TOP = panel;
+
+    set_panel_userptr(panel, copy_to_heap(info));
+    PANELS->append(PANELS, panel);
 
     return panel;
 }
 
+static void dispatch_panel_event(Event name, int input, Player *player, PANEL *panel)
+{
+    PanelEvent event = {
+        .input = input,
+        .player = player,
+        .info = (void *) panel_userptr(panel)
+    };
+
+    event_dispatch(name, &event);
+}
+
+void panel_dispatch_input_event(int input, Player *player)
+{
+    PANEL *top = PANELS->last(PANELS);
+
+    dispatch_panel_event(EVENT_PANEL_INPUT, input, player, top);
+}
+
+void panel_close_top(int input, Player *player)
+{
+    PANEL *top = PANELS->pop(PANELS);
+
+    dispatch_panel_event(EVENT_PANEL_CLOSE, input, player, top);
+    delwin(panel_window(top));
+    del_panel(top);
+
+    release((void *) panel_userptr(top));
+}
+
 bool panel_is_open(void)
 {
-    return NULL != TOP;
+    return 0 != PANELS->count;
 }
 
 void panel_hide(void)
 {
-    hide_panel(TOP);
+    PANELS->foreach_r(PANELS, (Foreach) hide_panel);
 }
 
 void panel_show(void)
 {
-    show_panel(TOP);
+    PANELS->foreach_l(PANELS, (Foreach) show_panel);
     update_panels();
     doupdate();
-}
-
-void panel_close_top(void)
-{
-    PANEL *prev = (void *) panel_userptr(TOP);
-    delwin(panel_window(TOP));
-    del_panel(TOP);
-
-    TOP = prev;
 }

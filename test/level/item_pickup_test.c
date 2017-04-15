@@ -21,6 +21,7 @@ MU_TEST(test_item_pickup)
     Level *level = fixture_level();
     Item item;
     item.occupied_cell = NULL;
+    item.type = TOOL;
 
     level->cells[0][0]->item = &item;
     level->cells[0][0]->type = ITEM_;
@@ -47,8 +48,8 @@ MU_TEST(test_item_pickup)
     mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
     mu_assert(level->cells[0][0]->in_registry, "");
 
-    player_free(player);
     fixture_level_free(level);
+    player_free(player);
 }
 
 MU_TEST(test_pickup_lighting)
@@ -72,6 +73,7 @@ MU_TEST(test_pickup_lighting)
 
     mu_assert_int_eq(EE_BREAK, item_pickup(&event));
     mu_assert(&occupied == level->cells[0][0], "");
+    mu_assert(NULL == item.occupied_cell, "");
     mu_assert(NULL == item.light_source.lighting, "");
 
     fixture_level_free(level);

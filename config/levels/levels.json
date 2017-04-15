@@ -4,7 +4,9 @@
     "probability": 15,
     "cells": {
       "HOLLOW": {
-        "hollow.empty": 1
+        "hollow.empty": 20,
+        "stone.hollow": 10,
+        "stone.broken.hollow": 5
       },
       "SOLID": {
         "stone": 10,

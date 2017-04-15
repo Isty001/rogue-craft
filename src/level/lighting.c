@@ -2,7 +2,7 @@
 #include "lighting.h"
 
 
-static MemPool *POOL;
+static MemPool *LIGHTED_CELL_POOL;
 
 
 typedef struct LightedCell {
@@ -26,24 +26,23 @@ size_t lighted_cell_size(void)
 
 void lighted_cell_pool_init(void)
 {
-    POOL = pool_init(sizeof(LightedCell), 100);
+    LIGHTED_CELL_POOL = pool_init(sizeof(LightedCell), 100);
 }
 
 void lighted_cell_pool_cleanup(void)
 {
-    pool_destroy(POOL);
+    pool_destroy(LIGHTED_CELL_POOL);
 }
 
-static LightedCell *light_cell(Lighting *lighting, Cell *original)
+static LightedCell *create_lighted_cell(Lighting *lighting, Cell *original, Point point)
 {
-    LightedCell *lighted = pool_alloc(POOL);
+    LightedCell *lighted = pool_alloc(LIGHTED_CELL_POOL);
     profile_lighted_cell(++);
 
+    lighted->point = point;
     lighted->original = original;
     lighted->current = cell_clone(original);
     lighted->current->lighted = true;
-    lighted->current->style = lighting->style;
-
     lighted->next = lighting->lighted;
     lighting->lighted = lighted;
 
@@ -53,19 +52,21 @@ static LightedCell *light_cell(Lighting *lighting, Cell *original)
 static void light_cells(Lighting *lighting)
 {
     Point point;
-    Cell *original;
+    Cell *cell;
     LightedCell *lighted;
+    Point center = lighting->sight->center;
     Cell ***cells = lighting->sight->level->cells;
     Sight *sight = lighting->sight;
 
     for (uint16_t i = 0; i < sight->count; i++) {
         point = sight->points[i];
-        original = cells[point.y][point.x];
+        cell = cells[point.y][point.x];
 
-        if (HOLLOW == original->type) {
-            lighted = light_cell(lighting, original);
-            lighted->point = point;
-            cells[point.y][point.x] = lighted->current;
+        lighted = create_lighted_cell(lighting, cell, point);
+        cells[point.y][point.x] = lighted->current;
+
+        if (SOLID == cell->type && !point_eq(point, center)) {
+            lighted->current->style = lighting->style;
         }
     }
 }
@@ -73,11 +74,9 @@ static void light_cells(Lighting *lighting)
 Lighting *lighting_new(Level *level, Point source, uint16_t radius, Style style)
 {
     Lighting *lighting = allocate(sizeof(Lighting));
-    Sight *sight = sight_new(level, source, radius, EDGES);
-    lighting->sight = sight;
+    lighting->sight = sight_new(level, source, radius);
     lighting->style = style;
     lighting->lighted = NULL;
-
     light_cells(lighting);
 
     return lighting;
@@ -87,18 +86,16 @@ static void free_cells(Lighting *lighting)
 {
     Point point;
     Cell ***cells = lighting->sight->level->cells;
-    LightedCell *tmp, *head = lighting->lighted;
+    LightedCell *cell = lighting->lighted;
 
-    while (head) {
-        tmp = head;
-        head = head->next;
+    while (cell) {
+        point = cell->point;
+        cells[point.y][point.x] = cell->original;
 
-        point = tmp->point;
-        cells[point.y][point.x] = tmp->original;
-
-        cell_free_custom(tmp->current);
-        pool_release(POOL, tmp);
+        cell_free_custom(cell->current);
+        pool_release(LIGHTED_CELL_POOL, cell);
         profile_lighted_cell(--);
+        cell = cell->next;
     }
     lighting->lighted = NULL;
 }
@@ -115,8 +112,7 @@ void lighting_update(Lighting *lighting, Point source, uint16_t radius)
 
 void lighting_free(Lighting *lighting)
 {
-    sight_free(lighting->sight);
     free_cells(lighting);
+    sight_free(lighting->sight);
     release(lighting);
 }
-

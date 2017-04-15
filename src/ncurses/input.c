@@ -1,5 +1,15 @@
 #include "../player/player.h"
+#include "panel.h"
 
+
+static void dispatch_input_event(int input, Player *player)
+{
+    InputEvent event = {
+        .input = input,
+        .player = player
+    };
+    event_dispatch(EVENT_INPUT, &event);
+}
 
 void input_process(int input, Player *player)
 {
@@ -7,13 +17,11 @@ void input_process(int input, Player *player)
         return;
     }
 
-    InputEvent event_data = {
-        .input = input,
-        .player = player
-    };
+    if (!panel_is_open()) {
+        dispatch_input_event(input, player);
+    } else {
+        panel_dispatch_input_event(input, player);
+    }
 
-    Event event = !panel_is_open() ? EVENT_INPUT : EVENT_PANEL_INPUT;
-
-    event_dispatch(event, &event_data);
     flushinp();
 }

@@ -15,8 +15,15 @@ Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
     [EVENT_INPUT] = {
         (Listener) player_move,
         (Listener) mouse_handler,
-        (Listener) inventory_use_selected,
-        (Listener) inventory_shortcut_select,
-        (Listener) inventory_display
+        (Listener) inventory_player_use_selected,
+        (Listener) inventory_player_shortcut_select,
+        (Listener) inventory_player_display,
+        (Listener) ncurses_resize
+    },
+    [EVENT_PANEL_INPUT] = {
+        (Listener) inventory_navigate
+    },
+    [EVENT_PANEL_CLOSE] = {
+        (Listener) inventory_close
     }
 };

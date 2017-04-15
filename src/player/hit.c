@@ -65,7 +65,6 @@ static void apply_hit(Hit hit, Player *player, Cell *target, Point point)
     if (target->state <= 0) {
         level_set_hollow(player->level, point);
     }
-    ncurses_event("Dealt %d damage", (int) round(hit.damage));
 }
 
 EventError player_hit(InteractionEvent *event)

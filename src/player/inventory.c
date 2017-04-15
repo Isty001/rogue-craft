@@ -6,8 +6,8 @@ Inventory *inventory_new(uint16_t max_size)
     Inventory *inventory = allocate(sizeof(Inventory) + (max_size * sizeof(Item *)));
     inventory->max_size = max_size;
     inventory->selected = 0;
+    inventory->grid = NULL;
     inventory->items = list_new();
-    repeat(INVENTORY_SHORTCUT_NUM, inventory->on_shortcut[i] = NULL)
 
     return inventory;
 }
@@ -57,11 +57,11 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
     return IE_OK;
 }
 
-EventError inventory_shortcut_select(InputEvent *event)
+EventError inventory_player_shortcut_select(InputEvent *event)
 {
     int input = event->input;
 
-    if (input < INVENTORY_SHORTCUT_FIRST || input >= INVENTORY_SHORTCUT_FIRST + INVENTORY_SHORTCUT_NUM) {
+    if (!inventory_is_shortcut(input)) {
         return EE_CONTINUE;
     }
 
@@ -75,22 +75,29 @@ EventError inventory_shortcut_select(InputEvent *event)
     return EE_BREAK;
 }
 
-EventError inventory_use_selected(InputEvent *event)
+void inventory_use_selected(Inventory *inventory, Player *player)
+{
+    Item *selected = inventory_selected(inventory);
+
+    if (selected) {
+        if (CONSUMABLE == selected->type) {
+            if (IE_CONSUMED == item_consume(selected, player)) {
+                inventory_remove(inventory, selected);
+                item_free(selected);
+            }
+        }
+    }
+}
+
+EventError inventory_player_use_selected(InputEvent *event)
 {
     if (KEY_USE != event->input) {
         return EE_CONTINUE;
     }
 
     Inventory *inventory = event->player->inventory;
-    Item *selected = inventory_selected(inventory);
 
-    if (selected) {
-        if (CONSUMABLE == selected->type) {
-            if (IE_CONSUMED == item_consume(selected, event->player)) {
-                inventory_remove(inventory, selected);
-                item_free(selected);
-            }
-        }
-    }
+    inventory_use_selected(inventory, event->player);
+
     return EE_BREAK;
 }

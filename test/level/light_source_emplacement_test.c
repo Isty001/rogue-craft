@@ -58,7 +58,10 @@ MU_TEST(test_placement)
     mu_assert(NULL != source->lighting, "");
     mu_assert(TEST_EVENT.cell == item->occupied_cell, "");
 
-    mu_assert_int_eq(style, cells[2][1]->style);
+    mu_assert_int_eq(style, cells[0][2]->style);
+
+    lighting_free(source->lighting);
+    source->lighting = NULL;
 }
 
 void run_light_source_placement_test(void)

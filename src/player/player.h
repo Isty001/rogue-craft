@@ -92,7 +92,7 @@ EventError player_move(InputEvent *event);
 
 void player_sight_update(Player *player);
 
-bool player_can_see(Player *player, Point point);
+bool player_can_see(Player *player, Cell *cell, Point point);
 
 EventError player_hit(InteractionEvent *event);
 

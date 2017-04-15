@@ -39,7 +39,6 @@ extern PlayerStateConfig PLAYER_STATE_CONFIG;
 #define KEY_SOUTH       's'
 #define KEY_WEST        'a'
 #define KEY_ESCAPE       KEY_F(2)
-/** @TODO Listener */
 #define KEY_INVENTORY   'i'
 #define KEY_USE         'f'
 
@@ -53,7 +52,7 @@ extern uint16_t MATERIAL_STRENGTH[MATERIAL_NUM];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 20);
+    (uint16_t) ((level->size.height * level->size.width) / 200);
 
 
 extern Probability LEVEL_PROBABILITY;

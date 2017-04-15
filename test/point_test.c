@@ -32,21 +32,6 @@ MU_TEST(test_distance)
     mu_assert_int_eq(2, point_distance(a, b));
 }
 
-MU_TEST(test_rect_equal)
-{
-    Rectangle a = rectangle_new(0, 0, 10, 10);
-    Rectangle b = rectangle_new(0, 0, 10, 10);
-
-    mu_assert(rectangle_eq(a, b), "Rectangles should be equal");
-
-    b.left_upper.y = 10;
-    mu_assert(false == rectangle_eq(a, b), "Squares should not be equal");
-
-    b.left_upper.y = 0;
-    b.size.width = 90;
-    mu_assert(false == rectangle_eq(a, b), "Squares should not be equal");
-}
-
 void run_point_test(void)
 {
     TEST_NAME("Point");
@@ -54,7 +39,6 @@ void run_point_test(void)
     MU_RUN_TEST(test_equal);
     MU_RUN_TEST(test_move);
     MU_RUN_TEST(test_distance);
-    MU_RUN_TEST(test_rect_equal);
 
     MU_REPORT();
 }

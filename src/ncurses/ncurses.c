@@ -1,7 +1,6 @@
 #include <ncurses.h>
 #include <assert.h>
 #include "ncurses.h"
-#include "../color.h"
 
 
 static int HEIGHT, WIDTH;
@@ -48,13 +47,24 @@ void ncurses_init(void)
     WINDOW_MAIN = ncurses_subwin(stdscr, main_height, main_width, 0, side_bar_width);
     WINDOW_EVENT = ncurses_subwin(stdscr, left_side_bar_height, side_bar_width, 0, 0);
     WINDOW_PLAYER_ATTRIBUTES = ncurses_subwin(stdscr, left_side_bar_height, side_bar_width, left_side_bar_height, 0);
-    WINDOW_INVENTORY_SHORTCUT = ncurses_subwin(stdscr, inventory_height, main_width, main_height, side_bar_width);
+    WINDOW_INVENTORY_SHORTCUT = ncurses_subwin(stdscr, inventory_height, main_width, main_height + 1, side_bar_width);
 
     box(WINDOW_INVENTORY_SHORTCUT, 0, 0);
     box(WINDOW_EVENT, 0, 0);
     box(WINDOW_PLAYER_ATTRIBUTES, 0, 0);
 
     refresh();
+}
+
+EventError ncurses_resize(InputEvent *event)
+{
+    if (KEY_RESIZE == event->input) {
+        ncurses_cleanup();
+        ncurses_init();
+
+        return EE_BREAK;
+    }
+    return EE_CONTINUE;
 }
 
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust)

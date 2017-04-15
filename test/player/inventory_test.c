@@ -45,15 +45,15 @@ MU_TEST(test_select)
 
     InputEvent event = {.input = '2', .player = &player};
 
-    inventory_shortcut_select(&event);
+    inventory_player_shortcut_select(&event);
     mu_assert_int_eq(1, inv->selected);
 
     event.input = INVENTORY_SHORTCUT_FIRST + INVENTORY_SHORTCUT_NUM;
-    inventory_shortcut_select(&event);
+    inventory_player_shortcut_select(&event);
     mu_assert_int_eq(1, inv->selected);
 
     event.input = 'a';
-    inventory_shortcut_select(&event);
+    inventory_player_shortcut_select(&event);
     mu_assert_int_eq(1, inv->selected);
 
     inventory_free(inv);
@@ -78,12 +78,12 @@ MU_TEST(test_use_consumable)
     player.state.attributes[HEALTH].current = 95;
     player.state.attributes[HEALTH].max = 100;
 
-    inventory_use_selected(&event);
+    inventory_player_use_selected(&event);
     mu_assert_int_eq(100, player.state.attributes[HEALTH].current);
     mu_assert(item == items->head(items), "Item should not be removed");
 
     player.state.attributes[HEALTH].current = 92;
-    inventory_use_selected(&event);
+    inventory_player_use_selected(&event);
     mu_assert_int_eq(97, player.state.attributes[HEALTH].current);
     mu_assert(NULL == items->head(items), "Item should be removed");
 

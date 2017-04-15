@@ -11,6 +11,8 @@
 
 #define ITEM_NAME_MAX 20
 
+#define item_value(item) abs(item->value)
+
 
 typedef enum {
     IE_CONSUMED,
