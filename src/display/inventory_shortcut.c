@@ -21,7 +21,7 @@ static void display_shortcut(Inventory *inventory, WINDOW *win, uint16_t i)
     }
 }
 
-void inventory_shortcut_display(Player *player)
+void inventory_shortcut_display(Inventory *inventory)
 {
     WINDOW *win = WINDOW_INVENTORY_SHORTCUT;
 
@@ -32,7 +32,7 @@ void inventory_shortcut_display(Player *player)
     int length = getmaxx(win) / displayed;
 
     for (uint16_t i = 0; i < displayed; i++) {
-        display_shortcut(player, win, i);
+        display_shortcut(inventory, win, i);
         wmove(win, 1, (i + 1) * length);
     }
 

@@ -33,7 +33,7 @@ ItemError inventory_remove(Inventory *inventory, Item *item);
 
 EventError inventory_player_shortcut_select(InputEvent *event);
 
-void inventory_shortcut_display(Player *player);
+void inventory_shortcut_display(Inventory *inventory);
 
 void inventory_use_selected(Inventory *inventory, Player *player);
 
