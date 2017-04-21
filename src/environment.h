@@ -6,6 +6,7 @@
 #define ENV_DIR_CONFIG "DIR_CONFIG"
 #define ENV_DIR_CACHE  "DIR_CACHE"
 #define ENV_NCURSES_INACTIVE  "NCURSES_DISABLED"
+#define ENV_DEBUG "DEBUG_MODE"
 
 
 #define env_has(var) (bool)getenv(var)

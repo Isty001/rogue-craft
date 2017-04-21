@@ -46,19 +46,25 @@ $(DIR_BUILD)/%.o: %.c
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
+	make build-environments
 
 $(TEST_TARGET): $(TEST_OBJECTS)
 	$(CC) $(TEST_OBJECTS) $(CFLAGS) $(LIBS) -o $@
+	make build-environments
 
-run-test:
+prepare-test:
 	$(eval DEFINITIONS += -DDIR_FIXTURE="test/fixture")
 	rm -f test/fixture/cache/*.cache
+
+run-test:
+	make prepare-test
 	make $(TEST_TARGET)
 	./$(TEST_TARGET) --env=test
 
-test-valgrind:
+run-test-valgrind:
+	make prepare-test
 	make test
-	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_TARGET) --env=test --env=test
+	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_TARGET) --env=test
 
 run-debug:
 	make
@@ -74,7 +80,6 @@ build-environments:
 	mv ./*.so $(DIR_INSTALLED_ENV)
 
 install:
-	make build-environments
 	mkdir -p $(DIR_INSTALLED_CACHE)
 	mkdir -p $(DIR_INSTALLED_CONFIG)
 	cp -r $(shell find $(DIR_CONFIG)/* -type d -not -name "environments") $(DIR_INSTALLED_CONFIG)
