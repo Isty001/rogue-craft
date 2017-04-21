@@ -10,7 +10,7 @@ DIR_INSTALLED_BIN=/usr/bin
 CC = gcc
 LIBS = -l ncursesw -l panel -l m -l rt -ldl
 DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV)\"
-INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson
+INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code
 
 
