@@ -1,80 +1,85 @@
-SRC = $(shell find src config -name '*.c' -not -path "config/environments/*")
-LIB = $(shell find lib/*/src -name '*.c') lib/parson/parson.c
-TEST_SRC = $(SRC) $(shell find test -name '*.c')
-CFLAGS = -std=c11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -I lib/mem-pool/src -I lib/worker/src -I lib/collection/src -I lib/tinydir -I lib/parson -DDIR_ENV_CONFIG=\"$(INSTALLED_DIR_ENV_CONFIG)\" -DENV_SETUP_ENTRY_POINT=load_env_setup -l ncursesw -l panel -l m -l rt -ldl -rdynamic -isystem lib -D _GNU_SOURCE
+DIR_BUILD = build
+DIR_ROOT = $(shell pwd)
+DIR_CONFIG = $(DIR_ROOT)/config
+DIR_CONFIG_ENV = $(DIR_CONFIG)/environments
+DIR_INSTALLED_ENV = ${HOME}/.config/rogue-craft/environments
+DIR_INSTALLED_CACHE=${HOME}/.cache/rogue-craft
+DIR_INSTALLED_CONFIG=${HOME}/.config/rogue-craft
+DIR_INSTALLED_BIN=/usr/bin
 
-OBJ = rogue-craft
-TEST_OBJ = rogue-craft-test
-DEP_LIB = rogoue-craft-deps
-DEP_OBJ = lib$(DEP_LIB).so
-
-CONFIG_FILES=$(shell find config/* -type d)
-
-DIR_ENV_CONFIG=./config/environments
-
-INSTALLED_DIR_CACHE=${HOME}/.cache/rogue-craft
-INSTALLED_DIR_CONFIG=${HOME}/.config/rogue-craft
-INSTALLED_DIR_ENV_CONFIG=$(INSTALLED_DIR_CONFIG)/environments
-INSTALLED_DIR_BIN=/usr/bin
+CC = gcc
+LIBS = -l ncursesw -l panel -l m -l rt -ldl
+DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV)\"
+INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson
+CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code
 
 
-.PHONY: test lib
+TARGET = rogue-craft
+TEST_TARGET = $(TARGET)-test
 
 
-build:
-	make env-setup
-	make dependency-update
-	make compile o=$(OBJ)
+.PHONY: default all clean $(TARGET) $(TEST_TARGET)
 
-install:
-	cp -r $(CONFIG_FILES) $(INSTALLED_DIR_CONFIG)
-	sudo cp $(OBJ) $(INSTALLED_DIR_BIN)
-	rm -rf $(INSTALLED_DIR_CACHE)/*.cache
+
+LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev")
+COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c" -not -path "config/environments/*")
+SOURCES = $(COMMON_SOURCES) main.c
+TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")
+
+OBJECTS = $(patsubst %.c, $(DIR_BUILD)/%.o, $(SOURCES))
+TEST_OBJECTS = $(patsubst %.c, $(DIR_BUILD)/%.o, $(TEST_SOURCES))
+
+HEADERS = $(shell find . -name "*.h")
+
+
+default: $(TARGET)
+all: default
+
+-include $(shell find $(DIR_BUILD) -name "*.d")
+
+
+$(DIR_BUILD)/%.o: %.c
+	mkdir -p $(shell dirname $@)
+	$(CC) -MMD $(CFLAGS) $(INCLUDES) $(DEFINITIONS) -c $< -o $@
+
+.PRECIOUS: $(TARGET) $(OBJECTS)
+
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
+
+$(TEST_TARGET): $(TEST_OBJECTS)
+	$(CC) $(TEST_OBJECTS) $(CFLAGS) $(LIBS) -o $@
+
+run-test:
+	$(eval DEFINITIONS += -DDIR_FIXTURE="test/fixture")
+	rm -f test/fixture/cache/*.cache
+	make $(TEST_TARGET)
+	./$(TEST_TARGET) --env=test
+
+test-valgrind:
+	make test
+	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_TARGET) --env=test --env=test
+
+run-debug:
+	make
+	./$(TARGET) --env=dev
 
 build-environments:
-	rm -f $(INSTALLED_DIR_ENV_CONFIG)/*.so
-	cd $(DIR_ENV_CONFIG) &&                                     \
-	$(foreach file,$(shell ls $(DIR_ENV_CONFIG)),               \
+	mkdir -p $(DIR_INSTALLED_ENV)
+	cd $(DIR_CONFIG_ENV) &&                                     \
+	$(foreach file,$(shell ls $(DIR_CONFIG_ENV)),               \
 	$(eval so=$(basename $(file)).so)                           \
 		gcc -fPIC ./$(file) -shared -Wl,-soname,$(so) -o $(so)  \
 	;)                                                          \
-	mv ./*.so $(INSTALLED_DIR_ENV_CONFIG)
+	mv ./*.so $(DIR_INSTALLED_ENV)
 
-env-setup:
-	mkdir -p $(INSTALLED_DIR_ENV_CONFIG)
+install:
 	make build-environments
+	mkdir -p $(DIR_INSTALLED_CACHE)
+	mkdir -p $(DIR_INSTALLED_CONFIG)
+	cp -r $(shell find $(DIR_CONFIG)/* -type d -not -name "environments") $(DIR_INSTALLED_CONFIG)
+	sudo cp $(TARGET) $(DIR_INSTALLED_BIN)
+	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
-dependency-update:
-	git submodule update
-	$(CC) -c -fpic $(CFLAGS) $(LIB)
-	$(CC) *.o -shared -o $(DEP_OBJ)
-	rm -f *.o
-	sudo mv $(DEP_OBJ) /usr/lib
-
-compile:
-	$(CC) $(SRC) main.c $(CFLAGS) -l$(DEP_LIB) $(flags) -o $(o)
-
-run-debug:
-	make env-setup
-	make compile o=$(OBJ) flags=-DDEBUG_MODE
-	./$(OBJ) --env=debug
-
-new-test:
-	rm -rf ./test/fixture/cache/*.cache
-	$(CC) $(TEST_SRC) $(CFLAGS) -l$(DEP_LIB) -D UNIT_TEST -D DEBUG_MODE -o $(TEST_OBJ)
-
-test:
-	make env-setup
-	make new-test
-	./$(TEST_OBJ) --env=test
-
-test-valgrind:
-	make env-setup
-	make new-test
-	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_OBJ) --env=test
-
-palette:
-	make -C ./lib/dev palette
-
-cache-clear:
-	rm -rf ./cache/*.cache
+clean:
+	rm -rf $(DIR_ROOT)/$(DIR_BUILD)

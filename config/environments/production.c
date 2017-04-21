@@ -21,4 +21,3 @@ void ENV_SETUP_ENTRY_POINT(void)
     set_path(home, home_len, ".config/rogue-craft", ENV_DIR_CONFIG);
     set_path(home, home_len, ".cache/rogue-craft", ENV_DIR_CACHE);
 }
-

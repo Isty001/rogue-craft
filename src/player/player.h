@@ -41,7 +41,6 @@ typedef struct {
 } Modifiers;
 
 typedef struct {
-    pthread_mutex_t mutex;
     Modifiers modifiers;
     Attribute attributes[PLAYER_ATTR_NUM];
 } PlayerState;

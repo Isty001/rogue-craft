@@ -8,10 +8,8 @@
 #include <memory.h>
 #include <errno.h>
 #include <mem_pool.h>
-#include "debug.h"
+#include "dev.h"
 
-
-#define stringify(a) #a
 
 #define repeat(times, body)             \
     for (int i = 0; i < times; i++) {   \

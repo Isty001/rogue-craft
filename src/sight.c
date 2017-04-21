@@ -1,4 +1,6 @@
+#include <math.h>
 #include "sight.h"
+
 
 /** The collected points wont always be exactly the same amount,
  * so just in case, allocate a bigger buffer */
@@ -12,6 +14,7 @@
 
 static void add_point(Sight *sight, Point point)
 {
+
     if (!sight_has(sight, point)) {
         sight->points[sight->count++] = point;
     }

@@ -1,4 +1,7 @@
 #include "fixture.h"
+#include "../src/util.h"
+#include "../src/level/level.h"
+#include "../src/player/item.h"
 
 
 Level *fixture_level(void)
@@ -89,4 +92,13 @@ Item fixture_consumable(bool permanent)
             .permanent = permanent,
         }
     };
+}
+
+char *fixture_path(char *path)
+{
+    static char buff[400];
+
+    sprintf(buff, "%s/%s", getenv(ENV_DIR_FIXTURE), path);
+
+    return buff;
 }

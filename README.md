@@ -11,7 +11,7 @@ for the guide and documentation. You can also follow the development [here](rogu
 ### Contribute
 
 If the project got your attention, feel free to contribute with your ideas, and code. :-)
-Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md) and [Plans](#Plans) are also highly appreciated.
+Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), [Plans](#Plans) or [Issues](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) are also highly appreciated.
 Check the Wiki for help, and of course you can also contact [me](https://github.com/Isty001).
 
 ### Installation and running
@@ -30,6 +30,8 @@ make
 make install
 ```
 
+You can remove the build objects with `make clean`, or run the tests with `make run-test`
+
 To play, simply execute `rogue-craft` in your terminal.
 Please note that it's still a very early development stage.
 
@@ -44,6 +46,7 @@ Please note that it's still a very early development stage.
     * Portable light sources that can be carried by the player
     * Lightings will have a limited lifetime
 * 0.2 - Inventory II.
+    * New types of inventory (chest, bag, etc.)
     * Replacing shortcuts
 * 0.3 - Lighting III.
     * Generate random light sources on the level
@@ -52,9 +55,7 @@ Please note that it's still a very early development stage.
     * Destroyed cells can be picked up
     * They may also drop items
     * Cells can be reused for building
-* 0.5 - Inventory II.
-    * New types of inventory (chest, bag, etc.)
-* 0.6 - Main menu
+* 0.5 - Main menu
     * Basic menu structure (new/saved game, options etc.)
 * 1.0 - Crafting
     * Recipes from JSON schema

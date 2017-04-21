@@ -1,6 +1,5 @@
 #include "../storage/cache.h"
 #include "../../config/config.h"
-#include "../environment.h"
 
 
 #define cache_open_items(cache)                                  \
@@ -41,7 +40,7 @@ CacheError item_cache_load(void)
     Cache cache;
     cache_open_items(&cache);
 
-    return cache_foreach_valid(&cache, env_config(CONFIG_ITEMS), (Reader) load_item);
+    return cache_foreach_valid(&cache, env_config_dir(CONFIG_ITEMS), (Reader) load_item);
 }
 
 static void save_probability(Cache *cache, Probability *probability)

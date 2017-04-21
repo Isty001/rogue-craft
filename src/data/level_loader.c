@@ -1,6 +1,5 @@
 #include "../json.h"
 #include "../level/level.h"
-#include "../environment.h"
 #include "../../config/config.h"
 
 
@@ -46,7 +45,7 @@ static void parse_json(JSON_Object *json)
 void level_load(void)
 {
     if (CE_LOADED != level_cache_load()) {
-        json_parse_in_dir(env_config(CONFIG_LEVELS), parse_json);
+        json_parse_in_dir(env_config_dir(CONFIG_LEVELS), parse_json);
         level_cache_save();
     }
 }

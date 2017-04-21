@@ -4,6 +4,7 @@
 
 #include <ncurses.h>
 #include "../level/point.h"
+#include "../environment.h"
 #include "../event.h"
 
 
@@ -13,14 +14,11 @@
 
 #define refresh_boxed(w) box(w, 0, 0); wrefresh(w);
 
-#ifndef UNIT_TEST
-#define ncurses_event(msg, ...)                             \
-    wprintw(WINDOW_EVENT, "\n " msg, ##__VA_ARGS__);     \
-    refresh_boxed(WINDOW_EVENT);
-#else
-#define ncurses_event(msg, ...)
-#endif
-
+#define ncurses_event(msg, ...)                              \
+    if (!env_has(ENV_NCURSES_INACTIVE)) {                     \
+        wprintw(WINDOW_EVENT, "\n " msg, ##__VA_ARGS__);     \
+        refresh_boxed(WINDOW_EVENT)                          \
+    };
 
 extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
 

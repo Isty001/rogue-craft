@@ -1,4 +1,3 @@
-.idea/*
 .idea/
 cache/
-test/fixture/cache/
+build/

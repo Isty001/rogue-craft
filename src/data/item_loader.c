@@ -3,7 +3,6 @@
 #include <list.h>
 #include "../player/item.h"
 #include "../json.h"
-#include "../environment.h"
 #include "../../config/config.h"
 
 
@@ -119,7 +118,7 @@ static void create_prototype_from(JSON_Object *json)
 void item_load(void)
 {
     if (CE_LOADED != item_cache_load()) {
-        json_parse_in_dir(env_config(CONFIG_ITEMS), create_prototype_from);
+        json_parse_in_dir(env_config_dir(CONFIG_ITEMS), create_prototype_from);
         item_cache_save();
     }
 }

@@ -6,6 +6,7 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <tinydir.h>
+#include <time.h>
 #include "../util.h"
 
 

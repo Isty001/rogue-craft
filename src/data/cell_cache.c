@@ -3,7 +3,6 @@
 #include "../storage/cache.h"
 #include "../level/cell.h"
 #include "../../config/config.h"
-#include "../environment.h"
 
 
 #define CELL_SIZE sizeof(CellPrototype)
@@ -30,7 +29,7 @@ CacheError cell_cache_load(List *prototypes)
     Cache cache;
     cache_open_items(&cache);
 
-    return cache_foreach_valid(&cache, env_config(CONFIG_CELLS), function(void, (void *loaded) {
+    return cache_foreach_valid(&cache, env_config_dir(CONFIG_CELLS), function(void, (void *loaded) {
         load_cell(prototypes, loaded);
     }));
 }
