@@ -18,7 +18,7 @@ TARGET = rogue-craft
 TEST_TARGET = $(TARGET)-test
 
 
-.PHONY: default all clean $(TARGET) $(TEST_TARGET)
+.PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
 
 LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev")
@@ -63,7 +63,7 @@ run-test:
 
 run-test-valgrind:
 	make prepare-test
-	make test
+	make $(TEST_TARGET)
 	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_TARGET) --env=test
 
 run-debug:
