@@ -14,7 +14,6 @@
 * Timers for periodic executions
 * Multiple panels
 * Normalize the Player's speed
-* Debug mode should be an environment variable
 * If there will be more than one thread, the static buffer in `environment.c` will cause problems
 * [BUILD] DIR_FIXTURE as env var
 
