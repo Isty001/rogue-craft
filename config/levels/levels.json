@@ -1,14 +1,12 @@
 [
   {
     "type": "CELLULAR",
-    "probability": 10,
+    "probability": 100000,
     "cells": {
       "HOLLOW": {
         "stone.hollow": 10,
         "stone.dark.hollow": 10,
-        "stone.broken.hollow": 5,
-        "stone.dark.broken.hollow": 5,
-        "stone.mossy.hollow": 3
+        "stone.mossy.hollow": 5
       },
       "SOLID": {
         "stone": 10,

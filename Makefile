@@ -1,21 +1,41 @@
 DIR_BUILD = build
 DIR_ROOT = $(shell pwd)
 DIR_CONFIG = $(DIR_ROOT)/config
+
+DIR_INSTALLED_CONFIG_BASE=.config/rogue-craft
+DIR_INSTALLED_CONFIG=${HOME}/$(DIR_INSTALLED_CONFIG_BASE)
+
 DIR_CONFIG_ENV = $(DIR_CONFIG)/environments
-DIR_INSTALLED_ENV = ${HOME}/.config/rogue-craft/environments
-DIR_INSTALLED_CACHE=${HOME}/.cache/rogue-craft
-DIR_INSTALLED_CONFIG=${HOME}/.config/rogue-craft
+DIR_INSTALLED_ENV = $(DIR_INSTALLED_CONFIG)/environments
+
+DIR_INSTALLED_CACHE_BASE = .cache/rogue-craft
+DIR_INSTALLED_CACHE=${HOME}/$(DIR_INSTALLED_CACHE_BASE)
+
 DIR_INSTALLED_BIN=/usr/bin
+DIR_TAR_ROOT=$(DIR_ROOT)/$(VERSION_FULL)
+DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
+
+CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
 
 CC = gcc
 LIBS = -l ncursesw -l panel -l m -l rt -ldl
-DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV)\"
+DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV)\" $(VERSION_DEFINITIONS)
 INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code
 
 
 TARGET = rogue-craft
 TEST_TARGET = $(TARGET)-test
+
+VERSION_MAJOR=0
+VERSION_MINOR=0
+VERSION_PATCH=0
+VERSION_LABEL=alpha
+VERSION_FULL=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)-$(VERSION_LABEL)
+
+VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_MINOR) -DVERSION_PATCH=$(VERSION_PATCH) -DVERSION_FULL=\"$(VERSION_FULL)\"
+
+TAR_NAME=$(TARGET)-$(VERSION_FULL)_$(shell uname -o -p | sed -e 's/\//_/g; s/ /_/g').tar.gz
 
 
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
@@ -46,11 +66,11 @@ $(DIR_BUILD)/%.o: %.c
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
-	make build-environments
+	make install-environments
 
 $(TEST_TARGET): $(TEST_OBJECTS)
 	$(CC) $(TEST_OBJECTS) $(CFLAGS) $(LIBS) -o $@
-	make build-environments
+	make install-environments
 
 prepare-test:
 	$(eval DEFINITIONS += -DDIR_FIXTURE="test/fixture")
@@ -70,7 +90,7 @@ run-debug:
 	make
 	./$(TARGET) --env=dev
 
-build-environments:
+install-environments:
 	mkdir -p $(DIR_INSTALLED_ENV)
 	cd $(DIR_CONFIG_ENV) &&                                     \
 	$(foreach file,$(shell ls $(DIR_CONFIG_ENV)),               \
@@ -82,9 +102,27 @@ build-environments:
 install:
 	mkdir -p $(DIR_INSTALLED_CACHE)
 	mkdir -p $(DIR_INSTALLED_CONFIG)
-	cp -r $(shell find $(DIR_CONFIG)/* -type d -not -name "environments") $(DIR_INSTALLED_CONFIG)
+	cp -r $(CONFIG_FILES) $(DIR_INSTALLED_CONFIG)
 	sudo cp $(TARGET) $(DIR_INSTALLED_BIN)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
 clean:
 	rm -rf $(DIR_ROOT)/$(DIR_BUILD)
+
+tar-installer:
+	cp lib/dev/tar_install.sh install.sh
+	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_config#"\${HOME}/$(DIR_INSTALLED_CONFIG_BASE)"#g; s#dir_cache#"\${HOME}/$(DIR_INSTALLED_CACHE_BASE)"#g' install.sh
+
+tar:
+	make
+	make tar-installer
+	mkdir -p $(DIR_TAR)/config/environments
+	gcc -fPIC $(DIR_CONFIG_ENV)/production.c -shared -Wl,-soname,production.so -o production.so
+	cp production.so $(DIR_TAR)/config/environments
+	cp -r $(CONFIG_FILES) $(DIR_TAR)/config
+	cp $(TARGET) $(DIR_TAR)
+	cp install.sh $(DIR_TAR)
+	cd $(DIR_TAR_ROOT) && \
+	tar -cvf $(TAR_NAME) * && \
+	mv $(TAR_NAME) $(DIR_ROOT)
+	rm -rf $(DIR_TAR_ROOT)

@@ -50,15 +50,5 @@
     "name": "stone.dark.hollow",
     "extends": "hollow.empty",
     "style": ["COLOR_DARK_GRAY_B"]
-  },
-  {
-    "name": "stone.broken.hollow",
-    "extends": "stone.hollow",
-    "char": "*"
-  },
-  {
-    "name": "stone.dark.broken.hollow",
-    "extends": "stone.dark.hollow",
-    "char": "*"
   }
 ]

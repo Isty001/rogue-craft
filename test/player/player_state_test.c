@@ -47,7 +47,7 @@ MU_TEST(test_player_state)
     mu_assert_int_eq(0, attr[STAMINA].current);
     mu_assert_int_eq(100, attr[THIRST].current);
 
-    mu_assert_int_eq(97, attr[HEALTH].current);
+    mu_assert_int_eq(98, attr[HEALTH].current);
 
     mu_assert_int_eq(0, modifiers->traveled);
     mu_assert_int_eq(0, modifiers->dealt_damage);

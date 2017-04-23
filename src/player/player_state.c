@@ -43,18 +43,20 @@ static void apply_fatigue_by_modifiers(Modifiers *modifiers, Fatigue *fatigue, A
 
 static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, Attribute *attributes)
 {
+    time_t now = time(NULL);
+
+    if (difftime(now, modifiers->timestamp.fatigue_damage) < damage->elapsed_time) {
+        return;
+    }
+
     if (attributes[HUNGER].current >= damage->hunger) {
         apply_fatigue_damage(attributes, damage);
     }
     if (attributes[THIRST].current >= damage->thirst) {
         apply_fatigue_damage(attributes, damage);
     }
-    time_t now = time(NULL);
 
-    if (difftime(now, modifiers->timestamp.fatigue_damage) >= damage->elapsed_time) {
-        apply_fatigue_damage(attributes, damage);
-        modifiers->timestamp.fatigue_damage = now;
-    }
+    modifiers->timestamp.fatigue_damage = now;
 }
 
 void player_state_update(Player *player, PlayerStateConfig *cfg)
