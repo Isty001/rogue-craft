@@ -48,7 +48,7 @@ Check the Wiki for help, and of course you can also contact [me](https://github.
 
 ### <a name="Plans"></a>Plans
 
-This is just a rough list of planned features for the near future, not necessarily in order.
+This is just a rough list of planned features.
 
 * Lighting
     * Portable light sources that can be carried by the player
@@ -61,10 +61,12 @@ This is just a rough list of planned features for the near future, not necessari
     * Destroyed cells can be picked up
     * They may also drop items
     * Cells can be reused for building
+    * More level types
 * UI
     * Basic menu structure (new/saved game, options etc.)
 * Crafting
     * Recipes can be collected, learned and executed
 * AI
+* Quests
 * Save and reload the game
 * Sounds
