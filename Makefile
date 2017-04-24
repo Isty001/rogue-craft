@@ -31,7 +31,7 @@ VERSION_MAJOR=0
 VERSION_MINOR=0
 VERSION_PATCH=0
 VERSION_LABEL=alpha
-VERSION_FULL=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)-$(VERSION_LABEL)
+VERSION_FULL=$(VERSION_LABEL)-$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 
 VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_MINOR) -DVERSION_PATCH=$(VERSION_PATCH) -DVERSION_FULL=\"$(VERSION_FULL)\"
 
@@ -111,7 +111,7 @@ clean:
 
 tar-installer:
 	cp lib/dev/tar_install.sh install.sh
-	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_config#"\${HOME}/$(DIR_INSTALLED_CONFIG_BASE)"#g; s#dir_cache#"\${HOME}/$(DIR_INSTALLED_CACHE_BASE)"#g' install.sh
+	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_config#$(DIR_INSTALLED_CONFIG_BASE)#g; s#dir_cache#$(DIR_INSTALLED_CACHE_BASE)#g' install.sh
 
 tar:
 	make
