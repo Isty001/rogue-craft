@@ -1,6 +1,5 @@
-#include <ncursesw/ncurses.h>
+#include <ncurses.h>
 #include "loop.h"
-#include "ncurses/ncurses.h"
 #include "../config/config.h"
 #include "player/inventory.h"
 #include "level/camera.h"

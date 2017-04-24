@@ -18,22 +18,22 @@ static void add_default_attributes(Player *player)
     Attribute *map = player->state.attributes;
 
     map[HEALTH] = (Attribute) {
-        .current = 50, .max = 100,
+        .current = 100, .max = 100,
         .name = "Health", .style  = COLOR_PAIR(COLOR_RED_F)
     };
 
     map[STAMINA] = (Attribute) {
-        .current = 50, .max = 100,
+        .current = 100, .max = 100,
         .name = "Stamina", .style = COLOR_PAIR(COLOR_GREEN_F)
     };
 
     map[HUNGER] = (Attribute) {
-        .current = 80, .max = 100,
+        .current = 0, .max = 100,
         .name = "Hunger", .style = COLOR_PAIR(COLOR_YELLOW_F)
     };
 
     map[THIRST] = (Attribute) {
-        .current = 70, .max = 100,
+        .current = 0, .max = 100,
         .name = "Thirst", .style = COLOR_PAIR(COLOR_BLUE_F)
     };
 }
