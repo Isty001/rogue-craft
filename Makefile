@@ -118,7 +118,7 @@ tar:
 	make tar-installer
 	mkdir -p $(DIR_TAR)/config/environments
 	gcc -fPIC $(DIR_CONFIG_ENV)/production.c -shared -Wl,-soname,production.so -o production.so
-	cp production.so $(DIR_TAR)/config/environments
+	mv production.so $(DIR_TAR)/config/environments
 	cp -r $(CONFIG_FILES) $(DIR_TAR)/config
 	cp $(TARGET) $(DIR_TAR)
 	cp install.sh $(DIR_TAR)

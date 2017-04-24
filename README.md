@@ -11,7 +11,7 @@ for the guide and documentation. You can also follow the development [here](rogu
 ### Install
 
 For running `ncursesw5` is required, and your terminal must support 256 colors,
-for example you could put this line in your .bashrc/.zshrc or whatever you use, `export TERM=xterm-256color`.
+for example by setting your `TERM` to `xterm-256color` to achieve this, add this line to your .bashrc/.zshrc or whatever you use:  `export TERM=xterm-256color`.
 The terminal also needs mouse interaction support.
 
 #### From release tar
