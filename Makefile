@@ -19,7 +19,7 @@ DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
 
 CC = gcc
-LIBS = -l ncursesw -l panel -l m -l rt -ldl
+LIBS = -l:libncursesw.so.5 -l:libpanelw.so.5 -l m -l rt -ldl
 GLOBAL_DEFINITIONS = -DENV_DIR_USER=\"HOME\"
 DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV_BASE)\" $(GLOBAL_DEFINITIONS) $(VERSION_DEFINITIONS)
 INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib
@@ -119,7 +119,7 @@ tar:
 	make
 	make tar-installer
 	mkdir -p $(DIR_TAR)/config/environments
-	gcc -fPIC $(DIR_CONFIG_ENV)/production.c -shared -Wl,-soname,production.so -o production.so
+	gcc $(GLOBAL_DEFINITIONS) -fPIC $(DIR_CONFIG_ENV)/production.c -shared -Wl,-soname,production.so -o production.so
 	mv production.so $(DIR_TAR)/config/environments
 	cp -r $(CONFIG_FILES) $(DIR_TAR)/config
 	cp $(TARGET) $(DIR_TAR)

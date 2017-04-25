@@ -10,18 +10,18 @@ for the guide and documentation. You can also follow the development [here](rogu
 
 ### Install
 
-For running `ncursesw5` is required, and your terminal must support 256 colors,
-for example by setting your `TERM` to `xterm-256color` to achieve this, add this line to your .bashrc/.zshrc or whatever you use:  `export TERM=xterm-256color`.
+For running `ncursesw5` is required (and `panelw5` too but usually it comes with ncurses), and your terminal must support 256 colors,
+for example try setting your `TERM` to `xterm-256color` to achieve this, add this line to your .bashrc/.zshrc or whatever you use:  `export TERM=xterm-256color`.
 The terminal also needs mouse interaction support.
 
 #### From release tar
 
-Grab a release tar from [here](https://github.com/rogue-craft/rogue-craft/releases) then
+Choose a release from [here](https://github.com/rogue-craft/rogue-craft/releases) then
 
 ```
 tar -xf rogue-craft-*.tar.gz
 cd rogue-craft
-./install.sh
+sh ./install.sh
 ```
 
 #### From source
