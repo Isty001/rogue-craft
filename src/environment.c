@@ -18,7 +18,7 @@ static struct option OPTIONS[] = {
     {0}
 };
 
-static char BUFFER[400];
+static char BUFFER[500];
 
 static void get_path(char *path, int argc, char **argv)
 {
@@ -31,7 +31,7 @@ static void get_path(char *path, int argc, char **argv)
             break;
         }
     }
-    sprintf(path, "%s/%s.so", DIR_ENV, env);
+    sprintf(path, "%s/%s/%s.so", getenv(ENV_DIR_USER), DIR_ENV, env);
 }
 
 static void *load_object(char *path)
@@ -57,7 +57,7 @@ static void setup(void *handle)
 
 void env_setup(int argc, char **argv)
 {
-    char path[200];
+    char path[300];
     get_path(path, argc, argv);
 
     void *handle = load_object(path);

@@ -6,6 +6,7 @@ DIR_INSTALLED_CONFIG_BASE=.config/rogue-craft
 DIR_INSTALLED_CONFIG=${HOME}/$(DIR_INSTALLED_CONFIG_BASE)
 
 DIR_CONFIG_ENV = $(DIR_CONFIG)/environments
+DIR_INSTALLED_ENV_BASE = $(DIR_INSTALLED_CONFIG_BASE)/environments
 DIR_INSTALLED_ENV = $(DIR_INSTALLED_CONFIG)/environments
 
 DIR_INSTALLED_CACHE_BASE = .cache/rogue-craft
@@ -19,7 +20,8 @@ CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
 
 CC = gcc
 LIBS = -l ncursesw -l panel -l m -l rt -ldl
-DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV)\" $(VERSION_DEFINITIONS)
+GLOBAL_DEFINITIONS = -DENV_DIR_USER=\"HOME\"
+DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV_BASE)\" $(GLOBAL_DEFINITIONS) $(VERSION_DEFINITIONS)
 INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code
 
@@ -95,7 +97,7 @@ install-environments:
 	cd $(DIR_CONFIG_ENV) &&                                     \
 	$(foreach file,$(shell ls $(DIR_CONFIG_ENV)),               \
 	$(eval so=$(basename $(file)).so)                           \
-		gcc -fPIC ./$(file) -shared -Wl,-soname,$(so) -o $(so)  \
+		gcc $(GLOBAL_DEFINITIONS) -fPIC ./$(file) -shared -Wl,-soname,$(so) -o $(so)  \
 	;)                                                          \
 	mv ./*.so $(DIR_INSTALLED_ENV)
 

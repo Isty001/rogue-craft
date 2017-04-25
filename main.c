@@ -7,7 +7,6 @@
 #include "config/config.h"
 #include "src/player/inventory.h"
 #include "src/loop.h"
-#include "src/environment.h"
 
 
 static void init(void)
@@ -53,14 +52,14 @@ static void cleanup(Player *player)
 }
 
 
-static void check_env(void)
+static void check_terminal(void)
 {
     if (!has_mouse()) {
         fatal("Your terminal or ncurses version has no mouse support.")
     }
 
     if (!has_colors() || !can_change_color()) {
-        fatal("Please make sure that your terminal has 256 color support.");
+        fatal("Please make sure your terminal has 256 color support.");
     }
 }
 
@@ -80,7 +79,7 @@ int main(int arc, char *argv[])
     env_setup(arc, argv);
 
     init();
-    check_env();
+    check_terminal();
 
     Player *player = load_player();
     loop_run(player);

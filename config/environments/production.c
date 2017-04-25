@@ -15,7 +15,7 @@ static void set_path(char *home, size_t home_len, char *sub_dir, char *env)
 
 void ENV_SETUP_ENTRY_POINT(void)
 {
-    char *home = getenv("HOME");
+    char *home = getenv(ENV_DIR_USER);
     size_t home_len = strlen(home);
 
     set_path(home, home_len, ".config/rogue-craft", ENV_DIR_CONFIG);
