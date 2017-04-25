@@ -8,6 +8,8 @@ based on ncurses. It's developed and tested on Linux, but should work on other
 UNIX-like systems too. Please check the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress)
 for the guide and documentation. You can also follow the development [here](rogue-craft.github.io).
 
+![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)
+
 ### Install
 
 For running `ncursesw5` is required (and `panelw5` too but usually it comes with ncurses), and your terminal must support 256 colors,
