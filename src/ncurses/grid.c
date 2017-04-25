@@ -1,8 +1,7 @@
 #include <ncurses.h>
 #include <stdint.h>
-#include "../level/point.h"
-#include "grid.h"
 #include "ncurses.h"
+#include "grid.h"
 #include "../color.h"
 
 

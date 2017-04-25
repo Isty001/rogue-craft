@@ -1,7 +1,7 @@
 [
   {
     "type": "CELLULAR",
-    "probability": 100000,
+    "probability": 10,
     "cells": {
       "HOLLOW": {
         "stone.hollow": 10,
