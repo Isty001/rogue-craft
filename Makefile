@@ -19,7 +19,7 @@ DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
 
 CC = gcc
-LIBS = -l:libncursesw.so.5 -l:libpanelw.so.5 -l m -l rt -ldl
+LIBS = -l:libncursesw.so.5 -l:libpanelw.so.5 -l:libtinfo.so.5 -l m -l rt -ldl
 GLOBAL_DEFINITIONS = -DENV_DIR_USER=\"HOME\"
 DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV_BASE)\" $(GLOBAL_DEFINITIONS) $(VERSION_DEFINITIONS)
 INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib
