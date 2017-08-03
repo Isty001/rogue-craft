@@ -7,7 +7,7 @@
     if (0 >= size) return NULL;     \
     __VA_ARGS__                     \
     if (NULL == ptr) {              \
-        fatal("[%s] failed to allocate [%u]byte memory ", __FUNCTION__, size);  \
+        fatal("[%s] failed to allocate [%u] byte memory ", __FUNCTION__, size);  \
     }
 
 

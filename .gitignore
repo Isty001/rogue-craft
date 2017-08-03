@@ -1,3 +1,5 @@
 .idea/
 cache/
 build/
+lib/
+!lib/minunit.h

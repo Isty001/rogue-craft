@@ -19,7 +19,7 @@ DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
 
 CC = gcc
-LIBS = -l ncursesw -l panelw -l menuw -l m -l rt  -l curl
+LIBS = -ltinfo -l ncursesw -l panelw -l menuw -l m -l rt
 DEFINITIONS = -DDIR_ENV_RELATIVE=\"$(DIR_INSTALLED_ENV_BASE)\" $(VERSION_DEFINITIONS)
 
 #This way we can avoid nasty includes like #include "../../../config/config.h"
