@@ -11,7 +11,8 @@ static struct option OPTIONS[] = {
     {0}
 };
 
-static char BUFFER[500];
+static char BUFFER[PATH_MAX];
+
 
 static void get_path(char *path, int argc, char **argv)
 {
@@ -24,7 +25,7 @@ static void get_path(char *path, int argc, char **argv)
             break;
         }
     }
-    sprintf(path, "%s/%s/.env.%s", getenv("HOME"), DIR_ENV_RELATIVE, env);
+    sprintf(path, "%s/%s/environments/.env.%s", getenv("HOME"), DIR_APP_RELATIVE, env);
 }
 
 void env_setup(int argc, char **argv)
@@ -32,14 +33,16 @@ void env_setup(int argc, char **argv)
     char path[300];
     get_path(path, argc, argv);
 
-    env_load(path, false);
+    if (0 != env_load(path, false)) {
+        fatal("Unable to setup the environment, please check %s permissions", path);
+    }
 
     dir_check(getenv(ENV_DIR_CACHE));
 }
 
-char *env_config_dir(char *name)
+char *env_json_resource_dir(char *name)
 {
-    sprintf(BUFFER, "%s/%s", getenv(ENV_DIR_CONFIG), name);
+    sprintf(BUFFER, "%s/json/%s", getenv(ENV_DIR_RESOURCES), name);
 
     return BUFFER;
 }

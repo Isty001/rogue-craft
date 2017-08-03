@@ -46,7 +46,7 @@ static void parse_json(JSON_Object *json)
 void level_load(void)
 {
     if (CE_LOADED != level_cache_load()) {
-        json_parse_in_dir(env_config_dir(CONFIG_LEVELS), parse_json);
+        json_parse_in_dir(env_json_resource_dir(RESOURCE_LEVELS), parse_json);
         level_cache_save();
     }
 }

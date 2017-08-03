@@ -71,7 +71,7 @@ void cell_load(void)
     PROTOTYPES->release_item = mem_dealloc;
 
     if (CE_LOADED != cell_cache_load(PROTOTYPES)) {
-        json_parse_in_dir(env_config_dir(CONFIG_CELLS), build_cell);
+        json_parse_in_dir(env_json_resource_dir(RESOURCE_CELLS), build_cell);
         cell_cache_save(PROTOTYPES);
     }
 }

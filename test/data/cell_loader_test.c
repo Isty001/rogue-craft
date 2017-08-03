@@ -31,8 +31,8 @@ MU_TEST(test_load)
 
     mu_assert(cache_is_empty(CACHE_CONFIG_CELLS), "");
 
-    char *from = DIR_FIXTURE"/config/cells/cell.json";
-    char *to = DIR_FIXTURE"/config/tmp/cell.json";
+    char *from = DIR_FIXTURE"/resources/cells/cell.json";
+    char *to = DIR_FIXTURE"/resources/tmp/cell.json";
 
     rename(from, to);
 

@@ -1,26 +1,24 @@
 DIR_BUILD = build
 DIR_ROOT = $(shell pwd)
-DIR_CONFIG = $(DIR_ROOT)/config
+DIR_RESOURCES = $(DIR_ROOT)/resources
+DIR_APP = .rogue-craft
 
-DIR_INSTALLED_CONFIG_BASE=.config/rogue-craft
-DIR_INSTALLED_CONFIG=${HOME}/$(DIR_INSTALLED_CONFIG_BASE)
+DIR_INSTALLED_RESOURCES_BASE=$(DIR_APP)/resources
+DIR_INSTALLED_RESOURCES=${HOME}/$(DIR_INSTALLED_RESOURCES_BASE)
 
-DIR_CONFIG_ENV = $(DIR_CONFIG)/environments
-DIR_INSTALLED_ENV_BASE = $(DIR_INSTALLED_CONFIG_BASE)/environments
-DIR_INSTALLED_ENV = $(DIR_INSTALLED_CONFIG)/environments
+DIR_INSTALLED_ENV_BASE = $(DIR_APP)/environments
+DIR_INSTALLED_ENV = ${HOME}/$(DIR_INSTALLED_ENV_BASE)
 
-DIR_INSTALLED_CACHE_BASE = .cache/rogue-craft
+DIR_INSTALLED_CACHE_BASE = $(DIR_APP)/cache
 DIR_INSTALLED_CACHE=${HOME}/$(DIR_INSTALLED_CACHE_BASE)
 
 DIR_INSTALLED_BIN=/usr/bin
 DIR_TAR_ROOT=$(DIR_ROOT)/$(VERSION_FULL)
 DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 
-CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
-
 CC = gcc
 LIBS = -ltinfo -l ncursesw -l panelw -l menuw -l m -l rt
-DEFINITIONS = -DDIR_ENV_RELATIVE=\"$(DIR_INSTALLED_ENV_BASE)\" $(VERSION_DEFINITIONS)
+DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS)
 
 #This way we can avoid nasty includes like #include "../../../config/config.h"
 NAMESPACES = -I config -I src
@@ -95,12 +93,13 @@ run-debug:
 	./$(TARGET) --env=dev
 
 install-environments:
+	mkdir -p $(DIR_INSTALLED_ENV)
 	cp ./config/environments/.env.* $(DIR_INSTALLED_ENV)
 
 install:
 	mkdir -p $(DIR_INSTALLED_CACHE)
-	mkdir -p $(DIR_INSTALLED_CONFIG)
-	cp -r $(CONFIG_FILES) $(DIR_INSTALLED_CONFIG)
+	mkdir -p $(DIR_INSTALLED_RESOURCES)
+	cp -r $(DIR_RESOURCES)/* $(DIR_INSTALLED_RESOURCES)
 	sudo cp $(TARGET) $(DIR_INSTALLED_BIN)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
@@ -109,14 +108,14 @@ clean:
 
 tar-installer:
 	cp lib/dev/tar_install.sh install.sh
-	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_config#$(DIR_INSTALLED_CONFIG_BASE)#g; s#dir_cache#$(DIR_INSTALLED_CACHE_BASE)#g' install.sh
+	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_resources#$(DIR_INSTALLED_RESOURCES_BASE)#g; s#dir_cache#$(DIR_INSTALLED_CACHE_BASE)#g' install.sh
 
 tar:
 	make
 	make tar-installer
-	mkdir -p $(DIR_TAR)/config/environments
-	cp config/environments/.env.prod $(DIR_TAR)/config/environments
-	cp -r $(CONFIG_FILES) $(DIR_TAR)/config
+	mkdir -p $(DIR_TAR)/environments
+	cp config/environments/.env.prod $(DIR_TAR)/environments
+	cp -r $(DIR_RESOURCES)/* $(DIR_TAR)/config
 	cp $(TARGET) $(DIR_TAR)
 	cp install.sh $(DIR_TAR)
 	cd $(DIR_TAR_ROOT) && \

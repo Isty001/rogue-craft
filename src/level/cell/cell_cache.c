@@ -30,7 +30,7 @@ CacheError cell_cache_load(List *prototypes)
     Cache cache;
     cache_open_items(&cache);
 
-    return cache_foreach_valid(&cache, env_config_dir(CONFIG_CELLS), function(void, (void *loaded) {
+    return cache_foreach_valid(&cache, env_json_resource_dir(RESOURCE_CELLS), function(void, (void *loaded) {
         load_cell(prototypes, loaded);
     }));
 }

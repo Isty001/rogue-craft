@@ -88,9 +88,9 @@ MU_TEST(test_load)
  */
 MU_TEST(test_cache)
 {
-    char *from_1 = DIR_FIXTURE"/config/items/items.json";
-    char *to_1 = DIR_FIXTURE"/config/tmp/items.json";
-    char *from_2 = DIR_FIXTURE"/config/items/items_2.json";
+    char *from_1 = DIR_FIXTURE"/resources/items/items.json";
+    char *to_1 = DIR_FIXTURE"/resources/tmp/items.json";
+    char *from_2 = DIR_FIXTURE"/resources/items/items_2.json";
     char *to_2 = DIR_FIXTURE"/tmp/items_2.json";
 
     rename(from_1, to_1);

@@ -23,8 +23,8 @@ MU_TEST(test_cache)
 {
     level_unload();
 
-    char *from = DIR_FIXTURE"/config/levels/levels.json";
-    char *to = DIR_FIXTURE"/config/tmp/levels.json";
+    char *from = DIR_FIXTURE"/resources/levels/levels.json";
+    char *to = DIR_FIXTURE"/resources/tmp/levels.json";
 
     rename(from, to);
 

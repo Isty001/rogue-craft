@@ -19,3 +19,6 @@
 [submodule "lib/dotenv"]
 	path = lib/dotenv
 	url = https://github.com/Isty001/dotenv-c
+[submodule "resources"]
+	path = resources
+	url = https://github.com/rogue-craft/resources
