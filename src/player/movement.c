@@ -20,7 +20,7 @@ static inline bool can_move_to(Player *player, Point target)
     return
         level_in_bounds(level, target)
         &&
-        CELL_SOLID != level->cells[target.y][target.x]->type;
+        SOLID != level->cells[target.y][target.x]->type;
 }
 
 EventError player_move(InputEvent *event)

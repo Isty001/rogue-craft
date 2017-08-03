@@ -30,7 +30,7 @@ static int count_surrounding_walls(Level *level, Point position)
 
         if (is_edge(level, neighbour_y, neighbour_x)) {
             count++;
-        } else if (level->cells[neighbour_y][neighbour_x]->type == CELL_SOLID) {
+        } else if (level->cells[neighbour_y][neighbour_x]->type == SOLID) {
             count++;
         }
     );
@@ -50,7 +50,7 @@ static void evolve(Level *level, Cell ***tmp)
         neighbours = count_surrounding_walls(level, point_new(y, x));
         cell = level->cells[y][x];
 
-        if (cell->type == CELL_SOLID) {
+        if (cell->type == SOLID) {
             if (neighbours < 4) {
                 new = probability_pick(&cells->solid);
             } else {

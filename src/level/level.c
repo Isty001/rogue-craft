@@ -37,7 +37,7 @@ static void add_items(Level *level)
         point = level_rand_point(level);
         cell = level->cells[point.y][point.x];
 
-        if (CELL_HOLLOW == cell->type) {
+        if (HOLLOW == cell->type) {
             level->cells[point.y][point.x] = cell_with_random_item();
             remaining--;
         }
@@ -79,7 +79,7 @@ Point level_rand_hollow(Level *level)
         point = level_rand_point(level);
 
         cell = level->cells[point.y][point.x];
-    } while (CELL_HOLLOW != cell->type);
+    } while (HOLLOW != cell->type);
 
     return point;
 }

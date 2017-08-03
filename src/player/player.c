@@ -58,7 +58,7 @@ Player *player_new(Level *level, Camera *camera)
     add_default_attributes(player);
     init_modifiers(player);
 
-    player->cell.prototype.type = CELL_PLAYER;
+    player->cell.prototype.type = PLAYER;
     player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
 

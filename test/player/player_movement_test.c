@@ -16,7 +16,7 @@ MU_TEST(test_movement)
 {
     Player player;
     player.level = fixture_level();
-    player.cell.prototype.type = CELL_PLAYER;
+    player.cell.prototype.type = PLAYER;
     player.cell.prototype.in_registry = true;
     player.cell.occupied = level_registry_rand(player.level, hollow);
     player.position.previous = point_new(1, 1);
@@ -41,12 +41,12 @@ MU_TEST(test_movement)
 
     Cell ***cells = player.level->cells;
 
-    mu_assert(CELL_PLAYER == cells[1][0]->type, "The player should be there");
+    mu_assert(PLAYER == cells[1][0]->type, "The player should be there");
     mu_assert(&player.cell.prototype == cells[1][0], "");
 
     mu_assert(
-        CELL_HOLLOW == cells[1][1]->type &&
-        CELL_HOLLOW == cells[1][2]->type,
+        HOLLOW == cells[1][1]->type &&
+        HOLLOW == cells[1][2]->type,
         "Previous positions should be restored"
     );
 

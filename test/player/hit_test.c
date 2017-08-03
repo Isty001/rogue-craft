@@ -125,7 +125,7 @@ MU_TEST(test_invalid_cell_type)
     Player player = create_player();
     InteractionEvent event = create_event(&player, point_new(0, 0));
     Cell *cell = player.level->cells[0][0];
-    cell->type = CELL_HOLLOW;
+    cell->type = HOLLOW;
 
     player_hit(&event);
     mu_assert(cell->in_registry, "Shouldn't be touched");

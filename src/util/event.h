@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 
-#define EVENT_LISTENER_MAX  20
+#define EVENT_LISTENER_MAX 20
 #define EVENT_TYPE_NUM 5
 
 

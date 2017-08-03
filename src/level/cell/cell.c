@@ -24,7 +24,7 @@ Cell *cell_with_item(Item *item)
 
     cell->chr = item->chr;
     cell->style = item->style;
-    cell->type = CELL_ITEM;
+    cell->type = ITEM;
     cell->in_registry = false;
     cell->item = item;
 

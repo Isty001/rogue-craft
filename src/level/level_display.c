@@ -32,7 +32,7 @@ static void display_visible(Player *player, Cell *cell, Point point, Point win_p
                mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
         );
     } else if ((lighting = find_lighting(player->level->lightings, point))) {
-        if (CELL_SOLID == cell->type){
+        if (SOLID == cell->type){
             styled(WINDOW_MAIN, lighting->style,
                    mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
             );

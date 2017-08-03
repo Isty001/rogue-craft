@@ -114,7 +114,7 @@ EventError item_pickup(InteractionEvent *event)
     Cell *cell = event->cell;
     Player *player = event->player;
 
-    if (CELL_ITEM == cell->type && 1 == event->player_distance) {
+    if (ITEM == cell->type && 1 == event->player_distance) {
         Item *item = event->cell->item;
         Level *level = player->level;
 

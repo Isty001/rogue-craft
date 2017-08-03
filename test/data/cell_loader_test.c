@@ -5,7 +5,7 @@
 static void assert_common(const Cell *cell)
 {
     mu_assert_int_eq(STONE, cell->material);
-    mu_assert_int_eq(CELL_SOLID, cell->type);
+    mu_assert_int_eq(SOLID, cell->type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_GRAY_F), cell->style);
 }
 

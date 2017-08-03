@@ -44,7 +44,7 @@ static void ray_cast(Sight *sight, Point target)
 
         if (in_bounds) {
             cell = sight->level->cells[current.y][current.x];
-            is_solid = CELL_SOLID == cell->type;
+            is_solid = SOLID == cell->type;
 
             add_point(sight, current);
         }

@@ -56,12 +56,12 @@ ConstLookup CONST_LOOKUP[] = {
     simple(SNOW),
 
     /** CellType */
-    simple(CELL_SOLID),
-    simple(CELL_CREATURE),
-    simple(CELL_HOLLOW),
-    simple(CELL_PLAYER),
-    simple(CELL_LIQUID),
-    {.name = "ITEM", .value = CELL_ITEM},
+    simple(SOLID),
+    simple(CREATURE),
+    simple(HOLLOW),
+    simple(PLAYER),
+    simple(LIQUID),
+    {.name = "ITEM", .value = ITEM},
 
     /** LevelType */
     simple(CELLULAR),

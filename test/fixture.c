@@ -12,14 +12,14 @@ Level *fixture_level(void)
     level->lightings = list_new();
 
     Cell *hollow = mem_alloc(sizeof(Cell));
-    hollow->type = CELL_HOLLOW;
+    hollow->type = HOLLOW;
     hollow->in_registry = true;
     hollow->material = VOID;
     hollow->state = 100;
     hollow->style = FIXTURE_HOLLOW_STYLE;
 
     Cell *solid = mem_alloc(sizeof(Cell));
-    solid->type = CELL_SOLID;
+    solid->type = SOLID;
     solid->in_registry = true;
     solid->material = STONE;
     solid->state = 100;

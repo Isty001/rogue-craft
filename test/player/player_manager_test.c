@@ -12,7 +12,7 @@ MU_TEST(test_new_player)
     Point prev = player->position.previous;
     Point curr = player->position.current;
 
-    mu_assert(CELL_HOLLOW == level->cells[prev.y][prev.x]->type, "Starting left_upper should Hollow");
+    mu_assert(HOLLOW == level->cells[prev.y][prev.x]->type, "Starting left_upper should Hollow");
 
     mu_assert_int_eq(prev.y, curr.y);
     mu_assert_int_eq(prev.x, curr.x);

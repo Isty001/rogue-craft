@@ -18,7 +18,7 @@ static double tool_damage_multiplier(Tool *tool, Cell *cell)
     }
     DefaultDamage defaults = tool->multipliers.defaults;
 
-    return CELL_SOLID == cell->type ? defaults.solid : defaults.creature;
+    return SOLID == cell->type ? defaults.solid : defaults.creature;
 }
 
 static double calculate_damage(Player *player, Tool *tool, Cell *target)

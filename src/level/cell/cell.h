@@ -12,7 +12,7 @@
 
 
 #define cell_is_damageable(cell) \
-    (CELL_SOLID == cell->type || CELL_CREATURE == cell->type)
+    (SOLID == cell->type || CREATURE == cell->type)
 
 
 typedef struct Item Item;
@@ -21,12 +21,12 @@ typedef struct Player Player;
 
 
 typedef enum {
-    CELL_SOLID,
-    CELL_HOLLOW,
-    CELL_CREATURE,
-    CELL_PLAYER,
-    CELL_LIQUID,
-    CELL_ITEM
+    SOLID,
+    HOLLOW,
+    CREATURE,
+    PLAYER,
+    LIQUID,
+    ITEM
 } CellType;
 
 typedef struct {
