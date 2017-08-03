@@ -2,7 +2,7 @@
 #include "../../src/level/level.h"
 #include "../../src/level/camera.h"
 #include "../../config/config.h"
-#include "../../src/player/inventory.h"
+#include "../../src/player/inventory/inventory.h"
 #include "../fixture.h"
 
 
@@ -24,10 +24,10 @@ MU_TEST(test_item_pickup)
     item.type = TOOL;
 
     level->cells[0][0]->item = &item;
-    level->cells[0][0]->type = ITEM_;
+    level->cells[0][0]->type = CELL_ITEM;
 
     Camera camera = {
-        .position = point_new(0, 0),
+        .left_upper = point_new(0, 0),
         .size = level->size
     };
 
@@ -45,7 +45,7 @@ MU_TEST(test_item_pickup)
     mu_assert(&item == items->head(items), "Items are not the same");
     mu_assert(NULL == items->get(items, 1), "There should be no items");
 
-    mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
+    mu_assert_int_eq(CELL_HOLLOW, level->cells[0][0]->type);
     mu_assert(level->cells[0][0]->in_registry, "");
 
     fixture_level_free(level);
@@ -56,7 +56,7 @@ MU_TEST(test_pickup_lighting)
 {
     Level *level = fixture_level();
     Lighting *lighting = lighting_new(level, point_new(0, 0), 5, 100);
-    Cell occupied = {.type = HOLLOW};
+    Cell occupied = {.type = CELL_HOLLOW};
     Item item = {
         .type = LIGHT_SOURCE,
         .occupied_cell = &occupied,
@@ -74,10 +74,10 @@ MU_TEST(test_pickup_lighting)
     mu_assert_int_eq(EE_BREAK, item_pickup(&event));
     mu_assert(&occupied == level->cells[0][0], "");
     mu_assert(NULL == item.occupied_cell, "");
-    mu_assert(NULL == item.light_source.lighting, "");
 
     fixture_level_free(level);
     inventory_free(player.inventory);
+    lighting_free(lighting);
 }
 
 void run_level_interaction_test(void)

@@ -1,31 +1,31 @@
+#include "util/memory.h"
 #include "fixture.h"
-#include "../src/util.h"
-#include "../src/level/level.h"
-#include "../src/player/item.h"
+#include "util/util.h"
+#include "level/level.h"
+#include "item/item.h"
 
 
 Level *fixture_level(void)
 {
-    Level *level = allocate(sizeof(Level));
+    Level *level = mem_alloc(sizeof(Level));
     level->size = (Size) {4, 3};
+    level->lightings = list_new();
 
-    Cell *hollow = allocate(sizeof(Cell));
-    hollow->type = HOLLOW;
+    Cell *hollow = mem_alloc(sizeof(Cell));
+    hollow->type = CELL_HOLLOW;
     hollow->in_registry = true;
-    hollow->lighted = false;
     hollow->material = VOID;
     hollow->state = 100;
     hollow->style = FIXTURE_HOLLOW_STYLE;
 
-    Cell *solid = allocate(sizeof(Cell));
-    solid->type = SOLID;
+    Cell *solid = mem_alloc(sizeof(Cell));
+    solid->type = CELL_SOLID;
     solid->in_registry = true;
-    solid->lighted = false;
     solid->material = STONE;
     solid->state = 100;
     solid->style = FIXTURE_SOLID_STYLE;
 
-    level->cfg = allocate(sizeof(LevelConfig));
+    level->cfg = mem_alloc(sizeof(LevelConfig));
 
     level->cfg->type = CELLULAR;
     level->cfg->cells = (LevelCells) {
@@ -41,11 +41,11 @@ Level *fixture_level(void)
 
     level_add_bounds(level);
 
-    Cell ***cells = allocate(4 * sizeof(Cell **));
-    cells[0] = allocate(3 * sizeof(Cell *));
-    cells[1] = allocate(3 * sizeof(Cell *));
-    cells[2] = allocate(3 * sizeof(Cell *));
-    cells[3] = allocate(3 * sizeof(Cell *));
+    Cell ***cells = mem_alloc(4 * sizeof(Cell **));
+    cells[0] = mem_alloc(3 * sizeof(Cell *));
+    cells[1] = mem_alloc(3 * sizeof(Cell *));
+    cells[2] = mem_alloc(3 * sizeof(Cell *));
+    cells[3] = mem_alloc(3 * sizeof(Cell *));
 
     cells[0][0] = solid;
     cells[0][1] = hollow;
@@ -70,16 +70,19 @@ Level *fixture_level(void)
 
 void fixture_level_free(Level *level)
 {
-    probability_clean(&level->cfg->cells.hollow, release);
-    probability_clean(&level->cfg->cells.solid, release);
+    probability_clean(&level->cfg->cells.hollow, mem_dealloc);
+    probability_clean(&level->cfg->cells.solid, mem_dealloc);
 
-    release(level->cells[0]);
-    release(level->cells[1]);
-    release(level->cells[2]);
-    release(level->cells[3]);
-    release(level->cfg);
-    release(level->cells);
-    release(level);
+    level->lightings->release_item = (Release) lighting_free;
+    level->lightings->free(level->lightings);
+
+    mem_dealloc(level->cells[0]);
+    mem_dealloc(level->cells[1]);
+    mem_dealloc(level->cells[2]);
+    mem_dealloc(level->cells[3]);
+    mem_dealloc(level->cfg);
+    mem_dealloc(level->cells);
+    mem_dealloc(level);
 }
 
 Item fixture_consumable(bool permanent)
@@ -92,13 +95,4 @@ Item fixture_consumable(bool permanent)
             .permanent = permanent,
         }
     };
-}
-
-char *fixture_path(char *path)
-{
-    static char buff[400];
-
-    sprintf(buff, "%s/%s", getenv(ENV_DIR_FIXTURE), path);
-
-    return buff;
 }

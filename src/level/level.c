@@ -1,10 +1,11 @@
-#include "../ncurses/ncurses.h"
-#include "../../config/config.h"
+#include "ncurses/ncurses.h"
+#include "config.h"
+#include "util/memory.h"
 
 
 Cell ***level_allocate_cells(Size size)
 {
-    Cell ***cells = allocate(sizeof(Cell[size.height][size.width]));
+    Cell ***cells = mem_alloc(sizeof(Cell[size.height][size.width]));
     Cell **from = (Cell **) cells + size.height;
 
     for (int i = 0; i < size.height; i++) {
@@ -36,7 +37,7 @@ static void add_items(Level *level)
         point = level_rand_point(level);
         cell = level->cells[point.y][point.x];
 
-        if (HOLLOW == cell->type) {
+        if (CELL_HOLLOW == cell->type) {
             level->cells[point.y][point.x] = cell_with_random_item();
             remaining--;
         }
@@ -45,10 +46,12 @@ static void add_items(Level *level)
 
 Level *level_new(Size size)
 {
-    Level *level = allocate(sizeof(Level));
+    Level *level = mem_alloc(sizeof(Level));
     level->size = size;
     level->cfg = probability_pick(&LEVEL_PROBABILITY);
     level_add_bounds(level);
+    level->lightings = list_new();
+    level->lightings->release_item = (Release) lighting_free;
 
     level->cells = level_allocate_cells(level->size);
     initialize_cells(level);
@@ -76,7 +79,7 @@ Point level_rand_hollow(Level *level)
         point = level_rand_point(level);
 
         cell = level->cells[point.y][point.x];
-    } while (HOLLOW != cell->type);
+    } while (CELL_HOLLOW != cell->type);
 
     return point;
 }
@@ -101,6 +104,8 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 
 void level_free(Level *level)
 {
-    release(level->cells);
-    release(level);
+    level->lightings->free(level->lightings);
+
+    mem_dealloc(level->cells);
+    mem_dealloc(level);
 }

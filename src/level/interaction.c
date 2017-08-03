@@ -1,4 +1,4 @@
-#include "../ncurses/ncurses.h"
+#include "ncurses/ncurses.h"
 #include "camera.h"
 
 

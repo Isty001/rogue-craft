@@ -1,8 +1,9 @@
 #include <ncurses.h>
 #include <stdint.h>
+#include "util/memory.h"
 #include "ncurses.h"
 #include "grid.h"
-#include "../color.h"
+#include "util/color.h"
 
 
 #define INC_Y GRID_CELL_SIZE
@@ -13,21 +14,21 @@
 
 Grid *grid_new(WINDOW *window, Size size, Point left_upper)
 {
-    Grid *grid = allocate(sizeof(Grid));
+    Grid *grid = mem_alloc(sizeof(Grid));
     grid->window = window;
     grid->size = size;
     grid->size.height *= INC_Y;
     grid->size.width *= INC_X;
     grid->left_upper = left_upper;
     grid->selected = point_new(0, 0);
-    grid->bounds = bounds_new(size);
+    grid->bounds = bounds_from_size(size);
 
     return grid;
 }
 
 void grid_free(Grid *grid)
 {
-    release(grid);
+    mem_dealloc(grid);
 }
 
 static Point bottom_right_of(Grid *grid)

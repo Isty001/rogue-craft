@@ -13,3 +13,9 @@
 [submodule "lib/tinydir"]
 	path = lib/tinydir
 	url = https://github.com/cxong/tinydir
+[submodule "lib/quadtree"]
+	path = lib/quadtree
+	url = https://github.com/thejefflarson/quadtree
+[submodule "lib/dotenv"]
+	path = lib/dotenv
+	url = https://github.com/Isty001/dotenv-c

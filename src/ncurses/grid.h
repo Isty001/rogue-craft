@@ -3,7 +3,7 @@
 
 
 #include <ncurses.h>
-#include "../level/point.h"
+#include "level/point.h"
 
 
 #define GRID_CELL_SIZE 2

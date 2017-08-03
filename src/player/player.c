@@ -1,6 +1,7 @@
 #include <time.h>
+#include "util/memory.h"
 #include "player.h"
-#include "inventory.h"
+#include "inventory/inventory.h"
 
 
 static void init_modifiers(Player *player)
@@ -43,21 +44,21 @@ static void find_starting_point(Player *player)
     Level *level = player->level;
     Point point = level_rand_hollow(level);
 
-    player->cell.previous = level->cells[point.y][point.x];
+    player->cell.occupied = level->cells[point.y][point.x];
     player->position.previous = point;
     player->position.current = point;
 }
 
 Player *player_new(Level *level, Camera *camera)
 {
-    Player *player = allocate(sizeof(Player));
+    Player *player = mem_alloc(sizeof(Player));
     player->level = level;
-    player->cell.prototype.type = PLAYER;
     player->camera = camera;
 
     add_default_attributes(player);
     init_modifiers(player);
 
+    player->cell.prototype.type = CELL_PLAYER;
     player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
 
@@ -73,15 +74,10 @@ void player_free(Player *player)
 {
     inventory_free(player->inventory);
     sight_free(player->sight);
-    release(player);
+    mem_dealloc(player);
 }
 
 void player_sight_update(Player *player)
 {
     sight_update(player->sight, player->position.current, PLAYER_DEFAULT_EYESIGHT);
-}
-
-bool player_can_see(Player *player, Cell *cell, Point point)
-{
-    return cell->lighted || sight_has(player->sight, point);
 }

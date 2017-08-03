@@ -1,5 +1,5 @@
 #include "../unit_test.h"
-#include "../../src/player/inventory.h"
+#include "../../src/player/inventory/inventory.h"
 
 
 static PanelEvent create_event(Inventory *inventory, PanelInfo *info, PanelType type, int input)

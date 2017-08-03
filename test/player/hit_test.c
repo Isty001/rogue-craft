@@ -1,6 +1,6 @@
 #include "../unit_test.h"
 #include "../fixture.h"
-#include "../../src/player/inventory.h"
+#include "../../src/player/inventory/inventory.h"
 
 
 static ItemPrototype TEST_TOOL = {
@@ -125,7 +125,7 @@ MU_TEST(test_invalid_cell_type)
     Player player = create_player();
     InteractionEvent event = create_event(&player, point_new(0, 0));
     Cell *cell = player.level->cells[0][0];
-    cell->type = HOLLOW;
+    cell->type = CELL_HOLLOW;
 
     player_hit(&event);
     mu_assert(cell->in_registry, "Shouldn't be touched");

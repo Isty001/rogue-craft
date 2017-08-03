@@ -19,4 +19,4 @@
 * [BUILD] DEB package
 
 #### Possible optimizations:
-* Sight point lookup
+* It's a waste to always recreate the Quadtree when the player moves

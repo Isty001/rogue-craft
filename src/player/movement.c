@@ -1,4 +1,4 @@
-#include "../../config/config.h"
+#include "config.h"
 
 
 void player_position_on_level(Player *player)
@@ -7,9 +7,9 @@ void player_position_on_level(Player *player)
     Point current = player->position.current;
     Point previous = player->position.previous;
 
-    cells[previous.y][previous.x] = player->cell.previous;
+    cells[previous.y][previous.x] = player->cell.occupied;
 
-    player->cell.previous = cells[current.y][current.x];
+    player->cell.occupied = cells[current.y][current.x];
     cells[current.y][current.x] = &player->cell.prototype;
 }
 
@@ -20,7 +20,7 @@ static inline bool can_move_to(Player *player, Point target)
     return
         level_in_bounds(level, target)
         &&
-        SOLID != level->cells[target.y][target.x]->type;
+        CELL_SOLID != level->cells[target.y][target.x]->type;
 }
 
 EventError player_move(InputEvent *event)

@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include "cache.h"
-#include "../environment.h"
+#include "util/environment.h"
 
 
 bool cache_exists(char *name)
@@ -26,7 +26,7 @@ bool cache_valid(Cache *cache, time_t value_modified)
 void cache_open(Cache *cache, char *name, size_t entry_size)
 {
     cache->entry_size = entry_size;
-    memcpy(cache->path, env_cache_file(name), MAX_PATH);
+    memcpy(cache->path, env_cache_file(name), PATH_MAX);
     cache->file = file_open(cache->path, "ab+");
 }
 

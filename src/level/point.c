@@ -1,7 +1,6 @@
 #include <math.h>
-#include "../util.h"
 #include "point.h"
-#include "../../config/config.h"
+#include "config.h"
 
 
 static int KEY_MAIN_DIRECTION_MAP[4][2] = {

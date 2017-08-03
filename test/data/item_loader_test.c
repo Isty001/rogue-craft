@@ -1,6 +1,6 @@
 #include <wchar.h>
 #include "../unit_test.h"
-#include "../../src/player/item.h"
+#include "item/item.h"
 #include "../../config/config.h"
 
 

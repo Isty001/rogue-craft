@@ -1,7 +1,7 @@
 #include "../unit_test.h"
 #include "../../src/player/player.h"
 #include "../fixture.h"
-#include "../../src/player/inventory.h"
+#include "../../src/player/inventory/inventory.h"
 
 
 static InteractionEvent TEST_EVENT;
@@ -12,6 +12,7 @@ static void setup(void)
 {
     TEST_PLAYER.level = fixture_level();
     TEST_PLAYER.inventory = inventory_new(1);
+    TEST_PLAYER.position.current = point_new(1, 1);
 
     TEST_EVENT = (InteractionEvent) {
         .player = &TEST_PLAYER,
@@ -43,12 +44,15 @@ MU_TEST(test_placement)
     Item *item = item_allocate();
     *item = (Item) {
         .type = LIGHT_SOURCE,
+        .style = 5000,
+        .chr = 't',
         .light_source = {.radius = 5, .style = style}
     };
     LightSource *source = &item->light_source;
     Cell ***cells = TEST_PLAYER.level->cells;
 
     inventory_add(TEST_PLAYER.inventory, item);
+    player_position_on_level(&TEST_PLAYER);
 
     mu_assert(NULL == item->occupied_cell, "");
     mu_assert_int_eq(EE_BREAK, item_light_source_place(&TEST_EVENT));

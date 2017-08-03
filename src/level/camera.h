@@ -2,11 +2,14 @@
 #define ROGUECRAFT_CAMERA_H
 
 
-#include "../player/player.h"
+#include "player/player.h"
+
+
+#define CAMERA_BORDER 1
 
 
 typedef struct Camera {
-    Point position;
+    Point left_upper;
     Size size;
 } Camera;
 

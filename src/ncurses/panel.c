@@ -1,7 +1,8 @@
 #include <list.h>
+#include "util/memory.h"
 #include "ncurses.h"
 #include "panel.h"
-#include "../../config/config.h"
+#include "config.h"
 
 
 static List *PANELS = NULL;
@@ -19,7 +20,7 @@ void panel_cleanup(void)
 
 static PanelInfo *copy_to_heap(PanelInfo info)
 {
-    PanelInfo *copy = allocate(sizeof(PanelInfo));
+    PanelInfo *copy = mem_alloc(sizeof(PanelInfo));
     *copy = info;
 
     return copy;
@@ -61,7 +62,7 @@ void panel_close_top(int input, Player *player)
     delwin(panel_window(top));
     del_panel(top);
 
-    release((void *) panel_userptr(top));
+    mem_dealloc((void *) panel_userptr(top));
 }
 
 bool panel_is_open(void)

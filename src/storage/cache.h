@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "../randomization.h"
+#include "util/randomization.h"
 #include "storage.h"
 
 
@@ -20,7 +20,7 @@ typedef void (*Reader)(void *entry);
 
 
 typedef struct {
-    char path[MAX_PATH];
+    char path[PATH_MAX];
     FILE *file;
     size_t entry_size;
 } Cache;

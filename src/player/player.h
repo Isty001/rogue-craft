@@ -4,10 +4,10 @@
 
 #include <stdint.h>
 #include <memory.h>
-#include "../level/point.h"
-#include "../level/level.h"
-#include "../sight.h"
-#include "../event.h"
+#include "level/point.h"
+#include "level/level.h"
+#include "util/sight.h"
+#include "util/event.h"
 
 
 #define PLAYER_ATTR_NUM      4
@@ -57,7 +57,7 @@ typedef struct Player {
     } position;
     struct {
         Cell prototype;
-        Cell *previous;
+        Cell *occupied;
     } cell;
 } Player;
 
@@ -90,8 +90,6 @@ void player_free(Player *player);
 EventError player_move(InputEvent *event);
 
 void player_sight_update(Player *player);
-
-bool player_can_see(Player *player, Cell *cell, Point point);
 
 EventError player_hit(InteractionEvent *event);
 

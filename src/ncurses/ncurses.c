@@ -34,6 +34,7 @@ void ncurses_init(void)
     noecho();
     cbreak();
     nodelay(stdscr, true);
+    keypad(stdscr, true);
 
     getmaxyx(stdscr, HEIGHT, WIDTH);
 
@@ -49,9 +50,7 @@ void ncurses_init(void)
     WINDOW_PLAYER_ATTRIBUTES = ncurses_subwin(stdscr, left_side_bar_height, side_bar_width, left_side_bar_height, 0);
     WINDOW_INVENTORY_SHORTCUT = ncurses_subwin(stdscr, inventory_height, main_width, main_height + 1, side_bar_width);
 
-    box(WINDOW_INVENTORY_SHORTCUT, 0, 0);
     box(WINDOW_EVENT, 0, 0);
-    box(WINDOW_PLAYER_ATTRIBUTES, 0, 0);
 
     refresh();
 }

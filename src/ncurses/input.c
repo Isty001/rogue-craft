@@ -1,4 +1,4 @@
-#include "../player/player.h"
+#include "player/player.h"
 #include "panel.h"
 
 
@@ -17,10 +17,10 @@ void input_process(int input, Player *player)
         return;
     }
 
-    if (!panel_is_open()) {
-        dispatch_input_event(input, player);
-    } else {
+    if (panel_is_open()) {
         panel_dispatch_input_event(input, player);
+    } else {
+        dispatch_input_event(input, player);
     }
 
     flushinp();

@@ -5,7 +5,7 @@
 #include <string.h>
 #include <minunit.h>
 #include "../src/level/point.h"
-#include "../src/util.h"
+#include "../src/util/util.h"
 
 
 #define DIR_FIXTURE "./test/fixture"

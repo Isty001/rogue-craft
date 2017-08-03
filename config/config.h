@@ -2,13 +2,13 @@
 #define ROGUECRAFT_DEFAULTS_H
 
 
-#include "../src/color.h"
-#include "../src/level/cell.h"
-#include "../src/level/level.h"
-#include "../src/player/player.h"
-#include "../src/player/item.h"
-#include "../src/randomization.h"
-#include "../src/event.h"
+#include "util/color.h"
+#include "level/cell/cell.h"
+#include "level/level.h"
+#include "player/player.h"
+#include "item/item.h"
+#include "util/randomization.h"
+#include "util/event.h"
 
 
 extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
@@ -26,7 +26,7 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
  */
 #define PLAYER_CHAR                     '@'
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_DEFAULT_EYESIGHT         6
+#define PLAYER_DEFAULT_EYESIGHT         3
 
 extern PlayerStateConfig PLAYER_STATE_CONFIG;
 
@@ -60,7 +60,7 @@ extern uint16_t MATERIAL_STRENGTH[MATERIAL_NUM];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 200);
+    (uint16_t) ((level->size.height * level->size.width) / 20);
 
 
 extern Probability LEVEL_PROBABILITY;

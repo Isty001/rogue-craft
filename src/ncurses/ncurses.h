@@ -3,22 +3,25 @@
 
 
 #include <ncurses.h>
-#include "../level/point.h"
-#include "../environment.h"
-#include "../event.h"
+#include "level/point.h"
+#include "util/environment.h"
+#include "util/event.h"
 
 
 /** Characters in the terminal appear higher than wider */
 #define NCURSES_WIDTH_MULTIPLIER 2
 
 
-#define refresh_boxed(w) box(w, 0, 0); wrefresh(w);
+#define refresh_boxed_ch(w, ch) box(w, ch, ch); wrefresh(w);
+
+#define refresh_boxed(w) refresh_boxed_ch(w, 0);
 
 #define ncurses_event(msg, ...)                              \
-    if (!env_has(ENV_NCURSES_INACTIVE)) {                     \
+    if (!getenv(ENV_NCURSES_INACTIVE)) {                    \
         wprintw(WINDOW_EVENT, "\n " msg, ##__VA_ARGS__);     \
         refresh_boxed(WINDOW_EVENT)                          \
     };
+
 
 extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
 

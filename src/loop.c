@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include "loop.h"
-#include "../config/config.h"
-#include "player/inventory.h"
+#include "config.h"
+#include "player/inventory/inventory.h"
 #include "level/camera.h"
 
 
@@ -39,7 +39,7 @@ void loop_run(Player *player)
     int i = 0;
 
     while (1) {
-        if ((input = wgetch(WINDOW_MAIN))) {
+        if (-1 != (input = wgetch(WINDOW_MAIN))) {
             if (KEY_ESCAPE == input) {
                 if (panel_is_open()) {
                     panel_close_top(input, player);
@@ -47,9 +47,10 @@ void loop_run(Player *player)
                     break;
                 }
             }
-            update(input, player);
-            render(player);
         }
+        update(input, player);
+        render(player);
+
         napms(TIMEOUT);
 
         if (i++ == 10) {

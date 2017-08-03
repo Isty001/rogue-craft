@@ -3,9 +3,10 @@
 #include <locale.h>
 #include <parson.h>
 #include <pthread.h>
-#include "../src/color.h"
-#include "../src/player/item.h"
-#include "../src/environment.h"
+#include "util/memory.h"
+#include "util/color.h"
+#include "item/item.h"
+
 
 void run_player_movement_test(void);
 void run_point_test(void);
@@ -30,26 +31,25 @@ void run_color_cache_test(void);
 void run_light_source_placement_test(void);
 void run_inventory_display_test(void);
 void run_grid_test(void);
+void run_lighting_test(void);
 
 
 static void init(void)
 {
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned int) time(NULL));
-    json_set_allocation_functions((JSON_Malloc_Function) allocate, release);
+    json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
     profiler_init();
     list_node_pool_init();
     item_pool_init();
     cell_pool_init();
-    lighted_cell_pool_init();
 }
 
 static void cleanup(void)
 {
     item_pool_cleanup();
     cell_pool_cleanup();
-    lighted_cell_pool_cleanup();
     list_node_pool_cleanup();
     profiler_cleanup();
 }
@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
     run_light_source_placement_test();
     run_inventory_display_test();
     run_grid_test();
+    run_lighting_test();
 
     cleanup();
 

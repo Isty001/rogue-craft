@@ -8,7 +8,7 @@
 typedef struct Inventory Inventory;
 
 typedef enum {
-    INVENTORY = 6
+    INVENTORY
 } PanelType;
 
 typedef struct {

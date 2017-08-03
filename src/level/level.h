@@ -5,14 +5,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
-#include "cell.h"
+#include "cell/cell.h"
 #include "point.h"
-#include "../util.h"
-#include "../color.h"
-#include "liquid.h"
-#include "../event.h"
-#include "../ncurses/ncurses.h"
-#include "../randomization.h"
+#include "util/util.h"
+#include "util/color.h"
+#include "util/event.h"
+#include "ncurses/ncurses.h"
+#include "util/randomization.h"
 
 
 #define iterate_matrix(from, size, ...)             \
@@ -23,7 +22,7 @@
     }
 
 #define level_add_bounds(level)                                                       \
-    level->bounds = bounds_new(level->size)
+    level->bounds = bounds_from_size(level->size)
 
 #define level_rand_point(level) \
     point_new(rand_in_range(level->bounds.y), rand_in_range(level->bounds.x));
@@ -56,6 +55,7 @@ typedef struct Level {
     Cell ***cells;
     LevelConfig *cfg;
     Bounds bounds;
+    List *lightings;
 } Level;
 
 typedef struct {

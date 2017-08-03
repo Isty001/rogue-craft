@@ -7,7 +7,7 @@ MU_TEST(test_selected)
     Grid grid = {
         .selected = point_new(0, 4),
         .size = size_new(5, 5),
-        .bounds = bounds_new(grid.size)
+        .bounds = bounds_from_size(grid.size)
     };
 
     grid_move_selected(&grid, NORTH);

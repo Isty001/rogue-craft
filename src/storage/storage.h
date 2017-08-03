@@ -7,11 +7,7 @@
 #include <stdbool.h>
 #include <tinydir.h>
 #include <time.h>
-#include "../util.h"
-
-
-/** PATH_MAX is unnecessarily big for us */
-#define MAX_PATH 300
+#include "util/util.h"
 
 
 typedef enum {

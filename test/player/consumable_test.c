@@ -1,5 +1,5 @@
 #include "../unit_test.h"
-#include "../../src/player/item.h"
+#include "item/item.h"
 #include "../fixture.h"
 
 

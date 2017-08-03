@@ -19,10 +19,12 @@ DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 CONFIG_FILES=$(shell find $(DIR_CONFIG)/* -type d -not -name "environments")
 
 CC = gcc
-LIBS = -l:libncursesw.so.5 -l:libpanelw.so.5 -l:libtinfo.so.5 -l m -l rt -ldl
-GLOBAL_DEFINITIONS = -DENV_DIR_USER=\"HOME\"
-DEFINITIONS = -DDIR_ENV=\"$(DIR_INSTALLED_ENV_BASE)\" $(GLOBAL_DEFINITIONS) $(VERSION_DEFINITIONS)
-INCLUDES = -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib
+LIBS = -l ncursesw -l panelw -l menuw -l m -l rt  -l curl
+DEFINITIONS = -DDIR_ENV_RELATIVE=\"$(DIR_INSTALLED_ENV_BASE)\" $(VERSION_DEFINITIONS)
+
+#This way we can avoid nasty includes like #include "../../../config/config.h"
+NAMESPACES = -I config -I src
+INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code
 
 
@@ -43,8 +45,8 @@ TAR_NAME=$(TARGET)-$(VERSION_FULL)_$(shell uname -o -p | sed -e 's/\//_/g; s/ /_
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
 
-LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev")
-COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c" -not -path "config/environments/*")
+LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark")
+COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c")
 SOURCES = $(COMMON_SOURCES) main.c
 TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")
 
@@ -93,13 +95,7 @@ run-debug:
 	./$(TARGET) --env=dev
 
 install-environments:
-	mkdir -p $(DIR_INSTALLED_ENV)
-	cd $(DIR_CONFIG_ENV) &&                                     \
-	$(foreach file,$(shell ls $(DIR_CONFIG_ENV)),               \
-	$(eval so=$(basename $(file)).so)                           \
-		gcc $(GLOBAL_DEFINITIONS) -fPIC ./$(file) -shared -Wl,-soname,$(so) -o $(so)  \
-	;)                                                          \
-	mv ./*.so $(DIR_INSTALLED_ENV)
+	cp ./config/environments/.env.* $(DIR_INSTALLED_ENV)
 
 install:
 	mkdir -p $(DIR_INSTALLED_CACHE)
@@ -119,8 +115,7 @@ tar:
 	make
 	make tar-installer
 	mkdir -p $(DIR_TAR)/config/environments
-	gcc $(GLOBAL_DEFINITIONS) -fPIC $(DIR_CONFIG_ENV)/production.c -shared -Wl,-soname,production.so -o production.so
-	mv production.so $(DIR_TAR)/config/environments
+	cp config/environments/.env.prod $(DIR_TAR)/config/environments
 	cp -r $(CONFIG_FILES) $(DIR_TAR)/config
 	cp $(TARGET) $(DIR_TAR)
 	cp install.sh $(DIR_TAR)
