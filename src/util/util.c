@@ -50,7 +50,6 @@ ConstLookup CONST_LOOKUP[] = {
     simple(STONE),
     simple(DIRT),
     simple(SAND),
-    simple(VOID),
     simple(WATER),
     simple(WOOD),
     simple(SNOW),
