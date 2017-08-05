@@ -7,7 +7,6 @@
 
 
 typedef enum  {
-    VOID,
     STONE,
     DIRT,
     SAND,

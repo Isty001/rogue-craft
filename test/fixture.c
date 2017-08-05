@@ -14,7 +14,7 @@ Level *fixture_level(void)
     Cell *hollow = mem_alloc(sizeof(Cell));
     hollow->type = HOLLOW;
     hollow->in_registry = true;
-    hollow->material = VOID;
+    hollow->material = STONE;
     hollow->state = 100;
     hollow->style = FIXTURE_HOLLOW_STYLE;
 

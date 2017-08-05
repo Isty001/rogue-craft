@@ -1,7 +1,6 @@
 #include "../unit_test.h"
 #include "../../src/player/player.h"
 #include "../fixture.h"
-#include "../../config/config.h"
 
 
 static void assert_position(Player player, int y, int x)

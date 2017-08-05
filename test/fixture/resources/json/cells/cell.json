@@ -2,7 +2,7 @@
   {
     "name": "hollow.default",
     "type": "HOLLOW",
-    "material": "VOID",
+    "material": "STONE",
     "char": " ",
     "style": ["COLOR_NONE"]
   },
