@@ -1,5 +1,6 @@
 #include <memory.h>
 #include <mem_pool.h>
+#include "sfx/sfx.h"
 #include "player/inventory/inventory.h"
 
 
@@ -126,6 +127,7 @@ EventError item_pickup(InteractionEvent *event)
                 level_set_hollow(level, event->point);
             }
             cleanup_light_source(item, player);
+            sfx_play("player", "item_pickup");
 
             return EE_BREAK;
         }

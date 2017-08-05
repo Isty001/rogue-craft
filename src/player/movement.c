@@ -1,4 +1,8 @@
+#include <sfx/sfx.h>
 #include "config.h"
+
+
+static bool PLAY_STEP = false;
 
 
 void player_position_on_level(Player *player)
@@ -38,6 +42,11 @@ EventError player_move(InputEvent *event)
         player->position.previous = player->position.current;
         player->position.current = target;
         player->state.modifiers.traveled++;
+
+        if (PLAY_STEP) {
+            sfx_play_step(player->level->cells[target.y][target.x]);
+        }
+        PLAY_STEP = !PLAY_STEP;
 
         player_position_on_level(player);
     }

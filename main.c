@@ -2,12 +2,13 @@
 #include <locale.h>
 #include <time.h>
 #include <parson.h>
+#include "sfx/sfx.h"
 #include "util/memory.h"
 #include "level/level.h"
 #include "level/camera.h"
 #include "config/config.h"
 #include "player/inventory/inventory.h"
-#include "src/loop.h"
+#include "loop.h"
 
 
 static void init(void)
@@ -17,6 +18,7 @@ static void init(void)
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
     profiler_init();
+    sfx_init();
     ncurses_init();
     mouse_init();
     panel_init();
@@ -33,6 +35,7 @@ static void init(void)
 
 static void cleanup(Player *player)
 {
+    sfx_cleanup();
     ncurses_cleanup();
     panel_cleanup();
     item_pool_cleanup();
