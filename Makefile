@@ -3,8 +3,6 @@ DIR_ROOT = $(shell pwd)
 DIR_RESOURCES = $(DIR_ROOT)/resources
 DIR_APP = .rogue-craft
 
-RESOURCES = $(shell find $(DIR_RESOURCES) ! -name "*.md")
-
 DIR_INSTALLED_RESOURCES_BASE=$(DIR_APP)/resources
 DIR_INSTALLED_RESOURCES=${HOME}/$(DIR_INSTALLED_RESOURCES_BASE)
 
@@ -103,7 +101,7 @@ install-environments:
 install:
 	mkdir -p $(DIR_INSTALLED_CACHE)
 	mkdir -p $(DIR_INSTALLED_RESOURCES)
-	cp -r $(RESOURCES) $(DIR_INSTALLED_RESOURCES)
+	cp -r $(DIR_RESOURCES)/* $(DIR_INSTALLED_RESOURCES)
 	sudo cp $(TARGET) $(DIR_INSTALLED_BIN)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
@@ -122,8 +120,9 @@ tar:
 	make
 	make tar-installer
 	mkdir -p $(DIR_TAR)/environments
+	mkdir -p $(DIR_TAR)/resources
 	cp config/environments/.env.prod $(DIR_TAR)/environments
-	cp -r $(RESOURCES) $(DIR_TAR)/config
+	cp -r $(DIR_RESOURCES)/* $(DIR_TAR)/resources
 	cp $(TARGET) $(DIR_TAR)
 	cp install.sh $(DIR_TAR)
 	cd $(DIR_TAR_ROOT) && \
