@@ -5,8 +5,8 @@
 #include "level/camera.h"
 
 
-#define TIMEOUT 60
-#define VERTICAL_TIMEOUT 20
+#define TIMEOUT 85
+#define VERTICAL_TIMEOUT 35
 
 
 static void render(Player *player)

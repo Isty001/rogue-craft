@@ -34,7 +34,7 @@ void env_setup(int argc, char **argv)
     get_path(path, argc, argv);
 
     if (0 != env_load(path, false)) {
-        fatal("Unable to setup the environment, please check %s permissions", path);
+        fatal("Unable to setup the environment, please check '%s' permissions", path);
     }
 
     dir_check(getenv(ENV_DIR_CACHE));

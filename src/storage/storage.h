@@ -23,6 +23,8 @@ void dir_check(char *dir);
 
 void dir_foreach(char *dir, DirForeach foreach);
 
+time_t dir_latest_modified_time(char *dir);
+
 FILE *file_open(char *path, char *mode);
 
 bool file_exists(char *file);
@@ -30,8 +32,6 @@ bool file_exists(char *file);
 bool file_is_empty(char *path);
 
 size_t file_size(FILE *file);
-
-time_t dir_latest_modified_time(char *dir);
 
 
 #endif
