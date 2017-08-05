@@ -53,7 +53,7 @@ extern PlayerStateConfig PLAYER_STATE_CONFIG;
 /**
  * MATERIAL
  */
-extern uint16_t MATERIAL_STRENGTH[MATERIAL_NUM];
+extern double MATERIAL_STRENGTH[MATERIAL_NUM];
 
 
 /**

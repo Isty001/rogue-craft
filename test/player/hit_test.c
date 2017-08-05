@@ -61,8 +61,8 @@ MU_TEST(test_range)
     tool->tool.range = 2;
 
     player_hit(&event);
-    mu_assert_double_eq(94.72, player.level->cells[0][2]->state);
-    mu_assert_double_eq(5.28, player.state.modifiers.dealt_damage);
+    mu_assert_double_eq(94.94, player.level->cells[0][2]->state);
+    mu_assert_double_eq(5.06, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -79,7 +79,7 @@ MU_TEST(test_defaults)
     cell = player.level->cells[0][0];
     mu_assert(false == cell->in_registry, "The cell hit should be cloned");
 
-    mu_assert_double_eq(94.72, cell->state);
+    mu_assert_double_eq(94.94, cell->state);
     mu_assert_int_eq(5.38, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
@@ -100,8 +100,8 @@ MU_TEST(test_material_and_tired_damage)
 
     player_hit(&event);
 
-    mu_assert_double_eq(92.9, player.level->cells[0][0]->state);
-    mu_assert_int_eq(7.1, player.state.modifiers.dealt_damage);
+    mu_assert_double_eq(93.3, player.level->cells[0][0]->state);
+    mu_assert_int_eq(6.1, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -114,8 +114,8 @@ MU_TEST(test_bare_hands)
 
     player_hit(&event);
 
-    mu_assert_double_eq(95.2, player.level->cells[0][0]->state);
-    mu_assert_double_eq(4.8, player.state.modifiers.dealt_damage);
+    mu_assert_double_eq(95.4, player.level->cells[0][0]->state);
+    mu_assert_double_eq(4.6, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }

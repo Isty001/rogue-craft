@@ -1,6 +1,8 @@
+
 #include "player.h"
 #include "item/item.h"
 #include "inventory/inventory.h"
+#include "sfx/sfx.h"
 
 
 typedef struct {
@@ -25,7 +27,7 @@ static double calculate_damage(Player *player, Tool *tool, Cell *target)
 {
     Attribute *state = player->state.attributes;
 
-    double positive = state[STAMINA].current * 1.2;
+    double positive = state[STAMINA].current * 1.15;
     double negative = state[HUNGER].current + state[THIRST].current;
 
     double damage = (positive - (negative / 2)) / 20;
@@ -63,6 +65,7 @@ static void apply_hit(Hit hit, Player *player, Cell *target, Point point)
     player->state.modifiers.dealt_damage += hit.damage;
 
     if (target->state <= 0) {
+        sfx_play_break(target);
         level_set_hollow(player->level, point);
     }
 }
@@ -83,6 +86,7 @@ EventError player_hit(InteractionEvent *event)
     Hit hit = calculate_hit(player, selected_item, target);
 
     if (hit.allowed_range >= point_distance(player->position.current, point)) {
+        sfx_play_hit(target);
         apply_hit(hit, player, target, point);
     }
 
