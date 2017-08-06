@@ -26,6 +26,7 @@ Cell *cell_with_item(Item *item)
     cell->style = item->style;
     cell->type = ITEM;
     cell->in_registry = false;
+    cell->material = (Material) rand_in(0, MATERIAL_NUM);
     cell->item = item;
 
     return cell;

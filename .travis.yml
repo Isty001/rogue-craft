@@ -7,6 +7,7 @@ before_install:
   - sudo apt-get update || true
   - sudo apt-get install -qq gcc-5
   - sudo apt-get install -qq libncursesw5-dev
+  - sudo apt-get install -qq vlc
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20
   - sudo apt-get install -qq valgrind
 script: make run-test-valgrind
