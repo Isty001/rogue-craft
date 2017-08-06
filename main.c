@@ -4,7 +4,6 @@
 #include <parson.h>
 #include "sfx/sfx.h"
 #include "util/memory.h"
-#include "level/level.h"
 #include "level/camera.h"
 #include "config/config.h"
 #include "player/inventory/inventory.h"

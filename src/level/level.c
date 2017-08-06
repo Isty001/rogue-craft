@@ -1,6 +1,7 @@
 #include "ncurses/ncurses.h"
 #include "config.h"
 #include "util/memory.h"
+#include "cellular.h"
 
 
 Cell ***level_allocate_cells(Size size)
@@ -13,18 +14,6 @@ Cell ***level_allocate_cells(Size size)
     }
 
     return cells;
-}
-
-static void initialize_cells(Level *level)
-{
-    probability_pick(&level->cfg->cells.solid);
-
-    iterate_matrix(
-        0, level->size,
-        level->cells[y][x] = rand_bool(0.54)
-                             ? level_registry_rand(level, solid)
-                             : level_registry_rand(level, hollow)
-    );
 }
 
 static void add_items(Level *level)
@@ -54,10 +43,9 @@ Level *level_new(Size size)
     level->lightings->release_item = (Release) lighting_free;
 
     level->cells = level_allocate_cells(level->size);
-    initialize_cells(level);
 
     if (CELLULAR == level->cfg->type) {
-        level_generate_cellular(level);
+        cellular_generate_level(level);
     }
 
     add_items(level);
