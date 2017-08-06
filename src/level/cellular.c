@@ -5,17 +5,19 @@
 #include "cellular.h"
 
 
-static bool is_edge(Size size, int16_t neighbour_y, int16_t neighbour_x)
+static bool is_edge(Level *level, int16_t neighbour_y, int16_t neighbour_x)
 {
+    Size size = level->size;
+
     return
         neighbour_x < 0 || neighbour_x >= size.width
         ||
         neighbour_y < 0 || neighbour_y >= size.height;
 }
 
-static uint16_t count_surrounding_walls(Cell ***cells, Size size, Point position)
+static int count_surrounding_walls(Level *level, Point position)
 {
-    uint16_t count = 0;
+    int count = 0;
     Size neighbourhood_size = {2, 2};
     int16_t neighbour_y, neighbour_x;
 
@@ -24,32 +26,49 @@ static uint16_t count_surrounding_walls(Cell ***cells, Size size, Point position
 
         if (y == 0 && x == 0) continue;
 
-            neighbour_y = y + position.y;
-            neighbour_x = x + position.x;
+        neighbour_y = y + position.y;
+        neighbour_x = x + position.x;
 
-            if (is_edge(size, neighbour_y, neighbour_x)) {
-                count++;
-            } else if (cells[neighbour_y][neighbour_x]->type == SOLID) {
-                count++;
-            }
+        if (is_edge(level, neighbour_y, neighbour_x)) {
+            count++;
+        } else if (level->cells[neighbour_y][neighbour_x]->type == SOLID) {
+            count++;
+        }
     );
 
     return count;
 }
 
-static void evolve(Cell ***tmp, Cell ***cells, Size size, CellFactory factory)
+static void evolve(Level *level, Cell ***tmp)
 {
-    uint16_t neighbours;
+    int neighbours;
+    Cell *cell, *new;
+    LevelCells *cells = &level->cfg->cells;
 
     iterate_matrix(
-        0, size,
+        0, level->size,
 
-        neighbours = count_surrounding_walls(cells, size, point_new(y, x));
-        tmp[y][x] = factory(cells[y][x], neighbours);
+        neighbours = count_surrounding_walls(level, point_new(y, x));
+        cell = level->cells[y][x];
+
+        if (cell->type == SOLID) {
+            if (neighbours < 4) {
+                new = probability_pick(&cells->solid);
+            } else {
+                new = probability_pick(&cells->hollow);
+            }
+        } else {
+            if (neighbours > 4) {
+                new = probability_pick(&cells->hollow);
+            } else {
+                new = probability_pick(&cells->solid);
+            }
+        }
+        tmp[y][x] = new;
     )
 }
 
-static void fill_level_cells(Level *level)
+static void fill_cells(Level *level)
 {
     probability_pick(&level->cfg->cells.solid);
 
@@ -61,43 +80,18 @@ static void fill_level_cells(Level *level)
     );
 }
 
-void cellular_generate_level(Level *level)
+void cellular_generate(Level *level)
 {
-    LevelCells config = level->cfg->cells;
-    Cell *new;
+    Size size = level->size;
+    Cell ***tmp = level_allocate_cells(level->size);
 
-    fill_level_cells(level);
-
-    Cell *factory(Cell *current, uint16_t neighbours)
-    {
-        if (current->type == SOLID) {
-            if (neighbours < 4) {
-                new = probability_pick(&config.solid);
-            } else {
-                new = probability_pick(&config.hollow);
-            }
-        } else {
-            if (neighbours > 4) {
-                new = probability_pick(&config.hollow);
-            } else {
-                new = probability_pick(&config.solid);
-            }
-        }
-        return new;
-    };
-
-    cellular_generate(level->cells, level->size, factory);
-}
-
-void cellular_generate(Cell ***cells, Size size, CellFactory factory)
-{
-    Cell ***tmp = level_allocate_cells(size);
+    fill_cells(level);
 
     repeat(5,
-       evolve(tmp, cells, size, factory);
+       evolve(level, tmp);
 
        for (int y = 0; y < size.height; y++) {
-           memcpy(cells[y], tmp[y], size.width * sizeof(Cell *));
+           memcpy(level->cells[y], tmp[y], size.width * sizeof(Cell *));
        }
     )
     mem_dealloc(tmp);

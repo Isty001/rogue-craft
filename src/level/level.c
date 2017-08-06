@@ -45,7 +45,7 @@ Level *level_new(Size size)
     level->cells = level_allocate_cells(level->size);
 
     if (CELLULAR == level->cfg->type) {
-        cellular_generate_level(level);
+        cellular_generate(level);
     }
 
     add_items(level);
