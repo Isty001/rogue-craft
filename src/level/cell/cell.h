@@ -29,7 +29,7 @@ typedef enum {
     ITEM
 } CellType;
 
-typedef struct cell {
+typedef struct Cell {
     wchar_t chr;
     bool in_registry;
     Style style;

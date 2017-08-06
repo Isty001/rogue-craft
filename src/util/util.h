@@ -8,7 +8,7 @@
 #include <memory.h>
 #include <errno.h>
 #include <mem_pool.h>
-#include "profiler.h"
+#include "memory/profiler.h"
 
 
 #define repeat(times, body)             \
@@ -77,10 +77,6 @@ typedef struct {
  * @return COLOR_PAIR_* constants will be returned already wrapped in COLOR_PAIR()
  */
 uint64_t constant(const char *search);
-
-void list_node_pool_init(void);
-
-void list_node_pool_cleanup(void);
 
 
 #endif

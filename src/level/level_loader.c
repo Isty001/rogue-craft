@@ -1,7 +1,7 @@
 #include "util/json.h"
 #include "level.h"
 #include "config.h"
-#include "util/memory.h"
+#include "memory/memory.h"
 
 
 Probability LEVEL_PROBABILITY;

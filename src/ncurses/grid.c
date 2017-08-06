@@ -1,6 +1,6 @@
 #include <ncurses.h>
 #include <stdint.h>
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "ncurses.h"
 #include "grid.h"
 #include "util/color.h"

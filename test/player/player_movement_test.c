@@ -1,5 +1,5 @@
+#include "config.h"
 #include "../unit_test.h"
-#include "../../src/player/player.h"
 #include "../fixture.h"
 
 

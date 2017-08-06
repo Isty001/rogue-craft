@@ -1,5 +1,5 @@
 #include <list.h>
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "storage/storage.h"
 #include "storage/cache.h"
 #include "cell.h"

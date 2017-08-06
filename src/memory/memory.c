@@ -1,6 +1,6 @@
 #include <malloc.h>
 #include "profiler.h"
-#include "util.h"
+#include "util/util.h"
 
 
 #define safe_alloc(...)             \
@@ -9,6 +9,9 @@
     if (NULL == ptr) {              \
         fatal("[%s] failed to allocate [%u] byte memory ", __FUNCTION__, size);  \
     }
+
+
+static MemPool *LIST_NODE_POOL;
 
 
 void *mem_alloc(int size)
@@ -49,4 +52,31 @@ void mem_dealloc(void *ptr)
 
     free(ptr);
     profile_release(ptr);
+}
+
+static void *alloc_node(size_t size)
+{
+    (void)size;
+    profile_list_node(++);
+
+    return pool_alloc(LIST_NODE_POOL);
+}
+
+static void release_node(void *node)
+{
+    profile_list_node(--);
+
+    pool_release(LIST_NODE_POOL, node);
+}
+
+void list_node_pool_init(void)
+{
+    LIST_NODE_POOL = pool_init(list_node_size(), 100);
+
+    list_set_allocators(alloc_node, release_node, NULL);
+}
+
+void list_node_pool_cleanup(void)
+{
+    pool_destroy(LIST_NODE_POOL);
 }

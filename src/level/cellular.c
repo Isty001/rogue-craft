@@ -1,6 +1,6 @@
 #include <malloc.h>
 #include <string.h>
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "level.h"
 #include "cellular.h"
 

@@ -3,7 +3,7 @@
 #include <locale.h>
 #include <parson.h>
 #include <pthread.h>
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "util/color.h"
 #include "item/item.h"
 

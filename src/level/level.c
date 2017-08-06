@@ -1,6 +1,6 @@
 #include "ncurses/ncurses.h"
 #include "config.h"
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "cellular.h"
 
 

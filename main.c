@@ -3,7 +3,7 @@
 #include <time.h>
 #include <parson.h>
 #include "sfx/sfx.h"
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "level/camera.h"
 #include "config/config.h"
 #include "player/inventory/inventory.h"

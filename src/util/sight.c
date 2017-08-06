@@ -1,6 +1,6 @@
 #include <math.h>
 #include <util/util.h>
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "sight.h"
 
 

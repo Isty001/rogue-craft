@@ -1,6 +1,5 @@
 #include <time.h>
-#include "util/memory.h"
-#include "player.h"
+#include "memory/memory.h"
 #include "inventory/inventory.h"
 
 

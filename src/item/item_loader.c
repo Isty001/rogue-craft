@@ -2,7 +2,7 @@
 #include <tinydir.h>
 #include <list.h>
 #include "item.h"
-#include "util/memory.h"
+#include "memory/memory.h"
 #include "util/json.h"
 #include "config.h"
 

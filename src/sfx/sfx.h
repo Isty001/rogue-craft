@@ -2,7 +2,7 @@
 #define ROGUE_CRAFT_SFX_H
 
 
-typedef struct cell Cell;
+typedef struct Cell Cell;
 
 
 void sfx_init(void);
