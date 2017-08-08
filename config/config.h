@@ -60,7 +60,7 @@ extern double MATERIAL_STRENGTH[MATERIAL_NUM];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 20);
+    (uint16_t) ((level->size.height * level->size.width) / 200);
 
 
 extern Probability LEVEL_PROBABILITY;
