@@ -1,6 +1,6 @@
 #include <getopt.h>
 #include <stdio.h>
-#include <dotenv.h>
+#include "dotenv.h"
 #include "util/util.h"
 #include "storage/storage.h"
 #include "environment.h"
