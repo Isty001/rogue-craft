@@ -2,7 +2,7 @@
 #include <time.h>
 #include <locale.h>
 #include <parson.h>
-#include <pthread.h>
+#include "util/timer.h"
 #include "memory/memory.h"
 #include "util/color.h"
 #include "item/item.h"
@@ -40,6 +40,7 @@ static void init(void)
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
     profiler_init();
+    timer_init();
     list_node_pool_init();
     item_pool_init();
     cell_pool_init();
@@ -47,6 +48,7 @@ static void init(void)
 
 static void cleanup(void)
 {
+    timer_cleanup();
     item_pool_cleanup();
     cell_pool_cleanup();
     list_node_pool_cleanup();
@@ -84,9 +86,4 @@ int main(int argc, char *argv[])
     run_lighting_test();
 
     cleanup();
-
-    /**
-     * @see http://stackoverflow.com/questions/1542457/memory-leak-reported-by-valgrind-in-dlopen/3649846#comment1773664_1874334
-     */
-    pthread_exit(NULL);
 }

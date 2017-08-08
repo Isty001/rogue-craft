@@ -10,11 +10,14 @@
 #include "util/event.h"
 
 
-#define PLAYER_ATTR_NUM      4
-#define PLAYER_ATTR_NAME_MAX 10
+#define PLAYER_STATE_NUM      4
+#define PLAYER_STATE_NAME_MAX 10
+#define PLAYER_SPEED_MAX      150
 
 
 typedef struct Inventory Inventory;
+
+typedef struct Timer Timer;
 
 
 typedef enum {
@@ -22,14 +25,14 @@ typedef enum {
     STAMINA,
     HUNGER,
     THIRST
-} AttributeType;
+} StateType;
 
 typedef struct {
-    char name[PLAYER_ATTR_NAME_MAX];
+    char name[PLAYER_STATE_NAME_MAX];
     Style style;
     uint16_t max;
     uint16_t current;
-} Attribute;
+} State;
 
 typedef struct {
     double dealt_damage;
@@ -41,9 +44,19 @@ typedef struct {
 } Modifiers;
 
 typedef struct {
+    Direction direction;
+    bool moving;
+    Timer *timer;
+} PlayerMovement;
+
+typedef struct {
     Modifiers modifiers;
-    Attribute attributes[PLAYER_ATTR_NUM];
+    State map[PLAYER_STATE_NUM];
 } PlayerState;
+
+typedef struct {
+    uint16_t speed;
+} PlayerAttributes;
 
 typedef struct Player {
     Level *level;
@@ -55,6 +68,8 @@ typedef struct Player {
         Point current;
         Point previous;
     } position;
+    PlayerMovement movement;
+    PlayerAttributes attributes;
     struct {
         Cell prototype;
         Cell *occupied;
@@ -84,6 +99,8 @@ typedef const struct {
 
 
 Player *player_new(Level *level, Camera *camera);
+
+void player_init_movement(Player *player);
 
 void player_free(Player *player);
 

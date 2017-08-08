@@ -35,5 +35,7 @@ void sfx_play_break(Cell *cell)
 
 void sfx_play_step(Cell *cell)
 {
-    sfx_play_rand("step", name_of(cell));
+    if (rand_bool(0.5)) {
+        sfx_play_rand("step", name_of(cell));
+    }
 }

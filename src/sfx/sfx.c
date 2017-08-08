@@ -61,7 +61,7 @@ void sfx_play_rand(char *type, char *name)
     if (0 != glob(path, GLOB_PERIOD, NULL, &list)) {
         return;
     }
-    char *selected = list.gl_pathv[rand_in(0, list.gl_offs)];
+    char *selected = list.gl_pathv[rand_in(0, list.gl_pathc)];
 
     play_file(selected);
 }

@@ -1,4 +1,5 @@
 #include <time.h>
+#include <util/timer.h>
 #include "memory/memory.h"
 #include "inventory/inventory.h"
 
@@ -13,26 +14,26 @@ static void init_modifiers(Player *player)
     modifiers->timestamp.fatigue_damage = time(NULL);
 }
 
-static void add_default_attributes(Player *player)
+static void add_default_state(Player *player)
 {
-    Attribute *map = player->state.attributes;
+    State *map = player->state.map;
 
-    map[HEALTH] = (Attribute) {
+    map[HEALTH] = (State) {
         .current = 100, .max = 100,
         .name = "Health", .style  = COLOR_PAIR(COLOR_RED_F)
     };
 
-    map[STAMINA] = (Attribute) {
+    map[STAMINA] = (State) {
         .current = 100, .max = 100,
         .name = "Stamina", .style = COLOR_PAIR(COLOR_GREEN_F)
     };
 
-    map[HUNGER] = (Attribute) {
+    map[HUNGER] = (State) {
         .current = 0, .max = 100,
         .name = "Hunger", .style = COLOR_PAIR(COLOR_YELLOW_F)
     };
 
-    map[THIRST] = (Attribute) {
+    map[THIRST] = (State) {
         .current = 0, .max = 100,
         .name = "Thirst", .style = COLOR_PAIR(COLOR_BLUE_F)
     };
@@ -54,8 +55,11 @@ Player *player_new(Level *level, Camera *camera)
     player->level = level;
     player->camera = camera;
 
-    add_default_attributes(player);
+    add_default_state(player);
     init_modifiers(player);
+    player_init_movement(player);
+
+    player->attributes.speed = 10;
 
     player->cell.prototype.type = PLAYER;
     player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);

@@ -2,6 +2,7 @@
 #include <locale.h>
 #include <time.h>
 #include <parson.h>
+#include "util/timer.h"
 #include "sfx/sfx.h"
 #include "memory/memory.h"
 #include "level/camera.h"
@@ -17,6 +18,7 @@ static void init(void)
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
     profiler_init();
+    timer_init();
     sfx_init();
     ncurses_init();
     mouse_init();
@@ -34,6 +36,7 @@ static void init(void)
 
 static void cleanup(Player *player)
 {
+    timer_cleanup();
     sfx_cleanup();
     ncurses_cleanup();
     panel_cleanup();
