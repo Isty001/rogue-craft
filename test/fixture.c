@@ -91,7 +91,7 @@ Item fixture_consumable(bool permanent)
         .type = CONSUMABLE,
         .value = 10,
         .consumable = (Consumable) {
-            .attribute = HEALTH,
+            .stateType = HEALTH,
             .permanent = permanent,
         }
     };

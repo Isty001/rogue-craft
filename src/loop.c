@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include "util/timer.h"
 #include "loop.h"
 #include "config.h"
 #include "player/inventory/inventory.h"
@@ -50,6 +51,8 @@ void loop_run(Player *player)
         }
         update(input, player);
         render(player);
+
+        timer_tick();
 
         napms(TIMEOUT);
 

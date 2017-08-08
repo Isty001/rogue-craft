@@ -36,7 +36,7 @@ static void assert_consumable(ItemPrototype *prototype)
     assert_wchar("ð", item->chr, 2);
 
     mu_assert(consumable->permanent, "should be permanent");
-    mu_assert_int_eq(STAMINA, consumable->attribute);
+    mu_assert_int_eq(STAMINA, consumable->stateType);
 }
 
 static void assert_light_source(ItemPrototype *prototype)

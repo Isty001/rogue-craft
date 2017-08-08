@@ -13,13 +13,13 @@ MU_TEST(test_non_consumable)
 
 static void setup_player(Player *player)
 {
-    Attribute *state = player->state.attributes;
+    State *states = player->state.map;
 
-    state[HEALTH].max = 100;
-    state[HEALTH].current = 90;
+    states[HEALTH].max = 100;
+    states[HEALTH].current = 90;
 
-    state[HUNGER].max = 100;
-    state[HUNGER].current = 20;
+    states[HUNGER].max = 100;
+    states[HUNGER].current = 20;
 }
 
 MU_TEST(test_persistent)
@@ -30,7 +30,7 @@ MU_TEST(test_persistent)
     setup_player(&player);
 
     mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumed");
-    mu_assert_int_eq(110, player.state.attributes[HEALTH].max);
+    mu_assert_int_eq(110, player.state.map[HEALTH].max);
 }
 
 MU_TEST(test_non_persistent)
@@ -40,7 +40,7 @@ MU_TEST(test_non_persistent)
     setup_player(&player);
 
     mu_assert_int_eq(IE_CONSUMED, item_consume(&item, &player));
-    mu_assert_int_eq(100, player.state.attributes[HEALTH].current);
+    mu_assert_int_eq(100, player.state.map[HEALTH].current);
 }
 
 MU_TEST(test_partial_consume)
@@ -48,10 +48,10 @@ MU_TEST(test_partial_consume)
     Item item = fixture_consumable(false);
     Player player;
     setup_player(&player);
-    player.state.attributes[HEALTH].current = 95;
+    player.state.map[HEALTH].current = 95;
 
     mu_assert(IE_REPEAT == item_consume(&item, &player), "Should be partially consumed");
-    mu_assert_int_eq(100, player.state.attributes[HEALTH].current);
+    mu_assert_int_eq(100, player.state.map[HEALTH].current);
     mu_assert_int_eq(5, item.value);
 }
 
@@ -61,11 +61,11 @@ MU_TEST(test_negative)
     setup_player(&player);
 
     Item item = fixture_consumable(false);
-    item.consumable.attribute = HUNGER;
+    item.consumable.stateType = HUNGER;
     item.value = -50;
 
     mu_assert_int_eq(IE_REPEAT, item_consume(&item, &player));
-    mu_assert_int_eq(0, player.state.attributes[HUNGER].current);
+    mu_assert_int_eq(0, player.state.map[HUNGER].current);
 
     mu_assert_int_eq(-30, item.value);
 }

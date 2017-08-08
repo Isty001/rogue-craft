@@ -5,7 +5,7 @@
 #define PADDING 2
 
 
-static void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
+static void display_attribute_bar(int width, State *attr, WINDOW *win)
 {
     int bar_width = width * ((double) attr->current / attr->max);
 
@@ -22,21 +22,21 @@ static void display_attribute_bar(int width, Attribute *attr, WINDOW *win)
 
 void player_attributes_display(Player *player)
 {
-    Attribute *attr;
+    State *states;
     WINDOW *win = WINDOW_PLAYER_ATTRIBUTES;
     int width = getmaxx(win) - 2 * PADDING;
     int line = 0;
 
-    for (int i = 0; i < PLAYER_ATTR_NUM; i++) {
-        attr = &player->state.attributes[i];
+    for (int i = 0; i < PLAYER_STATE_NUM; i++) {
+        states = &player->state.map[i];
 
-        styled(win, attr->style,
-               mvwprintw(win, ++line, PADDING, attr->name);
+        styled(win, states->style,
+               mvwprintw(win, ++line, PADDING, states->name);
         );
-        wprintw(win, ": %d/%d", attr->current, attr->max);
+        wprintw(win, ": %d/%d", states->current, states->max);
         wmove(win, ++line, PADDING);
 
-        display_attribute_bar(width, attr, win);
+        display_attribute_bar(width, states, win);
         line++;
     }
 

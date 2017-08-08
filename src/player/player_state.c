@@ -2,7 +2,7 @@
 #include "player.h"
 
 
-static inline void change(Attribute *attr, int16_t change)
+static inline void change(State *attr, int16_t change)
 {
     int16_t new = attr->current + change;
 
@@ -11,37 +11,37 @@ static inline void change(Attribute *attr, int16_t change)
     }
 }
 
-static inline void apply_fatigue_damage(Attribute *attributes, FatigueDamage *damage)
+static inline void apply_fatigue_damage(State *states, FatigueDamage *damage)
 {
-    change(&attributes[HEALTH], rand_in_range(damage->health));
+    change(&states[HEALTH], rand_in_range(damage->health));
 }
 
-static inline void apply_fatigue(Attribute *attributes, Fatigue *fatigue)
+static inline void apply_fatigue(State *states, Fatigue *fatigue)
 {
-    change(&attributes[HUNGER], rand_in_range(fatigue->hunger));
-    change(&attributes[THIRST], rand_in_range(fatigue->thirst));
-    change(&attributes[STAMINA], rand_in_range(fatigue->stamina));
+    change(&states[HUNGER], rand_in_range(fatigue->hunger));
+    change(&states[THIRST], rand_in_range(fatigue->thirst));
+    change(&states[STAMINA], rand_in_range(fatigue->stamina));
 }
 
-static void apply_fatigue_by_modifiers(Modifiers *modifiers, Fatigue *fatigue, Attribute *attributes)
+static void apply_fatigue_by_modifiers(Modifiers *modifiers, Fatigue *fatigue, State *states)
 {
     if (modifiers->traveled >= fatigue->traveled) {
-        apply_fatigue(attributes, fatigue);
+        apply_fatigue(states, fatigue);
         modifiers->traveled = 0;
     }
     if (modifiers->dealt_damage >= fatigue->dealt_damage) {
-        apply_fatigue(attributes, fatigue);
+        apply_fatigue(states, fatigue);
         modifiers->dealt_damage = 0;
     }
     time_t now = time(NULL);
 
     if (difftime(now, modifiers->timestamp.fatigue) >= fatigue->elapsed_time) {
-        apply_fatigue(attributes, fatigue);
+        apply_fatigue(states, fatigue);
         modifiers->timestamp.fatigue = now;
     }
 }
 
-static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, Attribute *attributes)
+static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, State *states)
 {
     time_t now = time(NULL);
 
@@ -49,11 +49,11 @@ static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, A
         return;
     }
 
-    if (attributes[HUNGER].current >= damage->hunger) {
-        apply_fatigue_damage(attributes, damage);
+    if (states[HUNGER].current >= damage->hunger) {
+        apply_fatigue_damage(states, damage);
     }
-    if (attributes[THIRST].current >= damage->thirst) {
-        apply_fatigue_damage(attributes, damage);
+    if (states[THIRST].current >= damage->thirst) {
+        apply_fatigue_damage(states, damage);
     }
 
     modifiers->timestamp.fatigue_damage = now;
@@ -61,9 +61,9 @@ static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, A
 
 void player_state_update(Player *player, PlayerStateConfig *cfg)
 {
-    Attribute *attributes = player->state.attributes;
+    State *states = player->state.map;
     Modifiers *modifiers = &player->state.modifiers;
 
-    apply_fatigue_by_modifiers(modifiers, &cfg->fatigue, attributes);
-    apply_fatigue_damages(modifiers, &cfg->fatigue_damage, attributes);
+    apply_fatigue_by_modifiers(modifiers, &cfg->fatigue, states);
+    apply_fatigue_damages(modifiers, &cfg->fatigue_damage, states);
 }

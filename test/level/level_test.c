@@ -1,3 +1,4 @@
+#include "level/level.h"
 #include "../unit_test.h"
 #include "../fixture.h"
 

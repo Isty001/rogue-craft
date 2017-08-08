@@ -44,7 +44,7 @@ typedef struct {
 
 typedef struct Consumable {
     bool permanent;
-    AttributeType attribute;
+    StateType stateType;
 } Consumable;
 
 typedef struct {

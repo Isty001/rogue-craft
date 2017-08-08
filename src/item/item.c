@@ -55,23 +55,23 @@ Item *item_random(void)
 /**
 * @see player.h
  */
-static ItemError consume_non_permanent(Item *item, Attribute *attribute)
+static ItemError consume_non_permanent(Item *item, State *state)
 {
-    int16_t new = attribute->current + item->value;
-    uint16_t max = attribute->max;
+    int16_t new = state->current + item->value;
+    uint16_t max = state->max;
 
     if (new > max) {
-        attribute->current = max;
+        state->current = max;
         item->value = new - max;
 
         return IE_REPEAT;
     } else if (new < 0) {
-        attribute->current = 0;
+        state->current = 0;
         item->value = new;
 
         return IE_REPEAT;
     }
-    attribute->current = new;
+    state->current = new;
 
     return IE_CONSUMED;
 }
@@ -81,15 +81,15 @@ ItemError item_consume(Item *parent, Player *player)
     check_type(parent, CONSUMABLE);
 
     Consumable *consumable = &parent->consumable;
-    Attribute *attribute = &player->state.attributes[consumable->attribute];
+    State *states = &player->state.map[consumable->stateType];
 
     if (consumable->permanent) {
-        attribute->max += parent->value;
+        states->max += parent->value;
 
         return IE_CONSUMED;
     }
 
-    return consume_non_permanent(parent, attribute);
+    return consume_non_permanent(parent, states);
 }
 
 static void restore_occupied_cell(Level *level, Item *item, Point point)

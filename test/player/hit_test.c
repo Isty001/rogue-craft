@@ -30,7 +30,7 @@ static Player create_player(void)
         .level = fixture_level(),
         .inventory = create_inventory(),
         .position = {.current = point_new(1, 0), .previous = point_new(1000, 1000)},
-        .state.attributes = {[STAMINA] = {.current = 80}}
+        .state.map = {[STAMINA] = {.current = 80}}
     };
 }
 
@@ -91,8 +91,8 @@ MU_TEST(test_material_and_tired_damage)
     List *items = player.inventory->items;
     Item *tool;
 
-    player.state.attributes[HUNGER].current = 20;
-    player.state.attributes[THIRST].current = 30;
+    player.state.map[HUNGER].current = 20;
+    player.state.map[THIRST].current = 30;
     tool = items->head(items);
     tool->tool.multipliers.materials[STONE] = 2;
 

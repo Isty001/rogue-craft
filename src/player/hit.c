@@ -25,10 +25,10 @@ static double tool_damage_multiplier(Tool *tool, Cell *cell)
 
 static double calculate_damage(Player *player, Tool *tool, Cell *target)
 {
-    Attribute *state = player->state.attributes;
+    State *states = player->state.map;
 
-    double positive = state[STAMINA].current * 1.15;
-    double negative = state[HUNGER].current + state[THIRST].current;
+    double positive = states[STAMINA].current * 1.15;
+    double negative = states[HUNGER].current + states[THIRST].current;
 
     double damage = (positive - (negative / 2)) / 20;
 

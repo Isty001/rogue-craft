@@ -2,7 +2,7 @@
 #include "../../src/player/player.h"
 
 
-#define attr_init(curr) (Attribute){.current = curr, .max = 100}
+#define attr_init(curr) (State){.current = curr, .max = 100}
 
 
 static PlayerStateConfig TEST_CFG = {
@@ -26,11 +26,11 @@ static PlayerStateConfig TEST_CFG = {
 MU_TEST(test_player_state)
 {
     Player player;
-    Attribute *attr = player.state.attributes;
-    attr[HEALTH] = attr_init(100);
-    attr[HUNGER] = attr_init(98);
-    attr[STAMINA] = attr_init(2);
-    attr[THIRST] = attr_init(97);
+    State *state = player.state.map;
+    state[HEALTH] = attr_init(100);
+    state[HUNGER] = attr_init(98);
+    state[STAMINA] = attr_init(2);
+    state[THIRST] = attr_init(97);
 
     Modifiers *modifiers = &player.state.modifiers;
     *modifiers = (Modifiers) {
@@ -43,11 +43,11 @@ MU_TEST(test_player_state)
     };
     player_state_update(&player, &TEST_CFG);
 
-    mu_assert_int_eq(100, attr[HUNGER].current);
-    mu_assert_int_eq(0, attr[STAMINA].current);
-    mu_assert_int_eq(100, attr[THIRST].current);
+    mu_assert_int_eq(100, state[HUNGER].current);
+    mu_assert_int_eq(0, state[STAMINA].current);
+    mu_assert_int_eq(100, state[THIRST].current);
 
-    mu_assert_int_eq(98, attr[HEALTH].current);
+    mu_assert_int_eq(98, state[HEALTH].current);
 
     mu_assert_int_eq(0, modifiers->traveled);
     mu_assert_int_eq(0, modifiers->dealt_damage);
