@@ -1,9 +1,8 @@
 #include <time.h>
 #include <list.h>
-#include <sys/time.h>
-#include <stdio.h>
 #include "memory/memory.h"
 #include "timer.h"
+#include "util.h"
 
 
 struct Timer {
@@ -28,14 +27,6 @@ void timer_cleanup(void)
     TIMERS->free(TIMERS);
 }
 
-static time_t now_ms(void)
-{
-    struct timeval now;
-    gettimeofday(&now, NULL);
-
-    return now.tv_sec * 1000 + now.tv_usec / 1000;
-}
-
 Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
 {
     Timer *timer = mem_alloc(sizeof(Timer));
@@ -51,10 +42,10 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
 
 static void tick(Timer *timer)
 {
-    time_t now = now_ms();
+    time_t now = time_now_ms();
 
     if (now - timer->last_execution >= timer->timeout) {
-        timer->task(timer->args);
+        timer->task(&timer->args);
         timer->last_execution = now;
     }
 }

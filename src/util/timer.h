@@ -13,7 +13,7 @@ typedef struct {
 } TimerArgs;
 
 
-typedef void (*TimerTask)(TimerArgs args);
+typedef void (*TimerTask)(TimerArgs *args);
 
 
 Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args);

@@ -115,7 +115,7 @@ void player_attributes_display(Player *player);
 
 void player_position_on_level(Player *player);
 
-void player_state_update(TimerArgs args);
+void player_state_update(TimerArgs *args);
 
 
 #endif

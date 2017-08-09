@@ -34,9 +34,9 @@ static void update_player(Player *player, Point target)
     player->movement.moving = false;
 }
 
-static void move_to(TimerArgs args)
+static void move_to(TimerArgs *args)
 {
-    Player *player = args.ptr[0];
+    Player *player = args->ptr[0];
     Direction direction = player->movement.direction;
     Point target = point_move(player->position.current, direction, 1);
 
@@ -68,9 +68,9 @@ EventError player_move(InputEvent *event)
 void player_init_movement(Player *player)
 {
     PlayerMovement *movement = &player->movement;
-    uint16_t speed = player->attributes.speed;
+    uint16_t timeout = PLAYER_SPEED_MAX - player->attributes.speed;
 
     TimerArgs args = {.ptr = {player}};
-    movement->timer = timer_new(PLAYER_SPEED_MAX - speed, move_to, args);
+    movement->timer = timer_new(timeout, move_to, args);
     movement->moving = false;
 }

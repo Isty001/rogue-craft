@@ -59,10 +59,10 @@ static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, S
     modifiers->timestamp.fatigue_damage = now;
 }
 
-void player_state_update(TimerArgs args)
+void player_state_update(TimerArgs *args)
 {
-    Player *player = args.ptr[0];
-    PlayerStateConfig *cfg = args.ptr[1];
+    Player *player = args->ptr[0];
+    PlayerStateConfig *cfg = args->ptr[1];
 
     State *states = player->state.map;
     Modifiers *modifiers = &player->state.modifiers;
