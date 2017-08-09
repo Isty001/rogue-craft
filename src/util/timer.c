@@ -9,7 +9,7 @@
 struct Timer {
     uint16_t timeout;
     TimerTask task;
-    void *arg;
+    TimerArgs args;
     time_t last_execution;
 };
 
@@ -36,11 +36,11 @@ static time_t now_ms(void)
     return now.tv_sec * 1000 + now.tv_usec / 1000;
 }
 
-Timer *timer_new(uint16_t timeout_ms, TimerTask task, void *arg)
+Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
 {
     Timer *timer = mem_alloc(sizeof(Timer));
     timer->task = task;
-    timer->arg = arg;
+    timer->args = args;
     timer->timeout = timeout_ms;
 
     TIMERS->append(TIMERS, timer);
@@ -54,8 +54,7 @@ static void tick(Timer *timer)
     time_t now = now_ms();
 
     if (now - timer->last_execution >= timer->timeout) {
-
-        timer->task(timer->arg);
+        timer->task(timer->args);
         timer->last_execution = now;
     }
 }

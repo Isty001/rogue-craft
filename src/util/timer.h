@@ -8,11 +8,15 @@
 
 typedef struct Timer Timer;
 
+typedef struct {
+    void *ptr[5];
+} TimerArgs;
 
-typedef void (*TimerTask)(void *arg);
+
+typedef void (*TimerTask)(TimerArgs args);
 
 
-Timer *timer_new(uint16_t timeout_ms, TimerTask task, void *arg);
+Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args);
 
 void timer_init(void);
 

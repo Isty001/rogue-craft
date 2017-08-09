@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <memory.h>
+#include "util/timer.h"
 #include "level/point.h"
 #include "level/level.h"
 #include "util/sight.h"
@@ -114,7 +115,7 @@ void player_attributes_display(Player *player);
 
 void player_position_on_level(Player *player);
 
-void player_state_update(Player *player, PlayerStateConfig *cfg);
+void player_state_update(TimerArgs args);
 
 
 #endif

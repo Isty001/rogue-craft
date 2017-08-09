@@ -12,10 +12,8 @@
     * More tests
 * [LEVEL] Level JSON cache
 * [MISC] Probability.items should be dynamic
-* [MISC] Timers for periodic executions
 * [UI] Multiple panels
 * [BE AWARE] If there will be more than one thread, the static buffer in `environment.c` will cause problems
-* [BUILD] DIR_FIXTURE as env var
 * [BUILD] DEB package
 
 #### Possible optimizations:

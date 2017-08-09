@@ -1,6 +1,6 @@
 #include <ncurses/ncurses.h>
-#include "sfx/sfx.h"
 #include "util/timer.h"
+#include "sfx/sfx.h"
 #include "config.h"
 
 
@@ -34,8 +34,9 @@ static void update_player(Player *player, Point target)
     player->movement.moving = false;
 }
 
-static void move_to(Player *player)
+static void move_to(TimerArgs args)
 {
+    Player *player = args.ptr[0];
     Direction direction = player->movement.direction;
     Point target = point_move(player->position.current, direction, 1);
 
@@ -69,6 +70,7 @@ void player_init_movement(Player *player)
     PlayerMovement *movement = &player->movement;
     uint16_t speed = player->attributes.speed;
 
-    movement->timer = timer_new(PLAYER_SPEED_MAX - speed, move_to, player);
+    TimerArgs args = {.ptr = {player}};
+    movement->timer = timer_new(PLAYER_SPEED_MAX - speed, move_to, args);
     movement->moving = false;
 }

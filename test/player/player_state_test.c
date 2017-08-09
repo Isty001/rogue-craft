@@ -41,7 +41,9 @@ MU_TEST(test_player_state)
             .fatigue_damage = time(NULL) - 12
         }
     };
-    player_state_update(&player, &TEST_CFG);
+
+    TimerArgs args = {.ptr = {&player, &TEST_CFG}};
+    player_state_update(args);
 
     mu_assert_int_eq(100, state[HUNGER].current);
     mu_assert_int_eq(0, state[STAMINA].current);

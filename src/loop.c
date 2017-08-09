@@ -37,7 +37,9 @@ static void update(int input, Player *player)
 void loop_run(Player *player)
 {
     int input;
-    int i = 0;
+
+    TimerArgs args = {.ptr = {player, &PLAYER_STATE_CONFIG}};
+    timer_new(200, player_state_update, args);
 
     while (1) {
         if (-1 != (input = wgetch(WINDOW_MAIN))) {
@@ -51,14 +53,8 @@ void loop_run(Player *player)
         }
         update(input, player);
         render(player);
-
         timer_tick();
 
         napms(TIMEOUT);
-
-        if (i++ == 10) {
-            player_state_update(player, &PLAYER_STATE_CONFIG);
-            i = 0;
-        }
     }
 }

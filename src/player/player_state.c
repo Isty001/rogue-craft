@@ -1,5 +1,5 @@
 #include <time.h>
-#include "player.h"
+#include "config.h"
 
 
 static inline void change(State *attr, int16_t change)
@@ -59,8 +59,11 @@ static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, S
     modifiers->timestamp.fatigue_damage = now;
 }
 
-void player_state_update(Player *player, PlayerStateConfig *cfg)
+void player_state_update(TimerArgs args)
 {
+    Player *player = args.ptr[0];
+    PlayerStateConfig *cfg = args.ptr[1];
+
     State *states = player->state.map;
     Modifiers *modifiers = &player->state.modifiers;
 
