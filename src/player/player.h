@@ -111,7 +111,7 @@ void player_sight_update(Player *player);
 
 EventError player_hit(InteractionEvent *event);
 
-void player_attributes_display(Player *player);
+void player_state_display(Player *player);
 
 void player_position_on_level(Player *player);
 

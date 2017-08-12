@@ -50,7 +50,7 @@ void ncurses_init(void)
     WINDOW_PLAYER_ATTRIBUTES = ncurses_subwin(stdscr, left_side_bar_height, side_bar_width, left_side_bar_height, 0);
     WINDOW_INVENTORY_SHORTCUT = ncurses_subwin(stdscr, inventory_height, main_width, main_height + 1, side_bar_width);
 
-    box(WINDOW_EVENT, 0, 0);
+    refresh_boxed(WINDOW_EVENT);
 
     refresh();
 }

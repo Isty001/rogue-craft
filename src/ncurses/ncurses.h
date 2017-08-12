@@ -12,9 +12,8 @@
 #define NCURSES_WIDTH_MULTIPLIER 2
 
 
-#define refresh_boxed_ch(w, ch) box(w, ch, ch); wrefresh(w);
+#define refresh_boxed(w) wborder(w, 1, 1, 1, 1, 0, 0, 0, 0); wrefresh(w);
 
-#define refresh_boxed(w) refresh_boxed_ch(w, 0);
 
 #define ncurses_event(msg, ...)                              \
     if (!getenv(ENV_NCURSES_INACTIVE)) {                    \

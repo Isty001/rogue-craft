@@ -2,7 +2,7 @@
 
 
 #define SEPARATOR '|'
-#define PADDING 2
+#define PADDING 1
 
 
 static void display_attribute_bar(int width, State *attr, WINDOW *win)
@@ -20,23 +20,23 @@ static void display_attribute_bar(int width, State *attr, WINDOW *win)
     }
 }
 
-void player_attributes_display(Player *player)
+void player_state_display(Player *player)
 {
-    State *states;
+    State *state;
     WINDOW *win = WINDOW_PLAYER_ATTRIBUTES;
     int width = getmaxx(win) - 2 * PADDING;
     int line = 0;
 
     for (int i = 0; i < PLAYER_STATE_NUM; i++) {
-        states = &player->state.map[i];
+        state = &player->state.map[i];
 
-        styled(win, states->style,
-               mvwprintw(win, ++line, PADDING, states->name);
+        styled(win, state->style,
+               mvwprintw(win, ++line, PADDING, state->name);
         );
-        wprintw(win, ": %d/%d", states->current, states->max);
+        wprintw(win, ": %d/%d", state->current, state->max);
         wmove(win, ++line, PADDING);
 
-        display_attribute_bar(width, states, win);
+        display_attribute_bar(width, state, win);
         line++;
     }
 

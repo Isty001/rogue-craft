@@ -15,7 +15,7 @@ static void render(Player *player)
     panel_hide();
     level_display(player);
     inventory_shortcut_display(player->inventory);
-    player_attributes_display(player);
+    player_state_display(player);
     profiler_display();
     panel_show();
 }
