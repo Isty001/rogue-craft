@@ -1,8 +1,8 @@
 #include <vlc/vlc.h>
 #include <limits.h>
 #include <glob.h>
+#include <ncurses/ncurses.h>
 #include "storage/storage.h"
-#include "util/environment.h"
 #include "sfx.h"
 
 
@@ -24,6 +24,11 @@ static void base_path_for(char *path, char *type, char *name)
 static void full_path_for(char *path, char *type, char *name)
 {
     sprintf(path, "%s/sfx/%s/%s.wav", getenv(ENV_DIR_RESOURCES), type, name);
+}
+
+static void glob_path_for(char *path, char *type, char *name)
+{
+    sprintf(path, "%s/sfx/%s/%s*", getenv(ENV_DIR_RESOURCES), type, name);
 }
 
 static void play_file(char *path)
@@ -54,8 +59,7 @@ void sfx_play_rand(char *type, char *name)
     if (!name) return;
 
     char path[PATH_MAX];
-    base_path_for(path, type, name);
-    sprintf(path, "%s_*", path);
+    glob_path_for(path, type, name);
 
     glob_t list;
     if (0 != glob(path, GLOB_PERIOD, NULL, &list)) {
