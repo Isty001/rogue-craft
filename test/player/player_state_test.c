@@ -43,7 +43,7 @@ MU_TEST(test_player_state)
     };
 
     TimerArgs args = {.ptr = {&player, &TEST_CFG}};
-    player_state_update(args);
+    player_state_update(&args);
 
     mu_assert_int_eq(100, state[HUNGER].current);
     mu_assert_int_eq(0, state[STAMINA].current);
