@@ -5,7 +5,7 @@
 #define attr_init(curr) (State){.current = curr, .max = 100}
 
 
-static PlayerStateConfig TEST_CFG = {
+static const PlayerStateConfig TEST_CFG = {
     .fatigue = {
         .hunger = range_new(1, 1),
         .thirst = range_new(1, 1),

@@ -11,19 +11,19 @@ static inline void change(State *attr, int16_t change)
     }
 }
 
-static inline void apply_fatigue_damage(State *states, FatigueDamage *damage)
+static inline void apply_fatigue_damage(State *states, const FatigueDamage *damage)
 {
     change(&states[HEALTH], rand_in_range(damage->health));
 }
 
-static inline void apply_fatigue(State *states, Fatigue *fatigue)
+static inline void apply_fatigue(State *states, const Fatigue *fatigue)
 {
     change(&states[HUNGER], rand_in_range(fatigue->hunger));
     change(&states[THIRST], rand_in_range(fatigue->thirst));
     change(&states[STAMINA], rand_in_range(fatigue->stamina));
 }
 
-static void apply_fatigue_by_modifiers(Modifiers *modifiers, Fatigue *fatigue, State *states)
+static void apply_fatigue_by_modifiers(Modifiers *modifiers, const Fatigue *fatigue, State *states)
 {
     if (modifiers->traveled >= fatigue->traveled) {
         apply_fatigue(states, fatigue);
@@ -41,7 +41,7 @@ static void apply_fatigue_by_modifiers(Modifiers *modifiers, Fatigue *fatigue, S
     }
 }
 
-static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, State *states)
+static void apply_fatigue_damages(Modifiers *modifiers, const FatigueDamage *damage, State *states)
 {
     time_t now = time(NULL);
 
@@ -62,7 +62,7 @@ static void apply_fatigue_damages(Modifiers *modifiers, FatigueDamage *damage, S
 void player_state_update(TimerArgs *args)
 {
     Player *player = args->ptr[0];
-    PlayerStateConfig *cfg = args->ptr[1];
+    const PlayerStateConfig *cfg = args->ptr[1];
 
     State *states = player->state.map;
     Modifiers *modifiers = &player->state.modifiers;

@@ -1,7 +1,7 @@
 #include "config.h"
 
 
-PlayerStateConfig PLAYER_STATE_CONFIG = {
+const PlayerStateConfig PLAYER_STATE_CONFIG = {
     .fatigue = {
         .traveled = 1000,
         .dealt_damage = 500,

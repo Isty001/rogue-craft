@@ -77,7 +77,7 @@ typedef struct Player {
     } cell;
 } Player;
 
-typedef const struct {
+typedef struct {
     uint16_t traveled;
     uint16_t dealt_damage;
     uint16_t elapsed_time;
@@ -86,16 +86,16 @@ typedef const struct {
     Range stamina;
 } Fatigue;
 
-typedef const struct {
+typedef struct {
     uint16_t hunger;
     uint16_t thirst;
     uint16_t elapsed_time;
     Range health;
 } FatigueDamage;
 
-typedef const struct {
-    Fatigue fatigue;
-    FatigueDamage fatigue_damage;
+typedef struct {
+    const Fatigue fatigue;
+    const FatigueDamage fatigue_damage;
 } PlayerStateConfig;
 
 
