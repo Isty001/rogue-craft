@@ -41,7 +41,7 @@ CacheError item_cache_load(void)
     Cache cache;
     cache_open_items(&cache);
 
-    return cache_foreach_valid(&cache, env_json_resource_dir(RESOURCE_ITEMS), (Reader) load_item);
+    return cache_foreach_valid(&cache, env_json_resource_path(RESOURCE_ITEMS), (Reader) load_item);
 }
 
 static void save_probability(Cache *cache, Probability *probability)

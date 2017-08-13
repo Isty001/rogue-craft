@@ -1,4 +1,4 @@
-#include <ncurses/ncurses.h>
+#include "ui/ncurses.h"
 #include "level/cell/cell.h"
 #include "sfx.h"
 

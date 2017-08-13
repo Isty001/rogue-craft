@@ -1,5 +1,5 @@
-#include "ncurses/grid.h"
-#include "ncurses/ncurses.h"
+#include "ui/grid.h"
+#include "ui/ncurses.h"
 #include "item/item.h"
 #include "inventory.h"
 

@@ -3,7 +3,7 @@
 
 
 #include "player/player.h"
-#include "ncurses/ncurses.h"
+#include "ui/ncurses.h"
 #include "util/event.h"
 #include "storage/storage.h"
 #include "level/lighting/lighting.h"

@@ -30,7 +30,7 @@ static void get_path(char *path, int argc, char **argv)
 
 void env_setup(int argc, char **argv)
 {
-    char path[300];
+    char path[PATH_MAX];
     get_path(path, argc, argv);
 
     if (0 != env_load(path, false)) {
@@ -40,7 +40,7 @@ void env_setup(int argc, char **argv)
     dir_check(getenv(ENV_DIR_CACHE));
 }
 
-char *env_json_resource_dir(char *name)
+char *env_json_resource_path(char *name)
 {
     sprintf(BUFFER, "%s/json/%s", getenv(ENV_DIR_RESOURCES), name);
 

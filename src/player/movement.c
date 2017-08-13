@@ -1,4 +1,4 @@
-#include <ncurses/ncurses.h>
+#include "ui/ncurses.h"
 #include "util/timer.h"
 #include "sfx/sfx.h"
 #include "config.h"

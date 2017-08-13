@@ -1,3 +1,4 @@
+
 [![Build Status](https://travis-ci.org/rogue-craft/rogue-craft.svg?branch=master)](https://travis-ci.org/rogue-craft/rogue-craft) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c2494381a8164514adb5061f7b1796e8)](https://www.codacy.com/app/Isty001/rogue-craft?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rogue-craft/rogue-craft&amp;utm_campaign=Badge_Grade)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
@@ -12,9 +13,8 @@ for the guide and documentation. You can also follow the development [here](rogu
 
 ### Install
 
-For running `ncursesw5` is required (and `panelw5` too but usually it comes with ncurses), and your terminal must support 256 colors,
-for example try setting your `TERM` to `xterm-256color` to achieve this, add this line to your .bashrc/.zshrc or whatever you use:  `export TERM=xterm-256color`.
-The terminal also needs mouse interaction support.
+For running `ncursesw5` is required (`panelw5` too but usually it comes with ncurses), and `vlc`. Your terminal must support 256 colors,
+for example try setting your `TERM` to `xterm-256color` to achieve this. The terminal also needs mouse interaction support.
 
 #### From release tar
 
@@ -28,7 +28,7 @@ sh ./install.sh
 
 #### From source
 
-To compile you need `gcc`, `ncursesw5-dev` library installed.
+To compile you'll need `gcc`, `libncursesw5-dev` and `libvlc-dev` too.
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
@@ -45,30 +45,5 @@ Please note that it's still a very early development stage.
 ### Contribute
 
 If the project got your attention, feel free to contribute with your ideas, and code. :-)
-Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), [Plans](#Plans) or [Issues](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) are also highly appreciated.
+Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), or [Issues](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) highly appreciated.
 Check the Wiki for help, and of course you can also contact [me](https://github.com/Isty001).
-
-### <a name="Plans"></a>Plans
-
-This is just a rough list of planned features.
-
-* Lighting
-    * Portable light sources that can be carried by the player
-    * Lightings will have a limited lifetime
-    * Generate random light sources on the level
-* Inventory
-    * New types of inventory (chest, bag, etc.)
-    * Replacing shortcuts
-* Level
-    * Destroyed cells can be picked up
-    * They may also drop items
-    * Cells can be reused for building
-    * More level types
-* UI
-    * Basic menu structure (new/saved game, options etc.)
-* Crafting
-    * Recipes can be collected, learned and executed
-* AI
-* Quests
-* Save and reload the game
-* Sounds

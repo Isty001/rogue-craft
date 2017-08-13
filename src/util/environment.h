@@ -13,7 +13,10 @@
 
 void env_setup(int argc, char **argv);
 
-char *env_json_resource_dir(char *name);
+/**
+ * @return {ENV_DIR_RESOURCES}/json/name
+ */
+char *env_json_resource_path(char *name);
 
 char *env_cache_file(char *name);
 

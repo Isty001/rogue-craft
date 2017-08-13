@@ -1,5 +1,5 @@
 #include "../unit_test.h"
-#include "../../src/ncurses/grid.h"
+#include "ui/grid.h"
 
 
 MU_TEST(test_selected)

@@ -4,8 +4,8 @@
 
 #include "item/item.h"
 #include "config.h"
-#include "ncurses/panel.h"
-#include "ncurses/grid.h"
+#include "ui/panel.h"
+#include "ui/grid.h"
 
 
 #define inventory_selected(inv) \

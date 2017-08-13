@@ -1,4 +1,4 @@
-#include "ncurses/ncurses.h"
+#include "ui/ncurses.h"
 #include "config.h"
 #include "memory/memory.h"
 #include "cellular.h"

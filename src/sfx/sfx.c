@@ -1,7 +1,7 @@
 #include <vlc/vlc.h>
 #include <limits.h>
 #include <glob.h>
-#include <ncurses/ncurses.h>
+#include "ui/ncurses.h"
 #include "storage/storage.h"
 #include "sfx.h"
 

@@ -10,7 +10,7 @@
 #include "util/util.h"
 #include "util/color.h"
 #include "util/event.h"
-#include "ncurses/ncurses.h"
+#include "ui/ncurses.h"
 #include "util/randomization.h"
 
 
