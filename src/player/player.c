@@ -2,6 +2,7 @@
 #include <util/timer.h>
 #include "memory/memory.h"
 #include "inventory/inventory.h"
+#include "player.h"
 
 
 static void init_modifiers(Player *player)
@@ -59,6 +60,7 @@ Player *player_new(Level *level, Camera *camera)
     init_modifiers(player);
 
     player->attributes.speed = 1;
+    player->attributes.eye_sight = 1;
 
     player->cell.prototype.type = PLAYER;
     player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);
@@ -67,7 +69,7 @@ Player *player_new(Level *level, Camera *camera)
     find_starting_point(player);
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
-    player->sight = sight_new(level, player->position.current, PLAYER_DEFAULT_EYESIGHT);
+    player->sight = sight_new(level, player->position.current, PLAYER_EYESIGHT_ALIGN);
 
     player_init_movement(player);
 
@@ -83,5 +85,5 @@ void player_free(Player *player)
 
 void player_sight_update(Player *player)
 {
-    sight_update(player->sight, player->position.current, PLAYER_DEFAULT_EYESIGHT);
+    sight_update(player->sight, player->position.current, PLAYER_EYESIGHT_ALIGN);
 }

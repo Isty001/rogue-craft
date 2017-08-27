@@ -1,3 +1,4 @@
+#include <level/level.h>
 #include "item/item.h"
 #include "player/inventory/inventory.h"
 
@@ -20,7 +21,10 @@ static void place_on_level(InteractionEvent *event, Item *item)
 
 static bool is_supported(InteractionEvent *event, Item *item)
 {
-    return item && LIGHT_SOURCE == item->type && 1 == event->player_distance;
+    return
+        1 == event->player_distance
+        && item && LIGHT_SOURCE == item->type
+        && HOLLOW == event->cell->type;
 }
 
 EventError item_light_source_place(InteractionEvent *event)

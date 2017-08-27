@@ -32,11 +32,11 @@ static void ray_cast(Sight *sight, Point target)
     while (!point_eq(current, target)) {
 
         err_prev = err;
-        if (err_prev > -dx) {
+        if (err_prev >= -dx) {
             err -= dy;
             current.x += inc_x;
         }
-        if (err_prev < dy) {
+        if (err_prev <= dy) {
             err += dx;
             current.y += inc_y;
         }
@@ -62,7 +62,7 @@ static void collect_points(Sight *sight)
 {
     int16_t y, x;
 
-    for (double deg = 0; deg < 360; deg += 3) {
+    for (double deg = 0; deg < 360; deg++) {
 
         y = sight->center.y + (int16_t) (sight->radius * sin(deg));
         x = sight->center.x + (int16_t) (sight->radius * cos(deg));

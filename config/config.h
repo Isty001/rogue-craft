@@ -26,7 +26,7 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
  */
 #define PLAYER_CHAR                     '@'
 #define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_DEFAULT_EYESIGHT         3
+#define PLAYER_EYESIGHT_ALIGN           3
 
 extern const PlayerStateConfig PLAYER_STATE_CONFIG;
 

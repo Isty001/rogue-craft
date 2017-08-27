@@ -57,6 +57,7 @@ typedef struct {
 
 typedef struct {
     uint16_t speed;
+    uint16_t eye_sight;
 } PlayerAttributes;
 
 typedef struct Player {
