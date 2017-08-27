@@ -31,7 +31,6 @@ void run_color_cache_test(void);
 void run_inventory_display_test(void);
 void run_grid_test(void);
 void run_lighting_test(void);
-void run_saved_game_test(void);
 
 
 static void init(void)
@@ -85,7 +84,6 @@ int main(int argc, char *argv[])
     run_inventory_display_test();
     run_grid_test();
     run_lighting_test();
-    run_saved_game_test();
 
     cleanup();
 }
