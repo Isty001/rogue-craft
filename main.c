@@ -23,14 +23,14 @@ static void init(void)
     ncurses_init();
     mouse_init();
     panel_init();
-
+	
     list_node_pool_init();
     item_pool_init();
     cell_pool_init();
 
     color_init();
-    item_load();
-    cell_load();
+    item_registry_load();
+    cell_registry_load();
     level_load();
 }
 
@@ -45,8 +45,8 @@ static void cleanup(Player *player)
     cell_pool_cleanup();
 
     player_free(player);
-    item_unload();
-    cell_unload();
+    item_registry_unload();
+    cell_registry_unload();
     level_unload();
     color_cleanup();
 

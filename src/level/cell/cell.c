@@ -6,7 +6,7 @@
 static MemPool *CELL_POOL;
 
 
-Cell *cell_allocate(void)
+static Cell *cell_allocate(void)
 {
     profile_cell(++);
 
@@ -15,10 +15,10 @@ Cell *cell_allocate(void)
 
 Cell *cell_with_random_item(void)
 {
-    return cell_with_item(item_random());
+    return cell_from_item(item_random());
 }
 
-Cell *cell_with_item(Item *item)
+Cell *cell_from_item(Item *item)
 {
     Cell *cell = cell_allocate();
 
@@ -41,7 +41,7 @@ Cell *cell_clone(const Cell *cell)
     return new;
 }
 
-void cell_free_custom(Cell *cell)
+void cell_free(Cell *cell)
 {
     if (false == cell->in_registry) {
         pool_free(CELL_POOL, cell);

@@ -9,7 +9,7 @@ static void assert_tool(ItemPrototype *prototype)
     Item *item = &prototype->item;
     Tool *tool = &item->tool;
 
-    assert_string("Pickaxe", item->name);
+    assert_string("Pickaxe", prototype->name);
     assert_range(range_new(1, 100), prototype->value_range);
     mu_assert_int_eq(TOOL, prototype->item.type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_GRAY_F), item->style);
@@ -28,7 +28,7 @@ static void assert_consumable(ItemPrototype *prototype)
     Item *item = &prototype->item;
     Consumable *consumable = &item->consumable;
 
-    assert_string("Potion", item->name);
+    assert_string("Potion", prototype->name);
     assert_range(range_new(1, 30), prototype->value_range);
     mu_assert_int_eq(CONSUMABLE, item->type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_RED_F) | A_BOLD | A_UNDERLINE, item->style);
@@ -75,12 +75,12 @@ MU_TEST(test_load)
 {
     mu_assert(!cache_exists(CACHE_CONFIG_ITEMS), "Items cache should not exist");
 
-    item_load();
+    item_registry_load();
     mu_assert(cache_exists(CACHE_CONFIG_ITEMS), "Items cache should exist");
 
     assert_loaded_items();
 
-    item_unload();
+    item_registry_unload();
 }
 
 /**
@@ -97,11 +97,11 @@ MU_TEST(test_cache)
     rename(from_2, to_2);
 
     mu_assert(cache_exists(CACHE_CONFIG_ITEMS), "Items cache should exist");
-    item_load();
+    item_registry_load();
 
     assert_loaded_items();
 
-    item_unload();
+    item_registry_unload();
 
     rename(to_1, from_1);
     rename(to_2, from_2);

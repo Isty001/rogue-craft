@@ -35,11 +35,12 @@ void item_free(Item *item)
     profile_item(--);
 }
 
-Item *item_clone(ItemPrototype *prototype)
+Item *item_clone(const ItemPrototype *prototype)
 {
     Item *item = item_allocate();
     memcpy(item, &prototype->item, sizeof(Item));
     item->value = rand_in_range(prototype->value_range);
+    item->name = prototype->name;
 
     return item;
 }
@@ -95,7 +96,7 @@ ItemError item_consume(Item *parent, Player *player)
 static void restore_occupied_cell(Level *level, Item *item, Point point)
 {
     Cell *current = level->cells[point.y][point.x];
-    cell_free_custom(current);
+    cell_free(current);
 
     level->cells[point.y][point.x] = item->occupied_cell;
     item->occupied_cell = NULL;

@@ -47,25 +47,23 @@ typedef struct {
 } CellPrototype;
 
 
-void cell_load(void);
+void cell_registry_load(void);
 
 CacheError cell_cache_load(List *prototypes);
 
 void cell_cache_save(List *prototypes);
 
-void cell_unload(void);
+void cell_registry_unload(void);
 
 void cell_pool_init(void);
 
-Cell *cell_allocate(void);
-
-Cell *cell_with_item(Item *item);
+Cell *cell_from_item(Item *item);
 
 Cell *cell_with_random_item(void);
 
-const Cell *cell_get(char *name);
+const Cell *cell_registry_get(char *name);
 
-void cell_free_custom(Cell *cell);
+void cell_free(Cell *cell);
 
 Cell *cell_clone(const Cell *cell);
 

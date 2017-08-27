@@ -32,7 +32,7 @@ static void update(int input, Player *player)
 
 static void loop_timeout(int input, time_t start)
 {
-    napms(min(0, MAX_TIMEOUT - (time_now_ms() - start)));
+    napms(max(0, MAX_TIMEOUT - (time_now_ms() - start)));
 
     if (input == KEY_NORTH || input == KEY_SOUTH) {
         napms(VERTICAL_TIMEOUT);

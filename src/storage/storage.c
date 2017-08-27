@@ -2,11 +2,22 @@
 #include "storage.h"
 
 
-void dir_check(char *dir)
+void dir_create(char *dir)
 {
     if (0 != mkdir(dir, 0700) && errno != EEXIST) {
         fatal("Unable to create directory [%s]", dir);
     }
+}
+
+void dir_create_at(const char *base, const char *name, char *buff)
+{
+    if (!buff) {
+        char path[PATH_MAX];
+        buff = path;
+    }
+    sprintf(buff, "%s/%s", base, name);
+
+    dir_create(buff);
 }
 
 void dir_foreach(char *path, DirForeach foreach)
@@ -26,13 +37,21 @@ void dir_foreach(char *path, DirForeach foreach)
     tinydir_close(&dir);
 }
 
+bool dir_exists(char *file)
+{
+    struct stat stats;
+
+    return 0 == stat(file, &stats) && S_ISDIR(stats.st_mode);
+}
+
 time_t dir_latest_modified_time(char *dir)
 {
     time_t latest = 0;
 
-    dir_foreach(dir, function(void, (tinydir_file *file) {
-        latest = max(latest, file->_s.st_mtim.tv_sec);
-    }));
+    dir_foreach(dir, function(void, (tinydir_file * file)
+        {
+            latest = max(latest, file->_s.st_mtim.tv_sec);
+        }));
 
     return latest;
 }

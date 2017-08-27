@@ -55,7 +55,7 @@ typedef struct {
 } LightSource;
 
 typedef struct Item {
-    char name[ITEM_NAME_MAX];
+    const char *name;
     wchar_t chr;
     Style style;
     int16_t value;
@@ -69,22 +69,23 @@ typedef struct Item {
 } Item;
 
 typedef struct ItemPrototype {
+    char name[ITEM_NAME_MAX];
     Range value_range;
     Item item;
 } ItemPrototype;
 
 
-void item_load(void);
+void item_registry_load(void);
 
 CacheError item_cache_load(void);
 
 void item_cache_save(void);
 
-void item_unload(void);
+void item_registry_unload(void);
 
 void item_pool_init(void);
 
-Item *item_clone(ItemPrototype *prototype);
+Item *item_clone(const ItemPrototype *prototype);
 
 Item *item_random(void);
 

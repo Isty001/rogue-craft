@@ -22,3 +22,6 @@
 [submodule "resources"]
 	path = resources
 	url = https://github.com/rogue-craft/resources
+[submodule "lib/rimraf.c"]
+	path = lib/rimraf.c
+	url = https://github.com/stephenmathieson/rimraf.c

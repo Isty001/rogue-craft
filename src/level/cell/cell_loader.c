@@ -42,7 +42,7 @@ static void build_cell(JSON_Object *json)
     CellPrototype *with_name = mem_calloc(1, sizeof(CellPrototype));
 
     if (json_has_string(json, "extends")) {
-        parent = cell_get(json_get_string(json, "extends"));
+        parent = cell_registry_get(json_get_string(json, "extends"));
         extend(&building, json, parent);
     } else {
         build_new(&building, json);
@@ -52,7 +52,7 @@ static void build_cell(JSON_Object *json)
     PROTOTYPES->append(PROTOTYPES, with_name);
 }
 
-const Cell *cell_get(char *name)
+const Cell *cell_registry_get(char *name)
 {
     CellPrototype *found = PROTOTYPES->find(PROTOTYPES, (Predicate) function(bool, (CellPrototype * cell) {
         return 0 == strcmp(name, cell->name);
@@ -65,7 +65,7 @@ const Cell *cell_get(char *name)
     return &found->cell;
 }
 
-void cell_load(void)
+void cell_registry_load(void)
 {
     PROTOTYPES = list_new();
     PROTOTYPES->release_item = mem_dealloc;
@@ -76,7 +76,7 @@ void cell_load(void)
     }
 }
 
-void cell_unload(void)
+void cell_registry_unload(void)
 {
     PROTOTYPES->free(PROTOTYPES);
 }

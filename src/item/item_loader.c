@@ -110,13 +110,13 @@ static void create_prototype_from(JSON_Object *json)
     item->style = json_get_style(json);
 
     json_get_wchar(&item->chr, json, "char");
-    memcpy(item->name, name, min(strlen(name) + 1, ITEM_NAME_MAX));
+    memcpy(prototype->name, name, min(strlen(name) + 1, ITEM_NAME_MAX));
 
     build_value_range(&prototype->value_range, json_get_array(json, "valueRange"));
     build_type_specific(prototype, json);
 }
 
-void item_load(void)
+void item_registry_load(void)
 {
     if (CE_LOADED != item_cache_load()) {
         json_parse_in_dir(env_json_resource_path(RESOURCE_ITEMS), create_prototype_from);
@@ -124,7 +124,7 @@ void item_load(void)
     }
 }
 
-void item_unload(void)
+void item_registry_unload(void)
 {
     probability_clean(&ITEM_CONSUMABLE_PROBABILITY, mem_dealloc);
     probability_clean(&ITEM_TOOL_PROBABILITY, mem_dealloc);

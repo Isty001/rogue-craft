@@ -12,11 +12,11 @@ static void assert_probability(void)
     mu_assert_int_eq(CELLULAR, cfg->type);
 
     mu_assert_int_eq(1, cfg->cells.hollow.count);
-    mu_assert(cell_get("hollow.default") == cfg->cells.hollow.items[0].value, "");
+    mu_assert(cell_registry_get("hollow.default") == cfg->cells.hollow.items[0].value, "");
 
     mu_assert_int_eq(2, cfg->cells.solid.count);
-    mu_assert(cell_get("stone.cobble") == cfg->cells.solid.items[0].value, "");
-    mu_assert(cell_get("stone.mossy") == cfg->cells.solid.items[1].value, "");
+    mu_assert(cell_registry_get("stone.cobble") == cfg->cells.solid.items[0].value, "");
+    mu_assert(cell_registry_get("stone.mossy") == cfg->cells.solid.items[1].value, "");
 }
 
 MU_TEST(test_cache)
@@ -36,13 +36,13 @@ MU_TEST(test_cache)
 
 MU_TEST(test_load)
 {
-    cell_load();
+    cell_registry_load();
     level_load();
 
     assert_probability();
 
     level_unload();
-    cell_unload();
+    cell_registry_unload();
 }
 
 void run_level_loader_test(void)

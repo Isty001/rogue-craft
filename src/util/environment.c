@@ -37,7 +37,7 @@ void env_setup(int argc, char **argv)
         fatal("Unable to setup the environment, please check '%s' permissions", path);
     }
 
-    dir_check(getenv(ENV_DIR_CACHE));
+    dir_create(getenv(ENV_DIR_CACHE));
 }
 
 char *env_json_resource_path(char *name)

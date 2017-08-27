@@ -74,7 +74,7 @@ Point level_rand_hollow(Level *level)
 
 void level_set_hollow(Level *level, Point at)
 {
-    cell_free_custom(level->cells[at.y][at.x]);
+    cell_free(level->cells[at.y][at.x]);
     level->cells[at.y][at.x] = probability_pick(&level->cfg->cells.hollow);
 }
 
@@ -82,7 +82,7 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 {
     Cell ***cells = level->cells;
     Cell *cell = cells[at.y][at.x];
-    cell_free_custom(cell);
+    cell_free(cell);
     Cell *new = cell_clone(cell);
 
     cells[at.y][at.x] = new;

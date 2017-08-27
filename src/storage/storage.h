@@ -19,11 +19,15 @@ typedef enum {
 typedef void (*DirForeach)(tinydir_file *file);
 
 
-void dir_check(char *dir);
+void dir_create(char *dir);
+
+void dir_create_at(const char *base, const char *name, char *buff);
 
 void dir_foreach(char *dir, DirForeach foreach);
 
 time_t dir_latest_modified_time(char *dir);
+
+bool dir_exists(char *file);
 
 FILE *file_open(char *path, char *mode);
 

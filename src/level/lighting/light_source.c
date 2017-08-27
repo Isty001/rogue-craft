@@ -15,7 +15,7 @@ static void place_on_level(InteractionEvent *event, Item *item)
     Point point = event->point;
 
     item->occupied_cell = event->cell;
-    cells[point.y][point.x] = cell_with_item(item);
+    cells[point.y][point.x] = cell_from_item(item);
 }
 
 static bool is_supported(InteractionEvent *event, Item *item)

@@ -81,3 +81,5 @@ void profiler_cleanup(void)
     }
     PROFILER.chunks->free(PROFILER.chunks);
 }
+
+

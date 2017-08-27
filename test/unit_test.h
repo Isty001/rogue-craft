@@ -6,6 +6,7 @@
 #include <minunit.h>
 #include "../src/level/point.h"
 #include "../src/util/util.h"
+#include "../src/storage/storage.h"
 
 
 #define DIR_FIXTURE "./test/fixture"
@@ -41,5 +42,14 @@ static inline void assert_range(Range a, Range b)
     mu_assert(a.from == b.from && a.to == b.to, "Ranges are not equal");
 }
 
+static inline void assert_file_exists(char *path)
+{
+    mu_assert(file_exists(path), "File does not exist");
+}
+
+static inline void assert_dir_exists(char *path)
+{
+    mu_assert(dir_exists(path), "Dir does not exist");
+}
 
 #endif

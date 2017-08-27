@@ -11,10 +11,10 @@ static void assert_common(const Cell *cell)
 
 static void assert_cells()
 {
-    const Cell *cobble = cell_get("stone.cobble");
+    const Cell *cobble = cell_registry_get("stone.cobble");
     assert_wchar("#", cobble->chr, 1);
 
-    const Cell *mossy = cell_get("stone.mossy");
+    const Cell *mossy = cell_registry_get("stone.mossy");
     assert_wchar("*", mossy->chr, 1);
 
     assert_common(cobble);
@@ -25,9 +25,9 @@ MU_TEST(test_load)
 {
     mu_assert(!cache_is_empty(CACHE_CONFIG_CELLS), "");
 
-    cell_load();
+    cell_registry_load();
     assert_cells();
-    cell_unload();
+    cell_registry_unload();
 
     mu_assert(cache_is_empty(CACHE_CONFIG_CELLS), "");
 
@@ -36,9 +36,9 @@ MU_TEST(test_load)
 
     rename(from, to);
 
-    cell_load();
+    cell_registry_load();
     assert_cells();
-    cell_unload();
+    cell_registry_unload();
 
     rename(to, from);
 }

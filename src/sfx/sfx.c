@@ -16,11 +16,6 @@ void sfx_init(void)
     GLOBAL_PLAYER = libvlc_media_player_new(VLC_ENGINE);
 }
 
-static void base_path_for(char *path, char *type, char *name)
-{
-    sprintf(path, "%s/sfx/%s/%s", getenv(ENV_DIR_RESOURCES), type, name);
-}
-
 static void full_path_for(char *path, char *type, char *name)
 {
     sprintf(path, "%s/sfx/%s/%s.wav", getenv(ENV_DIR_RESOURCES), type, name);

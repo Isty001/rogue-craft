@@ -62,7 +62,7 @@ MU_TEST(test_pickup_lighting)
         .occupied_cell = &occupied,
         .light_source = {.lighting = lighting}
     };
-    level->cells[0][0] = cell_with_item(&item);
+    level->cells[0][0] = cell_from_item(&item);
 
     Player player = {
         .inventory = inventory_new(1),
