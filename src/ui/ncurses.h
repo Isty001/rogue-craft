@@ -11,15 +11,15 @@
 /** Characters in the terminal appear higher than wider */
 #define NCURSES_WIDTH_MULTIPLIER 2
 
+#define NCURSES_BOX_PADDING 3
+#define NCURSES_SIDE_NONE NCURSES_ACS(' ')
+#define NCURSES_EVENT_MAX 200
 
-#define refresh_boxed(w) wborder(w, 1, 1, 1, 1, 0, 0, 0, 0); wrefresh(w);
 
-
-#define ncurses_event(msg, ...)                              \
-    if (!getenv(ENV_NCURSES_INACTIVE)) {                    \
-        wprintw(WINDOW_EVENT, "\n " msg, ##__VA_ARGS__);     \
-        refresh_boxed(WINDOW_EVENT)                          \
-    };
+#define refresh_boxed(w) wborder(w,                                                                     \
+     NCURSES_SIDE_NONE, NCURSES_SIDE_NONE, NCURSES_SIDE_NONE, NCURSES_SIDE_NONE,    \
+     ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);                                           \
+     wrefresh(w);
 
 
 extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
@@ -46,6 +46,8 @@ void ncurses_init(void);
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust);
 
 EventError ncurses_resize(InputEvent *event);
+
+void ncurses_event(char *msg, ...);
 
 void ncurses_cleanup(void);
 

@@ -71,6 +71,6 @@ void player_init_movement(Player *player)
     uint16_t timeout = PLAYER_SPEED_MAX - player->attributes.speed;
 
     TimerArgs args = {.ptr = {player}};
-    movement->timer = timer_new(timeout, move_to, args);
+    movement->timer = timer_new(timeout * 2, move_to, args);
     movement->moving = false;
 }

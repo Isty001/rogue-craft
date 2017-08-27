@@ -1,6 +1,10 @@
 #include <ncurses.h>
 #include <assert.h>
+#include "memory/memory.h"
 #include "ncurses.h"
+
+
+#define EVENT_MAX 20
 
 
 static int HEIGHT, WIDTH;
@@ -11,6 +15,8 @@ WINDOW **WINDOW_LIST[] = {
     &WINDOW_EVENT, &WINDOW_PLAYER_ATTRIBUTES,
     NULL
 };
+
+static List *EVENTS;
 
 
 static WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x)
@@ -27,6 +33,9 @@ static WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x)
 
 void ncurses_init(void)
 {
+    EVENTS = list_new();
+    EVENTS->release_item = mem_dealloc;
+
     initscr();
     start_color();
     use_default_colors();
@@ -81,6 +90,53 @@ WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust)
     return newwin(size.height, size.width, y, x);
 }
 
+static uint16_t count_event_args(char *msg)
+{
+    uint16_t argc = 0;
+
+    while (msg[0]) {
+        if ('%' == msg[0]) {
+            argc++;
+        }
+        msg++;
+    }
+
+    return argc;
+}
+
+static void display_events(void)
+{
+    uint16_t y = NCURSES_BOX_PADDING;
+
+    EVENTS->foreach_l(EVENTS, function(void, (char *msg) {
+        mvwprintw(WINDOW_EVENT, y++, NCURSES_BOX_PADDING, msg);
+    }));
+
+    if (EVENT_MAX < EVENTS->count) {
+        mem_dealloc(EVENTS->pop(EVENTS));
+    }
+}
+
+void ncurses_event(char *msg, ...)
+{
+    if (getenv(ENV_NCURSES_INACTIVE)) {
+        return;
+    }
+
+    va_list list;
+    char *buff;
+
+    va_start(list, count_event_args(msg));
+    buff = mem_alloc(NCURSES_EVENT_MAX);
+    vsprintf(buff, msg, list);
+    va_end(list);
+
+    EVENTS->prepend(EVENTS, buff);
+
+    display_events();
+    refresh_boxed(WINDOW_EVENT);
+}
+
 void ncurses_cleanup(void)
 {
     delwin(WINDOW_MAIN);
@@ -88,4 +144,6 @@ void ncurses_cleanup(void)
     delwin(WINDOW_EVENT);
     delwin(WINDOW_PLAYER_ATTRIBUTES);
     endwin();
+
+    EVENTS->free(EVENTS);
 }

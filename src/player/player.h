@@ -13,7 +13,7 @@
 
 #define PLAYER_STATE_NUM      4
 #define PLAYER_STATE_NAME_MAX 10
-#define PLAYER_SPEED_MAX      150
+#define PLAYER_SPEED_MAX      100
 
 
 typedef struct Inventory Inventory;
