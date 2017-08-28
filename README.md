@@ -10,7 +10,7 @@ You can also follow the development [here](isty001.com).
 
 [![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
 
-Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) for quick video
+Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) for a quick video
 
 ### Install
 
@@ -47,4 +47,4 @@ Please note that it's still a very early development stage.
 
 If the project got your attention, feel free to contribute with your ideas, and code. :-)
 Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), or [Issues](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) highly appreciated.
-Check the Wiki for help, or contact [me](https://github.com/Isty001).
+Please open an issue if you found a bug, or have an idea, or contact [me](https://github.com/Isty001).
