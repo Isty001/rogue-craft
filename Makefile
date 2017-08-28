@@ -125,7 +125,9 @@ tar:
 	cp -r $(DIR_RESOURCES)/* $(DIR_TAR)/resources
 	cp $(TARGET) $(DIR_TAR)
 	cp install.sh $(DIR_TAR)
+	chmod 777 install.sh
 	cd $(DIR_TAR_ROOT) && \
-	tar -cvf $(TAR_NAME) * && \
+	tar -cvpf $(TAR_NAME) * && \
 	mv $(TAR_NAME) $(DIR_ROOT)
 	rm -rf $(DIR_TAR_ROOT)
+	rm install.sh
