@@ -4,17 +4,16 @@
 
 ## Rogue Craft
 
-This is the main repository of Rogue Craft a 2D terminal sandbox/RPG/survival game,
-based on ncurses. It's developed and tested on Linux, but should work on other
-UNIX-like systems too. Please check the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress)
-for the guide and documentation. You can also follow the development [here](rogue-craft.github.io).
+Rogue Craft is a 2D terminal sandbox/RPG/survival game, based on ncurses.
+Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
+You can also follow the development [here](isty001.com).
 
 ![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)
 
 ### Install
 
 For running `ncursesw5` is required (`panelw5` too but usually it comes with ncurses), and `vlc`. Your terminal must support 256 colors,
-for example try setting your `TERM` to `xterm-256color` to achieve this. The terminal also needs mouse interaction support.
+(for example you could set `$TERM` to `xterm-256color`) and needs mouse interaction support too.
 
 #### From release tar
 
@@ -28,7 +27,7 @@ sh ./install.sh
 
 #### From source
 
-To compile you'll need `gcc`, `libncursesw5-dev` and `libvlc-dev` too.
+To compile you'll need `gcc`, `libncursesw5-dev` and `libvlc-dev`.
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
@@ -39,11 +38,11 @@ make install
 
 You can remove the build objects with `make clean`, or run the tests with `make run-test`
 
-To play, simply execute `rogue-craft` in your terminal.
+To play, simply run `rogue-craft` in your terminal.
 Please note that it's still a very early development stage.
 
 ### Contribute
 
 If the project got your attention, feel free to contribute with your ideas, and code. :-)
 Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), or [Issues](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) highly appreciated.
-Check the Wiki for help, and of course you can also contact [me](https://github.com/Isty001).
+Check the Wiki for help, or contact [me](https://github.com/Isty001).

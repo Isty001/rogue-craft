@@ -20,7 +20,6 @@ void run_level_interaction_test(void);
 void run_cell_test(void);
 void run_player_hit_test(void);
 void run_player_state_test(void);
-void run_sight_test(void);
 void run_json_test(void);
 void run_item_loader_test(void);
 void run_storage_test(void);
@@ -73,7 +72,6 @@ int main(int argc, char *argv[])
     run_player_hit_test();
     run_inventory_test();
     run_player_state_test();
-    run_sight_test();
     run_json_test();
     run_item_loader_test();
     run_storage_test();

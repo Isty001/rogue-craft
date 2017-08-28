@@ -23,7 +23,7 @@ static void init(void)
     ncurses_init();
     mouse_init();
     panel_init();
-	
+
     list_node_pool_init();
     item_pool_init();
     cell_pool_init();

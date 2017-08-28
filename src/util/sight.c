@@ -62,7 +62,7 @@ static void collect_points(Sight *sight)
 {
     int16_t y, x;
 
-    for (double deg = 0; deg < 360; deg++) {
+    for (int deg = 0; deg < 360; deg++) {
 
         y = sight->center.y + (int16_t) (sight->radius * sin(deg));
         x = sight->center.x + (int16_t) (sight->radius * cos(deg));

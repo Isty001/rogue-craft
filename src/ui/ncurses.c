@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <assert.h>
+#include <util/timer.h>
 #include "memory/memory.h"
 #include "ncurses.h"
 
@@ -10,10 +11,9 @@
 static int HEIGHT, WIDTH;
 WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
 
-WINDOW **WINDOW_LIST[] = {
+WINDOW **WINDOW_LIST[NCURSES_WINDOW_NUM] = {
     &WINDOW_MAIN, &WINDOW_INVENTORY_SHORTCUT,
-    &WINDOW_EVENT, &WINDOW_PLAYER_ATTRIBUTES,
-    NULL
+    &WINDOW_EVENT, &WINDOW_PLAYER_ATTRIBUTES
 };
 
 static List *EVENTS;
@@ -75,7 +75,7 @@ EventError ncurses_resize(InputEvent *event)
     return EE_CONTINUE;
 }
 
-WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust)
+WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to)
 {
     Size adjust_size;
     getmaxyx(WINDOW_MAIN, adjust_size.height, adjust_size.width);
@@ -84,37 +84,23 @@ WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust)
         fatal("Inner WINDOW can't be bigger");
     }
 
-    int y = getbegy(adjust) + (adjust_size.height - size.height) / 2;
-    int x = getbegx(adjust) + (adjust_size.width - size.width) / 2;
+    int y = getbegy(adjust_to) + (adjust_size.height - size.height) / 2;
+    int x = getbegx(adjust_to) + (adjust_size.width - size.width) / 2;
 
     return newwin(size.height, size.width, y, x);
 }
 
-static uint16_t count_event_args(char *msg)
+static void print_events(void)
 {
-    uint16_t argc = 0;
+    wclear(WINDOW_EVENT);
 
-    while (msg[0]) {
-        if ('%' == msg[0]) {
-            argc++;
-        }
-        msg++;
-    }
-
-    return argc;
-}
-
-static void display_events(void)
-{
     uint16_t y = NCURSES_BOX_PADDING;
 
-    EVENTS->foreach_l(EVENTS, function(void, (char *msg) {
+    EVENTS->foreach_l(EVENTS, (Foreach) function(void, (char *msg) {
         mvwprintw(WINDOW_EVENT, y++, NCURSES_BOX_PADDING, msg);
     }));
 
-    if (EVENT_MAX < EVENTS->count) {
-        mem_dealloc(EVENTS->pop(EVENTS));
-    }
+    refresh_boxed(WINDOW_EVENT);
 }
 
 void ncurses_event(char *msg, ...)
@@ -123,18 +109,20 @@ void ncurses_event(char *msg, ...)
         return;
     }
 
-    va_list list;
-    char *buff;
+    char *buff = mem_alloc(NCURSES_EVENT_MAX);
 
-    va_start(list, count_event_args(msg));
-    buff = mem_alloc(NCURSES_EVENT_MAX);
+    va_list list;
+    va_start(list, msg);
     vsprintf(buff, msg, list);
     va_end(list);
 
     EVENTS->prepend(EVENTS, buff);
 
-    display_events();
-    refresh_boxed(WINDOW_EVENT);
+    if (EVENT_MAX < EVENTS->count) {
+        mem_dealloc(EVENTS->pop(EVENTS));
+    }
+
+    print_events();
 }
 
 void ncurses_cleanup(void)

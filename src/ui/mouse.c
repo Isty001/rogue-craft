@@ -30,7 +30,7 @@ EventError mouse_handler(InputEvent *event)
     int i = 0;
     WINDOW *window;
 
-    while ((window = *WINDOW_LIST[i++])) {
+    while (i < NCURSES_WINDOW_NUM && (window = *WINDOW_LIST[i++])) {
         if (wmouse_trafo(window, &mevent.y, &mevent.x, false)) {
             dispatch_click_event(&mevent, window, event->player);
 

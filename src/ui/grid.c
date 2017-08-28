@@ -28,6 +28,7 @@ Grid *grid_new(WINDOW *window, Size size, Point left_upper)
 
 void grid_free(Grid *grid)
 {
+    delwin(grid->window);
     mem_dealloc(grid);
 }
 

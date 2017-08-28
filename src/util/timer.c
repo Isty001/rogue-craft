@@ -1,5 +1,6 @@
 #include <time.h>
 #include <list.h>
+#include <ui/ncurses.h>
 #include "memory/memory.h"
 #include "timer.h"
 #include "util.h"
@@ -33,6 +34,7 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
     timer->task = task;
     timer->args = args;
     timer->timeout = timeout_ms;
+    timer->last_execution = 0;
 
     TIMERS->append(TIMERS, timer);
 

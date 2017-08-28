@@ -22,9 +22,11 @@
      wrefresh(w);
 
 
+#define NCURSES_WINDOW_NUM 4
+
 extern WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
 
-extern WINDOW **WINDOW_LIST[];
+extern WINDOW **WINDOW_LIST[NCURSES_WINDOW_NUM];
 
 
 typedef struct Player Player;
@@ -43,7 +45,7 @@ typedef struct {
 
 void ncurses_init(void);
 
-WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust);
+WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to);
 
 EventError ncurses_resize(InputEvent *event);
 

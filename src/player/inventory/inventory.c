@@ -53,6 +53,7 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
     List *items = inventory->items;
 
     items->delete(items, item);
+    wclear(WINDOW_INVENTORY_SHORTCUT);
 
     return IE_OK;
 }
