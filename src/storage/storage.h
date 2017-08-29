@@ -31,6 +31,8 @@ bool dir_exists(char *file);
 
 FILE *file_open(char *path, char *mode);
 
+char *file_read(FILE *file);
+
 bool file_exists(char *file);
 
 bool file_is_empty(char *path);

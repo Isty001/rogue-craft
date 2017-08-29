@@ -16,6 +16,8 @@ DIR_INSTALLED_BIN=/usr/bin
 DIR_TAR_ROOT=$(DIR_ROOT)/$(VERSION_FULL)
 DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 
+INSTALLED_LOG_FILE=/var/log/rogue-craft.log
+
 CC = gcc
 #Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, Run: ncursesw
 #VLC: Compile: libvlccore-dev libvlc-dev Run: vlc
@@ -103,6 +105,8 @@ install:
 	mkdir -p $(DIR_INSTALLED_RESOURCES)
 	cp -r $(DIR_RESOURCES)/* $(DIR_INSTALLED_RESOURCES)
 	sudo cp $(TARGET) $(DIR_INSTALLED_BIN)
+	sudo touch $(INSTALLED_LOG_FILE)
+	sudo chmod 777 $(INSTALLED_LOG_FILE)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
 clean-cache:
@@ -114,7 +118,7 @@ clean:
 
 tar-installer:
 	cp lib/dev/tar_install.sh install.sh
-	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_resources#$(DIR_INSTALLED_RESOURCES_BASE)#g; s#dir_cache#$(DIR_INSTALLED_CACHE_BASE)#g' install.sh
+	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_resources#$(DIR_INSTALLED_RESOURCES_BASE)#g; s#dir_cache#$(DIR_INSTALLED_CACHE_BASE)#g; s#log_file#$(INSTALLED_LOG_FILE)#g' install.sh
 
 tar:
 	make

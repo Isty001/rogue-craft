@@ -1,6 +1,7 @@
 #include <vlc/vlc.h>
 #include <limits.h>
 #include <glob.h>
+#include "util/logger.h"
 #include "ui/ncurses.h"
 #include "storage/storage.h"
 #include "sfx.h"
@@ -29,6 +30,7 @@ static void glob_path_for(char *path, char *type, char *name)
 static void play_file(char *path)
 {
     if (!file_exists(path)) {
+        log_alert("No such sound file [%s]", path);
         return;
     }
 

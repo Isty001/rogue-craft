@@ -1,4 +1,5 @@
 #include <list.h>
+#include "memory/memory.h"
 #include "storage.h"
 
 
@@ -65,6 +66,17 @@ FILE *file_open(char *path, char *mode)
     }
 
     return file;
+}
+
+char *file_read(FILE *file)
+{
+    size_t size = file_size(file);
+    char *buff = mem_alloc(size);
+
+    fread(buff, size, 1, file);
+    buff[size] = '\0';
+
+    return buff;
 }
 
 bool file_exists(char *file)

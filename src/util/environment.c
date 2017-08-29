@@ -12,6 +12,7 @@ static struct option OPTIONS[] = {
 };
 
 static char BUFFER[PATH_MAX];
+static bool IS_DEBUG;
 
 
 static void get_path(char *path, int argc, char **argv)
@@ -38,6 +39,8 @@ void env_setup(int argc, char **argv)
     }
 
     dir_create(getenv(ENV_DIR_CACHE));
+
+    IS_DEBUG = (bool) getenv(ENV_DEBUG_MODE);
 }
 
 char *env_json_resource_path(char *name)
@@ -52,4 +55,9 @@ char *env_cache_file(char *name)
     sprintf(BUFFER, "%s/%s.cache", getenv(ENV_DIR_CACHE), name);
 
     return BUFFER;
+}
+
+bool env_is_debug_mode(void)
+{
+    return IS_DEBUG;
 }

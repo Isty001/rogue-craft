@@ -1,9 +1,6 @@
 #include "item/item.h"
 
 
-static bool SHOULD_DISPLAY;
-
-
 typedef struct Chunk {
     void *ptr;
     unsigned size;
@@ -12,8 +9,6 @@ typedef struct Chunk {
 
 void profiler_init(void)
 {
-    SHOULD_DISPLAY = (bool) getenv(ENV_DEBUG_MODE);
-
     PROFILER.chunks = list_new();
     PROFILER.chunks->release_item = free;
     PROFILER.chunks->release_node = free;
@@ -33,7 +28,7 @@ static int sum_chunks(void)
 
 void profiler_display(void)
 {
-    if (!SHOULD_DISPLAY) {
+    if (!env_is_debug_mode()) {
         return;
     }
     mvwprintw(WINDOW_MAIN, 1, 2, "CELL POOL: [%d][%d byte]", PROFILER.cell, PROFILER.cell * sizeof(Cell));
@@ -74,7 +69,7 @@ void profile_release(void *ptr)
 
 void profiler_cleanup(void)
 {
-    if (getenv(ENV_DEBUG_MODE) && 0 != PROFILER.chunks->count) {
+    if (env_is_debug_mode() && 0 != PROFILER.chunks->count) {
         printf("WARNING: [%d byte] in [%d] chunks, still in use!",
                sum_chunks(), PROFILER.chunks->count
         );

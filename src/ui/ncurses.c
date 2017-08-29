@@ -111,15 +111,15 @@ void ncurses_event(char *msg, ...)
 
     char *buff = mem_alloc(NCURSES_EVENT_MAX);
 
-    va_list list;
-    va_start(list, msg);
-    vsprintf(buff, msg, list);
-    va_end(list);
+    va_list args;
+    va_start(args, msg);
+    vsprintf(buff, msg, args);
+    va_end(args);
 
     EVENTS->prepend(EVENTS, buff);
 
     if (EVENT_MAX < EVENTS->count) {
-        mem_dealloc(EVENTS->pop(EVENTS));
+        EVENTS->pop(EVENTS);
     }
 
     print_events();

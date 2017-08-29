@@ -14,12 +14,17 @@
 #define TEST_NAME(name) puts("\x1B[33m[" name "] test case:\x1B[0m")
 
 
-static inline void assert_string(char *expected, char *actual)
+static inline void assert_string(const char *expected, const char *actual)
 {
     char buff[1000];
     sprintf(buff, "Strings are not equal. Expected %s got %s", expected, actual);
 
     mu_assert(0 == strcmp(expected, actual), buff);
+}
+
+static inline void assert_string_contains(const char *haystack, const char *substring)
+{
+    mu_assert(NULL != strstr(haystack, substring), "String does not contain substring");
 }
 
 static inline void assert_wchar(char *expected, wchar_t actual, size_t size)

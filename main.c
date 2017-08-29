@@ -2,6 +2,7 @@
 #include <locale.h>
 #include <time.h>
 #include <parson.h>
+#include "util/logger.h"
 #include "util/timer.h"
 #include "sfx/sfx.h"
 #include "memory/memory.h"
@@ -17,6 +18,7 @@ static void init(void)
     srand((unsigned) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
+    log_init();
     profiler_init();
     timer_init();
     sfx_init();
@@ -52,6 +54,7 @@ static void cleanup(Player *player)
 
     list_node_pool_cleanup();
     profiler_cleanup();
+    log_cleanup();
 }
 
 

@@ -27,7 +27,7 @@
     i >= range.from && i <= range.to
 
 #define fatal(...) fprintf(stderr, "[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);\
-    fprintf(stderr, __VA_ARGS__); exit(EXIT_FAILURE);
+    fprintf(stderr, __VA_ARGS__); fprintf(stderr, " - [errno] - %s\n", strerror(errno)); exit(EXIT_FAILURE);
 
 #define styled(win, style, ...) \
     wattron(win, style);        \

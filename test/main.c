@@ -2,6 +2,8 @@
 #include <time.h>
 #include <locale.h>
 #include <parson.h>
+#include <unistd.h>
+#include "util/logger.h"
 #include "util/timer.h"
 #include "memory/memory.h"
 #include "util/color.h"
@@ -30,6 +32,7 @@ void run_color_cache_test(void);
 void run_inventory_display_test(void);
 void run_grid_test(void);
 void run_lighting_test(void);
+void run_logger_test(void);
 
 
 static void init(void)
@@ -38,6 +41,7 @@ static void init(void)
     srand((unsigned int) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
+    log_init();
     profiler_init();
     timer_init();
     list_node_pool_init();
@@ -52,6 +56,9 @@ static void cleanup(void)
     cell_pool_cleanup();
     list_node_pool_cleanup();
     profiler_cleanup();
+    log_cleanup();
+
+    unlink(getenv(ENV_LOG_FILE));
 }
 
 int main(int argc, char *argv[])
@@ -60,6 +67,7 @@ int main(int argc, char *argv[])
 
     init();
 
+    run_logger_test();
     run_player_movement_test();
     run_point_test();
     run_util_test();
