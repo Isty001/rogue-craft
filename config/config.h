@@ -53,14 +53,14 @@ extern const PlayerStateConfig PLAYER_STATE_CONFIG;
 /**
  * MATERIAL
  */
-extern double MATERIAL_STRENGTH[MATERIAL_NUM];
+extern int16_t MATERIAL_STRENGTH[MATERIAL_NUM];
 
 
 /**
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 200);
+    (uint16_t) ((level->size.height * level->size.width) / 20);
 
 
 extern Probability LEVEL_PROBABILITY;

@@ -1,3 +1,4 @@
+#include <level/level.h>
 #include "../unit_test.h"
 #include "../fixture.h"
 #include "../../src/player/inventory/inventory.h"
@@ -61,8 +62,8 @@ MU_TEST(test_range)
     tool->tool.range = 2;
 
     player_hit(&event);
-    mu_assert_double_eq(94.94, player.level->cells[0][2]->state);
-    mu_assert_double_eq(5.06, player.state.modifiers.dealt_damage);
+    mu_assert_int_eq(94, player.level->cells[0][2]->state);
+    mu_assert_int_eq(6, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -79,8 +80,8 @@ MU_TEST(test_defaults)
     cell = player.level->cells[0][0];
     mu_assert(false == cell->in_registry, "The cell hit should be cloned");
 
-    mu_assert_double_eq(94.94, cell->state);
-    mu_assert_int_eq(5.38, player.state.modifiers.dealt_damage);
+    mu_assert_int_eq(94, cell->state);
+    mu_assert_int_eq(6, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -89,19 +90,19 @@ MU_TEST(test_material_and_tired_damage)
 {
     Player player = create_player();
     List *items = player.inventory->items;
-    Item *tool;
+    Item *item;
 
     player.state.map[HUNGER].current = 20;
     player.state.map[THIRST].current = 30;
-    tool = items->head(items);
-    tool->tool.multipliers.materials[STONE] = 2;
+    item = items->head(items);
+    item->tool.multipliers.materials[STONE] = 2;
 
     InteractionEvent event = create_event(&player, point_new(0, 0));
 
     player_hit(&event);
 
-    mu_assert_double_eq(93.3, player.level->cells[0][0]->state);
-    mu_assert_int_eq(6.1, player.state.modifiers.dealt_damage);
+    mu_assert_int_eq(93, player.level->cells[0][0]->state);
+    mu_assert_int_eq(7, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -114,8 +115,8 @@ MU_TEST(test_bare_hands)
 
     player_hit(&event);
 
-    mu_assert_double_eq(95.4, player.level->cells[0][0]->state);
-    mu_assert_double_eq(4.6, player.state.modifiers.dealt_damage);
+    mu_assert_int_eq(95, player.level->cells[0][0]->state);
+    mu_assert_int_eq(5, player.state.modifiers.dealt_damage);
 
     free_fixtures(&player);
 }
@@ -133,6 +134,22 @@ MU_TEST(test_invalid_cell_type)
     free_fixtures(&player);
 }
 
+MU_TEST(test_tool_wear_out)
+{
+    Player player = create_player();
+    List *items = player.inventory->items;
+    Item *item = items->get(items, 0);
+    item->value = 10;
+    item->tool.multipliers.materials[STONE] = 1.5;
+
+    InteractionEvent event = create_event(&player, point_new(0, 0));
+    repeat(50, player_hit(&event))
+
+    mu_assert_int_eq(0, items->count);
+
+    free_fixtures(&player);
+}
+
 void run_player_hit_test(void)
 {
     TEST_NAME("Hit");
@@ -142,6 +159,7 @@ void run_player_hit_test(void)
     MU_RUN_TEST(test_material_and_tired_damage);
     MU_RUN_TEST(test_bare_hands);
     MU_RUN_TEST(test_invalid_cell_type);
+    MU_RUN_TEST(test_tool_wear_out);
 
     MU_REPORT();
 }

@@ -6,7 +6,7 @@
 
 
 typedef struct {
-    double damage;
+    int16_t damage;
     uint16_t allowed_range;
 } Hit;
 
@@ -23,7 +23,7 @@ static double tool_damage_multiplier(Tool *tool, Cell *cell)
     return SOLID == cell->type ? defaults.solid : defaults.creature;
 }
 
-static double calculate_damage(Player *player, Tool *tool, Cell *target)
+static int16_t calculate_damage(Player *player, Tool *tool, Cell *target)
 {
     State *states = player->state.map;
 
@@ -36,7 +36,7 @@ static double calculate_damage(Player *player, Tool *tool, Cell *target)
         damage *= tool_damage_multiplier(tool, target);
     }
 
-    return damage;
+    return (int16_t) ceil(damage);
 }
 
 static Hit calculate_hit(Player *player, Item *selected_item, Cell *target)
@@ -51,11 +51,11 @@ static Hit calculate_hit(Player *player, Item *selected_item, Cell *target)
 
     return (Hit) {
         .damage = calculate_damage(player, tool, target),
-        .allowed_range = range
+        .allowed_range = range,
     };
 }
 
-static void apply_hit(Hit hit, Player *player, Cell *target, Point point)
+static void apply_hit_to_cell(Hit hit, Player *player, Cell *target, Point point)
 {
     if (target->in_registry) {
         target = level_replace_cell_with_new(player->level, point);
@@ -70,13 +70,26 @@ static void apply_hit(Hit hit, Player *player, Cell *target, Point point)
     }
 }
 
+static void apply_hit_to_item(Inventory *inventory, Item *item)
+{
+    if (item) {
+        item->value -= rand_bool(0.3);
+
+        if (0 >= item->value) {
+            item_free(item);
+            inventory_remove(inventory, item);
+            sfx_play("item", "break");
+        }
+    }
+}
+
 EventError player_hit(InteractionEvent *event)
 {
     Cell *target = event->cell;
     Player *player = event->player;
     Point point = event->point;
 
-    if (!cell_is_damageable(target)) {
+    if (SOLID != target->type && CREATURE != target->type) {
         return EE_CONTINUE;
     }
 
@@ -87,7 +100,10 @@ EventError player_hit(InteractionEvent *event)
 
     if (hit.allowed_range >= point_distance(player->position.current, point)) {
         sfx_play_hit(target);
-        apply_hit(hit, player, target, point);
+        apply_hit_to_cell(hit, player, target, point);
+        apply_hit_to_item(inventory, selected_item);
+
+        return EE_BREAK;
     }
 
     return EE_CONTINUE;

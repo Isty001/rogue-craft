@@ -36,7 +36,7 @@ typedef struct {
 } State;
 
 typedef struct {
-    double dealt_damage;
+    uint64_t dealt_damage;
     uint32_t traveled;
     struct {
         time_t fatigue;

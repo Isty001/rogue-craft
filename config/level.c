@@ -4,7 +4,7 @@
 /**
  * MATERIAL
  */
-double MATERIAL_STRENGTH[MATERIAL_NUM] = {
+int16_t MATERIAL_STRENGTH[MATERIAL_NUM] = {
     [SAND] = 50,
     [DIRT] = 80,
     [WOOD] = 100,

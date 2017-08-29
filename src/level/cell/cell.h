@@ -11,9 +11,6 @@
 #define CELL_NAME_MAX 20
 
 
-#define cell_is_damageable(cell) \
-    (SOLID == cell->type || CREATURE == cell->type)
-
 
 typedef struct Item Item;
 
@@ -34,7 +31,7 @@ typedef struct Cell {
     bool in_registry;
     Style style;
     CellType type;
-    double state;
+    int16_t state;
     Material material;
     union {
         Item *item;

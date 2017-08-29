@@ -1,12 +1,11 @@
 #### TODO:
-* [PLAYER] Inventory improvements:
+* [INVENTOY]
     * Shortcuts
         * From the full view set the shortcuts, but if it's not the Player's
         Inventory, the Item need to be added, if the shortcut already had an Item,
         it has to be replaced with the other.
     * Remove items
     * More inventory types (chest, bag etc.) (inventory_player_display, inventory_display)
-* [PLAYER] Normalize the Player's speed
 * [LEVEL] Lighting/Light source:
     * Portable type
     * More tests
