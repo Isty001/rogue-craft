@@ -6,11 +6,11 @@
 
 Rogue Craft is a 2D terminal sandbox/RPG/survival game, based on ncurses.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
-You can also follow the development [here](isty001.com).
-
-[![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
+You can also follow the development [here](https://rogue-craft.github.io).
 
 Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) for a quick video
+
+[![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
 
 ### Install
 
@@ -29,7 +29,7 @@ sh ./install.sh
 
 #### From source
 
-To compile you'll need `gcc`, `libncursesw5-dev` and `libvlc-dev`.
+To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-dev` and `libvlc-dev`, and they might be called differently on your OS, or even comes with the base package, and no separate dev package need to be installed.
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
