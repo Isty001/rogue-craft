@@ -6,7 +6,7 @@
 
 Rogue Craft is a 2D terminal sandbox/RPG/survival game, based on ncurses.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
-You can also follow the development [here](isty001.com).
+You can also follow the development [here](https://rogue-craft.github.io).
 
 [![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
 
