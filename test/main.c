@@ -41,6 +41,7 @@ static void init(void)
     srand((unsigned int) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
 
+    fclose(fopen(getenv(ENV_LOG_FILE), "w"));
     log_init();
     profiler_init();
     timer_init();

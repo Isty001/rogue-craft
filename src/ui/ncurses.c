@@ -105,7 +105,7 @@ static void print_events(void)
 
 void ncurses_event(char *msg, ...)
 {
-    if (getenv(ENV_NCURSES_INACTIVE)) {
+    if (getenv(ENV_NCURSES_DISABLED)) {
         return;
     }
 

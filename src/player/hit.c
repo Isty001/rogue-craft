@@ -74,7 +74,7 @@ static void apply_hit_to_cell(Hit hit, Player *player, Cell *target, Point point
 
 static void apply_hit_to_item(Inventory *inventory, Item *item)
 {
-    if (item) {
+    if (is_tool(item)) {
         item->value -= rand_bool(0.3);
 
         if (0 >= item->value) {

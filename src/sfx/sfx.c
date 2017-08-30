@@ -9,12 +9,14 @@
 
 static libvlc_instance_t *VLC_ENGINE;
 static libvlc_media_player_t *GLOBAL_PLAYER;
+static bool IS_ENABLED;
 
 
 void sfx_init(void)
 {
     VLC_ENGINE = libvlc_new(0, NULL);
     GLOBAL_PLAYER = libvlc_media_player_new(VLC_ENGINE);
+    IS_ENABLED = !(bool)getenv(ENV_VLC_DISABLED);
 }
 
 static void full_path_for(char *path, char *type, char *name)
@@ -29,8 +31,8 @@ static void glob_path_for(char *path, char *type, char *name)
 
 static void play_file(char *path)
 {
-    if (!file_exists(path)) {
-        log_alert("No such sound file [%s]", path);
+    if (!file_exists(path) || !IS_ENABLED) {
+        log_alert("No such sound file [%s], or VLC is not enabled", path);
         return;
     }
 
