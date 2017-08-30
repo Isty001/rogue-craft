@@ -31,7 +31,7 @@ sh ./install.sh
 
 #### From source
 
-To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-dev` and `libvlc-dev`, and they might be called differently on your OS, or even comes with the base package, and no separate dev package need to be installed.
+To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-dev`  (and maybe `libncurses5-dev` too) and `libvlc-dev`, they might be called differently on your OS, or even comes with the base package, and no separate dev package need to be installed.
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
