@@ -3,14 +3,13 @@
 #include <ui/ncurses.h>
 #include "memory/memory.h"
 #include "timer.h"
-#include "util.h"
 
 
 struct Timer {
     uint16_t timeout;
     TimerTask task;
     TimerArgs args;
-    time_t last_execution;
+    intmax_t last_execution;
 };
 
 
@@ -43,7 +42,7 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
 
 static void tick(Timer *timer)
 {
-    time_t now = time_now_ms();
+    intmax_t now = time_now_ms();
 
     if (now - timer->last_execution >= timer->timeout) {
         timer->task(&timer->args);

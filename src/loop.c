@@ -42,7 +42,7 @@ static void loop_timeout(int input, time_t start)
 void loop_run(Player *player)
 {
     int input;
-    time_t start;
+    intmax_t start;
 
     TimerArgs args = {.ptr = {player, &PLAYER_STATE_CONFIG}};
     timer_new(200, player_state_update, args);

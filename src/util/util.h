@@ -61,17 +61,17 @@ static inline uint16_t sqr(uint16_t x)
     return x * x;
 }
 
-static inline long max(long a, long b)
+static inline intmax_t max(intmax_t a, intmax_t b)
 {
     return a > b ? a : b;
 }
 
-static inline long min(long a, long b)
+static inline intmax_t min(intmax_t a, intmax_t b)
 {
     return a < b ? a : b;
 }
 
-static inline time_t time_now_ms(void)
+static inline uintmax_t time_now_ms(void)
 {
     struct timespec spec;
     clock_gettime(CLOCK_REALTIME, &spec);
