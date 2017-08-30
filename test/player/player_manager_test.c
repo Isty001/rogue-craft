@@ -1,14 +1,13 @@
+#include "player/player.h"
 #include "../unit_test.h"
 #include "../fixture.h"
-#include "../../src/level/camera.h"
 
 
 MU_TEST(test_new_player)
 {
-    Camera camera;
     Level *level = fixture_level();
 
-    Player *player = player_new(level, &camera);
+    Player *player = player_new(level);
     Point prev = player->position.previous;
     Point curr = player->position.current;
 
@@ -16,7 +15,6 @@ MU_TEST(test_new_player)
 
     mu_assert_int_eq(prev.y, curr.y);
     mu_assert_int_eq(prev.x, curr.x);
-    mu_assert(&camera == player->camera, "Cam is not the same");
 
     player_free(player);
     fixture_level_free(level);

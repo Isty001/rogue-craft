@@ -19,7 +19,7 @@ DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 
 CC = gcc
-#Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, Run: ncursesw
+#Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, ncursesw5-dev, Run: ncursesw
 #VLC: Compile: libvlccore-dev libvlc-dev Run: vlc
 LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc
 DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS)

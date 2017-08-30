@@ -1,4 +1,5 @@
-#include "camera.h"
+#include "level/level.h"
+#include "player/player.h"
 
 
 static inline int adjust_coordinate(int coordinate, int cam_size, int max)
@@ -12,12 +13,8 @@ static inline int adjust_coordinate(int coordinate, int cam_size, int max)
     return coordinate;
 }
 
-void camera_update(Player *player, WINDOW *window)
+void camera_update(Camera *camera, Point center, Level *level, WINDOW *window)
 {
-    Camera *camera = player->camera;
-    Point center = player->position.current;
-    Level *level = player->level;
-
     Size cam_size = size_new(
         getmaxy(window),
         getmaxx(window)

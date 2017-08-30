@@ -7,6 +7,9 @@
 
 typedef struct Inventory Inventory;
 
+typedef struct Player Player;
+
+
 typedef enum {
     INVENTORY
 } PanelType;

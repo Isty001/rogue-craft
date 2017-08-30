@@ -59,8 +59,9 @@ void panel_close_top(int input, Player *player)
     PANEL *top = PANELS->pop(PANELS);
 
     dispatch_panel_event(EVENT_PANEL_CLOSE, input, player, top);
-    delwin(panel_window(top));
+    /** @see grid_free  */
     del_panel(top);
+    delwin(panel_window(top));
 
     mem_dealloc((void *) panel_userptr(top));
 }

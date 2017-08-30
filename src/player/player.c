@@ -50,11 +50,10 @@ static void find_starting_point(Player *player)
     player->position.current = point;
 }
 
-Player *player_new(Level *level, Camera *camera)
+Player *player_new(Level *level)
 {
     Player *player = mem_alloc(sizeof(Player));
     player->level = level;
-    player->camera = camera;
 
     add_default_state(player);
     init_modifiers(player);

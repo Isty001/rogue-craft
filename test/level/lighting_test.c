@@ -1,6 +1,6 @@
 #include "../unit_test.h"
 #include "../fixture.h"
-#include "../../src/level/camera.h"
+#include "player/camera.h"
 #include "../../src/level/lighting/lighting.h"
 
 

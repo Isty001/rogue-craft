@@ -1,33 +1,30 @@
 #include "../../src/player/player.h"
-#include "../../src/level/camera.h"
+#include "player/camera.h"
 #include "../unit_test.h"
 
 
 MU_TEST(test_position)
 {
     Camera camera;
-    Player player;
-    player.position.current = point_new(50, 50);
+    Point center = point_new(50, 50);
 
     Level level;
     level.size = size_new(100, 100);
     level_add_bounds((&level));
-    player.level = &level;
-    player.camera = &camera;
 
     WINDOW win;
     win._maxx = 9; /** @see getmaxx getmaxy */
     win._maxy = 9;
 
-    camera_update(&player, &win);
+    camera_update(&camera, center, &level, &win);
     assert_point(camera.left_upper, 45, 45);
 
-    player.position.current = point_new(3, 2);
-    camera_update(&player, &win);
+    center = point_new(3, 2);
+    camera_update(&camera, center, &level, &win);
     assert_point(camera.left_upper, 0, 0);
 
-    player.position.current = point_new(100, 100);
-    camera_update(&player, &win);
+    center = point_new(100, 100);
+    camera_update(&camera, center, &level, &win);
     assert_point(camera.left_upper, 89, 89);
 }
 

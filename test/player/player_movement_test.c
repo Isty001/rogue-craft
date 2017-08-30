@@ -1,6 +1,5 @@
 #include <player/player.h>
 #include "config.h"
-#include "util/timer.h"
 #include "../unit_test.h"
 #include "../fixture.h"
 
@@ -25,23 +24,26 @@ MU_TEST(test_movement)
     player.attributes.speed = PLAYER_SPEED_MAX;
     player_init_movement(&player);
 
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
+
     InputEvent event = {.player = &player, .input = KEY_NORTH};
 
     repeat(4,
            player_move(&event);
-           timer_tick();
+               timer_tick(now);
     )
 
     assert_position(player, 0, 1);
 
     event.input = KEY_SOUTH;
     player_move(&event);
-    timer_tick();
+    timer_tick(now);
 
     event.input = KEY_WEST;
     repeat(3,
            player_move(&event);
-           timer_tick();
+               timer_tick(now);
     )
     assert_position(player, 1, 0);
 

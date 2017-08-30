@@ -1,6 +1,7 @@
 #include "level/level.h"
-#include "level/camera.h"
+#include "player/camera.h"
 #include "lighting/lighting.h"
+#include "player/player.h"
 
 
 static Point displayed_bounds(Camera *camera)
@@ -49,7 +50,7 @@ static void display_visible(Player *player, Cell *cell, Point point, Point win_p
 void level_display(Player *player)
 {
     Point win_pos = point_new(0, 0);
-    Camera *camera = player->camera;
+    Camera *camera = &player->camera;
     Point until = displayed_bounds(camera);
     Cell ***cells = player->level->cells;
 

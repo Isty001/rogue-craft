@@ -4,6 +4,9 @@
 #include "sfx/sfx.h"
 
 
+#define is_tool(item) item && TOOL == item->type
+
+
 typedef struct {
     int16_t damage;
     uint16_t allowed_range;
@@ -43,7 +46,7 @@ static Hit calculate_hit(Player *player, Item *selected_item, Cell *target)
     uint16_t range = 1;
     Tool *tool = NULL;
 
-    if (selected_item && TOOL == selected_item->type) {
+    if (is_tool(selected_item)) {
         tool = &selected_item->tool;
         range = tool->range;
     }

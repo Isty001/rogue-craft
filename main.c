@@ -6,7 +6,7 @@
 #include "util/timer.h"
 #include "sfx/sfx.h"
 #include "memory/memory.h"
-#include "level/camera.h"
+#include "player/camera.h"
 #include "config/config.h"
 #include "player/inventory/inventory.h"
 #include "loop.h"
@@ -71,10 +71,9 @@ static void check_terminal(void)
 
 static Player *load_player(void)
 {
-    Camera camera;
     Size size = size_new(300, 300);
     Level *level = level_new(size);
-    Player *player = player_new(level, &camera);
+    Player *player = player_new(level);
     player_position_on_level(player);
 
     return player;

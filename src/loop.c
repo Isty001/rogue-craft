@@ -1,9 +1,7 @@
 #include <ncurses.h>
-#include "util/timer.h"
-#include "loop.h"
-#include "config.h"
-#include "player/inventory/inventory.h"
-#include "level/camera.h"
+#include <ui/panel.h>
+#include <player/inventory/inventory.h>
+#include <player/player.h>
 
 
 #define MAX_TIMEOUT 85
@@ -24,15 +22,15 @@ static void update(int input, Player *player)
 {
     input_process(input, player);
 
-    camera_update(player, WINDOW_MAIN);
+    camera_update(&player->camera, player->position.current, player->level, WINDOW_MAIN);
     player_sight_update(player);
 
     render(player);
 }
 
-static void loop_timeout(int input, time_t start)
+static void loop_timeout(int input, struct timespec start, struct timespec end)
 {
-    napms(max(0, MAX_TIMEOUT - (time_now_ms() - start)));
+    napms(max(0, MAX_TIMEOUT - time_diff_ms(end, start)));
 
     if (input == KEY_NORTH || input == KEY_SOUTH) {
         napms(VERTICAL_TIMEOUT);
@@ -42,13 +40,14 @@ static void loop_timeout(int input, time_t start)
 void loop_run(Player *player)
 {
     int input;
-    intmax_t start;
+    struct timespec start;
+    struct timespec end;
 
     TimerArgs args = {.ptr = {player, &PLAYER_STATE_CONFIG}};
     timer_new(200, player_state_update, args);
 
     while (1) {
-        start = time_now_ms();
+        clock_gettime(CLOCK_MONOTONIC, &start);
 
         if (-1 != (input = wgetch(WINDOW_MAIN))) {
             if (KEY_ESCAPE == input) {
@@ -62,8 +61,10 @@ void loop_run(Player *player)
 
         update(input, player);
         render(player);
-        timer_tick();
 
-        loop_timeout(input, start);
+        clock_gettime(CLOCK_MONOTONIC, &end);
+
+        timer_tick(end);
+        loop_timeout(input, start, end);
     }
 }

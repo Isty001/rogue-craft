@@ -1,5 +1,4 @@
-#include "ui/ncurses.h"
-#include "camera.h"
+#include <player/player.h>
 
 
 EventError level_interact(ClickEvent *click)
@@ -9,7 +8,7 @@ EventError level_interact(ClickEvent *click)
     }
 
     Player *player = click->player;
-    Point on_level = camera_to_level_point(player->camera, click->point);
+    Point on_level = camera_to_level_point(&player->camera, click->point);
     Cell *cell = player->level->cells[on_level.y][on_level.x];
 
     InteractionEvent event = {

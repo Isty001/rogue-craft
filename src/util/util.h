@@ -47,6 +47,9 @@
 #define pool_release(pool, ptr) \
     if (0 != pool_free(pool, ptr)) { fatal("[%s] unable to release", #pool) }
 
+#define time_diff_ms(now, since) \
+    (now.tv_sec * 1000 + now.tv_nsec / 1000000) - (since.tv_sec * 1000 + since.tv_nsec / 1000000)
+
 
 typedef struct {
     char *name;
@@ -61,12 +64,12 @@ static inline uint16_t sqr(uint16_t x)
     return x * x;
 }
 
-static inline intmax_t max(intmax_t a, intmax_t b)
+static inline long max(long a, long b)
 {
     return a > b ? a : b;
 }
 
-static inline intmax_t min(intmax_t a, intmax_t b)
+static inline long min(long a, long b)
 {
     return a < b ? a : b;
 }

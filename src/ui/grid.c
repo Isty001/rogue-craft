@@ -28,7 +28,7 @@ Grid *grid_new(WINDOW *window, Size size, Point left_upper)
 
 void grid_free(Grid *grid)
 {
-    delwin(grid->window);
+    /** Currently the related WINDOW is free'd in panel_close_top  */
     mem_dealloc(grid);
 }
 

@@ -9,7 +9,7 @@ struct Timer {
     uint16_t timeout;
     TimerTask task;
     TimerArgs args;
-    intmax_t last_execution;
+    struct timespec last_execution;
 };
 
 
@@ -33,25 +33,27 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
     timer->task = task;
     timer->args = args;
     timer->timeout = timeout_ms;
-    timer->last_execution = 0;
 
     TIMERS->append(TIMERS, timer);
 
     return timer;
 }
 
-static void tick(Timer *timer)
+static void tick(Timer *timer, struct timespec loop_end)
 {
-    intmax_t now = time_now_ms();
+    struct timespec now;
+    clock_gettime(CLOCK_MONOTONIC, &now);
 
-    if (now - timer->last_execution >= timer->timeout) {
+    if (time_diff_ms(now, timer->last_execution) >= timer->timeout) {
         timer->task(&timer->args);
         timer->last_execution = now;
     }
 }
 
-void timer_tick(void)
+void timer_tick(struct timespec loop_end)
 {
-    TIMERS->foreach_l(TIMERS, tick);
+    TIMERS->foreach_l(TIMERS, function(void, (Timer *timer) {
+        tick(timer, loop_end);
+    }));
 }
 

@@ -44,7 +44,7 @@ Cell *cell_clone(const Cell *cell)
 void cell_free(Cell *cell)
 {
     if (false == cell->in_registry) {
-        pool_free(CELL_POOL, cell);
+        pool_release(CELL_POOL, cell);
         profile_cell(--);
     }
 }

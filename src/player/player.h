@@ -7,6 +7,7 @@
 #include "util/timer.h"
 #include "level/point.h"
 #include "level/level.h"
+#include "camera.h"
 #include "util/sight.h"
 #include "util/event.h"
 
@@ -62,7 +63,7 @@ typedef struct {
 
 typedef struct Player {
     Level *level;
-    Camera *camera;
+    Camera camera;
     Inventory *inventory;
     PlayerState state;
     Sight *sight;
@@ -100,7 +101,7 @@ typedef struct {
 } PlayerStateConfig;
 
 
-Player *player_new(Level *level, Camera *camera);
+Player *player_new(Level *level);
 
 void player_init_movement(Player *player);
 

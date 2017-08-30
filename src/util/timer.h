@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <time.h>
 
 
 typedef struct Timer Timer;
@@ -20,7 +21,7 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args);
 
 void timer_init(void);
 
-void timer_tick(void);
+void timer_tick(struct timespec loop_end);
 
 void timer_cleanup(void);
 

@@ -1,6 +1,6 @@
 #include "../unit_test.h"
 #include "../../src/level/level.h"
-#include "../../src/level/camera.h"
+#include "player/camera.h"
 #include "../../config/config.h"
 #include "../../src/player/inventory/inventory.h"
 #include "../fixture.h"
@@ -26,12 +26,7 @@ MU_TEST(test_item_pickup)
     level->cells[0][0]->item = &item;
     level->cells[0][0]->type = ITEM;
 
-    Camera camera = {
-        .left_upper = point_new(0, 0),
-        .size = level->size
-    };
-
-    Player *player = player_new(level, &camera);
+    Player *player = player_new(level);
     List *items = player->inventory->items;
     player->position.current = point_new(0, 1);
 
