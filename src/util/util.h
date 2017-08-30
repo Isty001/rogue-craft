@@ -9,6 +9,8 @@
 #include <errno.h>
 #include <mem_pool.h>
 #include <sys/time.h>
+#include <time.h>
+#include <math.h>
 #include "memory/profiler.h"
 
 
@@ -71,10 +73,10 @@ static inline long min(long a, long b)
 
 static inline time_t time_now_ms(void)
 {
-    struct timeval now;
-    gettimeofday(&now, NULL);
+    struct timespec spec;
+    clock_gettime(CLOCK_REALTIME, &spec);
 
-    return now.tv_sec * 1000 + now.tv_usec / 1000;
+    return spec.tv_sec * 1000 + spec.tv_nsec / 1000000;
 }
 
 typedef struct {
