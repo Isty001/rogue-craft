@@ -51,5 +51,5 @@ Please note that it's still development version.
 
 If the project got your attention, feel free to contribute with your ideas, and code. :-)
 Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), or the [ISSUES](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) is highly appreciated.
-Please open an issue/PR if you found a bug, or have an ideaIssues, or contact [me](https://github.com/Isty001).
+Please open an issue/PR if you found a bug, or have an idea, or contact [me](https://github.com/Isty001).
 
