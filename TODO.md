@@ -9,11 +9,25 @@
 * [LEVEL] Lighting/Light source:
     * Portable type
     * More tests
-* [LEVEL] Level JSON cache
-* [MISC] Probability.items should be dynamic
-* [UI] Multiple panels
-* [BE AWARE] If there will be more than one thread, the static buffer in `environment.c` will cause problems
-* [BUILD] DEB package
+    * More types
+    * JSON cache
+* [MISC]
+    * Probability.items should be dynamic
+* [UI]
+    *Multiple panels
+* [PLAYER]
+    * XP, skills, level system
+    * Quests
+* [ITEM]
+    * Craft system
+    * Money/Trade system
+* [AI]
+    * (non-)hostile NPCs
+* [BE AWARE OF]
+    * If there will be more than one thread, the static buffer in `environment.c` will cause problems
+* [BUILD]
+    *DEB package
+
 
 #### Possible optimizations:
 * It's a waste to always recreate the Quadtree when the player moves
