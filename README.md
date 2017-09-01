@@ -10,7 +10,7 @@ You can also follow the development [here](https://rogue-craft.github.io).
 
 Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) for a quick video
 
-[![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/screenshot_1.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
+[![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/banner.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
 
 ### Install
 
