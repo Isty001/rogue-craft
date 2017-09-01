@@ -4,13 +4,15 @@
 
 ## Rogue Craft
 
-Rogue Craft is a 2D terminal sandbox/RPG/survival game, based on ncurses.
+Rogue Craft is a 2D rgouelike (kinda sandbox/RPG/survival) game, based on ncurses.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
 You can also follow the development [here](https://rogue-craft.github.io).
 
-Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) for a quick video
+**Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) to watch a video of it.**
 
 [![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/banner.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
+
+---
 
 ### Install
 
@@ -48,5 +50,6 @@ Please note that it's still a very early development stage.
 ### Contribute
 
 If the project got your attention, feel free to contribute with your ideas, and code. :-)
-Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), or [Issues](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) highly appreciated.
-Please open an issue if you found a bug, or have an idea, or contact [me](https://github.com/Isty001).
+Help with the [TODO](https://github.com/rogue-craft/rogue-craft/blob/master/TODO.md), or the [ISSUES](https://github.com/rogue-craft/rogue-craft/blob/master/ISSUES.md) is highly appreciated.
+Please open an issue/PR if you found a bug, or have an ideaIssues, or contact [me](https://github.com/Isty001).
+
