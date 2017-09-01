@@ -4,7 +4,7 @@
 
 ## Rogue Craft
 
-Rogue Craft is a 2D rgouelike (kinda sandbox/RPG/survival) game, based on ncurses.
+Rogue Craft is a 2D roguelike (kinda sandbox/RPG/survival) game, based on ncurses, in an early development stage.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
 You can also follow the development [here](https://rogue-craft.github.io).
 
@@ -45,7 +45,7 @@ make install
 You can remove the build objects with `make clean`, or run the tests with `make run-test`
 
 To play, simply run `rogue-craft` in your terminal.
-Please note that it's still a very early development stage.
+Please note that it's still development version.
 
 ### Contribute
 
