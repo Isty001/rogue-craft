@@ -14,7 +14,7 @@ You can also follow the development [here](https://rogue-craft.github.io).
 
 ---
 
-### Install
+### Install <a name="install"></a>
 
 For running `ncursesw5` is required (`panelw5` too but usually it comes with ncurses), and `vlc`. Your terminal must support 256 colors,
 (for example you could set `$TERM` to `xterm-256color`) and needs mouse interaction support too.
