@@ -91,9 +91,9 @@ Item *item_random(void);
 
 ItemError item_consume(Item *item, Player *player);
 
-EventError item_pickup(InteractionEvent *event);
+EventStatus item_pickup(LevelInteractionEvent *event);
 
-EventError item_light_source_place(InteractionEvent *event);
+EventStatus item_light_source_place(LevelInteractionEvent *event);
 
 Item *item_allocate(void);
 

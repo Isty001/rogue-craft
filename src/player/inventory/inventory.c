@@ -58,12 +58,12 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
     return IE_OK;
 }
 
-EventError inventory_player_shortcut_select(InputEvent *event)
+EventStatus inventory_player_shortcut_select(InputEvent *event)
 {
     int input = event->input;
 
     if (!inventory_is_shortcut(input)) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     Inventory *inventory = event->player->inventory;
@@ -73,7 +73,7 @@ EventError inventory_player_shortcut_select(InputEvent *event)
         inventory->selected = selected;
     }
 
-    return EE_BREAK;
+    return ES_BREAK;
 }
 
 void inventory_use_selected(Inventory *inventory, Player *player)
@@ -90,15 +90,16 @@ void inventory_use_selected(Inventory *inventory, Player *player)
     }
 }
 
-EventError inventory_player_use_selected(InputEvent *event)
+EventStatus inventory_player_use_selected(InputEvent *event)
 {
     if (KEY_USE != event->input) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     Inventory *inventory = event->player->inventory;
 
     inventory_use_selected(inventory, event->player);
 
-    return EE_BREAK;
+    return ES_BREAK;
 }
+

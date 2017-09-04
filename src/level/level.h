@@ -63,7 +63,7 @@ typedef struct {
     Cell *cell;
     Point point;
     uint16_t player_distance;
-} InteractionEvent;
+} LevelInteractionEvent;
 
 
 void level_load(void);
@@ -80,7 +80,7 @@ Cell ***level_allocate_cells(Size size);
 
 void level_display(Player *player);
 
-EventError level_interact(ClickEvent *click);
+EventStatus level_interact(ClickEvent *click);
 
 void level_set_hollow(Level *level, Point at);
 

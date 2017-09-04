@@ -19,11 +19,11 @@ typedef enum {
 } Event;
 
 typedef enum {
-    EE_CONTINUE,
-    EE_BREAK
-} EventError;
+    ES_CONTINUE,
+    ES_BREAK
+} EventStatus;
 
-typedef EventError (*Listener)(void *data);
+typedef EventStatus (*Listener)(void *data);
 
 
 void event_dispatch(Event event, void *data);

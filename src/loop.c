@@ -1,11 +1,9 @@
 #include <ncurses.h>
 #include <ui/panel.h>
 #include <player/inventory/inventory.h>
-#include <player/player.h>
 
 
 #define MAX_TIMEOUT 85
-#define VERTICAL_TIMEOUT 35
 
 
 static void render(Player *player)
@@ -28,15 +26,6 @@ static void update(int input, Player *player)
     render(player);
 }
 
-static void loop_timeout(int input, struct timespec start, struct timespec end)
-{
-    napms(max(0, MAX_TIMEOUT - time_diff_ms(end, start)));
-
-    if (input == KEY_NORTH || input == KEY_SOUTH) {
-        napms(VERTICAL_TIMEOUT);
-    }
-}
-
 void loop_run(Player *player)
 {
     int input;
@@ -44,7 +33,7 @@ void loop_run(Player *player)
     struct timespec end;
 
     TimerArgs args = {.ptr = {player, &PLAYER_STATE_CONFIG}};
-    timer_new(200, player_state_update, args);
+    timer_new(1000, player_state_update, args);
 
     while (1) {
         clock_gettime(CLOCK_MONOTONIC, &start);
@@ -65,6 +54,6 @@ void loop_run(Player *player)
         clock_gettime(CLOCK_MONOTONIC, &end);
 
         timer_tick(end);
-        loop_timeout(input, start, end);
+        napms(max(0, MAX_TIMEOUT - time_diff_ms(end, start)));
     }
 }

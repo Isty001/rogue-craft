@@ -6,9 +6,9 @@
 #include "../fixture.h"
 
 
-static InteractionEvent create_event(Player *player, Level *level)
+static LevelInteractionEvent create_event(Player *player, Level *level)
 {
-    return (InteractionEvent) {
+    return (LevelInteractionEvent) {
         .cell = level->cells[0][0],
         .player = player,
         .point = point_new(0, 0),
@@ -30,13 +30,13 @@ MU_TEST(test_item_pickup)
     List *items = player->inventory->items;
     player->position.current = point_new(0, 1);
 
-    InteractionEvent event = create_event(player, level);
+    LevelInteractionEvent event = create_event(player, level);
 
-    mu_assert_int_eq(EE_BREAK, item_pickup(&event));
+    mu_assert_int_eq(ES_BREAK, item_pickup(&event));
     mu_assert(&item == items->head(items), "Items are not the same");
 
     event.cell = level->cells[0][0];
-    mu_assert_int_eq(EE_CONTINUE, item_pickup(&event));
+    mu_assert_int_eq(ES_CONTINUE, item_pickup(&event));
     mu_assert(&item == items->head(items), "Items are not the same");
     mu_assert(NULL == items->get(items, 1), "There should be no items");
 
@@ -64,9 +64,9 @@ MU_TEST(test_pickup_lighting)
         .level = level
     };
 
-    InteractionEvent event = create_event(&player, level);
+    LevelInteractionEvent event = create_event(&player, level);
 
-    mu_assert_int_eq(EE_BREAK, item_pickup(&event));
+    mu_assert_int_eq(ES_BREAK, item_pickup(&event));
     mu_assert(&occupied == level->cells[0][0], "");
     mu_assert(NULL == item.occupied_cell, "");
 

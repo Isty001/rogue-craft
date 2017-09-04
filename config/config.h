@@ -24,10 +24,6 @@ extern Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX];
 /**
  * PLAYER
  */
-#define PLAYER_CHAR                     '@'
-#define PLAYER_DEFAULT_INVENTORY_SIZE   20
-#define PLAYER_EYESIGHT_ALIGN           4
-
 extern const PlayerStateConfig PLAYER_STATE_CONFIG;
 
 
@@ -60,7 +56,7 @@ extern int16_t MATERIAL_STRENGTH[MATERIAL_NUM];
  * LEVEL
  */
 #define LEVEL_ITEM_COUNT(level) \
-    (uint16_t) ((level->size.height * level->size.width) / 20);
+    (uint16_t) ((level->size.height * level->size.width) / 200);
 
 
 extern Probability LEVEL_PROBABILITY;

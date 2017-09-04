@@ -2,6 +2,8 @@
 #include "util/timer.h"
 #include "sfx/sfx.h"
 #include "config.h"
+#include "player.h"
+
 
 
 void player_position_on_level(Player *player)
@@ -51,18 +53,18 @@ static void move_to(TimerArgs *args)
     }
 }
 
-EventError player_move(InputEvent *event)
+EventStatus player_move(InputEvent *event)
 {
     Direction direction;
 
     if (KEY_MOUSE == event->input || 0 == (direction = direction_lookup(event->input))) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     event->player->movement.direction = direction;
     event->player->movement.moving = true;
 
-    return EE_BREAK;
+    return ES_BREAK;
 }
 
 void player_init_movement(Player *player)

@@ -85,14 +85,14 @@ static void apply_hit_to_item(Inventory *inventory, Item *item)
     }
 }
 
-EventError player_hit(InteractionEvent *event)
+EventStatus player_hit(LevelInteractionEvent *event)
 {
     Cell *target = event->cell;
     Player *player = event->player;
     Point point = event->point;
 
     if (SOLID != target->type && CREATURE != target->type) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     Inventory *inventory = player->inventory;
@@ -105,8 +105,8 @@ EventError player_hit(InteractionEvent *event)
         apply_hit_to_cell(hit, player, target, point);
         apply_hit_to_item(inventory, selected_item);
 
-        return EE_BREAK;
+        return ES_BREAK;
     }
 
-    return EE_CONTINUE;
+    return ES_CONTINUE;
 }

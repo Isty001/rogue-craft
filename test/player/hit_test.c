@@ -35,9 +35,9 @@ static Player create_player(void)
     };
 }
 
-static InteractionEvent create_event(Player *player, Point point)
+static LevelInteractionEvent create_event(Player *player, Point point)
 {
-    return (InteractionEvent) {
+    return (LevelInteractionEvent) {
         .player = player,
         .cell = player->level->cells[point.y][point.x],
         .point =point
@@ -54,7 +54,7 @@ MU_TEST(test_range)
 {
     Player player = create_player();
     List *items = player.inventory->items;
-    InteractionEvent event = create_event(&player, point_new(0, 2));
+    LevelInteractionEvent event = create_event(&player, point_new(0, 2));
 
     player_hit(&event);
 
@@ -73,7 +73,7 @@ MU_TEST(test_defaults)
     Player player = create_player();
     Cell *cell;
 
-    InteractionEvent event = create_event(&player, point_new(0, 0));
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
 
     player_hit(&event);
 
@@ -97,7 +97,7 @@ MU_TEST(test_material_and_tired_damage)
     item = items->head(items);
     item->tool.multipliers.materials[STONE] = 2;
 
-    InteractionEvent event = create_event(&player, point_new(0, 0));
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
 
     player_hit(&event);
 
@@ -110,7 +110,7 @@ MU_TEST(test_material_and_tired_damage)
 MU_TEST(test_bare_hands)
 {
     Player player = create_player();
-    InteractionEvent event = create_event(&player, point_new(0, 0));
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
     player.inventory->selected = 1;
 
     player_hit(&event);
@@ -124,7 +124,7 @@ MU_TEST(test_bare_hands)
 MU_TEST(test_invalid_cell_type)
 {
     Player player = create_player();
-    InteractionEvent event = create_event(&player, point_new(0, 0));
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
     Cell *cell = player.level->cells[0][0];
     cell->type = HOLLOW;
 
@@ -142,7 +142,7 @@ MU_TEST(test_tool_wear_out)
     item->value = 10;
     item->tool.multipliers.materials[STONE] = 1.5;
 
-    InteractionEvent event = create_event(&player, point_new(0, 0));
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
     repeat(50, player_hit(&event))
 
     mu_assert_int_eq(0, items->count);

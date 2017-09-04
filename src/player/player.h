@@ -12,9 +12,15 @@
 #include "util/event.h"
 
 
+#define player_eyesight(player) (player->attributes.eye_sight + PLAYER_EYESIGHT_ALIGN)
+
+
 #define PLAYER_STATE_NUM      4
 #define PLAYER_STATE_NAME_MAX 10
 #define PLAYER_SPEED_MAX      100
+#define PLAYER_CHAR                     '@'
+#define PLAYER_DEFAULT_INVENTORY_SIZE   20
+#define PLAYER_EYESIGHT_ALIGN           4
 
 
 typedef struct Inventory Inventory;
@@ -107,11 +113,11 @@ void player_init_movement(Player *player);
 
 void player_free(Player *player);
 
-EventError player_move(InputEvent *event);
+EventStatus player_move(InputEvent *event);
 
 void player_sight_update(Player *player);
 
-EventError player_hit(InteractionEvent *event);
+EventStatus player_hit(LevelInteractionEvent *event);
 
 void player_state_display(Player *player);
 

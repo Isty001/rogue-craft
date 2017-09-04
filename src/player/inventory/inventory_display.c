@@ -95,10 +95,10 @@ static Grid *create_grid(Inventory *inventory)
     return grid;
 }
 
-static EventError inventory_display(Inventory *inventory)
+static EventStatus inventory_display(Inventory *inventory)
 {
     if (inventory->grid) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     inventory->grid = create_grid(inventory);
@@ -111,16 +111,17 @@ static EventError inventory_display(Inventory *inventory)
     };
     panel_push_new(inventory->grid->window, info);
 
-    return EE_BREAK;
+    return ES_BREAK;
 }
 
-EventError inventory_player_display(InputEvent *event)
+EventStatus inventory_player_display(InputEvent *event)
 {
     Inventory *inventory = event->player->inventory;
 
     if (KEY_INVENTORY != event->input) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     return inventory_display(inventory);
 }
+

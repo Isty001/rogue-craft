@@ -47,7 +47,7 @@ void ncurses_init(void);
 
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to);
 
-EventError ncurses_resize(InputEvent *event);
+EventStatus ncurses_resize(InputEvent *event);
 
 void ncurses_event(char *msg, ...);
 
@@ -57,7 +57,7 @@ void input_process(int input, Player *player);
 
 void mouse_init(void);
 
-EventError mouse_handler(InputEvent *event);
+EventStatus mouse_handler(InputEvent *event);
 
 
 #endif

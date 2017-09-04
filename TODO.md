@@ -14,10 +14,13 @@
 * [MISC]
     * Probability.items should be dynamic
 * [UI]
-    *Multiple panels
+    * Multiple panels
+    * Menu system
 * [PLAYER]
     * XP, skills, level system
     * Quests
+    * Replace ray-casting with something more efficient
+    * Collectíble achievements
 * [ITEM]
     * Craft system
     * Money/Trade system

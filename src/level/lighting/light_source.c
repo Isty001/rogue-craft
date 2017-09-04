@@ -10,7 +10,7 @@ static void add_lighting(Player *player, Point point, LightSource *source)
     );
 }
 
-static void place_on_level(InteractionEvent *event, Item *item)
+static void place_on_level(LevelInteractionEvent *event, Item *item)
 {
     Cell ***cells = event->player->level->cells;
     Point point = event->point;
@@ -19,7 +19,7 @@ static void place_on_level(InteractionEvent *event, Item *item)
     cells[point.y][point.x] = cell_from_item(item);
 }
 
-static bool is_supported(InteractionEvent *event, Item *item)
+static bool is_supported(LevelInteractionEvent *event, Item *item)
 {
     return
         1 == event->player_distance
@@ -27,18 +27,18 @@ static bool is_supported(InteractionEvent *event, Item *item)
         && HOLLOW == event->cell->type;
 }
 
-EventError item_light_source_place(InteractionEvent *event)
+EventStatus item_light_source_place(LevelInteractionEvent *event)
 {
     Player *player = event->player;
     Inventory *inventory = player->inventory;
     Item *item = inventory_selected(inventory);
 
     if (!is_supported(event, item)) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
     inventory_remove(inventory, item);
     place_on_level(event, item);
     add_lighting(player, event->point, &item->light_source);
 
-    return EE_BREAK;
+    return ES_BREAK;
 }

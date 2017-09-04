@@ -31,21 +31,21 @@ ItemError inventory_add(Inventory *inventory, Item *item);
 
 ItemError inventory_remove(Inventory *inventory, Item *item);
 
-EventError inventory_player_shortcut_select(InputEvent *event);
+EventStatus inventory_player_shortcut_select(InputEvent *event);
 
 void inventory_shortcut_display(Inventory *inventory);
 
 void inventory_use_selected(Inventory *inventory, Player *player);
 
-EventError inventory_player_use_selected(InputEvent *event);
+EventStatus inventory_player_use_selected(InputEvent *event);
 
 void inventory_grid_update(Inventory *inventory);
 
-EventError inventory_player_display(InputEvent *event);
+EventStatus inventory_player_display(InputEvent *event);
 
-EventError inventory_close(PanelEvent *event);
+EventStatus inventory_close(PanelEvent *event);
 
-EventError inventory_navigate(PanelEvent *event);
+EventStatus inventory_navigate(PanelEvent *event);
 
 void inventory_free(Inventory *inventory);
 

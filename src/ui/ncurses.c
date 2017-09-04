@@ -64,15 +64,15 @@ void ncurses_init(void)
     refresh();
 }
 
-EventError ncurses_resize(InputEvent *event)
+EventStatus ncurses_resize(InputEvent *event)
 {
     if (KEY_RESIZE == event->input) {
         ncurses_cleanup();
         ncurses_init();
 
-        return EE_BREAK;
+        return ES_BREAK;
     }
-    return EE_CONTINUE;
+    return ES_CONTINUE;
 }
 
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to)
@@ -92,7 +92,7 @@ WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to)
 
 static void print_events(void)
 {
-    wclear(WINDOW_EVENT);
+//    wclear(WINDOW_EVENT);
 
     uint16_t y = NCURSES_BOX_PADDING;
 

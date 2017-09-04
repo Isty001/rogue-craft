@@ -1,3 +1,4 @@
+#include <level/level.h>
 #include "ncurses.h"
 
 
@@ -18,10 +19,10 @@ static void dispatch_click_event(MEVENT *mevent, WINDOW *window, Player *player)
     event_dispatch(EVENT_CLICK, &event);
 }
 
-EventError mouse_handler(InputEvent *event)
+EventStatus mouse_handler(InputEvent *event)
 {
     if (KEY_MOUSE != event->input) {
-        return EE_CONTINUE;
+        return ES_CONTINUE;
     }
 
     MEVENT mevent;
@@ -34,9 +35,9 @@ EventError mouse_handler(InputEvent *event)
         if (wmouse_trafo(window, &mevent.y, &mevent.x, false)) {
             dispatch_click_event(&mevent, window, event->player);
 
-            return EE_BREAK;
+            return ES_BREAK;
         }
     }
 
-    return EE_CONTINUE;
+    return ES_CONTINUE;
 }

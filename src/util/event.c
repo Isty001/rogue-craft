@@ -7,7 +7,7 @@ void event_dispatch(Event event, void *data)
     Listener listener;
 
     while ((listener = LISTENERS[event][i++])) {
-        if (EE_BREAK == listener(data)) {
+        if (ES_BREAK == listener(data)) {
             break;
         }
     }

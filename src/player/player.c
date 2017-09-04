@@ -68,7 +68,7 @@ Player *player_new(Level *level)
     find_starting_point(player);
 
     player->inventory = inventory_new(PLAYER_DEFAULT_INVENTORY_SIZE);
-    player->sight = sight_new(level, player->position.current, PLAYER_EYESIGHT_ALIGN);
+    player->sight = sight_new(level, player->position.current, player_eyesight(player));
 
     player_init_movement(player);
 
@@ -84,5 +84,5 @@ void player_free(Player *player)
 
 void player_sight_update(Player *player)
 {
-    sight_update(player->sight, player->position.current, PLAYER_EYESIGHT_ALIGN);
+    sight_update(player->sight, player->position.current, player_eyesight(player));
 }

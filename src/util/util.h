@@ -48,7 +48,7 @@
     if (0 != pool_free(pool, ptr)) { fatal("[%s] unable to release", #pool) }
 
 #define time_diff_ms(now, since) \
-    (now.tv_sec * 1000 + now.tv_nsec / 1000000) - (since.tv_sec * 1000 + since.tv_nsec / 1000000)
+    ((now.tv_sec * 1000 + now.tv_nsec / 1000000) - (since.tv_sec * 1000 + since.tv_nsec / 1000000))
 
 
 typedef struct {
