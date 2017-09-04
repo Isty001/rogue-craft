@@ -11,7 +11,7 @@ typedef struct Player Player;
 
 
 typedef enum {
-    INVENTORY
+    PANEL_INVENTORY
 } PanelType;
 
 typedef struct {
@@ -25,7 +25,7 @@ typedef struct {
     int input;
     Player *player;
     PanelInfo *info;
-} PanelEvent;
+} PanelInputEvent;
 
 
 void panel_init(void);

@@ -19,6 +19,10 @@ void inventory_free(Inventory *inventory)
 
     items->free(items);
     mem_dealloc(inventory);
+
+    if (inventory->grid) {
+        grid_free(inventory->grid);
+    }
 }
 
 static inline bool in_inventory(Inventory *inventory, Item *item)
@@ -40,7 +44,7 @@ ItemError inventory_add(Inventory *inventory, Item *item)
         return IE_OVERFLOW;
     }
     items->append(items, item);
-    ncurses_event("Picked up a(n) %s", item->name);
+    ncurses_event("%s added to your inventory", item->name);
 
     return IE_OK;
 }
@@ -57,49 +61,3 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
 
     return IE_OK;
 }
-
-EventStatus inventory_player_shortcut_select(InputEvent *event)
-{
-    int input = event->input;
-
-    if (!inventory_is_shortcut(input)) {
-        return ES_CONTINUE;
-    }
-
-    Inventory *inventory = event->player->inventory;
-    uint16_t selected = input % INVENTORY_SHORTCUT_FIRST;
-
-    if (selected <= INVENTORY_SHORTCUT_NUM) {
-        inventory->selected = selected;
-    }
-
-    return ES_BREAK;
-}
-
-void inventory_use_selected(Inventory *inventory, Player *player)
-{
-    Item *selected = inventory_selected(inventory);
-
-    if (selected) {
-        if (CONSUMABLE == selected->type) {
-            if (IE_CONSUMED == item_consume(selected, player)) {
-                inventory_remove(inventory, selected);
-                item_free(selected);
-            }
-        }
-    }
-}
-
-EventStatus inventory_player_use_selected(InputEvent *event)
-{
-    if (KEY_USE != event->input) {
-        return ES_CONTINUE;
-    }
-
-    Inventory *inventory = event->player->inventory;
-
-    inventory_use_selected(inventory, event->player);
-
-    return ES_BREAK;
-}
-

@@ -95,7 +95,7 @@ static Grid *create_grid(Inventory *inventory)
     return grid;
 }
 
-static EventStatus inventory_display(Inventory *inventory)
+EventStatus inventory_display(Inventory *inventory)
 {
     if (inventory->grid) {
         return ES_CONTINUE;
@@ -107,21 +107,9 @@ static EventStatus inventory_display(Inventory *inventory)
     inventory_grid_update(inventory);
 
     PanelInfo info = {
-        .type = INVENTORY, .inventory = inventory
+        .type = PANEL_INVENTORY, .inventory = inventory
     };
     panel_push_new(inventory->grid->window, info);
 
     return ES_BREAK;
 }
-
-EventStatus inventory_player_display(InputEvent *event)
-{
-    Inventory *inventory = event->player->inventory;
-
-    if (KEY_INVENTORY != event->input) {
-        return ES_CONTINUE;
-    }
-
-    return inventory_display(inventory);
-}
-

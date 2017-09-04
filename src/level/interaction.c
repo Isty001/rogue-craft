@@ -12,7 +12,9 @@ EventStatus level_interact(ClickEvent *click)
     Cell *cell = player->level->cells[on_level.y][on_level.x];
 
     LevelInteractionEvent event = {
-        .player = player, .cell = cell, .point = on_level,
+        .player = player,
+        .cell = cell,
+        .point = on_level,
         .player_distance = point_distance(on_level, player->position.current)
     };
 

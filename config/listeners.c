@@ -21,7 +21,8 @@ Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
         (Listener) ncurses_resize
     },
     [EVENT_PANEL_INPUT] = {
-        (Listener) inventory_navigate
+        (Listener) inventory_navigate,
+        (Listener) inventory_set_shortcut
     },
     [EVENT_PANEL_CLOSE] = {
         (Listener) inventory_close
