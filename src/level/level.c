@@ -82,10 +82,11 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 {
     Cell ***cells = level->cells;
     Cell *cell = cells[at.y][at.x];
-    cell_free(cell);
-    Cell *new = cell_clone(cell);
 
+    Cell *new = cell_clone(cell);
     cells[at.y][at.x] = new;
+
+    cell_free(cell);
 
     return new;
 }

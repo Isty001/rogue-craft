@@ -71,7 +71,7 @@ FILE *file_open(char *path, char *mode)
 char *file_read(FILE *file)
 {
     size_t size = file_size(file);
-    char *buff = mem_alloc(size);
+    char *buff = mem_alloc(size + 1);
 
     fread(buff, size, 1, file);
     buff[size] = '\0';

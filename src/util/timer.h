@@ -21,7 +21,7 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args);
 
 void timer_init(void);
 
-void timer_tick(struct timespec loop_end);
+void timer_tick(struct timespec now);
 
 void timer_cleanup(void);
 

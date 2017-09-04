@@ -28,6 +28,7 @@ MU_TEST(test_logger)
     mu_assert(NULL != strstr(content, "Test Alert 101 - Hello"), "");
 
     mem_dealloc(content);
+    fclose(file);
 }
 
 void run_logger_test(void)

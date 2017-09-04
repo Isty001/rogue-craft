@@ -16,13 +16,13 @@ Inventory *inventory_new(uint16_t max_size)
 void inventory_free(Inventory *inventory)
 {
     List *items = inventory->items;
-
     items->free(items);
-    mem_dealloc(inventory);
 
     if (inventory->grid) {
         grid_free(inventory->grid);
     }
+
+    mem_dealloc(inventory);
 }
 
 static inline bool in_inventory(Inventory *inventory, Item *item)

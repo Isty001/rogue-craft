@@ -33,27 +33,25 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
     timer->task = task;
     timer->args = args;
     timer->timeout = timeout_ms;
+    timer->last_execution = (struct timespec) {0, 0};
 
     TIMERS->append(TIMERS, timer);
 
     return timer;
 }
 
-static void tick(Timer *timer, struct timespec loop_end)
+static void tick(Timer *timer, struct timespec now)
 {
-    struct timespec now;
-    clock_gettime(CLOCK_MONOTONIC, &now);
-
     if (time_diff_ms(now, timer->last_execution) >= timer->timeout) {
         timer->task(&timer->args);
         timer->last_execution = now;
     }
 }
 
-void timer_tick(struct timespec loop_end)
+void timer_tick(struct timespec now)
 {
-    TIMERS->foreach_l(TIMERS, function(void, (Timer *timer) {
-        tick(timer, loop_end);
+    TIMERS->foreach_l(TIMERS, function(void, (Timer * timer) {
+        tick(timer, now);
     }));
 }
 
