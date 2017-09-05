@@ -122,6 +122,13 @@ EventStatus inventory_player_use_selected(InputEvent *event)
     return ES_BREAK;
 }
 
+static void assure_list_size(List *items, uint16_t until)
+{
+    while (until >= items->count) {
+        items->append(items, NULL);
+    }
+}
+
 EventStatus inventory_set_shortcut(PanelInputEvent *event)
 {
     PanelInfo *info = event->info;
@@ -133,14 +140,24 @@ EventStatus inventory_set_shortcut(PanelInputEvent *event)
     uint16_t taken_from = info->inventory->selected;
     uint16_t replacing_at = inventory_shortcut_offset(event->input);
 
+
     List *from = info->inventory->items;
     List *to = event->player->inventory->items;
+
+    assure_list_size(to, replacing_at);
 
     Item *taken = from->get(from, taken_from);
     Item *replacing = to->get(to, replacing_at);
 
     from->set(from, taken_from, replacing);
+
+    printf("--- TO: %d\n", to->count);
+    printf("AT: %d\n", replacing_at);
+
+    to->append(to, NULL);
     to->set(to, replacing_at, taken);
+
+
 
     return ES_BREAK;
 }

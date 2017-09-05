@@ -180,6 +180,20 @@ MU_TEST(test_set_shortcut)
         other->items->get(other->items, other->selected)
     );
 
+    /* Remove the item from the shortcut, and put back the original one from the other inventory */
+    player_inv->items->delete_at(player_inv->items, inventory_shortcut_offset(event.input));
+    mu_assert_int_eq(ES_BREAK, inventory_set_shortcut(&event));
+
+    mu_assert_int_eq(
+        NULL,
+        other->items->get(other->items, other->selected)
+    );
+
+    mu_assert_int_eq(
+        &player_item,
+        player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input))
+    );
+
     inventory_free(other);
     inventory_free(player.inventory);
 }
@@ -197,4 +211,5 @@ void run_inventory_test(void)
     MU_RUN_TEST(test_set_shortcut);
 
     MU_REPORT();
+    exit(0);
 }
