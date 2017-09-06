@@ -2,8 +2,8 @@
 
 ###### NEW:
 * [x] Tools will wear out after using them
-* [] Items can be dropped from the inventory
-* [] Items can be placed on shortcut from the inventory
+* [ ] Items can be dropped from the inventory
+* [x] Items can be placed on shortcut from the inventory
 * [x] i386 tar build
 
 ###### FIXED:
