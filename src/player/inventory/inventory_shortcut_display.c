@@ -26,6 +26,7 @@ void inventory_shortcut_display(Inventory *inventory)
     WINDOW *win = WINDOW_INVENTORY_SHORTCUT;
 
     wmove(win, 1, 1);
+    wclrtoeol(win);
 
     int displayed = min(getmaxx(win) / SHORTCUT_LENGTH, INVENTORY_SHORTCUT_NUM);
     int length = getmaxx(win) / displayed;

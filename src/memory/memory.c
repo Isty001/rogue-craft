@@ -29,7 +29,7 @@ void *mem_calloc(int nmemb, int size)
     safe_alloc(
         void *ptr = calloc(nmemb, size);
     )
-    profile_allocate(size, ptr);
+    profile_allocate(nmemb * size, ptr);
 
     return ptr;
 }

@@ -41,7 +41,7 @@ static void dispatch_panel_event(Event name, int input, Player *player, PANEL *p
     PanelInputEvent event = {
         .input = input,
         .player = player,
-        .info = panel_userptr(panel)
+        .info = (void *) panel_userptr(panel)
     };
 
     event_dispatch(name, &event);

@@ -65,8 +65,10 @@ void inventory_grid_update(Inventory *inventory)
 {
     Grid *grid = inventory->grid;
 
-    add_inventory_to_grid(inventory);
-    grid_display(grid);
+    if (grid) {
+        add_inventory_to_grid(inventory);
+        grid_display(grid);
+    }
 }
 
 static void set_grid_window(Grid *grid)

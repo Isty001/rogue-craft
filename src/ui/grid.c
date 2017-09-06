@@ -77,6 +77,7 @@ void grid_display(Grid *grid)
     }
 
     add_corners(window, from, size);
+    mark_cell(grid, grid->selected, SELECTED_STYLE);
 }
 
 void grid_move_selected(Grid *grid, Direction direction)

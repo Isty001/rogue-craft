@@ -116,7 +116,6 @@ EventStatus inventory_player_use_selected(InputEvent *event)
     }
 
     Inventory *inventory = event->player->inventory;
-
     inventory_use_selected(inventory, event->player);
 
     return ES_BREAK;
@@ -140,7 +139,6 @@ EventStatus inventory_set_shortcut(PanelInputEvent *event)
     uint16_t taken_from = info->inventory->selected;
     uint16_t replacing_at = inventory_shortcut_offset(event->input);
 
-
     List *from = info->inventory->items;
     List *to = event->player->inventory->items;
 
@@ -150,14 +148,9 @@ EventStatus inventory_set_shortcut(PanelInputEvent *event)
     Item *replacing = to->get(to, replacing_at);
 
     from->set(from, taken_from, replacing);
-
-    printf("--- TO: %d\n", to->count);
-    printf("AT: %d\n", replacing_at);
-
-    to->append(to, NULL);
     to->set(to, replacing_at, taken);
 
-
+    inventory_grid_update(event->player->inventory);
 
     return ES_BREAK;
 }

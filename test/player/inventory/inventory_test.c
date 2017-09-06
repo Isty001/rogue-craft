@@ -139,7 +139,7 @@ MU_TEST(test_select_shortcut)
 
 MU_TEST(test_set_shortcut)
 {
-    /* Inventory size has no real meaning at this context. We only replacing two items in two lists */
+    /* Inventory max_size has no real meaning at this context. We only replacing two items in two lists */
     Item taken_item;
     Inventory *other = inventory_new(5);
 
@@ -169,29 +169,27 @@ MU_TEST(test_set_shortcut)
     mu_assert_int_eq(ES_BREAK, inventory_set_shortcut(&event));
 
     /* Player's inventory at offset 3 now has the other inventory's selected item */
-    mu_assert_int_eq(
-        &taken_item,
-        player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input))
+    mu_assert(
+        &taken_item == player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input)), ""
     );
 
     /* The other inventory has the item that was at the player's inventory's offset 3 */
-    mu_assert_int_eq(
-        &player_item,
-        other->items->get(other->items, other->selected)
+    mu_assert(
+        &player_item == other->items->get(other->items, other->selected), ""
     );
 
-    /* Remove the item from the shortcut, and put back the original one from the other inventory */
-    player_inv->items->delete_at(player_inv->items, inventory_shortcut_offset(event.input));
+    /* Clear the player's inventory, and put back the original one from the other inventory */
+    inventory_free(player.inventory);
+    player_inv = player.inventory = inventory_new(2);
+
     mu_assert_int_eq(ES_BREAK, inventory_set_shortcut(&event));
 
-    mu_assert_int_eq(
-        NULL,
-        other->items->get(other->items, other->selected)
+    mu_assert(
+        NULL == other->items->get(other->items, other->selected), ""
     );
 
-    mu_assert_int_eq(
-        &player_item,
-        player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input))
+    mu_assert(
+        &player_item == player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input)), ""
     );
 
     inventory_free(other);
@@ -211,5 +209,4 @@ void run_inventory_test(void)
     MU_RUN_TEST(test_set_shortcut);
 
     MU_REPORT();
-    exit(0);
 }

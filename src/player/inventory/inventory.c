@@ -4,7 +4,7 @@
 
 Inventory *inventory_new(uint16_t max_size)
 {
-    Inventory *inventory = mem_alloc(sizeof(Inventory) + (max_size * sizeof(Item *)));
+    Inventory *inventory = mem_alloc(sizeof(Inventory));
     inventory->max_size = max_size;
     inventory->selected = 0;
     inventory->grid = NULL;
@@ -15,8 +15,7 @@ Inventory *inventory_new(uint16_t max_size)
 
 void inventory_free(Inventory *inventory)
 {
-    List *items = inventory->items;
-    items->free(items);
+    mem_dealloc(inventory->items);
 
     if (inventory->grid) {
         grid_free(inventory->grid);
