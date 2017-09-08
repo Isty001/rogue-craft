@@ -13,8 +13,6 @@ DIR_INSTALLED_CACHE_BASE = $(DIR_APP)/cache
 DIR_INSTALLED_CACHE=${HOME}/$(DIR_INSTALLED_CACHE_BASE)
 
 DIR_INSTALLED_BIN=/usr/bin
-DIR_TAR_ROOT=$(DIR_ROOT)/$(VERSION_FULL)
-DIR_TAR=$(DIR_TAR_ROOT)/$(TARGET)
 
 INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 
@@ -40,8 +38,6 @@ VERSION_FULL=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 
 VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_MINOR) -DVERSION_PATCH=$(VERSION_PATCH) -DVERSION_STRING=\"$(VERSION_FULL)\"
 
-TAR_NAME=$(TARGET)-$(VERSION_FULL)_$(shell uname -o -p | sed -e 's/\//_/g; s/ /_/g').tar.gz
-
 
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
@@ -60,6 +56,8 @@ HEADERS = $(shell find . -name "*.h")
 default: $(TARGET)
 all: default
 
+include lib/dev/build/build.mk
+
 -include $(shell find $(DIR_BUILD) -name "*.d")
 
 
@@ -71,11 +69,9 @@ $(DIR_BUILD)/%.o: %.c
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
-	make install-environments
 
 $(TEST_TARGET): $(TEST_OBJECTS)
 	$(CC) $(TEST_OBJECTS) $(CFLAGS) $(LIBS) -o $@
-	make install-environments
 
 prepare-test:
 	rm -f test/fixture/cache/*.cache
@@ -114,22 +110,3 @@ clean-cache:
 clean:
 	rm -rf $(DIR_ROOT)/$(DIR_BUILD)/*
 	make clean-cache
-
-tar-installer:
-	cp lib/dev/tar_install.sh install.sh
-	sed -i -e 's#target#\"$(TARGET)\"#g; s#dir_bin#"$(DIR_INSTALLED_BIN)"#g; s#dir_resources#$(DIR_INSTALLED_RESOURCES_BASE)#g; s#dir_cache#$(DIR_INSTALLED_CACHE_BASE)#g; s#log_file#$(INSTALLED_LOG_FILE)#g' install.sh
-
-tar:
-	make
-	make tar-installer
-	mkdir -p $(DIR_TAR)/environments
-	mkdir -p $(DIR_TAR)/resources
-	cp config/environments/.env.prod $(DIR_TAR)/environments
-	cp -r $(DIR_RESOURCES)/* $(DIR_TAR)/resources
-	mv $(TARGET) $(DIR_TAR)
-	chmod 777 install.sh
-	mv install.sh $(DIR_TAR)
-	cd $(DIR_TAR_ROOT) && \
-	tar -cvpf $(TAR_NAME) * && \
-	mv $(TAR_NAME) $(DIR_ROOT)
-	rm -rf $(DIR_TAR_ROOT)

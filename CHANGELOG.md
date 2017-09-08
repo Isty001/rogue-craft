@@ -9,6 +9,8 @@
 ###### FIXED:
 * [x] Clear out some really nasty stack smashing bugs
 * [x] When the inventory opened, the selected item is not marked
+* [x] Tar build did not copy the env variables
+* [x] Bunch of Valgrind errors
 
 ###### INTERNAL:
 * [x] Logging
