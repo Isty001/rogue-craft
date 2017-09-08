@@ -36,7 +36,7 @@ void inventory_use_selected(Inventory *inventory, Player *player);
 
 void inventory_grid_update(Inventory *inventory);
 
-EventStatus inventory_set_shortcut(PanelInputEvent *event);
+EventStatus inventory_player_set_shortcut(PanelInputEvent *event);
 
 EventStatus inventory_close(PanelInputEvent *event);
 

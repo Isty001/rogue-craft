@@ -44,7 +44,8 @@ extern const PlayerStateConfig PLAYER_STATE_CONFIG;
 #define KEY_WEST        'a'
 #define KEY_ESCAPE       KEY_F(2)
 #define KEY_PLAYER_INVENTORY   'i'
-#define KEY_USE         'f'
+#define KEY_USE         'e'
+#define KEY_DROP        'q'
 
 /**
  * MATERIAL

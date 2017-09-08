@@ -160,13 +160,13 @@ MU_TEST(test_set_shortcut)
     PanelInputEvent event = create_panel_event(other, &info, -1, KEY_ESCAPE);
     event.player = &player;
 
-    mu_assert_int_eq(ES_CONTINUE, inventory_set_shortcut(&event));
+    mu_assert_int_eq(ES_CONTINUE, inventory_player_set_shortcut(&event));
 
     info.type = PANEL_INVENTORY;
-    mu_assert_int_eq(ES_CONTINUE, inventory_set_shortcut(&event));
+    mu_assert_int_eq(ES_CONTINUE, inventory_player_set_shortcut(&event));
 
     event.input = '3';
-    mu_assert_int_eq(ES_BREAK, inventory_set_shortcut(&event));
+    mu_assert_int_eq(ES_BREAK, inventory_player_set_shortcut(&event));
 
     /* Player's inventory at offset 3 now has the other inventory's selected item */
     mu_assert(
@@ -182,7 +182,7 @@ MU_TEST(test_set_shortcut)
     inventory_free(player.inventory);
     player_inv = player.inventory = inventory_new(2);
 
-    mu_assert_int_eq(ES_BREAK, inventory_set_shortcut(&event));
+    mu_assert_int_eq(ES_BREAK, inventory_player_set_shortcut(&event));
 
     mu_assert(
         NULL == other->items->get(other->items, other->selected), ""

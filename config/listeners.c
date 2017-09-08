@@ -22,7 +22,7 @@ Listener LISTENERS[EVENT_TYPE_NUM][EVENT_LISTENER_MAX] = {
     },
     [EVENT_PANEL_INPUT] = {
         (Listener) inventory_navigate,
-        (Listener) inventory_set_shortcut
+        (Listener) inventory_player_set_shortcut
     },
     [EVENT_PANEL_CLOSE] = {
         (Listener) inventory_close

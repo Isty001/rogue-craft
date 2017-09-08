@@ -17,7 +17,7 @@
     * Multiple panels
     * Menu system
 * [PLAYER]
-    * XP, skills, level system
+    * XP, skills, learning/level system
     * Quests
     * Replace ray-casting with something more efficient
     * Collectíble achievements
