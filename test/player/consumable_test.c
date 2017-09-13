@@ -50,7 +50,7 @@ MU_TEST(test_partial_consume)
     setup_player(&player);
     player.state.map[HEALTH].current = 95;
 
-    mu_assert(IE_REPEAT == item_consume(&item, &player), "Should be partially consumed");
+    mu_assert(IE_CAN_BE_CONSUMED == item_consume(&item, &player), "Should be partially consumed");
     mu_assert_int_eq(100, player.state.map[HEALTH].current);
     mu_assert_int_eq(5, item.value);
 }
@@ -61,10 +61,10 @@ MU_TEST(test_negative)
     setup_player(&player);
 
     Item item = fixture_consumable(false);
-    item.consumable.stateType = HUNGER;
+    item.consumable.state_type = HUNGER;
     item.value = -50;
 
-    mu_assert_int_eq(IE_REPEAT, item_consume(&item, &player));
+    mu_assert_int_eq(IE_CAN_BE_CONSUMED, item_consume(&item, &player));
     mu_assert_int_eq(0, player.state.map[HUNGER].current);
 
     mu_assert_int_eq(-30, item.value);

@@ -196,6 +196,41 @@ MU_TEST(test_set_shortcut)
     inventory_free(player.inventory);
 }
 
+MU_TEST(test_drop_selected)
+{
+    Inventory *inv = inventory_new(2);
+    Point around = point_new(0, 1);
+    Level *level = fixture_level();
+    Cell ***cells = level->cells;
+    Item item;
+
+    mu_assert_int_eq(IE_INVALID_ARGUMENT, inventory_drop_selected(inv, around, level));
+
+    repeat(4,
+           inventory_add(inv, &item);
+           mu_assert_int_eq(IE_OK, inventory_drop_selected(inv, around, level));
+           mu_assert(false == inventory_has(inv, &item), "");
+    )
+
+    // No items in Inventory
+    mu_assert_int_eq(IE_INVALID_ARGUMENT, inventory_drop_selected(inv, around, level));
+
+    // No more space
+    inventory_add(inv, &item);
+    mu_assert_int_eq(IE_OUT_OF_BOUNDS, inventory_drop_selected(inv, around, level));
+    mu_assert(inventory_has(inv, &item), "");
+
+    mu_assert(
+        SOLID == cells[0][0]->type
+        && ITEM == cells[0][1]->type
+        && SOLID == cells[0][2]->type
+        && ITEM == cells[1][1]->type
+        && ITEM == cells[1][1]->type
+        && ITEM == cells[1][2]->type,
+        ""
+    );
+}
+
 void run_inventory_test(void)
 {
     TEST_NAME("Inventory");
@@ -207,6 +242,8 @@ void run_inventory_test(void)
     MU_RUN_TEST(test_use_consumable);
     MU_RUN_TEST(test_select_shortcut);
     MU_RUN_TEST(test_set_shortcut);
+    MU_RUN_TEST(test_drop_selected);
 
     MU_REPORT();
+    exit(0);
 }

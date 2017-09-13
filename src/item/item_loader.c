@@ -28,7 +28,7 @@ static void build_consumable(ItemPrototype *prototype, JSON_Object *json)
 {
     Consumable *consumable = &prototype->item.consumable;
 
-    consumable->stateType = (StateType) constant(json_get_string(json, "attribute"));
+    consumable->state_type = (StateType) constant(json_get_string(json, "attribute"));
     consumable->permanent = (bool) json_get_bool(json, "permanent");
 }
 

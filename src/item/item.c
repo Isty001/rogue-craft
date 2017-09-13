@@ -65,12 +65,12 @@ static ItemError consume_non_permanent(Item *item, State *state)
         state->current = max;
         item->value = new - max;
 
-        return IE_REPEAT;
+        return IE_CAN_BE_CONSUMED;
     } else if (new < 0) {
         state->current = 0;
         item->value = new;
 
-        return IE_REPEAT;
+        return IE_CAN_BE_CONSUMED;
     }
     state->current = new;
 
@@ -82,7 +82,7 @@ ItemError item_consume(Item *parent, Player *player)
     check_type(parent, CONSUMABLE);
 
     Consumable *consumable = &parent->consumable;
-    State *states = &player->state.map[consumable->stateType];
+    State *states = &player->state.map[consumable->state_type];
 
     if (consumable->permanent) {
         states->max += parent->value;

@@ -16,8 +16,9 @@
 
 typedef enum {
     IE_CONSUMED,
-    IE_REPEAT,
+    IE_CAN_BE_CONSUMED,
     IE_INVALID_ARGUMENT,
+    IE_OUT_OF_BOUNDS,
     IE_DUPLICATE,
     IE_OK,
     IE_OVERFLOW
@@ -44,7 +45,7 @@ typedef struct {
 
 typedef struct Consumable {
     bool permanent;
-    StateType stateType;
+    StateType state_type;
 } Consumable;
 
 typedef struct {

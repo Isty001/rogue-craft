@@ -28,7 +28,11 @@ Inventory *inventory_new(uint16_t max_size);
 
 ItemError inventory_add(Inventory *inventory, Item *item);
 
+bool inventory_has(Inventory *inventory, Item *item);
+
 ItemError inventory_remove(Inventory *inventory, Item *item);
+
+ItemError inventory_drop_selected(Inventory *inventory, Point around, Level *level);
 
 void inventory_shortcut_display(Inventory *inventory);
 
