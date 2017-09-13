@@ -42,7 +42,7 @@ VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_M
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
 
-LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark")
+LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples")
 COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c")
 SOURCES = $(COMMON_SOURCES) main.c
 TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")

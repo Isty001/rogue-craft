@@ -2,7 +2,6 @@
 #define ROGUE_CRAFT_RAY_SIGHT_H
 
 
-#include <quadtree.h>
 #include "level/level.h"
 
 
@@ -14,7 +13,8 @@ typedef enum {
 typedef struct {
     uint16_t radius;
     Point center;
-    quadtree_t *points;
+    uint16_t point_count;
+    Point *points;
     Level *level;
 } Sight;
 

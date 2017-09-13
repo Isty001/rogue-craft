@@ -92,7 +92,7 @@ WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to)
 
 static void print_events(void)
 {
-//    wclear(WINDOW_EVENT);
+    wclear(WINDOW_EVENT);
 
     uint16_t y = NCURSES_BOX_PADDING;
 

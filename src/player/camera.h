@@ -3,6 +3,7 @@
 
 
 #include <ncurses.h>
+#include <util/sight.h>
 #include "level/point.h"
 
 
@@ -20,6 +21,10 @@ typedef struct Level Level;
 void camera_update(Camera *camera, Point center, Level *level, WINDOW *window);
 
 Point camera_to_level_point(Camera *camera, Point level_point);
+
+Point camera_level_to_camera_point(Camera *camera, Point level_point);
+
+bool camera_has_sigh(Camera *camera, Sight *sight);
 
 
 #endif

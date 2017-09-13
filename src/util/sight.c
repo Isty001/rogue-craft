@@ -12,7 +12,7 @@
 static void add_point(Sight *sight, Point point)
 {
     if (!sight_has(sight, point)) {
-        quadtree_insert(sight->points, point.x, point.y, NULL);
+        sight->points[sight->point_count++] = point;
     }
 }
 
@@ -60,6 +60,8 @@ static void ray_cast(Sight *sight, Point target)
  */
 static void collect_points(Sight *sight)
 {
+    sight->point_count = 0;
+
     int16_t y, x;
 
     for (int deg = 0; deg < 360; deg++) {
@@ -74,15 +76,11 @@ static void collect_points(Sight *sight)
     add_point(sight, sight->center);
 }
 
-static quadtree_t *quadtree_for(Sight *sight)
+static Point *storage_for(Sight *sight)
 {
-    Point center = sight->center;
-    uint16_t radius = sight->radius;
+    uint16_t max_count = M_PI * pow(sight->radius, 2);
 
-    return quadtree_new(
-        center.x - radius, center.y - radius,
-        center.x + radius, center.y + radius
-    );
+    return mem_alloc(max_count * sizeof(Point));
 }
 
 Sight *sight_new(Level *level, Point center, uint16_t radius)
@@ -90,7 +88,7 @@ Sight *sight_new(Level *level, Point center, uint16_t radius)
     Sight *sight = mem_alloc(sizeof(Sight));
     sight->center = center;
     sight->radius = radius;
-    sight->points = quadtree_for(sight);
+    sight->points = storage_for(sight);
     sight->level = level;
 
     collect_points(sight);
@@ -100,9 +98,11 @@ Sight *sight_new(Level *level, Point center, uint16_t radius)
 
 bool sight_has(Sight *sight, Point point)
 {
-    if (sight->points->length) {
-        return (bool) quadtree_search(sight->points, point.x, point.y);
-    }
+    repeat(sight->point_count,
+           if (point_eq(point, sight->points[i])) {
+               return true;
+           }
+    )
 
     return false;
 }
@@ -120,8 +120,8 @@ SightChange sight_update(Sight *sight, Point center, uint16_t radius)
         changed = true;
     }
     if (changed) {
-        quadtree_free(sight->points);
-        sight->points = quadtree_for(sight);
+        mem_dealloc(sight->points);
+        sight->points = storage_for(sight);
         collect_points(sight);
     }
 
@@ -130,6 +130,6 @@ SightChange sight_update(Sight *sight, Point center, uint16_t radius)
 
 void sight_free(Sight *sight)
 {
-    quadtree_free(sight->points);
+    mem_dealloc(sight->points);
     mem_dealloc(sight);
 }

@@ -22,14 +22,16 @@
     * Replace ray-casting with something more efficient
     * Collectíble achievements
 * [ITEM]
-    * Craft system
+    * Crafting system
     * Money/Trade system
 * [AI]
     * (non-)hostile NPCs
 * [BE AWARE OF]
     * If there will be more than one thread, the static buffer in `environment.c` will cause problems
 * [BUILD]
-    *DEB package
+    * DEB package
+* [GENERAL]
+    * Save and reload the game state
 
 
 #### Possible optimizations:

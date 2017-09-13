@@ -31,10 +31,10 @@ static uint16_t LOG_LEVEL;
 void log_init(void)
 {
     LOG_FILE = file_open(getenv(ENV_LOG_FILE), "ab");
-    LOG_LEVEL = atoi(getenv(ENV_LOG_LEVEL) ?: ALERT);
+    LOG_LEVEL = atoi(getenv(ENV_LOG_LEVEL) ?: "2");
 }
 
-static format(char *buff, char *level_name, char *msg, va_list args)
+static void format(char *buff, char *level_name, char *msg, va_list args)
 {
     sprintf(buff, "[%s] - ", level_name);
 

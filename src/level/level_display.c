@@ -1,67 +1,50 @@
-#include "level/level.h"
-#include "player/camera.h"
+#include <util/sight.h>
+#include <player/player.h>
 #include "lighting/lighting.h"
-#include "player/player.h"
 
 
-static Point displayed_bounds(Camera *camera)
+static inline Style style_of(Lighting *lighting, Cell *cell)
 {
-    return point_new(
-        camera->left_upper.y - CAMERA_BORDER + camera->size.height,
-        camera->left_upper.x - CAMERA_BORDER + camera->size.width
-    );
-}
-
-static inline bool in_sight(Player *player, Point point)
-{
-    return sight_has(player->sight, point) || point_eq(point, player->position.current);
-}
-
-static inline Lighting *find_lighting(List *lightings, Point point)
-{
-    return lightings->find(lightings, (Predicate) function(bool, (Lighting *lighting) {
-        return sight_has(lighting->sight, point);
-    }));
-}
-
-static void display_visible(Player *player, Cell *cell, Point point, Point win_pos)
-{
-    Lighting *lighting = NULL;
-
-    if ((lighting = find_lighting(player->level->lightings, point))) {
-        if (SOLID == cell->type) {
-            styled(WINDOW_MAIN, lighting->style,
-                   mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
-            );
-        } else {
-            styled(WINDOW_MAIN, cell->style,
-                   mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
-            );
-        }
-    } else if (in_sight(player, point)) {
-        styled(WINDOW_MAIN, cell->style,
-               mvwprintw(WINDOW_MAIN, win_pos.y, win_pos.x, "%lc", cell->chr)
-        );
-    } else {
-        mvwaddch(WINDOW_MAIN, win_pos.y, win_pos.x, ' ');
+    if (lighting && SOLID == cell->type) {
+        return lighting->style;
     }
+
+    return cell->style;
+}
+
+static inline void display_sight(Sight *sight, Player *player, Lighting *lighting)
+{
+    Camera *camera = &player->camera;
+
+    if (!camera_has_sigh(camera, sight)){
+        return;
+    }
+
+    Cell *cell, ***cells = player->level->cells;
+    Point on_level, on_camera;
+
+    repeat(sight->point_count,
+           on_level = sight->points[i];
+           // This might return a point that is actually out of the camera, but mvwprintw just won't bother with it
+           on_camera = camera_level_to_camera_point(camera, on_level);
+           cell = cells[on_level.y][on_level.x];
+
+           styled(WINDOW_MAIN, style_of(lighting, cell),
+                  mvwprintw(WINDOW_MAIN, on_camera.y, on_camera.x, "%lc", cell->chr)
+           );
+    )
 }
 
 void level_display(Player *player)
 {
-    Point win_pos = point_new(0, 0);
-    Camera *camera = &player->camera;
-    Point until = displayed_bounds(camera);
-    Cell ***cells = player->level->cells;
+    wclear(WINDOW_MAIN);
 
-    for (uint16_t y = camera->left_upper.y; y < until.y; y++) {
-        for (uint16_t x = camera->left_upper.x; x < until.x; x++) {
-            display_visible(player, cells[y][x], point_new(y, x), win_pos);
-            win_pos.x++;
-        }
-        win_pos.y++;
-        win_pos.x = 0;
-    }
+    display_sight(player->sight, player, NULL);
+    List *lightings = player->level->lightings;
+
+    lightings->foreach_l(lightings, (Foreach) function(void, (Lighting * lighting) {
+        display_sight(lighting->sight, player, lighting);
+    }));
 
     wrefresh(WINDOW_MAIN);
 }
