@@ -3,7 +3,7 @@
 #include <player/inventory/inventory.h>
 
 
-#define MAX_TIMEOUT 85
+#define MAX_TIMEOUT 50
 
 
 static void render(Player *player)
