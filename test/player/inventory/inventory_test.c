@@ -224,11 +224,14 @@ MU_TEST(test_drop_selected)
         SOLID == cells[0][0]->type
         && ITEM == cells[0][1]->type
         && SOLID == cells[0][2]->type
-        && ITEM == cells[1][1]->type
+        && ITEM == cells[1][0]->type
         && ITEM == cells[1][1]->type
         && ITEM == cells[1][2]->type,
         ""
     );
+
+    inventory_free(inv);
+    fixture_level_free(level);
 }
 
 void run_inventory_test(void)
@@ -245,5 +248,4 @@ void run_inventory_test(void)
     MU_RUN_TEST(test_drop_selected);
 
     MU_REPORT();
-    exit(0);
 }
