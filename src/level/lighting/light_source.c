@@ -1,6 +1,6 @@
 #include <level/level.h>
 #include "item/item.h"
-#include "player/inventory/inventory.h"
+#include "inventory/inventory.h"
 
 
 static void add_lighting(Player *player, Point point, LightSource *source)

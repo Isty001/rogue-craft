@@ -75,7 +75,7 @@ static ItemError drop_item(Point point, Level *level, Item *item, Inventory *inv
     }
     ncurses_event("No more free space around you");
 
-    return IE_OUT_OF_BOUNDS;
+    return IE_INVALID_ARGUMENT;
 }
 
 ItemError inventory_drop_selected(Inventory *inventory, Point around, Level *level)
@@ -99,5 +99,5 @@ ItemError inventory_drop_selected(Inventory *inventory, Point around, Level *lev
         }
     }
 
-    return IE_OUT_OF_BOUNDS;
+    return IE_OVERFLOW;
 }

@@ -2,7 +2,7 @@
 #include "../../src/level/level.h"
 #include "player/camera.h"
 #include "../../config/config.h"
-#include "../../src/player/inventory/inventory.h"
+#include "../../src/inventory/inventory.h"
 #include "../fixture.h"
 
 

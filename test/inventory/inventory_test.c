@@ -1,7 +1,7 @@
 #include <ui/panel.h>
-#include "../../unit_test.h"
-#include "player/inventory/inventory.h"
-#include "../../fixture.h"
+#include "../unit_test.h"
+#include "inventory/inventory.h"
+#include "../fixture.h"
 
 
 static PanelInputEvent create_panel_event(Inventory *inventory, PanelInfo *info, PanelType type, int input)
@@ -196,6 +196,15 @@ MU_TEST(test_set_shortcut)
     inventory_free(player.inventory);
 }
 
+static inline void assert_item_cell(Cell ***cells, uint16_t y, uint16_t x, Item *item)
+{
+    Cell *cell = cells[y][x];
+
+    mu_assert_int_eq(ITEM, cell->type);
+    mu_assert(item == cell->item, "");
+    mu_assert(!cell->in_registry, "");
+}
+
 MU_TEST(test_drop_selected)
 {
     Inventory *inv = inventory_new(2);
@@ -208,8 +217,8 @@ MU_TEST(test_drop_selected)
 
     repeat(4,
            inventory_add(inv, &item);
-           mu_assert_int_eq(IE_OK, inventory_drop_selected(inv, around, level));
-           mu_assert(false == inventory_has(inv, &item), "");
+               mu_assert_int_eq(IE_OK, inventory_drop_selected(inv, around, level));
+               mu_assert(false == inventory_has(inv, &item), "");
     )
 
     // No items in Inventory
@@ -217,18 +226,19 @@ MU_TEST(test_drop_selected)
 
     // No more space
     inventory_add(inv, &item);
-    mu_assert_int_eq(IE_OUT_OF_BOUNDS, inventory_drop_selected(inv, around, level));
+    mu_assert_int_eq(IE_OVERFLOW, inventory_drop_selected(inv, around, level));
     mu_assert(inventory_has(inv, &item), "");
 
     mu_assert(
         SOLID == cells[0][0]->type
-        && ITEM == cells[0][1]->type
-        && SOLID == cells[0][2]->type
-        && ITEM == cells[1][0]->type
-        && ITEM == cells[1][1]->type
-        && ITEM == cells[1][2]->type,
+        && SOLID == cells[0][2]->type,
         ""
     );
+
+    assert_item_cell(cells, 0, 1, &item);
+    assert_item_cell(cells, 1, 0, &item);
+    assert_item_cell(cells, 1, 1, &item);
+    assert_item_cell(cells, 1, 1, &item);
 
     inventory_free(inv);
     fixture_level_free(level);

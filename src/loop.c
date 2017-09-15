@@ -1,6 +1,6 @@
 #include <ncurses.h>
-#include <ui/panel.h>
-#include <player/inventory/inventory.h>
+#include "ui/panel.h"
+#include "inventory/inventory.h"
 
 
 #define MAX_TIMEOUT 50

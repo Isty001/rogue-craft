@@ -1,7 +1,7 @@
 #include <level/level.h>
 #include "../unit_test.h"
 #include "../fixture.h"
-#include "../../src/player/inventory/inventory.h"
+#include "../../src/inventory/inventory.h"
 
 
 static ItemPrototype TEST_TOOL = {

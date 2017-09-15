@@ -8,7 +8,7 @@
 #include "memory/memory.h"
 #include "player/camera.h"
 #include "config/config.h"
-#include "player/inventory/inventory.h"
+#include "inventory/inventory.h"
 #include "loop.h"
 
 

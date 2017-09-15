@@ -1,7 +1,7 @@
 #include <memory.h>
 #include <mem_pool.h>
 #include "sfx/sfx.h"
-#include "player/inventory/inventory.h"
+#include "inventory/inventory.h"
 
 
 #define check_type(i, t) \
