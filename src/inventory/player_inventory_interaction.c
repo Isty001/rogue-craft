@@ -44,7 +44,9 @@ void inventory_player_set_shortcut(PanelInputEvent *event)
     List *from = info->inventory->items;
     List *to = event->player->inventory->items;
 
-    assure_list_size(to, replacing_at);
+    // Offset starts from 0
+    ncurses_event("%d",replacing_at + 1);
+    assure_list_size(to, replacing_at + 1);
 
     Item *taken = from->get(from, taken_from);
     Item *replacing = to->get(to, replacing_at);
