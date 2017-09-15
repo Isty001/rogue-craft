@@ -50,7 +50,7 @@ static void tick(Timer *timer, struct timespec now)
 
 void timer_tick(struct timespec now)
 {
-    TIMERS->foreach_l(TIMERS, function(void, (Timer * timer) {
+    TIMERS->foreach_l(TIMERS, (Foreach) function(void, (Timer * timer) {
         tick(timer, now);
     }));
 }

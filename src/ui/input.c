@@ -2,15 +2,6 @@
 #include "panel.h"
 
 
-static void dispatch_input_event(int input, Player *player)
-{
-    InputEvent event = {
-        .input = input,
-        .player = player
-    };
-    event_dispatch(EVENT_INPUT, &event);
-}
-
 void input_process(int input, Player *player)
 {
     if (ERR == input) {
@@ -18,9 +9,9 @@ void input_process(int input, Player *player)
     }
 
     if (panel_is_open()) {
-        panel_dispatch_input_event(input, player);
+        event_dispatch_panel_input(input, player, panel_describe_top());
     } else {
-        dispatch_input_event(input, player);
+        event_dispatch_input(input, player);
     }
 
     flushinp();

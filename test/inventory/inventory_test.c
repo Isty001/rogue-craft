@@ -1,4 +1,5 @@
-#include <ui/panel.h>
+#include "ui/panel.h"
+#include "inventory/inventory_player.h"
 #include "../unit_test.h"
 #include "inventory/inventory.h"
 #include "../fixture.h"
@@ -19,33 +20,22 @@ static PanelInputEvent create_panel_event(Inventory *inventory, PanelInfo *info,
 MU_TEST(test_close)
 {
     Inventory inventory;
-    PanelInfo info;
+    PanelInfo info = {.type = PANEL_INVENTORY};
     PanelInputEvent event = create_panel_event(&inventory, &info, -1, 0);
 
-    mu_assert_int_eq(ES_CONTINUE, inventory_close(&event));
-
-    event.info->type = PANEL_INVENTORY;
-    mu_assert_int_eq(ES_BREAK, inventory_close(&event));
+    inventory_close(&event);
     mu_assert(NULL == inventory.grid, "");
 }
 
 MU_TEST(test_navigation)
 {
-    PanelInfo info;
+    PanelInfo info = {.type = PANEL_INVENTORY};
     Inventory *inventory = inventory_new(10);;
     PanelInputEvent event = create_panel_event(inventory, &info, -1, 0);
 
-    mu_assert_int_eq(ES_CONTINUE, inventory_navigate(&event));
-
-    event.info->type = PANEL_INVENTORY;
-    mu_assert_int_eq(ES_CONTINUE, inventory_navigate(&event));
-
     event.input = KEY_SOUTH;
-    mu_assert_int_eq(ES_BREAK, inventory_navigate(&event));
+    inventory_navigate(&event);
     assert_point(inventory->grid->selected, 1, 0);
-
-    event.input = KEY_USE;
-    mu_assert_int_eq(ES_BREAK, inventory_navigate(&event));
 
     inventory_free(inventory);
 }
@@ -95,7 +85,7 @@ MU_TEST(test_use_consumable)
 
     Player player;
     InputEvent event = {
-        .input = KEY_USE,
+        .input = KEY_USE_SELECTED,
         .player = &player
     };
 
@@ -126,10 +116,6 @@ MU_TEST(test_select_shortcut)
     inventory_player_shortcut_select(&event);
     mu_assert_int_eq(1, inv->selected);
 
-    event.input = INVENTORY_SHORTCUT_FIRST + INVENTORY_SHORTCUT_NUM;
-    inventory_player_shortcut_select(&event);
-    mu_assert_int_eq(1, inv->selected);
-
     event.input = 'a';
     inventory_player_shortcut_select(&event);
     mu_assert_int_eq(1, inv->selected);
@@ -156,19 +142,14 @@ MU_TEST(test_set_shortcut)
     Player player;
     player.inventory = player_inv;
 
-    PanelInfo info;
+    PanelInfo info = {.type = PANEL_INVENTORY};
     PanelInputEvent event = create_panel_event(other, &info, -1, KEY_ESCAPE);
     event.player = &player;
 
-    mu_assert_int_eq(ES_CONTINUE, inventory_player_set_shortcut(&event));
-
-    info.type = PANEL_INVENTORY;
-    mu_assert_int_eq(ES_CONTINUE, inventory_player_set_shortcut(&event));
-
     event.input = '3';
-    mu_assert_int_eq(ES_BREAK, inventory_player_set_shortcut(&event));
 
     /* Player's inventory at offset 3 now has the other inventory's selected item */
+    inventory_player_set_shortcut(&event);
     mu_assert(
         &taken_item == player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input)), ""
     );
@@ -182,8 +163,7 @@ MU_TEST(test_set_shortcut)
     inventory_free(player.inventory);
     player_inv = player.inventory = inventory_new(2);
 
-    mu_assert_int_eq(ES_BREAK, inventory_player_set_shortcut(&event));
-
+    inventory_player_set_shortcut(&event);
     mu_assert(
         NULL == other->items->get(other->items, other->selected), ""
     );

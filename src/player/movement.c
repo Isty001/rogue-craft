@@ -53,18 +53,12 @@ static void move_to(TimerArgs *args)
     }
 }
 
-EventStatus player_move(InputEvent *event)
+void player_move(InputEvent *event)
 {
-    Direction direction;
-
-    if (KEY_MOUSE == event->input || 0 == (direction = direction_lookup(event->input))) {
-        return ES_CONTINUE;
-    }
+    Direction direction = direction_lookup(event->input);
 
     event->player->movement.direction = direction;
     event->player->movement.moving = true;
-
-    return ES_BREAK;
 }
 
 void player_init_movement(Player *player)

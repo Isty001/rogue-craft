@@ -2,19 +2,14 @@
 #include "inventory.h"
 
 
-EventStatus inventory_close(PanelInputEvent *event)
+void inventory_close(PanelInputEvent *event)
 {
-    PanelInfo *info = event->info;
+    const PanelInfo *info = event->info;
 
-    if (PANEL_INVENTORY != info->type) {
-        return ES_CONTINUE;
-    }
     Inventory *inventory = info->inventory;
 
     grid_free(inventory->grid);
     inventory->grid = NULL;
-
-    return ES_BREAK;
 }
 
 static uint16_t selected_item(Grid *grid, Inventory *inventory)
@@ -25,7 +20,7 @@ static uint16_t selected_item(Grid *grid, Inventory *inventory)
     return min(inventory->max_size, (selected.y * size) + selected.x);
 }
 
-static EventStatus move_selected(Inventory *inventory, int input)
+static void move_selected(Inventory *inventory, int input)
 {
     Grid *grid = inventory->grid;
     Direction direction = direction_lookup(input);
@@ -33,33 +28,20 @@ static EventStatus move_selected(Inventory *inventory, int input)
     if (direction) {
         grid_move_selected(grid, direction);
         inventory->selected = selected_item(grid, inventory);
-
-        return ES_BREAK;
     }
-
-    return ES_CONTINUE;
 }
 
-EventStatus inventory_navigate(PanelInputEvent *event)
+void inventory_navigate(PanelInputEvent *event)
 {
-    if (PANEL_INVENTORY != event->info->type) {
-        return ES_CONTINUE;
-    }
-
-    EventStatus err;
     Inventory *inventory = event->info->inventory;
     int input = event->input;
 
-    err = move_selected(inventory, input);
-
-    if (KEY_USE == input) {
+    if (KEY_USE_SELECTED == input) {
         inventory_use_selected(inventory, event->player);
-
-        err = ES_BREAK;
+    } else {
+        move_selected(inventory, input);
     }
     inventory_grid_update(inventory);
-
-    return err;
 }
 
 void inventory_use_selected(Inventory *inventory, Player *player)

@@ -85,14 +85,14 @@ static void apply_hit_to_item(Inventory *inventory, Item *item)
     }
 }
 
-EventStatus player_hit(LevelInteractionEvent *event)
+void player_hit(LevelInteractionEvent *event)
 {
     Cell *target = event->cell;
     Player *player = event->player;
     Point point = event->point;
 
     if (SOLID != target->type && CREATURE != target->type) {
-        return ES_CONTINUE;
+        return;
     }
 
     Inventory *inventory = player->inventory;
@@ -104,9 +104,5 @@ EventStatus player_hit(LevelInteractionEvent *event)
         sfx_play_hit(target);
         apply_hit_to_cell(hit, player, target, point);
         apply_hit_to_item(inventory, selected_item);
-
-        return ES_BREAK;
     }
-
-    return ES_CONTINUE;
 }

@@ -32,11 +32,11 @@ MU_TEST(test_item_pickup)
 
     LevelInteractionEvent event = create_event(player, level);
 
-    mu_assert_int_eq(ES_BREAK, item_pickup(&event));
+    item_pickup(&event);
     mu_assert(&item == items->head(items), "Items are not the same");
 
     event.cell = level->cells[0][0];
-    mu_assert_int_eq(ES_CONTINUE, item_pickup(&event));
+    item_pickup(&event);
     mu_assert(&item == items->head(items), "Items are not the same");
     mu_assert(NULL == items->get(items, 1), "There should be no items");
 
@@ -66,7 +66,7 @@ MU_TEST(test_pickup_lighting)
 
     LevelInteractionEvent event = create_event(&player, level);
 
-    mu_assert_int_eq(ES_BREAK, item_pickup(&event));
+    item_pickup(&event);
     mu_assert(&occupied == level->cells[0][0], "");
     mu_assert(NULL == item.occupied_cell, "");
 

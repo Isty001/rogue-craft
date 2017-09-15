@@ -80,7 +80,7 @@ Cell ***level_allocate_cells(Size size);
 
 void level_display(Player *player);
 
-EventStatus level_interact(ClickEvent *click);
+void level_interact(ClickEvent *click);
 
 void level_set_hollow(Level *level, Point at);
 

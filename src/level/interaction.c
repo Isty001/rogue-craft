@@ -1,10 +1,10 @@
 #include <player/player.h>
 
 
-EventStatus level_interact(ClickEvent *click)
+void level_interact(ClickEvent *click)
 {
     if (WINDOW_MAIN != click->window) {
-        return ES_CONTINUE;
+        return;
     }
 
     Player *player = click->player;
@@ -18,7 +18,5 @@ EventStatus level_interact(ClickEvent *click)
         .player_distance = point_distance(on_level, player->position.current)
     };
 
-    event_dispatch(EVENT_INTERACTION, &event);
-
-    return ES_BREAK;
+    event_dispatch(EVENT_LEVEL_INTERACTION, &event);
 }

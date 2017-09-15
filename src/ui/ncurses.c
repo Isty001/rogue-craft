@@ -64,15 +64,12 @@ void ncurses_init(void)
     refresh();
 }
 
-EventStatus ncurses_resize(InputEvent *event)
+void ncurses_resize(InputEvent *event)
 {
-    if (KEY_RESIZE == event->input) {
-        ncurses_cleanup();
-        ncurses_init();
+    (void) event;
 
-        return ES_BREAK;
-    }
-    return ES_CONTINUE;
+    ncurses_cleanup();
+    ncurses_init();
 }
 
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to)

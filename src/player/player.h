@@ -113,11 +113,11 @@ void player_init_movement(Player *player);
 
 void player_free(Player *player);
 
-EventStatus player_move(InputEvent *event);
+void player_move(InputEvent *event);
 
 void player_sight_update(Player *player);
 
-EventStatus player_hit(LevelInteractionEvent *event);
+void player_hit(LevelInteractionEvent *event);
 
 void player_state_display(Player *player);
 

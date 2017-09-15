@@ -19,12 +19,8 @@ static void dispatch_click_event(MEVENT *mevent, WINDOW *window, Player *player)
     event_dispatch(EVENT_CLICK, &event);
 }
 
-EventStatus mouse_handler(InputEvent *event)
+void mouse_handler(InputEvent *event)
 {
-    if (KEY_MOUSE != event->input) {
-        return ES_CONTINUE;
-    }
-
     MEVENT mevent;
     getmouse(&mevent);
 
@@ -34,10 +30,6 @@ EventStatus mouse_handler(InputEvent *event)
     while (i < NCURSES_WINDOW_NUM && (window = *WINDOW_LIST[i++])) {
         if (wmouse_trafo(window, &mevent.y, &mevent.x, false)) {
             dispatch_click_event(&mevent, window, event->player);
-
-            return ES_BREAK;
         }
     }
-
-    return ES_CONTINUE;
 }

@@ -13,7 +13,7 @@
 
 #define inventory_grid_size(inventory) ceil(sqrt(inventory->max_size))
 
-#define inventory_shortcut_offset(input) (input % INVENTORY_SHORTCUT_FIRST)
+#define inventory_shortcut_offset(input) (input % KEY_INVENTORY_SHORTCUT_FIRST)
 
 
 typedef struct Inventory {
@@ -40,19 +40,11 @@ void inventory_use_selected(Inventory *inventory, Player *player);
 
 void inventory_grid_update(Inventory *inventory);
 
-EventStatus inventory_player_set_shortcut(PanelInputEvent *event);
+void inventory_close(PanelInputEvent *event);
 
-EventStatus inventory_close(PanelInputEvent *event);
+void inventory_navigate(PanelInputEvent *event);
 
-EventStatus inventory_navigate(PanelInputEvent *event);
-
-EventStatus inventory_display(Inventory *inventory);
-
-EventStatus inventory_player_shortcut_select(InputEvent *event);
-
-EventStatus inventory_player_use_selected(InputEvent *event);
-
-EventStatus inventory_player_display(InputEvent *event);
+void inventory_display(Inventory *inventory);
 
 void inventory_free(Inventory *inventory);
 

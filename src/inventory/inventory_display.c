@@ -97,10 +97,10 @@ static Grid *create_grid(Inventory *inventory)
     return grid;
 }
 
-EventStatus inventory_display(Inventory *inventory)
+void inventory_display(Inventory *inventory)
 {
     if (inventory->grid) {
-        return ES_CONTINUE;
+        return;
     }
 
     inventory->grid = create_grid(inventory);
@@ -112,6 +112,4 @@ EventStatus inventory_display(Inventory *inventory)
         .type = PANEL_INVENTORY, .inventory = inventory
     };
     panel_push_new(inventory->grid->window, info);
-
-    return ES_BREAK;
 }

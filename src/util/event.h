@@ -4,29 +4,30 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include "ui/panel.h"
 
 
-#define EVENT_LISTENER_MAX 20
 #define EVENT_TYPE_NUM 5
 
 
+typedef struct Player Player;
+
+
 typedef enum {
-    EVENT_INTERACTION,
-    EVENT_INPUT,
-    EVENT_PANEL_INPUT,
+    EVENT_LEVEL_INTERACTION,
     EVENT_PANEL_CLOSE,
     EVENT_CLICK
 } Event;
 
 typedef enum {
-    ES_CONTINUE,
     ES_BREAK
 } EventStatus;
-
-typedef EventStatus (*Listener)(void *data);
 
 
 void event_dispatch(Event event, void *data);
 
+void event_dispatch_input(int input, Player *player);
+
+void event_dispatch_panel_input(int input, Player *player, const PanelInfo *info);
 
 #endif

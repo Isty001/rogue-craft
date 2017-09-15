@@ -44,7 +44,8 @@ MU_TEST(test_camera_to_level_point)
 
 MU_TEST(test_camera_level_to_camera_point)
 {
-    Camera camera = {.left_upper = point_new(10, 20)};
+    Camera camera;
+    camera.left_upper = point_new(10, 20);
     Point on_level = point_new(17, 22);
 
     Point on_camera = camera_level_to_camera_point(&camera, on_level);

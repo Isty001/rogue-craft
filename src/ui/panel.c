@@ -26,7 +26,7 @@ static PanelInfo *copy_to_heap(PanelInfo info)
     return copy;
 }
 
-PANEL *panel_push_new(WINDOW *win, PanelInfo info)
+PANEL *panel_push_new(WINDOW *win, const PanelInfo info)
 {
     PANEL *panel = new_panel(win);
 
@@ -41,17 +41,15 @@ static void dispatch_panel_event(Event name, int input, Player *player, PANEL *p
     PanelInputEvent event = {
         .input = input,
         .player = player,
-        .info = (void *) panel_userptr(panel)
+        .info = panel_userptr(panel)
     };
 
     event_dispatch(name, &event);
 }
 
-void panel_dispatch_input_event(int input, Player *player)
+const PanelInfo *panel_describe_top(void)
 {
-    PANEL *top = PANELS->last(PANELS);
-
-    dispatch_panel_event(EVENT_PANEL_INPUT, input, player, top);
+    return panel_userptr(PANELS->last(PANELS));
 }
 
 void panel_close_top(int input, Player *player)

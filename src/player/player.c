@@ -2,7 +2,6 @@
 #include <util/timer.h>
 #include "memory/memory.h"
 #include "inventory/inventory.h"
-#include "player.h"
 
 
 static void init_modifiers(Player *player)

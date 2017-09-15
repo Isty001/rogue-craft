@@ -27,18 +27,16 @@ static bool is_supported(LevelInteractionEvent *event, Item *item)
         && HOLLOW == event->cell->type;
 }
 
-EventStatus item_light_source_place(LevelInteractionEvent *event)
+void item_light_source_place(LevelInteractionEvent *event)
 {
     Player *player = event->player;
     Inventory *inventory = player->inventory;
     Item *item = inventory_selected(inventory);
 
     if (!is_supported(event, item)) {
-        return ES_CONTINUE;
+        return;
     }
     inventory_remove(inventory, item);
     place_on_level(event, item);
     add_lighting(player, event->point, &item->light_source);
-
-    return ES_BREAK;
 }

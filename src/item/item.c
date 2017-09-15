@@ -111,7 +111,7 @@ static void cleanup_light_source(Item *item, Player *player)
     }
 }
 
-EventStatus item_pickup(LevelInteractionEvent *event)
+void item_pickup(LevelInteractionEvent *event)
 {
     Cell *cell = event->cell;
     Player *player = event->player;
@@ -129,10 +129,6 @@ EventStatus item_pickup(LevelInteractionEvent *event)
             }
             cleanup_light_source(item, player);
             sfx_play("player", "item_pickup");
-
-            return ES_BREAK;
         }
     }
-
-    return ES_CONTINUE;
 }

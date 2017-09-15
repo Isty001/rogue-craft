@@ -4,10 +4,6 @@
 #include "../unit_test.h"
 
 
-static const char *EXPECTED = "[ALERT] - 2017-08-29 22:23:06 - Test Alert 101 - Hello\n"
-    "[ERROR] - 2017-08-29 22:23:06 - Test Error";
-
-
 MU_TEST(test_logger)
 {
     assert_file_exists(getenv(ENV_LOG_FILE));

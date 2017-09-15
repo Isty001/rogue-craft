@@ -24,13 +24,13 @@ typedef struct {
 typedef struct {
     int input;
     Player *player;
-    PanelInfo *info;
+    const PanelInfo *info;
 } PanelInputEvent;
 
 
 void panel_init(void);
 
-PANEL *panel_push_new(WINDOW *win, PanelInfo info);
+PANEL *panel_push_new(WINDOW *win, const PanelInfo info);
 
 bool panel_is_open(void);
 
@@ -38,7 +38,7 @@ void panel_hide(void);
 
 void panel_show(void);
 
-void panel_dispatch_input_event(int input, Player *player);
+const PanelInfo *panel_describe_top(void);
 
 void panel_close_top(int input, Player *player);
 
