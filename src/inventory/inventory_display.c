@@ -55,10 +55,12 @@ static void add_inventory_to_grid(Inventory *inventory)
     Grid *grid = inventory->grid;
 
     grid_foreach(grid, (GridForeach) function(void, (Point display, bool selected) {
-        item = items[i++];
+        item = i <= inventory->max_size ? items[i++] : NULL;
 
-        add_item(grid, item, display);
-        add_description(grid, item, selected);
+        if (item) {
+            add_item(grid, item, display);
+            add_description(grid, item, selected);
+        }
     }));
 }
 
