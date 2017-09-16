@@ -1,4 +1,4 @@
-### 0.1.0 (master):
+### 0.1 (master):
 
 ###### NEW:
 * [x] Tools will wear out after using them
@@ -15,6 +15,6 @@ and reduce the lookup time significantly.
 ###### FIXED:
 * [x] Clear out some really nasty stack smashing bugs
 * [x] When the inventory opened, the selected item is not marked
-* [ ] Items are added to the first empty slot
+* [x] Items are added to the first empty slot
 * [x] Tar build did not copy the env variables
 * [x] Bunch of Valgrind errors

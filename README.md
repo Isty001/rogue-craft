@@ -1,6 +1,10 @@
 
 [![Build Status](https://travis-ci.org/rogue-craft/rogue-craft.svg?branch=master)](https://travis-ci.org/rogue-craft/rogue-craft) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c2494381a8164514adb5061f7b1796e8)](https://www.codacy.com/app/Isty001/rogue-craft?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rogue-craft/rogue-craft&amp;utm_campaign=Badge_Grade)  [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+![Twitter](http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Twitter-icon.png =45)
+![IndieDB](http://media.indiedb.com/images/global/indiedb_125x125.png =50)
+
+---
 
 ## Rogue Craft
 
