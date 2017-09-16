@@ -1,4 +1,4 @@
-### 0.1 (master):
+### 0.1:
 
 ###### NEW:
 * [x] Tools will wear out after using them
