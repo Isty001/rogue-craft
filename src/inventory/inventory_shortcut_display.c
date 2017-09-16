@@ -6,8 +6,7 @@
 
 static void display_shortcut(Inventory *inventory, WINDOW *win, uint16_t i)
 {
-    List *items = inventory->items;
-    Item *item = items->get(items, i);
+    Item *item = inventory->items[i];
 
     styled_if(win, INVENTORY_SELECTED_STYLE, i == inventory->selected,
               wprintw(win, "| %d - ", i + 1);

@@ -2,7 +2,7 @@
 #include "inventory.h"
 
 
-void inventory_close(PanelInputEvent *event)
+void inventory_panel_close(PanelInputEvent *event)
 {
     const PanelInfo *info = event->info;
 
@@ -31,7 +31,7 @@ static void move_selected(Inventory *inventory, int input)
     }
 }
 
-void inventory_navigate(PanelInputEvent *event)
+void inventory_panel_navigate(PanelInputEvent *event)
 {
     Inventory *inventory = event->info->inventory;
     int input = event->input;
@@ -44,17 +44,12 @@ void inventory_navigate(PanelInputEvent *event)
     inventory_grid_update(inventory);
 }
 
-void inventory_use_selected(Inventory *inventory, Player *player)
+void inventory_panel_drop_selected(PanelInputEvent *event)
 {
-    Item *selected = inventory_selected(inventory);
+    Player *player = event->player;
+    Point around = player->position.current;
+    Inventory *inventory = event->info->inventory;
 
-    if (selected) {
-        if (CONSUMABLE == selected->type) {
-            if (IE_CONSUMED == item_consume(selected, player)) {
-                inventory_remove(inventory, selected);
-                item_free(selected);
-            }
-        }
-    }
+    inventory_drop_selected(inventory, around, player->level);
+    inventory_grid_update(inventory);
 }
-

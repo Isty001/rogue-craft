@@ -1,7 +1,9 @@
 #include <level/point.h>
-#include <util/util.h>
 #include "memory/memory.h"
 #include "inventory.h"
+
+
+#define MESSAGE_FULL "Your Inventory is full"
 
 
 Inventory *inventory_new(uint16_t max_size)
@@ -9,8 +11,10 @@ Inventory *inventory_new(uint16_t max_size)
     Inventory *inventory = mem_alloc(sizeof(Inventory));
     inventory->max_size = max_size;
     inventory->selected = 0;
+    inventory->count = 0;
     inventory->grid = NULL;
-    inventory->items = list_new();
+    inventory->items = mem_alloc(max_size * sizeof(Item *));
+    repeat(max_size, inventory->items[i] = NULL);
 
     return inventory;
 }
@@ -26,11 +30,29 @@ void inventory_free(Inventory *inventory)
     mem_dealloc(inventory);
 }
 
- bool inventory_has(Inventory *inventory, Item *item)
+bool inventory_has(Inventory *inventory, Item *item)
 {
-    List *items = inventory->items;
+    repeat(inventory->max_size,
+           if (item == inventory->items[i]) {
+               return true;
+           }
+    )
 
-    return items->has(items, item);
+    return false;
+}
+
+static ItemError replace_item(Inventory *inventory, Item *from, Item *to)
+{
+    Item **items = inventory->items;
+
+    repeat(inventory->max_size,
+           if (from == items[i]) {
+               items[i] = to;
+
+               return IE_OK;
+           }
+    )
+    return IE_OVERFLOW;
 }
 
 ItemError inventory_add(Inventory *inventory, Item *item)
@@ -38,16 +60,34 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     if (inventory_has(inventory, item)) {
         return IE_DUPLICATE;
     }
-    List *items = inventory->items;
 
-    if (inventory->max_size == items->count) {
-        ncurses_event("Your Inventory is full");
+    if (inventory->max_size == inventory->count) {
+        ncurses_event(MESSAGE_FULL);
         return IE_OVERFLOW;
     }
-    items->append(items, item);
-    ncurses_event("%s added to your inventory", item->name);
+    ItemError err = replace_item(inventory, NULL, item);
 
-    return IE_OK;
+    if (IE_OK == err) {
+        ncurses_event("%s added to your inventory", item->name);
+    } else {
+        ncurses_event(MESSAGE_FULL);
+    }
+
+    return err;
+}
+
+void inventory_use_selected(Inventory *inventory, Player *player)
+{
+    Item *selected = inventory_selected(inventory);
+
+    if (selected) {
+        if (CONSUMABLE == selected->type) {
+            if (IE_CONSUMED == item_consume(selected, player)) {
+                inventory_remove(inventory, selected);
+                item_free(selected);
+            }
+        }
+    }
 }
 
 ItemError inventory_remove(Inventory *inventory, Item *item)
@@ -55,9 +95,8 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
     if (!inventory_has(inventory, item)) {
         return IE_INVALID_ARGUMENT;
     }
-    List *items = inventory->items;
 
-    items->delete(items, item);
+    replace_item(inventory, item, NULL);
     wclear(WINDOW_INVENTORY_SHORTCUT);
 
     return IE_OK;
@@ -73,7 +112,6 @@ static ItemError drop_item(Point point, Level *level, Item *item, Inventory *inv
 
         return inventory_remove(inventory, item);
     }
-    ncurses_event("No more free space around you");
 
     return IE_INVALID_ARGUMENT;
 }
@@ -98,6 +136,7 @@ ItemError inventory_drop_selected(Inventory *inventory, Point around, Level *lev
 
         }
     }
+    ncurses_event("No more free space around you");
 
     return IE_OVERFLOW;
 }

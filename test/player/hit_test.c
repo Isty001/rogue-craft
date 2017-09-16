@@ -20,7 +20,7 @@ static ItemPrototype TEST_TOOL = {
 static Inventory *create_inventory(void)
 {
     Inventory *inv = inventory_new(2);
-    inv->items->append(inv->items, item_clone(&TEST_TOOL));
+    inv->items[0] = item_clone(&TEST_TOOL);
 
     return inv;
 }
@@ -53,12 +53,12 @@ static void free_fixtures(Player *player)
 MU_TEST(test_range)
 {
     Player player = create_player();
-    List *items = player.inventory->items;
+    Item **items = player.inventory->items;
     LevelInteractionEvent event = create_event(&player, point_new(0, 2));
 
     player_hit(&event);
 
-    Item *tool = items->head(items);
+    Item *tool = items[0];
     tool->tool.range = 2;
 
     player_hit(&event);
@@ -89,12 +89,12 @@ MU_TEST(test_defaults)
 MU_TEST(test_material_and_tired_damage)
 {
     Player player = create_player();
-    List *items = player.inventory->items;
+    Item **items = player.inventory->items;
     Item *item;
 
     player.state.map[HUNGER].current = 20;
     player.state.map[THIRST].current = 30;
-    item = items->head(items);
+    item = items[0];
     item->tool.multipliers.materials[STONE] = 2;
 
     LevelInteractionEvent event = create_event(&player, point_new(0, 0));
@@ -137,15 +137,15 @@ MU_TEST(test_invalid_cell_type)
 MU_TEST(test_tool_wear_out)
 {
     Player player = create_player();
-    List *items = player.inventory->items;
-    Item *item = items->get(items, 0);
+    Item **items = player.inventory->items;
+    Item *item = items[0];
     item->value = 10;
     item->tool.multipliers.materials[STONE] = 1.5;
 
     LevelInteractionEvent event = create_event(&player, point_new(0, 0));
     repeat(50, player_hit(&event))
 
-    mu_assert_int_eq(0, items->count);
+    mu_assert_int_eq(0, player.inventory->count);
 
     free_fixtures(&player);
 }

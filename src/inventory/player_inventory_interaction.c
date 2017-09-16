@@ -1,4 +1,5 @@
 #include <ui/ncurses.h>
+#include <player/player.h>
 #include "inventory.h"
 
 
@@ -27,13 +28,6 @@ void inventory_player_use_selected(InputEvent *event)
     inventory_use_selected(inventory, event->player);
 }
 
-static void assure_list_size(List *items, uint16_t until)
-{
-    while (until >= items->count) {
-        items->append(items, NULL);
-    }
-}
-
 void inventory_player_set_shortcut(PanelInputEvent *event)
 {
     const PanelInfo *info = event->info;
@@ -41,17 +35,24 @@ void inventory_player_set_shortcut(PanelInputEvent *event)
     uint16_t taken_from = info->inventory->selected;
     uint16_t replacing_at = inventory_shortcut_offset(event->input);
 
-    List *from = info->inventory->items;
-    List *to = event->player->inventory->items;
+    Item **from = info->inventory->items;
+    Item **to = event->player->inventory->items;
 
-    // Offset starts from 0
-    assure_list_size(to, replacing_at + 1);
+    Item *taken = from[taken_from];
+    Item *replacing = to[replacing_at];
 
-    Item *taken = from->get(from, taken_from);
-    Item *replacing = to->get(to, replacing_at);
+//    printf("replacing: %p, taken: %p\n", replacing, taken);
 
-    from->set(from, taken_from, replacing);
-    to->set(to, replacing_at, taken);
+    from[taken_from] = replacing;
+    to[replacing_at] = taken;
 
     inventory_grid_update(event->player->inventory);
+}
+
+void inventory_player_drop_shortcut(InputEvent *event)
+{
+    Player *player = event->player;
+    Point around = player->position.current;
+
+    inventory_drop_selected(player->inventory, around, player->level);
 }

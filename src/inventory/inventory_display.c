@@ -1,3 +1,4 @@
+#include <ui/grid.h>
 #include "ui/grid.h"
 #include "ui/ncurses.h"
 #include "item/item.h"
@@ -50,11 +51,11 @@ static void add_inventory_to_grid(Inventory *inventory)
 {
     int i = 0;
     Item *item;
-    List *items = inventory->items;
+    Item **items = inventory->items;
     Grid *grid = inventory->grid;
 
     grid_foreach(grid, (GridForeach) function(void, (Point display, bool selected) {
-        item = items->get(items, i++);
+        item = items[i++];
 
         add_item(grid, item, display);
         add_description(grid, item, selected);
@@ -65,7 +66,7 @@ void inventory_grid_update(Inventory *inventory)
 {
     Grid *grid = inventory->grid;
 
-    if (grid) {
+    if (grid && grid->window) {
         add_inventory_to_grid(inventory);
         grid_display(grid);
     }

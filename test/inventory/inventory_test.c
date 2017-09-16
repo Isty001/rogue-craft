@@ -1,3 +1,4 @@
+#include <ui/panel.h>
 #include "ui/panel.h"
 #include "inventory/inventory_player.h"
 #include "../unit_test.h"
@@ -23,18 +24,18 @@ MU_TEST(test_close)
     PanelInfo info = {.type = PANEL_INVENTORY};
     PanelInputEvent event = create_panel_event(&inventory, &info, -1, 0);
 
-    inventory_close(&event);
+    inventory_panel_close(&event);
     mu_assert(NULL == inventory.grid, "");
 }
 
 MU_TEST(test_navigation)
 {
     PanelInfo info = {.type = PANEL_INVENTORY};
-    Inventory *inventory = inventory_new(10);;
+    Inventory *inventory = inventory_new(10);
     PanelInputEvent event = create_panel_event(inventory, &info, -1, 0);
 
     event.input = KEY_SOUTH;
-    inventory_navigate(&event);
+    inventory_panel_navigate(&event);
     assert_point(inventory->grid->selected, 1, 0);
 
     inventory_free(inventory);
@@ -58,7 +59,7 @@ MU_TEST(test_remove)
 {
     Item item, item2;
     Inventory *inventory = inventory_new(2);
-    List *items = inventory->items;
+    Item **items = inventory->items;
 
     inventory_add(inventory, &item);
     inventory_add(inventory, &item2);
@@ -68,8 +69,8 @@ MU_TEST(test_remove)
 
     mu_assert_int_eq(IE_OK, inventory_remove(inventory, &item2));
 
-    mu_assert(NULL == items->head(items), "The items should be removed");
-    mu_assert(NULL == items->get(items, 1), "The items should be removed");
+    mu_assert(NULL == items[0], "The items should be removed");
+    mu_assert(NULL == items[1], "The items should be removed");
 
     inventory_free(inventory);
 }
@@ -80,7 +81,7 @@ MU_TEST(test_use_consumable)
     *item = fixture_consumable(false);
 
     Inventory *inv = inventory_new(1);
-    List *items = inv->items;
+    Item **items = inv->items;
     inventory_add(inv, item);
 
     Player player;
@@ -95,12 +96,12 @@ MU_TEST(test_use_consumable)
 
     inventory_player_use_selected(&event);
     mu_assert_int_eq(100, player.state.map[HEALTH].current);
-    mu_assert(item == items->head(items), "Item should not be removed");
+    mu_assert(item == items[0], "Item should not be removed");
 
     player.state.map[HEALTH].current = 92;
     inventory_player_use_selected(&event);
     mu_assert_int_eq(97, player.state.map[HEALTH].current);
-    mu_assert(NULL == items->head(items), "Item should be removed");
+    mu_assert(NULL == items[0], "Item should be removed");
 
     inventory_free(inv);
 }
@@ -125,19 +126,17 @@ MU_TEST(test_select_shortcut)
 
 MU_TEST(test_set_shortcut)
 {
+    const uint16_t inv_size = 5;
     /* Inventory max_size has no real meaning at this context. We only replacing two items in two lists */
     Item taken_item;
-    Inventory *other = inventory_new(5);
+    Inventory *other = inventory_new(inv_size);
 
     other->selected = 1;
-    other->items->append(other->items, NULL);
-    other->items->append(other->items, &taken_item);
+    other->items[1] = &taken_item;
 
     Item player_item;
-    Inventory *player_inv = inventory_new(5);
-    player_inv->items->append(player_inv->items, NULL);
-    player_inv->items->append(player_inv->items, NULL);
-    player_inv->items->append(player_inv->items, &player_item);
+    Inventory *player_inv = inventory_new(inv_size);
+    player_inv->items[2] = &player_item;
 
     Player player;
     player.inventory = player_inv;
@@ -151,25 +150,25 @@ MU_TEST(test_set_shortcut)
     /* Player's inventory at offset 3 now has the other inventory's selected item */
     inventory_player_set_shortcut(&event);
     mu_assert(
-        &taken_item == player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input)), ""
+        &taken_item == inventory_at_shortcut(player_inv, event.input), ""
     );
 
     /* The other inventory has the item that was at the player's inventory's offset 3 */
     mu_assert(
-        &player_item == other->items->get(other->items, other->selected), ""
+        &player_item == other->items[other->selected], ""
     );
 
     /* Clear the player's inventory, and put back the original one from the other inventory */
     inventory_free(player.inventory);
-    player_inv = player.inventory = inventory_new(2);
+    player_inv = player.inventory = inventory_new(inv_size);
 
     inventory_player_set_shortcut(&event);
     mu_assert(
-        NULL == other->items->get(other->items, other->selected), ""
+        NULL == other->items[other->selected], ""
     );
 
     mu_assert(
-        &player_item == player_inv->items->get(player_inv->items, inventory_shortcut_offset(event.input)), ""
+        &player_item == inventory_at_shortcut(player_inv, event.input), ""
     );
 
     inventory_free(other);
@@ -197,8 +196,8 @@ MU_TEST(test_drop_selected)
 
     repeat(4,
            inventory_add(inv, &item);
-               mu_assert_int_eq(IE_OK, inventory_drop_selected(inv, around, level));
-               mu_assert(false == inventory_has(inv, &item), "");
+           mu_assert_int_eq(IE_OK, inventory_drop_selected(inv, around, level));
+           mu_assert(false == inventory_has(inv, &item), "");
     )
 
     // No items in Inventory

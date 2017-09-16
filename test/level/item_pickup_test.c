@@ -27,18 +27,18 @@ MU_TEST(test_item_pickup)
     level->cells[0][0]->type = ITEM;
 
     Player *player = player_new(level);
-    List *items = player->inventory->items;
+    Item **items = player->inventory->items;
     player->position.current = point_new(0, 1);
 
     LevelInteractionEvent event = create_event(player, level);
 
     item_pickup(&event);
-    mu_assert(&item == items->head(items), "Items are not the same");
+    mu_assert(&item == items[0], "Items are not the same");
 
     event.cell = level->cells[0][0];
     item_pickup(&event);
-    mu_assert(&item == items->head(items), "Items are not the same");
-    mu_assert(NULL == items->get(items, 1), "There should be no items");
+    mu_assert(&item == items[0], "Items are not the same");
+    mu_assert(NULL == items[1], "There should be no items");
 
     mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
     mu_assert(level->cells[0][0]->in_registry, "");

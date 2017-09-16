@@ -15,5 +15,7 @@ void inventory_player_display(InputEvent *event);
 
 void inventory_player_set_shortcut(PanelInputEvent *event);
 
+void inventory_player_drop_shortcut(InputEvent *event);
+
 
 #endif
