@@ -4,7 +4,7 @@
 * [x] Tools will wear out after using them
 * [x] Items can be dropped from the inventory
 * [x] Items can be placed on shortcut from the inventory
-* [x] i386 tar build
+* [x] i686 tar build
 
 ###### IMPROVEMENT:
 * [x] Visible point lookup was very slow. Instead of checking all points inside the current camera, just iterate the visible points,
