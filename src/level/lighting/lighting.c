@@ -1,4 +1,4 @@
-#include <util/sight.h>
+#include <player/sight.h>
 #include "memory/memory.h"
 #include "lighting.h"
 

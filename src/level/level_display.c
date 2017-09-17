@@ -1,4 +1,4 @@
-#include <util/sight.h>
+#include <player/sight.h>
 #include <player/player.h>
 #include "lighting/lighting.h"
 

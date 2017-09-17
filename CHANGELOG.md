@@ -1,3 +1,12 @@
+### 0.2 (master):
+
+###### NEW:
+* [x] Cells can be collected
+* [x] Placing collected cells on the map
+
+
+---
+
 ### 0.1:
 
 ###### NEW:

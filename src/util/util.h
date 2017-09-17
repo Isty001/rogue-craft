@@ -74,14 +74,6 @@ static inline long min(long a, long b)
     return a < b ? a : b;
 }
 
-static inline uintmax_t time_now_ms(void)
-{
-    struct timespec spec;
-    clock_gettime(CLOCK_REALTIME, &spec);
-
-    return spec.tv_sec * 1000 + spec.tv_nsec / 1000000;
-}
-
 typedef struct {
     int from;
     int to;

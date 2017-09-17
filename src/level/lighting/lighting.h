@@ -2,7 +2,7 @@
 #define ROGUE_CRAFT_LIGHTING_H
 
 
-#include "util/sight.h"
+#include "player/sight.h"
 
 
 typedef struct Lighting {

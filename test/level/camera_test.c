@@ -1,4 +1,4 @@
-#include <util/sight.h>
+#include <player/sight.h>
 #include "../../src/player/player.h"
 #include "../unit_test.h"
 

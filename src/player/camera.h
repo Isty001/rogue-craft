@@ -3,7 +3,7 @@
 
 
 #include <ncurses.h>
-#include <util/sight.h>
+#include <player/sight.h>
 #include "level/point.h"
 
 

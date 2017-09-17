@@ -8,7 +8,7 @@
 #include "level/point.h"
 #include "level/level.h"
 #include "camera.h"
-#include "util/sight.h"
+#include "sight.h"
 #include "util/event.h"
 
 

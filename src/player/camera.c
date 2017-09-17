@@ -1,5 +1,5 @@
 #include <level/point.h>
-#include <util/sight.h>
+#include <player/sight.h>
 #include "level/level.h"
 #include "player/player.h"
 

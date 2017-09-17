@@ -20,7 +20,7 @@
     * XP, skills, learning/level system
     * Quests
     * Replace ray-casting with something more efficient
-    * Collectíble achievements
+    * Collectable achievements
 * [ITEM]
     * Crafting system
     * Money/Trade system
