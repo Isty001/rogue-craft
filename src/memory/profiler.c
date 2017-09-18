@@ -33,7 +33,7 @@ void profiler_display(void)
     }
     mvwprintw(WINDOW_MAIN, 1, 2, "CELL POOL: [%d][%d byte]", PROFILER.cell, PROFILER.cell * sizeof(Cell));
 
-    mvwprintw(WINDOW_MAIN, 2, 2, "ITEM POOL: [%d][%d byte]", PROFILER.item, PROFILER.item * sizeof(Item));
+    mvwprintw(WINDOW_MAIN, 2, 2, "ITEM_ POOL: [%d][%d byte]", PROFILER.item, PROFILER.item * sizeof(Item));
 
     mvwprintw(WINDOW_MAIN, 3, 2, "LIST NODE POOL: [%d][%d byte]", PROFILER.list_node,
               PROFILER.list_node * list_node_size());

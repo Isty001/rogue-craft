@@ -57,7 +57,7 @@ ConstLookup CONST_LOOKUP[] = {
     simple(HOLLOW),
     simple(PLAYER),
     simple(LIQUID),
-    simple(ITEM),
+    {"ITEM", ITEM_},
 
     /** LevelType */
     simple(CELLULAR),

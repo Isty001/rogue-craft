@@ -23,7 +23,7 @@ typedef enum {
     CREATURE,
     PLAYER,
     LIQUID,
-    ITEM
+    ITEM_
 } CellType;
 
 typedef struct Cell {

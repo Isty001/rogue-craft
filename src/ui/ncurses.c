@@ -1,14 +1,15 @@
 #include <ncurses.h>
 #include <assert.h>
-#include <util/timer.h>
 #include "memory/memory.h"
 #include "ncurses.h"
+
+
+#define clear_window(win) wclear(win); wrefresh(win);
 
 
 #define EVENT_MAX 20
 
 
-static int HEIGHT, WIDTH;
 WINDOW *WINDOW_MAIN, *WINDOW_INVENTORY_SHORTCUT, *WINDOW_EVENT, *WINDOW_PLAYER_ATTRIBUTES;
 
 WINDOW **WINDOW_LIST[NCURSES_WINDOW_NUM] = {
@@ -31,6 +32,14 @@ static WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x)
     return sub_window;
 }
 
+static void clear_all(void)
+{
+    clear_window(WINDOW_MAIN);
+    clear_window(WINDOW_EVENT);
+    clear_window(WINDOW_PLAYER_ATTRIBUTES);
+    clear_window(WINDOW_INVENTORY_SHORTCUT);
+}
+
 void ncurses_init(void)
 {
     EVENTS = list_new();
@@ -44,15 +53,31 @@ void ncurses_init(void)
     cbreak();
     nodelay(stdscr, true);
     keypad(stdscr, true);
+}
 
-    getmaxyx(stdscr, HEIGHT, WIDTH);
+void ncurses_display_menu_windows(void)
+{
+    clear_all();
 
-    double left_side_bar_height = HEIGHT / 2;
-    double side_bar_width = WIDTH * 0.2;
+    int height, width;
+    getmaxyx(stdscr, height, width);
+
+    WINDOW_MAIN = ncurses_subwin(stdscr, height, width, 0, 0);
+    refresh_boxed(WINDOW_MAIN);
+}
+
+void ncurses_display_game_windows(void)
+{
+    int height, width;
+
+    getmaxyx(stdscr, height, width);
+
+    double left_side_bar_height = height / 2;
+    double side_bar_width = width * 0.2;
 
     double inventory_height = 3;
-    double main_height = HEIGHT - inventory_height - 1;
-    double main_width = WIDTH * 0.6;
+    double main_height = height - inventory_height - 1;
+    double main_width = width * 0.6;
 
     WINDOW_MAIN = ncurses_subwin(stdscr, main_height, main_width, 0, side_bar_width);
     WINDOW_EVENT = ncurses_subwin(stdscr, left_side_bar_height, side_bar_width, 0, 0);

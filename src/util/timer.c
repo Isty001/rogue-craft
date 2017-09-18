@@ -40,6 +40,11 @@ Timer *timer_new(uint16_t timeout_ms, TimerTask task, TimerArgs args)
     return timer;
 }
 
+void timer_free(Timer *timer)
+{
+    TIMERS->delete(TIMERS, timer);
+}
+
 static void tick(Timer *timer, struct timespec now)
 {
     if (time_diff_ms(now, timer->last_execution) >= timer->timeout) {

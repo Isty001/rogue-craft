@@ -2,6 +2,7 @@
 #include <util/timer.h>
 #include "memory/memory.h"
 #include "inventory/inventory.h"
+#include "player.h"
 
 
 static void init_modifiers(Player *player)
@@ -37,6 +38,9 @@ static void add_default_state(Player *player)
         .current = 0, .max = 100,
         .name = "Thirst", .style = COLOR_PAIR(COLOR_BLUE_F)
     };
+
+    TimerArgs args = {.ptr = {player, &PLAYER_STATE_CONFIG}};
+    player->state.timer = timer_new(1000, player_state_update, args);
 }
 
 static void find_starting_point(Player *player)
@@ -63,6 +67,7 @@ Player *player_new(Level *level)
     player->cell.prototype.type = PLAYER;
     player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
+    player->cell.prototype.in_registry = true;
 
     find_starting_point(player);
 
@@ -76,6 +81,8 @@ Player *player_new(Level *level)
 
 void player_free(Player *player)
 {
+    timer_free(player->movement.timer);
+    timer_free(player->state.timer);
     inventory_free(player->inventory);
     sight_free(player->sight);
     mem_dealloc(player);

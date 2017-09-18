@@ -1,6 +1,7 @@
 #include "ui/panel.h"
 #include "inventory/inventory_player.h"
 #include "inventory/inventory.h"
+#include "keymap.h"
 
 
 #define MAX_EVENT_LISTENER_PER_EVENT 20

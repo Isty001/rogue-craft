@@ -1,8 +1,12 @@
 ### 0.2 (master):
 
 ###### NEW:
-* [x] Cells can be collected
-* [x] Placing collected cells on the map
+* [x] Basic menu
+* [ ] Cells can be collected
+* [ ] Placing collected cells on the map
+
+###### FIXED:
+* [x] cell_free with the Player's cell prototype failed, because it wasn't mark with `in_registry`
 
 
 ---

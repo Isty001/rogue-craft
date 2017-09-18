@@ -1,5 +1,5 @@
-#include <ui/panel.h>
 #include "ui/panel.h"
+#include "keymap.h"
 #include "inventory/inventory_player.h"
 #include "../unit_test.h"
 #include "inventory/inventory.h"
@@ -142,7 +142,7 @@ MU_TEST(test_set_shortcut)
     player.inventory = player_inv;
 
     PanelInfo info = {.type = PANEL_INVENTORY};
-    PanelInputEvent event = create_panel_event(other, &info, -1, KEY_ESCAPE);
+    PanelInputEvent event = create_panel_event(other, &info, -1, KEY_QUIT);
     event.player = &player;
 
     event.input = '3';
@@ -179,7 +179,7 @@ static inline void assert_item_cell(Cell ***cells, uint16_t y, uint16_t x, Item 
 {
     Cell *cell = cells[y][x];
 
-    mu_assert_int_eq(ITEM, cell->type);
+    mu_assert_int_eq(ITEM_, cell->type);
     mu_assert(item == cell->item, "");
     mu_assert(!cell->in_registry, "");
 }

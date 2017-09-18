@@ -8,7 +8,6 @@
 #include "memory/memory.h"
 #include "player/camera.h"
 #include "config/config.h"
-#include "inventory/inventory.h"
 #include "loop.h"
 
 
@@ -36,17 +35,15 @@ static void init(void)
     level_load();
 }
 
-static void cleanup(Player *player)
+static void cleanup(void)
 {
     timer_cleanup();
     sfx_cleanup();
     ncurses_cleanup();
     panel_cleanup();
     item_pool_cleanup();
-    level_free(player->level);
     cell_pool_cleanup();
 
-    player_free(player);
     item_registry_unload();
     cell_registry_unload();
     level_unload();
@@ -69,16 +66,6 @@ static void check_terminal(void)
     }
 }
 
-static Player *load_player(void)
-{
-    Size size = size_new(300, 300);
-    Level *level = level_new(size);
-    Player *player = player_new(level);
-    player_position_on_level(player);
-
-    return player;
-}
-
 int main(int arc, char *argv[])
 {
     env_setup(arc, argv);
@@ -86,9 +73,9 @@ int main(int arc, char *argv[])
     init();
     check_terminal();
 
-    Player *player = load_player();
-    loop_run(player);
-    cleanup(player);
+    loop_run();
+
+    cleanup();
 
     return 0;
 }

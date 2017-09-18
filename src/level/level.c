@@ -94,6 +94,16 @@ Cell *level_replace_cell_with_new(Level *level, Point at)
 void level_free(Level *level)
 {
     level->lightings->free(level->lightings);
+    Cell *cell;
+
+    iterate_matrix(0, level->size,
+        cell = level->cells[y][x];
+
+        if (ITEM_ == cell->type) {
+            item_free(cell->item);
+        }
+        cell_free(cell);
+    )
 
     mem_dealloc(level->cells);
     mem_dealloc(level);

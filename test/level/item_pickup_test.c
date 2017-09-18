@@ -24,7 +24,7 @@ MU_TEST(test_item_pickup)
     item.type = TOOL;
 
     level->cells[0][0]->item = &item;
-    level->cells[0][0]->type = ITEM;
+    level->cells[0][0]->type = ITEM_;
 
     Player *player = player_new(level);
     Item **items = player->inventory->items;

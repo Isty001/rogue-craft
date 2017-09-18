@@ -1,6 +1,6 @@
 #include <math.h>
+#include "keymap.h"
 #include "point.h"
-#include "config.h"
 
 
 static int KEY_MAIN_DIRECTION_MAP[4][2] = {

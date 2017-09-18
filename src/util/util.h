@@ -34,7 +34,7 @@
 #define styled(win, style, ...) \
     wattron(win, style);        \
     __VA_ARGS__;                \
-    wattroff(win, style)        \
+    wattroff(win, style);       \
 
 #define styled_if(win, style, cond, ...) \
     if (cond) { styled(win, style, __VA_ARGS__); } \

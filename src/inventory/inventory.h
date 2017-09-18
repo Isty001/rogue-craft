@@ -2,6 +2,7 @@
 #define ROGUECRAFT_INVENTORY_H
 
 
+#include "keymap.h"
 #include "item/item.h"
 #include "config.h"
 #include "ui/panel.h"

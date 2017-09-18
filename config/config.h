@@ -32,22 +32,6 @@ extern const PlayerStateConfig PLAYER_STATE_CONFIG;
 
 
 /**
- * KEYBINDINGS
- */
-#define KEY_NORTH       'w'
-#define KEY_EAST        'd'
-#define KEY_SOUTH       's'
-#define KEY_WEST        'a'
-#define KEY_ESCAPE       KEY_F(2)
-#define KEY_PLAYER_INVENTORY   'i'
-#define KEY_USE_SELECTED         'e'
-#define KEY_INVENTORY_SHORTCUT_FIRST '1'
-#define KEY_INVENTORY_SHORTCUTS \
-    KEY_INVENTORY_SHORTCUT_FIRST, KEY_INVENTORY_SHORTCUT_FIRST + 1, KEY_INVENTORY_SHORTCUT_FIRST + 2, \
-    KEY_INVENTORY_SHORTCUT_FIRST + 3, KEY_INVENTORY_SHORTCUT_FIRST + 4
-#define KEY_DROP_ITEM        'q'
-
-/**
  * MATERIAL
  */
 extern int16_t MATERIAL_STRENGTH[MATERIAL_NUM];

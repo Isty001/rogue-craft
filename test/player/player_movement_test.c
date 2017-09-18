@@ -1,5 +1,5 @@
 #include <player/player.h>
-#include "config.h"
+#include "keymap.h"
 #include "../unit_test.h"
 #include "../fixture.h"
 

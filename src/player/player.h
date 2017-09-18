@@ -60,6 +60,7 @@ typedef struct {
 typedef struct {
     Modifiers modifiers;
     State map[PLAYER_STATE_NUM];
+    Timer *timer;
 } PlayerState;
 
 typedef struct {

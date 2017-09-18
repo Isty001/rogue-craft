@@ -116,7 +116,7 @@ void item_pickup(LevelInteractionEvent *event)
     Cell *cell = event->cell;
     Player *player = event->player;
 
-    if (ITEM == cell->type && 1 == event->player_distance) {
+    if (ITEM_ == cell->type && 1 == event->player_distance) {
         Item *item = event->cell->item;
         Level *level = player->level;
 
