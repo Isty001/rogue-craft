@@ -1,4 +1,4 @@
-#include "util/util.h"
+#include "ui/ncurses.h"
 #include "keymap.h"
 #include "menu.h"
 #include "memory/memory.h"
@@ -8,9 +8,8 @@ static void create_items(va_list choices, uint16_t count, Menu *menu)
 {
     char *choice;
     repeat(count,
-           choice = va_arg(choices,
-               char *);
-               menu->items[i] = new_item(choice, NULL);
+           choice = va_arg(choices, char *);
+           menu->items[i] = new_item(choice, NULL);
     )
     menu->items[count] = NULL;
 
@@ -29,7 +28,9 @@ Menu *menu_new(WINDOW *window, uint16_t count, ...)
     create_items(choices, count, menu);
 
     menu->base = new_menu(menu->items);
+
     set_menu_win(menu->base, window);
+    set_menu_sub(menu->base, window);
     set_menu_mark(menu->base, "=> ");
 
     return menu;
@@ -68,12 +69,13 @@ void menu_process_defaults(Menu *menu, int input)
 
 void menu_free(Menu *menu)
 {
+    // Items must be freed after unpost
     unpost_menu(menu->base);
+    free_menu(menu->base);
 
     repeat(menu->count,
            free_item(menu->items[i])
     )
     mem_dealloc(menu->items);
-    free_menu(menu->base);
     mem_dealloc(menu);
 }

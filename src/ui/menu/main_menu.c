@@ -1,5 +1,6 @@
-#include <ncursesw/ncurses.h>
+#include <ncurses.h>
 #include <wchar.h>
+#include <menu.h>
 #include "gamestate/gamestate.h"
 #include "main_menu.h"
 #include "menu.h"
@@ -39,6 +40,7 @@ static Menu *create_menu(GameState *state, WINDOW *win)
         menu = menu_new(win, 2, "New Game", "Quit Game");
         menu_set_item_data(menu, MAIN_MENU_NEW_GAME, MAIN_MENU_QUIT);
     }
+    post_menu(menu->base);
 
     return menu;
 }
@@ -61,7 +63,6 @@ MainMenuAction menu_main_display(GameState *state)
     Menu *menu = create_menu(state, win);
 
     int input;
-    post_menu(menu->base);
 
     while ((input = wgetch(menu->window))) {
         switch (input) {
