@@ -37,6 +37,7 @@ sh ./install.sh
 
 #### From source
 
+Please keep in mind that master branch is might be unstable.
 To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-dev`  (and maybe `libncurses5-dev` too) and `libvlc-dev`, they might be called differently on your OS, or even comes with the base package, and no separate dev package need to be installed.
 
 ```
