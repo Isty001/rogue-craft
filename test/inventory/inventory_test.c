@@ -52,7 +52,34 @@ MU_TEST(test_add)
     mu_assert_int_eq(IE_OK, inventory_add(inventory, &item2));
     mu_assert_int_eq(IE_OVERFLOW, inventory_add(inventory, &item3));
 
+    mu_assert_int_eq(2, inventory->count);
+
     inventory_free(inventory);
+}
+
+MU_TEST(test_add_cell)
+{
+    Inventory *inv = inventory_new(4);
+    Cell stone = {.material = STONE};
+    Cell wood = {.material = WOOD};
+
+    repeat(INVENTORY_MAX_MATERIAL_VALUE + 5,
+           inventory_add_cell(inv, &stone);
+    )
+
+    mu_assert_int_eq(2, inv->count);
+
+    mu_assert_int_eq(INVENTORY_MAX_MATERIAL_VALUE, inv->items[0]->value);
+    mu_assert_int_eq(STONE, inv->items[0]->material);
+
+    mu_assert_int_eq(5, inv->items[1]->value);
+    mu_assert_int_eq(STONE, inv->items[1]->material);
+
+    inventory_add_cell(inv, &wood);
+    mu_assert_int_eq(3, inv->count);
+    mu_assert_int_eq(WOOD, inv->items[2]->material);
+
+    inventory_free(inv);
 }
 
 MU_TEST(test_remove)
@@ -230,6 +257,7 @@ void run_inventory_test(void)
     MU_RUN_TEST(test_close);
     MU_RUN_TEST(test_navigation);
     MU_RUN_TEST(test_add);
+    MU_RUN_TEST(test_add_cell);
     MU_RUN_TEST(test_remove);
     MU_RUN_TEST(test_use_consumable);
     MU_RUN_TEST(test_select_shortcut);

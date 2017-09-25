@@ -4,6 +4,9 @@
 #include "sfx/sfx.h"
 
 
+#define TOOL_DAMAGE_CHANCE 0.3
+
+
 #define is_tool(item) item && TOOL == item->type
 
 
@@ -68,6 +71,7 @@ static void apply_hit_to_cell(Hit hit, Player *player, Cell *target, Point point
 
     if (target->state <= 0) {
         sfx_play_break(target);
+        inventory_add_cell(player->inventory, target);
         level_set_hollow(player->level, point);
     }
 }
@@ -75,11 +79,11 @@ static void apply_hit_to_cell(Hit hit, Player *player, Cell *target, Point point
 static void apply_hit_to_item(Inventory *inventory, Item *item)
 {
     if (is_tool(item)) {
-        item->value -= rand_bool(0.3);
+        item->value -= rand_bool(TOOL_DAMAGE_CHANCE);
 
         if (0 >= item->value) {
-            item_free(item);
             inventory_remove(inventory, item);
+            item_free(item);
             sfx_play("item", "break");
         }
     }

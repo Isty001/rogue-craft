@@ -1,4 +1,4 @@
-#include <level/point.h>
+#include "level/point.h"
 #include "memory/memory.h"
 #include "inventory.h"
 
@@ -52,7 +52,7 @@ static ItemError replace_item(Inventory *inventory, Item *from, Item *to)
                return IE_OK;
            }
     )
-    return IE_OVERFLOW;
+    return IE_INVALID_ARGUMENT;
 }
 
 ItemError inventory_add(Inventory *inventory, Item *item)
@@ -68,12 +68,59 @@ ItemError inventory_add(Inventory *inventory, Item *item)
     ItemError err = replace_item(inventory, NULL, item);
 
     if (IE_OK == err) {
+        inventory->count++;
         ncurses_event("%s added to your inventory", item->name);
     } else {
         ncurses_event(MESSAGE_FULL);
     }
 
     return err;
+}
+
+static Item *crate_and_add_material_item(Inventory *inventory, Material material)
+{
+    Item tmp = {
+        .name = material_to_str(material),
+        .style = material_style(material),
+        .chr = 'm',
+        .value = 0,
+        .type = MATERIAL,
+        .occupied_cell = NULL,
+        .material = material
+    };
+    Item *item = memcpy(item_allocate(), &tmp, sizeof(Item));
+
+    if (IE_OK == inventory_add(inventory, item)) {
+        return item;
+    }
+
+    return NULL;
+}
+
+ItemError inventory_add_cell(Inventory *inventory, Cell *cell)
+{
+    Item *item = NULL;
+    bool same_material;
+
+    repeat(inventory->max_size,
+           if ((item = inventory->items[i])) {
+               same_material = MATERIAL == item->type && item->material == cell->material;
+
+               if (same_material && INVENTORY_MAX_MATERIAL_VALUE > item->value) {
+                   break;
+               }
+           }
+    )
+    if (!item) {
+        item = crate_and_add_material_item(inventory, cell->material);
+    }
+
+    if (item) {
+        item->value++;
+        return IE_OK;
+    }
+
+    return IE_OVERFLOW;
 }
 
 void inventory_use_selected(Inventory *inventory, Player *player)
@@ -96,10 +143,14 @@ ItemError inventory_remove(Inventory *inventory, Item *item)
         return IE_INVALID_ARGUMENT;
     }
 
-    replace_item(inventory, item, NULL);
-    wclear(WINDOW_INVENTORY_SHORTCUT);
+    ItemError err;
 
-    return IE_OK;
+    if (IE_OK == (err = replace_item(inventory, item, NULL))) {
+        inventory->count--;
+        wclear(WINDOW_INVENTORY_SHORTCUT);
+    }
+
+    return err;
 }
 
 static ItemError drop_item(Point point, Level *level, Item *item, Inventory *inventory)

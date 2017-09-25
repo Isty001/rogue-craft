@@ -3,3 +3,8 @@ cache/
 build/
 !lib/minunit.h
 /**/*.log
+*.out
+cmake-*
+CMake*
+rogue-craft*
+tags

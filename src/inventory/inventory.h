@@ -9,6 +9,9 @@
 #include "ui/grid.h"
 
 
+#define INVENTORY_MAX_MATERIAL_VALUE 50
+
+
 #define inventory_selected(inv) \
     inv->items[inv->selected]
 
@@ -31,6 +34,8 @@ typedef struct Inventory {
 Inventory *inventory_new(uint16_t max_size);
 
 ItemError inventory_add(Inventory *inventory, Item *item);
+
+ItemError inventory_add_cell(Inventory *inventory, Cell *cell);
 
 bool inventory_has(Inventory *inventory, Item *item);
 

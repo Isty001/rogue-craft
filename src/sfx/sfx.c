@@ -19,12 +19,12 @@ void sfx_init(void)
     IS_ENABLED = !(bool)getenv(ENV_VLC_DISABLED);
 }
 
-static void full_path_for(char *path, char *type, char *name)
+static void full_path_for(char *path, const char *type, const char *name)
 {
     sprintf(path, "%s/sfx/%s/%s.wav", getenv(ENV_DIR_RESOURCES), type, name);
 }
 
-static void glob_path_for(char *path, char *type, char *name)
+static void glob_path_for(char *path, const char *type, const char *name)
 {
     sprintf(path, "%s/sfx/%s/%s*", getenv(ENV_DIR_RESOURCES), type, name);
 }
@@ -43,7 +43,7 @@ static void play_file(char *path)
     libvlc_media_release(media);
 }
 
-void sfx_play(char *type, char *name)
+void sfx_play(const char *type, const char *name)
 {
     if (!name) return;
 
@@ -53,7 +53,7 @@ void sfx_play(char *type, char *name)
     play_file(path);
 }
 
-void sfx_play_rand(char *type, char *name)
+void sfx_play_rand(const char *type, const char *name)
 {
     if (!name) return;
 

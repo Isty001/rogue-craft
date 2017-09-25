@@ -26,7 +26,8 @@ typedef enum {
 typedef enum {
     CONSUMABLE,
     TOOL,
-    LIGHT_SOURCE
+    LIGHT_SOURCE,
+    MATERIAL
 } ItemType;
 
 typedef struct {
@@ -65,6 +66,7 @@ typedef struct Item {
         Consumable consumable;
         Tool tool;
         LightSource light_source;
+        Material material;
     };
 } Item;
 

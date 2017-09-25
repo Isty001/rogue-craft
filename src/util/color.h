@@ -30,6 +30,7 @@
 #define COLOR_DARK_BROWN_B  20
 #define COLOR_DARK_BROWN_F  21
 #define COLOR_ORANGE_F      22
+#define COLOR_WHITE_F       23
 
 #define cache_open_colors(cache) \
     cache_open(cache, CACHE_COLORS, sizeof(CachedColor))

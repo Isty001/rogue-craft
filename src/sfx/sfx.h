@@ -7,9 +7,9 @@ typedef struct Cell Cell;
 
 void sfx_init(void);
 
-void sfx_play(char *type, char *file);
+void sfx_play(const char *type, const char *file);
 
-void sfx_play_rand(char *type, char *name);
+void sfx_play_rand(const char *type, const char *name);
 
 void sfx_play_hit(Cell *cell);
 

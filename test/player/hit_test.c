@@ -20,7 +20,7 @@ static ItemPrototype TEST_TOOL = {
 static Inventory *create_inventory(void)
 {
     Inventory *inv = inventory_new(2);
-    inv->items[0] = item_clone(&TEST_TOOL);
+    inventory_add(inv, item_clone(&TEST_TOOL));
 
     return inv;
 }
@@ -86,6 +86,23 @@ MU_TEST(test_defaults)
     free_fixtures(&player);
 }
 
+MU_TEST(test_cell_break)
+{
+    Player player = create_player();
+    Cell *original = player.level->cells[0][0]; 
+    original->state = 2;
+
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
+    player_hit(&event);
+
+    Cell *new = player.level->cells[0][0];
+
+    mu_assert(original != new, "");
+    mu_assert_int_eq(HOLLOW, new->type);
+
+    free_fixtures(&player);
+}
+
 MU_TEST(test_material_and_tired_damage)
 {
     Player player = create_player();
@@ -139,13 +156,37 @@ MU_TEST(test_tool_wear_out)
     Player player = create_player();
     Item **items = player.inventory->items;
     Item *item = items[0];
-    item->value = 10;
+    item->value = 2;
     item->tool.multipliers.materials[STONE] = 1.5;
 
+    player.level->cells[0][0]->state = 300;
+
     LevelInteractionEvent event = create_event(&player, point_new(0, 0));
-    repeat(50, player_hit(&event))
+    repeat(20,
+           event.cell = player.level->cells[0][0];
+           player_hit(&event)
+    )
 
     mu_assert_int_eq(0, player.inventory->count);
+
+    free_fixtures(&player);
+}
+
+MU_TEST(test_material_collect)
+{
+    Player player = create_player();
+    Item **items = player.inventory->items;
+    Item *item = items[0];
+    item->value = 20;
+    item->tool.multipliers.materials[STONE] = 1.5;
+
+    player.level->cells[0][0]->state = 1;
+
+    LevelInteractionEvent event = create_event(&player, point_new(0, 0));
+    player_hit(&event);
+
+    mu_assert_int_eq(2, player.inventory->count);
+    mu_assert_int_eq(MATERIAL, player.inventory->items[1]->type);
 
     free_fixtures(&player);
 }
@@ -156,10 +197,12 @@ void run_player_hit_test(void)
 
     MU_RUN_TEST(test_range);
     MU_RUN_TEST(test_defaults);
+    MU_RUN_TEST(test_cell_break);
     MU_RUN_TEST(test_material_and_tired_damage);
     MU_RUN_TEST(test_bare_hands);
     MU_RUN_TEST(test_invalid_cell_type);
     MU_RUN_TEST(test_tool_wear_out);
+    MU_RUN_TEST(test_material_collect);
 
     MU_REPORT();
 }

@@ -1,8 +1,7 @@
 #include <ncurses.h>
-#include <gamestate/gamestate.h>
+#include "gamestate/gamestate.h"
 #include "ui/menu/main_menu.h"
 #include "keymap.h"
-#include "ui/panel.h"
 #include "inventory/inventory.h"
 
 
