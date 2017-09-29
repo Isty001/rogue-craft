@@ -7,6 +7,7 @@
 
 ###### FIXED:
 * [x] cell_free with the Player's cell prototype failed, because it wasn't marked with `in_registry`
+* [x] make install did not include make install-environments, thus breaking the install
 
 
 ---
