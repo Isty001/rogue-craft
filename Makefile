@@ -12,7 +12,7 @@ DIR_INSTALLED_ENV = ${HOME}/$(DIR_INSTALLED_ENV_BASE)
 DIR_INSTALLED_CACHE_BASE = $(DIR_APP)/cache
 DIR_INSTALLED_CACHE=${HOME}/$(DIR_INSTALLED_CACHE_BASE)
 
-DIR_INSTALLED_BIN=/usr/bin
+DIR_INSTALLED_BIN=/usr/local/bin
 
 INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 
@@ -97,6 +97,9 @@ install-environments:
 	cp ./config/environments/.env.* $(DIR_INSTALLED_ENV)
 
 install:
+	make install-environments
+	# previous wrong location should be removed
+	sudo rm -f /usr/bin/$(TARGET)
 	mkdir -p $(DIR_INSTALLED_CACHE)
 	mkdir -p $(DIR_INSTALLED_RESOURCES)
 	cp -r $(DIR_RESOURCES)/* $(DIR_INSTALLED_RESOURCES)
@@ -104,6 +107,12 @@ install:
 	sudo touch $(INSTALLED_LOG_FILE)
 	sudo chmod 777 $(INSTALLED_LOG_FILE)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
+
+uninstall:
+	rm -rf $(DIR_INSTALLED_CACHE)
+	rm -rf $(DIR_INSTALLED_RESOURCES)
+	rm -rf $(DIR_INSTALLED_ENV)
+	sudo rm -f $(DIR_INSTALLED_BIN)/$(TARGET)
 
 clean-cache:
 	rm -rf ./cache/*.cache
