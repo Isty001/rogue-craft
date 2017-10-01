@@ -44,7 +44,7 @@ To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-d
 git clone --recursive https://github.com/rogue-craft/rogue-craft
 cd rogue-craft
 make
-make install
+sudo make install
 ```
 
 You can remove the build objects with `make clean`, or run the tests with `make run-test`
