@@ -11,4 +11,4 @@ before_install:
   - sudo apt-get install -qq libvlc-dev
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20
   - sudo apt-get install -qq valgrind
-script: make install-environments && make run-test && make run-test-valgrind
+script: sudo make install-environments && make run-test && make run-test-valgrind
