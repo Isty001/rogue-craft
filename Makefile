@@ -1,19 +1,12 @@
 DIR_BUILD = build
 DIR_ROOT = $(shell pwd)
 DIR_RESOURCES = $(DIR_ROOT)/resources
-DIR_APP = .rogue-craft
+DIR_APP = rogue-craft
 
-DIR_INSTALLED_RESOURCES_BASE=$(DIR_APP)/resources
-DIR_INSTALLED_RESOURCES=${HOME}/$(DIR_INSTALLED_RESOURCES_BASE)
-
-DIR_INSTALLED_ENV_BASE = $(DIR_APP)/environments
-DIR_INSTALLED_ENV = ${HOME}/$(DIR_INSTALLED_ENV_BASE)
-
-DIR_INSTALLED_CACHE_BASE = $(DIR_APP)/cache
-DIR_INSTALLED_CACHE=${HOME}/$(DIR_INSTALLED_CACHE_BASE)
-
+DIR_INSTALLED_RESOURCES=/usr/local/share/$(DIR_APP)/resources
+DIR_INSTALLED_ENV=/etc/$(DIR_APP)/environments
+DIR_INSTALLED_CACHE=/var/cache/$(DIR_APP)
 DIR_INSTALLED_BIN=/usr/local/bin
-
 INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 
 CC = gcc
@@ -95,24 +88,27 @@ run-debug:
 install-environments:
 	mkdir -p $(DIR_INSTALLED_ENV)
 	cp ./config/environments/.env.* $(DIR_INSTALLED_ENV)
+	chmod -R 775 $(DIR_INSTALLED_ENV)
 
 install:
 	make install-environments
 	# previous wrong location should be removed
-	sudo rm -f /usr/bin/$(TARGET)
+	rm -f /usr/bin/$(TARGET)
 	mkdir -p $(DIR_INSTALLED_CACHE)
+	chmod -R 777 $(DIR_INSTALLED_CACHE)
 	mkdir -p $(DIR_INSTALLED_RESOURCES)
 	cp -r $(DIR_RESOURCES)/* $(DIR_INSTALLED_RESOURCES)
-	sudo cp $(TARGET) $(DIR_INSTALLED_BIN)
-	sudo touch $(INSTALLED_LOG_FILE)
-	sudo chmod 777 $(INSTALLED_LOG_FILE)
+	chmod 775 -R $(DIR_INSTALLED_RESOURCES)
+	cp $(TARGET) $(DIR_INSTALLED_BIN)
+	touch $(INSTALLED_LOG_FILE)
+	chmod 777 $(INSTALLED_LOG_FILE)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
 uninstall:
 	rm -rf $(DIR_INSTALLED_CACHE)
 	rm -rf $(DIR_INSTALLED_RESOURCES)
 	rm -rf $(DIR_INSTALLED_ENV)
-	sudo rm -f $(DIR_INSTALLED_BIN)/$(TARGET)
+	rm -f $(DIR_INSTALLED_BIN)/$(TARGET)
 
 clean-cache:
 	rm -rf ./cache/*.cache

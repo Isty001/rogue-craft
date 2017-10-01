@@ -26,7 +26,8 @@ static void get_path(char *path, int argc, char **argv)
             break;
         }
     }
-    sprintf(path, "%s/%s/environments/.env.%s", getenv("HOME"), DIR_APP_RELATIVE, env);
+
+    sprintf(path, "/etc/%s/environments/.env.%s", DIR_APP_RELATIVE, env);
 }
 
 void env_setup(int argc, char **argv)

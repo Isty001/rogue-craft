@@ -11,6 +11,8 @@ typedef struct {
     WINDOW *window;
     uint16_t count;
     ITEM **items;
+    uint16_t rows;
+    uint16_t cols;
 } Menu;
 
 
