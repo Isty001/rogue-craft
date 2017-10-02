@@ -26,8 +26,11 @@ static void get_path(char *path, int argc, char **argv)
             break;
         }
     }
-
     sprintf(path, "/etc/%s/.env.%s", DIR_APP_RELATIVE, env);
+
+    if (!file_exists(path)) {
+        sprintf(path, "./config/environments/.env.%s", env);
+    }
 }
 
 void env_setup(int argc, char **argv)
