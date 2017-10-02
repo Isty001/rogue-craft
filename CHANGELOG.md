@@ -1,9 +1,11 @@
-### 0.2 (master):
+### 0.2:
 
 ###### NEW:
 * [x] Basic menu
-* [#] Materials can be collected
-* [ ] Placing collected materials on the map as new cells
+* [x] Materials can be collected
+
+###### IMPROVEMENT:
+* [x] Install paths are more Unix conventional
 
 ###### FIXED:
 * [x] cell_free with the Player's cell prototype failed, because it wasn't marked with `in_registry`
@@ -19,6 +21,7 @@
 * [x] Items can be dropped from the inventory
 * [x] Items can be placed on shortcut from the inventory
 * [x] i686 tar build
+
 ###### IMPROVEMENT:
 * [x] Visible point lookup was very slow. Instead of checking all points inside the current camera, just iterate the visible points,
 and reduce the lookup time significantly.
