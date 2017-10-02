@@ -2,8 +2,7 @@
 
 ###### NEW:
 * [x] Basic menu
-* [#] Materials can be collected
-* [ ] Placing collected materials on the map as new cells
+* [x] Materials can be collected
 
 ###### FIXED:
 * [x] cell_free with the Player's cell prototype failed, because it wasn't marked with `in_registry`
