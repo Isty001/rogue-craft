@@ -1,4 +1,4 @@
-### 0.2 (master):
+### 0.2:
 
 ###### NEW:
 * [x] Basic menu
