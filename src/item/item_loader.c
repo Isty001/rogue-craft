@@ -41,7 +41,7 @@ static void build_consumable(ItemPrototype *prototype, JSON_Object *json)
 {
     Consumable *consumable = &prototype->item.consumable;
 
-    consumable->state_type = (StateType) constant(json_get_string(json, "attribute"));
+    consumable->state_type = (StateType) constant_prefixed("STATE", json_get_string(json, "attribute"));
     consumable->permanent = (bool) json_get_bool(json, "permanent");
 }
 
@@ -52,7 +52,7 @@ static void build_tool_material_multipliers(Tool *tool, JSON_Object *json)
     double multiplier;
 
     for (size_t i = 0; i < count; i++) {
-        material = (Material) constant(json_object_get_name(json, i));
+        material = (Material) constant_prefixed("MATERIAL", json_object_get_name(json, i));
         multiplier = json_value_get_number(json_object_get_value_at(json, i));
         tool->multipliers.materials[material] = multiplier;
     }
@@ -87,13 +87,13 @@ static void build_type_specific(ItemPrototype *prototype, JSON_Object *json)
 {
     if (json_has_object(json, "consumable")) {
         build_consumable(prototype, json_get_object(json, "consumable"));
-        add_item(json, CONSUMABLE, prototype, &ITEM_CONSUMABLE_PROBABILITY);
+        add_item(json, ITEM_CONSUMABLE, prototype, &ITEM_CONSUMABLE_PROBABILITY);
     } else if (json_has_object(json, "tool")) {
         build_tool(prototype, json_get_object(json, "tool"));
-        add_item(json, TOOL, prototype, &ITEM_TOOL_PROBABILITY);
+        add_item(json, ITEM_TOOL, prototype, &ITEM_TOOL_PROBABILITY);
     } else if (json_has_object(json, "lightSource")) {
         build_light_source(prototype, json_get_object(json, "lightSource"));
-        add_item(json, LIGHT_SOURCE, prototype, &ITEM_LIGHT_SOURCE_PROBABILITY);
+        add_item(json, ITEM_LIGHT_SOURCE, prototype, &ITEM_LIGHT_SOURCE_PROBABILITY);
     } else {
         fatal("Unable to determine the Item's type");
     }
@@ -144,11 +144,11 @@ void item_registry_load(void)
 static Probability *probability_for(ItemType type)
 {
     switch (type) {
-        case TOOL:
+        case ITEM_TOOL:
             return &ITEM_TOOL_PROBABILITY;
-        case CONSUMABLE:
+        case ITEM_CONSUMABLE:
             return &ITEM_CONSUMABLE_PROBABILITY;
-        case LIGHT_SOURCE:
+        case ITEM_LIGHT_SOURCE:
             return &ITEM_LIGHT_SOURCE_PROBABILITY;
         default:
             fatal("No Probability found for ItemType [%d]", type)

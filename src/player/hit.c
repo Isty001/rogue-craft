@@ -7,7 +7,7 @@
 #define TOOL_DAMAGE_CHANCE 0.3
 
 
-#define is_tool(item) item && TOOL == item->type
+#define is_tool(item) item && ITEM_TOOL == item->type
 
 
 typedef struct {
@@ -25,15 +25,15 @@ static double tool_damage_multiplier(Tool *tool, Cell *cell)
     }
     DefaultDamage defaults = tool->multipliers.defaults;
 
-    return SOLID == cell->type ? defaults.solid : defaults.creature;
+    return CELL_SOLID == cell->type ? defaults.solid : defaults.creature;
 }
 
 static int16_t calculate_damage(Player *player, Tool *tool, Cell *target)
 {
     State *states = player->state.map;
 
-    double positive = states[STAMINA].current * 1.15;
-    double negative = states[HUNGER].current + states[THIRST].current;
+    double positive = states[STATE_STAMINA].current * 1.15;
+    double negative = states[STATE_HUNGER].current + states[STATE_THIRST].current;
 
     double damage = (positive - (negative / 2)) / 20;
 
@@ -95,7 +95,7 @@ void player_hit(LevelInteractionEvent *event)
     Player *player = event->player;
     Point point = event->point;
 
-    if (SOLID != target->type && CREATURE != target->type) {
+    if (CELL_SOLID != target->type && CELL_CREATURE != target->type) {
         return;
     }
 

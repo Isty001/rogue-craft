@@ -19,22 +19,22 @@ static void add_default_state(Player *player)
 {
     State *map = player->state.map;
 
-    map[HEALTH] = (State) {
+    map[STATE_HEALTH] = (State) {
         .current = 100, .max = 100,
         .name = "Health", .style  = COLOR_PAIR(COLOR_RED_F)
     };
 
-    map[STAMINA] = (State) {
+    map[STATE_STAMINA] = (State) {
         .current = 100, .max = 100,
         .name = "Stamina", .style = COLOR_PAIR(COLOR_GREEN_F)
     };
 
-    map[HUNGER] = (State) {
+    map[STATE_HUNGER] = (State) {
         .current = 0, .max = 100,
         .name = "Hunger", .style = COLOR_PAIR(COLOR_YELLOW_F)
     };
 
-    map[THIRST] = (State) {
+    map[STATE_THIRST] = (State) {
         .current = 0, .max = 100,
         .name = "Thirst", .style = COLOR_PAIR(COLOR_BLUE_F)
     };
@@ -64,7 +64,7 @@ Player *player_new(Level *level)
     player->attributes.speed = 1;
     player->attributes.eye_sight = 1;
 
-    player->cell.prototype.type = PLAYER;
+    player->cell.prototype.type = CELL_PLAYER;
     player->cell.prototype.style = COLOR_PAIR(COLOR_RED_F);
     player->cell.prototype.chr = PLAYER_CHAR;
     player->cell.prototype.in_registry = true;

@@ -77,10 +77,10 @@ void json_get_optional_wchar(wchar_t *buff, JSON_Object *json, char *name, wchar
     }
 }
 
-uint64_t json_get_optional_constant(JSON_Object *json, char *name, uint64_t fallback)
+uint64_t json_get_optional_constant(JSON_Object *json, char *name, char *prefix, uint64_t fallback)
 {
     if (json_has_string(json, name)) {
-        return constant(json_object_get_string(json, name));
+        return constant_prefixed(prefix, json_object_get_string(json, name));
     }
     return fallback;
 }

@@ -33,7 +33,7 @@ static void add_level(LevelConfig *cfg, JSON_Object *json)
 static void parse_json(JSON_Object *json)
 {
     LevelConfig *cfg = mem_calloc(1, sizeof(LevelConfig));
-    cfg->type = (LevelType) constant(json_get_string(json, "type"));
+    cfg->type = (LevelType) constant_prefixed("LEVEL", json_get_string(json, "type"));
 
     JSON_Object *cells = json_get_object(json, "cells");
 

@@ -60,8 +60,8 @@ MU_TEST(test_add)
 MU_TEST(test_add_cell)
 {
     Inventory *inv = inventory_new(4);
-    Cell stone = {.material = STONE};
-    Cell wood = {.material = WOOD};
+    Cell stone = {.material = MATERIAL_STONE};
+    Cell wood = {.material = MATERIAL_WOOD};
 
     repeat(INVENTORY_MAX_MATERIAL_VALUE + 5,
            inventory_add_cell(inv, &stone);
@@ -70,14 +70,14 @@ MU_TEST(test_add_cell)
     mu_assert_int_eq(2, inv->count);
 
     mu_assert_int_eq(INVENTORY_MAX_MATERIAL_VALUE, inv->items[0]->value);
-    mu_assert_int_eq(STONE, inv->items[0]->material);
+    mu_assert_int_eq(MATERIAL_STONE, inv->items[0]->material);
 
     mu_assert_int_eq(5, inv->items[1]->value);
-    mu_assert_int_eq(STONE, inv->items[1]->material);
+    mu_assert_int_eq(MATERIAL_STONE, inv->items[1]->material);
 
     inventory_add_cell(inv, &wood);
     mu_assert_int_eq(3, inv->count);
-    mu_assert_int_eq(WOOD, inv->items[2]->material);
+    mu_assert_int_eq(MATERIAL_WOOD, inv->items[2]->material);
 
     inventory_free(inv);
 }
@@ -118,16 +118,16 @@ MU_TEST(test_use_consumable)
     };
 
     player.inventory = inv;
-    player.state.map[HEALTH].current = 95;
-    player.state.map[HEALTH].max = 100;
+    player.state.map[STATE_HEALTH].current = 95;
+    player.state.map[STATE_HEALTH].max = 100;
 
     inventory_player_use_selected(&event);
-    mu_assert_int_eq(100, player.state.map[HEALTH].current);
+    mu_assert_int_eq(100, player.state.map[STATE_HEALTH].current);
     mu_assert(item == items[0], "Item should not be removed");
 
-    player.state.map[HEALTH].current = 92;
+    player.state.map[STATE_HEALTH].current = 92;
     inventory_player_use_selected(&event);
-    mu_assert_int_eq(97, player.state.map[HEALTH].current);
+    mu_assert_int_eq(97, player.state.map[STATE_HEALTH].current);
     mu_assert(NULL == items[0], "Item should be removed");
 
     inventory_free(inv);
@@ -206,7 +206,7 @@ static inline void assert_item_cell(Cell ***cells, uint16_t y, uint16_t x, Item 
 {
     Cell *cell = cells[y][x];
 
-    mu_assert_int_eq(ITEM_, cell->type);
+    mu_assert_int_eq(CELL_ITEM, cell->type);
     mu_assert(item == cell->item, "");
     mu_assert(!cell->in_registry, "");
 }
@@ -236,8 +236,8 @@ MU_TEST(test_drop_selected)
     mu_assert(inventory_has(inv, &item), "");
 
     mu_assert(
-        SOLID == cells[0][0]->type
-        && SOLID == cells[0][2]->type,
+        CELL_SOLID == cells[0][0]->type
+        && CELL_SOLID == cells[0][2]->type,
         ""
     );
 

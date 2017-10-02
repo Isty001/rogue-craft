@@ -6,7 +6,7 @@
 MU_TEST(test_non_consumable)
 {
     Item item;
-    item.type = TOOL;
+    item.type = ITEM_TOOL;
 
     mu_assert(IE_INVALID_ARGUMENT == item_consume(&item, NULL), "Should give Invalid Arg");
 }
@@ -15,11 +15,11 @@ static void setup_player(Player *player)
 {
     State *states = player->state.map;
 
-    states[HEALTH].max = 100;
-    states[HEALTH].current = 90;
+    states[STATE_HEALTH].max = 100;
+    states[STATE_HEALTH].current = 90;
 
-    states[HUNGER].max = 100;
-    states[HUNGER].current = 20;
+    states[STATE_HUNGER].max = 100;
+    states[STATE_HUNGER].current = 20;
 }
 
 MU_TEST(test_persistent)
@@ -30,7 +30,7 @@ MU_TEST(test_persistent)
     setup_player(&player);
 
     mu_assert(IE_CONSUMED == item_consume(&item, &player), "Item should be consumed");
-    mu_assert_int_eq(110, player.state.map[HEALTH].max);
+    mu_assert_int_eq(110, player.state.map[STATE_HEALTH].max);
 }
 
 MU_TEST(test_non_persistent)
@@ -40,7 +40,7 @@ MU_TEST(test_non_persistent)
     setup_player(&player);
 
     mu_assert_int_eq(IE_CONSUMED, item_consume(&item, &player));
-    mu_assert_int_eq(100, player.state.map[HEALTH].current);
+    mu_assert_int_eq(100, player.state.map[STATE_HEALTH].current);
 }
 
 MU_TEST(test_partial_consume)
@@ -48,10 +48,10 @@ MU_TEST(test_partial_consume)
     Item item = fixture_consumable(false);
     Player player;
     setup_player(&player);
-    player.state.map[HEALTH].current = 95;
+    player.state.map[STATE_HEALTH].current = 95;
 
     mu_assert(IE_CAN_BE_CONSUMED == item_consume(&item, &player), "Should be partially consumed");
-    mu_assert_int_eq(100, player.state.map[HEALTH].current);
+    mu_assert_int_eq(100, player.state.map[STATE_HEALTH].current);
     mu_assert_int_eq(5, item.value);
 }
 
@@ -61,11 +61,11 @@ MU_TEST(test_negative)
     setup_player(&player);
 
     Item item = fixture_consumable(false);
-    item.consumable.state_type = HUNGER;
+    item.consumable.state_type = STATE_HUNGER;
     item.value = -50;
 
     mu_assert_int_eq(IE_CAN_BE_CONSUMED, item_consume(&item, &player));
-    mu_assert_int_eq(0, player.state.map[HUNGER].current);
+    mu_assert_int_eq(0, player.state.map[STATE_HUNGER].current);
 
     mu_assert_int_eq(-30, item.value);
 }

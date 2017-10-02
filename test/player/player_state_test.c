@@ -27,10 +27,10 @@ MU_TEST(test_player_state)
 {
     Player player;
     State *state = player.state.map;
-    state[HEALTH] = attr_init(100);
-    state[HUNGER] = attr_init(98);
-    state[STAMINA] = attr_init(2);
-    state[THIRST] = attr_init(97);
+    state[STATE_HEALTH] = attr_init(100);
+    state[STATE_HUNGER] = attr_init(98);
+    state[STATE_STAMINA] = attr_init(2);
+    state[STATE_THIRST] = attr_init(97);
 
     Modifiers *modifiers = &player.state.modifiers;
     *modifiers = (Modifiers) {
@@ -45,11 +45,11 @@ MU_TEST(test_player_state)
     TimerArgs args = {.ptr = {&player, &TEST_CFG}};
     player_state_update(&args);
 
-    mu_assert_int_eq(100, state[HUNGER].current);
-    mu_assert_int_eq(0, state[STAMINA].current);
-    mu_assert_int_eq(100, state[THIRST].current);
+    mu_assert_int_eq(100, state[STATE_HUNGER].current);
+    mu_assert_int_eq(0, state[STATE_STAMINA].current);
+    mu_assert_int_eq(100, state[STATE_THIRST].current);
 
-    mu_assert_int_eq(98, state[HEALTH].current);
+    mu_assert_int_eq(98, state[STATE_HEALTH].current);
 
     mu_assert_int_eq(0, modifiers->traveled);
     mu_assert_int_eq(0, modifiers->dealt_damage);

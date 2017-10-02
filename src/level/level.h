@@ -37,7 +37,7 @@ typedef struct Camera Camera;
 
 
 typedef enum {
-    CELLULAR
+    LEVEL_CELLULAR
 } LevelType;
 
 typedef struct {

@@ -24,10 +24,10 @@ typedef enum {
 } ItemError;
 
 typedef enum {
-    CONSUMABLE,
-    TOOL,
-    LIGHT_SOURCE,
-    MATERIAL
+    ITEM_CONSUMABLE,
+    ITEM_TOOL,
+    ITEM_LIGHT_SOURCE,
+    ITEM_MATERIAL
 } ItemType;
 
 typedef struct {

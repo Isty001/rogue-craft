@@ -32,6 +32,7 @@ void run_color_cache_test(void);
 void run_grid_test(void);
 void run_lighting_test(void);
 void run_logger_test(void);
+void run_recipe_loader_test(void);
 
 
 static void init(void)
@@ -89,6 +90,7 @@ int main(int argc, char *argv[])
     run_color_cache_test();
     run_grid_test();
     run_lighting_test();
+    run_recipe_loader_test();
 
     cleanup();
 }

@@ -13,14 +13,14 @@ static inline void change(State *attr, int16_t change)
 
 static inline void apply_fatigue_damage(State *states, const FatigueDamage *damage)
 {
-    change(&states[HEALTH], rand_in_range(damage->health));
+    change(&states[STATE_HEALTH], rand_in_range(damage->health));
 }
 
 static inline void apply_fatigue(State *states, const Fatigue *fatigue)
 {
-    change(&states[HUNGER], rand_in_range(fatigue->hunger));
-    change(&states[THIRST], rand_in_range(fatigue->thirst));
-    change(&states[STAMINA], rand_in_range(fatigue->stamina));
+    change(&states[STATE_HUNGER], rand_in_range(fatigue->hunger));
+    change(&states[STATE_THIRST], rand_in_range(fatigue->thirst));
+    change(&states[STATE_STAMINA], rand_in_range(fatigue->stamina));
 }
 
 static void apply_fatigue_by_modifiers(Modifiers *modifiers, const Fatigue *fatigue, State *states)
@@ -49,10 +49,10 @@ static void apply_fatigue_damages(Modifiers *modifiers, const FatigueDamage *dam
         return;
     }
 
-    if (states[HUNGER].current >= damage->hunger) {
+    if (states[STATE_HUNGER].current >= damage->hunger) {
         apply_fatigue_damage(states, damage);
     }
-    if (states[THIRST].current >= damage->thirst) {
+    if (states[STATE_THIRST].current >= damage->thirst) {
         apply_fatigue_damage(states, damage);
     }
 

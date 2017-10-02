@@ -11,16 +11,16 @@ static void extend(Cell *cell, JSON_Object *json, const Cell *parent)
 {
     json_get_optional_wchar(&cell->chr, json, "char", parent->chr);
     cell->style = json_get_optional_style(json, parent->style);
-    cell->type = (CellType) json_get_optional_constant(json, "type", parent->type);
-    cell->material = (Material) json_get_optional_constant(json, "material", parent->material);
+    cell->type = (CellType) json_get_optional_constant(json, "type", "CELL", parent->type);
+    cell->material = (Material) json_get_optional_constant(json, "material", "MATERIAL", parent->material);
 }
 
 static void build_new(Cell *cell, JSON_Object *json)
 {
     json_get_wchar(&cell->chr, json, "char");
     cell->style = json_get_style(json);
-    cell->type = (CellType) constant(json_get_string(json, "type"));
-    cell->material = (Material) constant(json_get_string(json, "material"));
+    cell->type = (CellType) constant_prefixed("CELL", json_get_string(json, "type"));
+    cell->material = (Material) constant_prefixed("MATERIAL", json_get_string(json, "material"));
 }
 
 static void finalize(JSON_Object *json, CellPrototype *prototype, Cell *cell)

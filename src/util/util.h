@@ -84,5 +84,7 @@ typedef struct {
  */
 uint64_t constant(const char *search);
 
+uint64_t constant_prefixed(const char *prefix, const char *name);
+
 
 #endif

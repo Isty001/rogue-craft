@@ -26,7 +26,7 @@ static void add_items(Level *level)
         point = level_rand_point(level);
         cell = level->cells[point.y][point.x];
 
-        if (HOLLOW == cell->type) {
+        if (CELL_HOLLOW == cell->type) {
             level->cells[point.y][point.x] = cell_with_random_item();
             remaining--;
         }
@@ -44,7 +44,7 @@ Level *level_new(Size size)
 
     level->cells = level_allocate_cells(level->size);
 
-    if (CELLULAR == level->cfg->type) {
+    if (LEVEL_CELLULAR == level->cfg->type) {
         cellular_generate(level);
     }
 
@@ -67,7 +67,7 @@ Point level_rand_hollow(Level *level)
         point = level_rand_point(level);
 
         cell = level->cells[point.y][point.x];
-    } while (HOLLOW != cell->type);
+    } while (CELL_HOLLOW != cell->type);
 
     return point;
 }
@@ -99,7 +99,7 @@ void level_free(Level *level)
     iterate_matrix(0, level->size,
         cell = level->cells[y][x];
 
-        if (ITEM_ == cell->type) {
+        if (CELL_ITEM == cell->type) {
             item_free(cell->item);
         }
         cell_free(cell);

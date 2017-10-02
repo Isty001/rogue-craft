@@ -29,10 +29,10 @@ typedef struct Timer Timer;
 
 
 typedef enum {
-    HEALTH,
-    STAMINA,
-    HUNGER,
-    THIRST
+    STATE_HEALTH,
+    STATE_STAMINA,
+    STATE_HUNGER,
+    STATE_THIRST
 } StateType;
 
 typedef struct {

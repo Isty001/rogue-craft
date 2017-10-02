@@ -12,22 +12,22 @@ Level *fixture_level(void)
     level->lightings = list_new();
 
     Cell *hollow = mem_alloc(sizeof(Cell));
-    hollow->type = HOLLOW;
+    hollow->type = CELL_HOLLOW;
     hollow->in_registry = true;
-    hollow->material = STONE;
+    hollow->material = MATERIAL_STONE;
     hollow->state = 100;
     hollow->style = FIXTURE_HOLLOW_STYLE;
 
     Cell *solid = mem_alloc(sizeof(Cell));
-    solid->type = SOLID;
+    solid->type = CELL_SOLID;
     solid->in_registry = true;
-    solid->material = STONE;
+    solid->material = MATERIAL_STONE;
     solid->state = 100;
     solid->style = FIXTURE_SOLID_STYLE;
 
     level->cfg = mem_alloc(sizeof(LevelConfig));
 
-    level->cfg->type = CELLULAR;
+    level->cfg->type = LEVEL_CELLULAR;
     level->cfg->cells = (LevelCells) {
         .hollow = (Probability) {
             .count = 1,
@@ -88,10 +88,10 @@ void fixture_level_free(Level *level)
 Item fixture_consumable(bool permanent)
 {
     return (Item) {
-        .type = CONSUMABLE,
+        .type = ITEM_CONSUMABLE,
         .value = 10,
         .consumable = (Consumable) {
-            .state_type = HEALTH,
+            .state_type = STATE_HEALTH,
             .permanent = permanent,
         }
     };

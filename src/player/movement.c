@@ -25,7 +25,7 @@ static inline bool can_move_to(Player *player, Point target)
     return
         level_in_bounds(level, target)
         &&
-        SOLID != level->cells[target.y][target.x]->type;
+        CELL_SOLID != level->cells[target.y][target.x]->type;
 }
 
 static void update_player(Player *player, Point target)

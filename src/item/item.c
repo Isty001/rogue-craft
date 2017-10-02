@@ -71,7 +71,7 @@ static ItemError consume_non_permanent(Item *item, State *state)
 
 ItemError item_consume(Item *parent, Player *player)
 {
-    check_type(parent, CONSUMABLE);
+    check_type(parent, ITEM_CONSUMABLE);
 
     Consumable *consumable = &parent->consumable;
     State *states = &player->state.map[consumable->state_type];
@@ -98,7 +98,7 @@ static void cleanup_light_source(Item *item, Player *player)
 {
     Level *level = player->level;
 
-    if (LIGHT_SOURCE == item->type) {
+    if (ITEM_LIGHT_SOURCE == item->type) {
         level->lightings->delete(level->lightings, item->light_source.lighting);
     }
 }
@@ -108,7 +108,7 @@ void item_pickup(LevelInteractionEvent *event)
     Cell *cell = event->cell;
     Player *player = event->player;
 
-    if (ITEM_ == cell->type && 1 == event->player_distance) {
+    if (CELL_ITEM == cell->type && 1 == event->player_distance) {
         Item *item = event->cell->item;
         Level *level = player->level;
 

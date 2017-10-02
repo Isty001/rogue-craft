@@ -12,7 +12,7 @@ static void assert_tool(const ItemPrototype *prototype)
 
     assert_string("Pickaxe", prototype->name);
     assert_range(range_new(1, 100), prototype->value_range);
-    mu_assert_int_eq(TOOL, prototype->item.type);
+    mu_assert_int_eq(ITEM_TOOL, prototype->item.type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_GRAY_F), item->style);
     mu_assert_int_eq('p', item->chr);
 
@@ -20,8 +20,8 @@ static void assert_tool(const ItemPrototype *prototype)
     mu_assert_double_eq(1.5, tool->multipliers.defaults.solid);
     mu_assert_double_eq(1.0, tool->multipliers.defaults.creature);
 
-    mu_assert_double_eq(1.4, tool->multipliers.materials[STONE]);
-    mu_assert_double_eq(1.1, tool->multipliers.materials[DIRT]);
+    mu_assert_double_eq(1.4, tool->multipliers.materials[MATERIAL_STONE]);
+    mu_assert_double_eq(1.1, tool->multipliers.materials[MATERIAL_DIRT]);
 }
 
 static void assert_consumable(const ItemPrototype *prototype)
@@ -31,13 +31,13 @@ static void assert_consumable(const ItemPrototype *prototype)
 
     assert_string("Potion", prototype->name);
     assert_range(range_new(1, 30), prototype->value_range);
-    mu_assert_int_eq(CONSUMABLE, item->type);
+    mu_assert_int_eq(ITEM_CONSUMABLE, item->type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_RED_F) | A_BOLD | A_UNDERLINE, item->style);
 
     assert_wchar("ð", item->chr, 2);
 
     mu_assert(consumable->permanent, "should be permanent");
-    mu_assert_int_eq(STAMINA, consumable->state_type);
+    mu_assert_int_eq(STATE_STAMINA, consumable->state_type);
 }
 
 static void assert_light_source(const ItemPrototype *prototype)
@@ -45,7 +45,7 @@ static void assert_light_source(const ItemPrototype *prototype)
     const Item *item = &prototype->item;
     const LightSource *light_source = &prototype->item.light_source;
 
-    mu_assert_int_eq(LIGHT_SOURCE, item->type);
+    mu_assert_int_eq(ITEM_LIGHT_SOURCE, item->type);
     assert_range(range_new(200, 300), prototype->value_range);
 
     mu_assert(NULL == light_source->lighting, "Actual Lighting shouldn't be initialized yet");

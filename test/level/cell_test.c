@@ -18,7 +18,7 @@ MU_TEST(test_clone_at_level)
     Level *level = fixture_level();
 
     Cell *new = level_replace_cell_with_new(level, point_new(0, 0));
-    mu_assert_int_eq(SOLID, new->type);
+    mu_assert_int_eq(CELL_SOLID, new->type);
 
     fixture_level_free(level);
 }

@@ -6,7 +6,7 @@
 
 static ItemPrototype TEST_TOOL = {
     .item = {
-        .type = TOOL,
+        .type = ITEM_TOOL,
         .tool = {
             .range = 1,
             .multipliers = {
@@ -31,7 +31,7 @@ static Player create_player(void)
         .level = fixture_level(),
         .inventory = create_inventory(),
         .position = {.current = point_new(1, 0), .previous = point_new(1000, 1000)},
-        .state.map = {[STAMINA] = {.current = 80}}
+        .state.map = {[STATE_STAMINA] = {.current = 80}}
     };
 }
 
@@ -98,7 +98,7 @@ MU_TEST(test_cell_break)
     Cell *new = player.level->cells[0][0];
 
     mu_assert(original != new, "");
-    mu_assert_int_eq(HOLLOW, new->type);
+    mu_assert_int_eq(CELL_HOLLOW, new->type);
 
     free_fixtures(&player);
 }
@@ -109,10 +109,10 @@ MU_TEST(test_material_and_tired_damage)
     Item **items = player.inventory->items;
     Item *item;
 
-    player.state.map[HUNGER].current = 20;
-    player.state.map[THIRST].current = 30;
+    player.state.map[STATE_HUNGER].current = 20;
+    player.state.map[STATE_THIRST].current = 30;
     item = items[0];
-    item->tool.multipliers.materials[STONE] = 2;
+    item->tool.multipliers.materials[MATERIAL_STONE] = 2;
 
     LevelInteractionEvent event = create_event(&player, point_new(0, 0));
 
@@ -143,7 +143,7 @@ MU_TEST(test_invalid_cell_type)
     Player player = create_player();
     LevelInteractionEvent event = create_event(&player, point_new(0, 0));
     Cell *cell = player.level->cells[0][0];
-    cell->type = HOLLOW;
+    cell->type = CELL_HOLLOW;
 
     player_hit(&event);
     mu_assert(cell->in_registry, "Shouldn't be touched");
@@ -157,7 +157,7 @@ MU_TEST(test_tool_wear_out)
     Item **items = player.inventory->items;
     Item *item = items[0];
     item->value = 2;
-    item->tool.multipliers.materials[STONE] = 1.5;
+    item->tool.multipliers.materials[MATERIAL_STONE] = 1.5;
 
     player.level->cells[0][0]->state = 300;
 
@@ -178,7 +178,7 @@ MU_TEST(test_material_collect)
     Item **items = player.inventory->items;
     Item *item = items[0];
     item->value = 20;
-    item->tool.multipliers.materials[STONE] = 1.5;
+    item->tool.multipliers.materials[MATERIAL_STONE] = 1.5;
 
     player.level->cells[0][0]->state = 1;
 
@@ -186,7 +186,7 @@ MU_TEST(test_material_collect)
     player_hit(&event);
 
     mu_assert_int_eq(2, player.inventory->count);
-    mu_assert_int_eq(MATERIAL, player.inventory->items[1]->type);
+    mu_assert_int_eq(ITEM_MATERIAL, player.inventory->items[1]->type);
 
     free_fixtures(&player);
 }

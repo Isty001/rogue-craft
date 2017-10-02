@@ -38,29 +38,29 @@ ConstLookup CONST_LOOKUP[] = {
     simple(A_UNDERLINE),
 
     /** Attributes */
-    simple(HEALTH),
-    simple(STAMINA),
-    simple(HUNGER),
-    simple(THIRST),
+    simple(STATE_HEALTH),
+    simple(STATE_STAMINA),
+    simple(STATE_HUNGER),
+    simple(STATE_THIRST),
 
     /** Materials */
-    simple(STONE),
-    simple(DIRT),
-    simple(SAND),
-    simple(WATER),
-    simple(WOOD),
-    simple(SNOW),
+    simple(MATERIAL_STONE),
+    simple(MATERIAL_DIRT),
+    simple(MATERIAL_SAND),
+    simple(MATERIAL_WATER),
+    simple(MATERIAL_WOOD),
+    simple(MATERIAL_SNOW),
 
     /** CellType */
-    simple(SOLID),
-    simple(CREATURE),
-    simple(HOLLOW),
-    simple(PLAYER),
-    simple(LIQUID),
-    {"ITEM", ITEM_},
+    simple(CELL_SOLID),
+    simple(CELL_CREATURE),
+    simple(CELL_HOLLOW),
+    simple(CELL_PLAYER),
+    simple(CELL_LIQUID),
+    {"ITEM", CELL_ITEM},
 
     /** LevelType */
-    simple(CELLULAR),
+    simple(LEVEL_CELLULAR),
 
     {NULL, -1}
 };
@@ -70,13 +70,19 @@ uint64_t constant(const char *search)
     int i = 0;
     char *name;
 
-    if (search) {
-        while ((name = CONST_LOOKUP[i].name)) {
-            if (0 == strcmp(name, search)) {
-                return CONST_LOOKUP[i].value;
-            }
-            i++;
+    while ((name = CONST_LOOKUP[i].name)) {
+        if (0 == strcmp(search, name)) {
+            return CONST_LOOKUP[i].value;
         }
+        i++;
     }
     fatal("Constant [%s] not found\n", search);
+}
+
+uint64_t constant_prefixed(const char *prefix, const char *name)
+{
+    char search[strlen(prefix) + strlen(name) + 1];
+    sprintf(search, "%s_%s", prefix, name);
+
+    return constant(search);
 }

@@ -9,7 +9,7 @@ static void assert_probability(void)
     mu_assert_int_eq(10, LEVEL_PROBABILITY.items[0].chance);
 
     LevelConfig *cfg = LEVEL_PROBABILITY.items[0].value;
-    mu_assert_int_eq(CELLULAR, cfg->type);
+    mu_assert_int_eq(LEVEL_CELLULAR, cfg->type);
 
     mu_assert_int_eq(1, cfg->cells.hollow.count);
     mu_assert(cell_registry_get("hollow.default") == cfg->cells.hollow.items[0].value, "");

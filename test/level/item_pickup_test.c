@@ -21,10 +21,10 @@ MU_TEST(test_item_pickup)
     Level *level = fixture_level();
     Item item;
     item.occupied_cell = NULL;
-    item.type = TOOL;
+    item.type = ITEM_TOOL;
 
     level->cells[0][0]->item = &item;
-    level->cells[0][0]->type = ITEM_;
+    level->cells[0][0]->type = CELL_ITEM;
 
     Player *player = player_new(level);
     Item **items = player->inventory->items;
@@ -40,7 +40,7 @@ MU_TEST(test_item_pickup)
     mu_assert(&item == items[0], "Items are not the same");
     mu_assert(NULL == items[1], "There should be no items");
 
-    mu_assert_int_eq(HOLLOW, level->cells[0][0]->type);
+    mu_assert_int_eq(CELL_HOLLOW, level->cells[0][0]->type);
     mu_assert(level->cells[0][0]->in_registry, "");
 
     fixture_level_free(level);
@@ -51,9 +51,9 @@ MU_TEST(test_pickup_lighting)
 {
     Level *level = fixture_level();
     Lighting *lighting = lighting_new(level, point_new(0, 0), 5, 100);
-    Cell occupied = {.type = HOLLOW};
+    Cell occupied = {.type = CELL_HOLLOW};
     Item item = {
-        .type = LIGHT_SOURCE,
+        .type = ITEM_LIGHT_SOURCE,
         .occupied_cell = &occupied,
         .light_source = {.lighting = lighting}
     };

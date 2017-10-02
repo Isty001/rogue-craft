@@ -5,7 +5,7 @@
 
 static inline Style style_of(Lighting *lighting, Cell *cell)
 {
-    if (lighting && SOLID == cell->type) {
+    if (lighting && CELL_SOLID == cell->type) {
         return lighting->style;
     }
 

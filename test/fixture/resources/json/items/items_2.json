@@ -30,5 +30,17 @@
       "radius": 5,
       "portable": true
     }
+  },
+  {
+    "name": "Large Torch",
+    "char": "T",
+    "style": ["COLOR_YELLOW_B"],
+    "valueRange": [200, 300],
+    "probability": 1,
+    "lightSource": {
+      "style": ["COLOR_YELLOW_B"],
+      "radius": 10,
+      "portable": true
+    }
   }
 ]

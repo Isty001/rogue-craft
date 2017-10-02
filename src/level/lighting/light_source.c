@@ -23,8 +23,8 @@ static bool is_supported(LevelInteractionEvent *event, Item *item)
 {
     return
         1 == event->player_distance
-        && item && LIGHT_SOURCE == item->type
-        && HOLLOW == event->cell->type;
+        && item && ITEM_LIGHT_SOURCE == item->type
+        && CELL_HOLLOW == event->cell->type;
 }
 
 void item_light_source_place(LevelInteractionEvent *event)

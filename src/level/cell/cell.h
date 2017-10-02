@@ -18,12 +18,12 @@ typedef struct Player Player;
 
 
 typedef enum {
-    SOLID,
-    HOLLOW,
-    CREATURE,
-    PLAYER,
-    LIQUID,
-    ITEM_
+    CELL_SOLID,
+    CELL_HOLLOW,
+    CELL_CREATURE,
+    CELL_PLAYER,
+    CELL_LIQUID,
+    CELL_ITEM
 } CellType;
 
 typedef struct Cell {

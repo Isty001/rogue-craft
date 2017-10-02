@@ -84,7 +84,7 @@ static Item *crate_and_add_material_item(Inventory *inventory, Material material
         .style = material_style(material),
         .chr = 'm',
         .value = 0,
-        .type = MATERIAL,
+        .type = ITEM_MATERIAL,
         .occupied_cell = NULL,
         .material = material
     };
@@ -104,7 +104,7 @@ ItemError inventory_add_cell(Inventory *inventory, Cell *cell)
 
     repeat(inventory->max_size,
            if ((item = inventory->items[i])) {
-               same_material = MATERIAL == item->type && item->material == cell->material;
+               same_material = ITEM_MATERIAL == item->type && item->material == cell->material;
 
                if (same_material && INVENTORY_MAX_MATERIAL_VALUE > item->value) {
                    break;
@@ -128,7 +128,7 @@ void inventory_use_selected(Inventory *inventory, Player *player)
     Item *selected = inventory_selected(inventory);
 
     if (selected) {
-        if (CONSUMABLE == selected->type) {
+        if (ITEM_CONSUMABLE == selected->type) {
             if (IE_CONSUMED == item_consume(selected, player)) {
                 inventory_remove(inventory, selected);
                 item_free(selected);
@@ -158,7 +158,7 @@ static ItemError drop_item(Point point, Level *level, Item *item, Inventory *inv
     Cell ***cells = level->cells;
     Cell *cell = cells[point.y][point.x];
 
-    if (HOLLOW == cell->type && level_in_bounds(level, point)) {
+    if (CELL_HOLLOW == cell->type && level_in_bounds(level, point)) {
         cells[point.y][point.x] = cell_from_item(item);
 
         return inventory_remove(inventory, item);

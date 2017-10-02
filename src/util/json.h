@@ -72,7 +72,7 @@ Style json_get_optional_style(JSON_Object *json, Style fallback);
 
 void json_get_optional_wchar(wchar_t *buff, JSON_Object *json, char *name, wchar_t fallback);
 
-uint64_t json_get_optional_constant(JSON_Object *json, char *name, uint64_t fallback);
+uint64_t json_get_optional_constant(JSON_Object *json, char *name, char *prefix, uint64_t fallback);
 
 
 #endif

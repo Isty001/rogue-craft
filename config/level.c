@@ -5,9 +5,9 @@
  * MATERIAL
  */
 int16_t MATERIAL_STRENGTH[MATERIAL_NUM] = {
-    [SAND] = 50,
-    [DIRT] = 80,
-    [WOOD] = 100,
-    [STONE] = 170
+    [MATERIAL_SAND] = 50,
+    [MATERIAL_DIRT] = 80,
+    [MATERIAL_WOOD] = 100,
+    [MATERIAL_STONE] = 170
 };
 
