@@ -32,7 +32,7 @@ Choose a release from [here](https://github.com/rogue-craft/rogue-craft/releases
 ```
 tar -xf rogue-craft-*.tar.gz
 cd rogue-craft
-sh ./install.sh
+sudo ./install.sh
 ```
 
 #### From source
