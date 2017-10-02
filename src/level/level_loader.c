@@ -19,7 +19,7 @@ static void build_cells(Probability *cells, JSON_Object *map)
         chance = (uint16_t) json_get_number(map, name);
         cell = cell_registry_get(name);
 
-        probability_add(cells, chance, (Randomizable) cell);
+        probability_add(cells, chance, (const void *) cell);
     }
 }
 

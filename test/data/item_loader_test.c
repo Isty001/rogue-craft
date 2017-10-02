@@ -1,13 +1,14 @@
 #include <wchar.h>
+#include <item/item_registry.h>
 #include "../unit_test.h"
 #include "item/item.h"
 #include "../../config/config.h"
 
 
-static void assert_tool(ItemPrototype *prototype)
+static void assert_tool(const ItemPrototype *prototype)
 {
-    Item *item = &prototype->item;
-    Tool *tool = &item->tool;
+    const Item *item = &prototype->item;
+    const Tool *tool = &item->tool;
 
     assert_string("Pickaxe", prototype->name);
     assert_range(range_new(1, 100), prototype->value_range);
@@ -23,10 +24,10 @@ static void assert_tool(ItemPrototype *prototype)
     mu_assert_double_eq(1.1, tool->multipliers.materials[DIRT]);
 }
 
-static void assert_consumable(ItemPrototype *prototype)
+static void assert_consumable(const ItemPrototype *prototype)
 {
-    Item *item = &prototype->item;
-    Consumable *consumable = &item->consumable;
+    const Item *item = &prototype->item;
+    const Consumable *consumable = &item->consumable;
 
     assert_string("Potion", prototype->name);
     assert_range(range_new(1, 30), prototype->value_range);
@@ -39,10 +40,10 @@ static void assert_consumable(ItemPrototype *prototype)
     mu_assert_int_eq(STAMINA, consumable->state_type);
 }
 
-static void assert_light_source(ItemPrototype *prototype)
+static void assert_light_source(const ItemPrototype *prototype)
 {
-    Item *item = &prototype->item;
-    LightSource *light_source = &prototype->item.light_source;
+    const Item *item = &prototype->item;
+    const LightSource *light_source = &prototype->item.light_source;
 
     mu_assert_int_eq(LIGHT_SOURCE, item->type);
     assert_range(range_new(200, 300), prototype->value_range);
@@ -55,20 +56,9 @@ static void assert_light_source(ItemPrototype *prototype)
 
 static void assert_loaded_items(void)
 {
-    mu_assert_int_eq(1, ITEM_CONSUMABLE_PROBABILITY.count);
-    mu_assert_int_eq(10, ITEM_CONSUMABLE_PROBABILITY.sum);
-
-    assert_consumable(ITEM_CONSUMABLE_PROBABILITY.items[0].value);
-
-    mu_assert_int_eq(1, ITEM_TOOL_PROBABILITY.count);
-    mu_assert_int_eq(15, ITEM_TOOL_PROBABILITY.sum);
-
-    assert_tool(ITEM_TOOL_PROBABILITY.items[0].value);
-
-    mu_assert_int_eq(1, ITEM_LIGHT_SOURCE_PROBABILITY.count);
-    mu_assert_int_eq(5, ITEM_LIGHT_SOURCE_PROBABILITY.sum);
-
-    assert_light_source(ITEM_LIGHT_SOURCE_PROBABILITY.items[0].value);
+    assert_consumable(item_registry_get("Potion"));
+    assert_tool(item_registry_get("Pickaxe"));
+    assert_light_source(item_registry_get("Torch"));
 }
 
 MU_TEST(test_load)

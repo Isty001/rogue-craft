@@ -5,11 +5,24 @@
 #include "memory/memory.h"
 #include "util/json.h"
 #include "config.h"
+#include "item_registry.h"
 
 
-Probability ITEM_CONSUMABLE_PROBABILITY;
-Probability ITEM_TOOL_PROBABILITY;
-Probability ITEM_LIGHT_SOURCE_PROBABILITY;
+static Probability ITEM_CONSUMABLE_PROBABILITY;
+static Probability ITEM_TOOL_PROBABILITY;
+static Probability ITEM_LIGHT_SOURCE_PROBABILITY;
+
+const Probability ITEM_TYPE_PROBABILITY = {
+    .count = 3,
+    .sum = 70,
+    .items = {
+        {.chance = 40, .value = &ITEM_CONSUMABLE_PROBABILITY},
+        {.chance = 20, .value = &ITEM_LIGHT_SOURCE_PROBABILITY},
+        {.chance = 10, .value = &ITEM_TOOL_PROBABILITY},
+    }
+};
+
+static List *ALL_ITEMS;
 
 
 static void add_item(JSON_Object *json, ItemType type, ItemPrototype *prototype, Probability *map)
@@ -114,18 +127,66 @@ static void create_prototype_from(JSON_Object *json)
 
     build_value_range(&prototype->value_range, json_get_array(json, "valueRange"));
     build_type_specific(prototype, json);
+
+    ALL_ITEMS->append(ALL_ITEMS, prototype);
 }
 
 void item_registry_load(void)
 {
+    ALL_ITEMS = list_new();
+
     if (CE_LOADED != item_cache_load()) {
         json_parse_in_dir(env_json_resource_path(RESOURCE_ITEMS), create_prototype_from);
         item_cache_save();
     }
 }
 
+static Probability *probability_for(ItemType type)
+{
+    switch (type) {
+        case TOOL:
+            return &ITEM_TOOL_PROBABILITY;
+        case CONSUMABLE:
+            return &ITEM_CONSUMABLE_PROBABILITY;
+        case LIGHT_SOURCE:
+            return &ITEM_LIGHT_SOURCE_PROBABILITY;
+        default:
+            fatal("No Probability found for ItemType [%d]", type)
+    }
+}
+
+void item_registry_add(const ItemPrototype *prototype, uint16_t chance)
+{
+    Probability *probability = probability_for(prototype->item.type);
+    ALL_ITEMS->append(ALL_ITEMS, (void *) prototype);
+
+    probability_add(probability, chance, prototype);
+}
+
+const ItemPrototype *item_registry_get(const char *name)
+{
+    ItemPrototype *found = ALL_ITEMS->find(ALL_ITEMS, (Predicate) function(bool, (ItemPrototype * item) {
+        return 0 == strcmp(name, item->name);
+    }));
+
+    if (!found) {
+        fatal("No such item %s", name);
+    }
+
+    return found;
+}
+
+const ItemPrototype *item_registry_random(void)
+{
+    Probability *type = probability_pick(&ITEM_TYPE_PROBABILITY);
+
+    return probability_pick(type);
+}
+
 void item_registry_unload(void)
 {
+    ALL_ITEMS->free(ALL_ITEMS);
+
     probability_clean(&ITEM_CONSUMABLE_PROBABILITY, mem_dealloc);
     probability_clean(&ITEM_TOOL_PROBABILITY, mem_dealloc);
     probability_clean(&ITEM_LIGHT_SOURCE_PROBABILITY, mem_dealloc);

@@ -1,6 +1,6 @@
-#include "memory/memory.h"
-#include "storage/cache.h"
 #include "config.h"
+#include "item_registry.h"
+#include "memory/memory.h"
 
 
 #define cache_open_items(cache)                                  \
@@ -13,27 +13,12 @@ typedef struct {
 } CachedItem;
 
 
-static Probability *probability_for(ItemType type)
-{
-    switch (type) {
-        case TOOL:
-            return &ITEM_TOOL_PROBABILITY;
-        case CONSUMABLE:
-            return &ITEM_CONSUMABLE_PROBABILITY;
-        case LIGHT_SOURCE:
-            return &ITEM_LIGHT_SOURCE_PROBABILITY;
-        default:
-        fatal("No Probability found for ItemType [%d]", type)
-    }
-}
-
 static void load_item(CachedItem *cached)
 {
     ItemPrototype *prototype = mem_alloc(sizeof(ItemPrototype));
     *prototype = cached->prototype;
 
-    Probability *probability = probability_for(prototype->item.type);
-    probability_add(probability, cached->chance, prototype);
+    item_registry_add(prototype, cached->chance);
 }
 
 CacheError item_cache_load(void)
@@ -44,7 +29,7 @@ CacheError item_cache_load(void)
     return cache_foreach_valid(&cache, env_json_resource_path(RESOURCE_ITEMS), (Reader) load_item);
 }
 
-static void save_probability(Cache *cache, Probability *probability)
+static void save_probability(Cache *cache, const Probability *probability)
 {
     CachedItem entry;
     memset(&entry, 0, sizeof(CachedItem));

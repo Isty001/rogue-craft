@@ -47,16 +47,4 @@ extern int16_t MATERIAL_STRENGTH[MATERIAL_NUM];
 extern Probability LEVEL_PROBABILITY;
 
 
-/**
- * ITEMS
- */
-extern Probability ITEM_TYPE_PROBABILITY;
-
-extern Probability ITEM_CONSUMABLE_PROBABILITY;
-
-extern Probability ITEM_TOOL_PROBABILITY;
-
-extern Probability ITEM_LIGHT_SOURCE_PROBABILITY;
-
-
 #endif

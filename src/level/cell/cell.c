@@ -1,6 +1,6 @@
 #include <mem_pool.h>
 #include <memory.h>
-#include "item/item.h"
+#include "item/item_registry.h"
 
 
 static MemPool *CELL_POOL;
@@ -15,7 +15,7 @@ static Cell *cell_allocate(void)
 
 Cell *cell_with_random_item(void)
 {
-    return cell_from_item(item_random());
+    return cell_from_item(item_clone(item_registry_random()));
 }
 
 Cell *cell_from_item(Item *item)

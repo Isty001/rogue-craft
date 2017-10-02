@@ -77,19 +77,9 @@ typedef struct ItemPrototype {
 } ItemPrototype;
 
 
-void item_registry_load(void);
-
-CacheError item_cache_load(void);
-
-void item_cache_save(void);
-
-void item_registry_unload(void);
-
 void item_pool_init(void);
 
 Item *item_clone(const ItemPrototype *prototype);
-
-Item *item_random(void);
 
 ItemError item_consume(Item *item, Player *player);
 

@@ -18,12 +18,9 @@
     )
 
 
-typedef void *Randomizable;
-
-
 typedef struct {
     uint16_t chance;
-    Randomizable value;
+    const void *value;
 } ProbabilityItem;
 
 typedef struct {
@@ -33,9 +30,9 @@ typedef struct {
 } Probability;
 
 
-Randomizable probability_pick(Probability *probability);
+void *probability_pick(const Probability *probability);
 
-void probability_add(Probability *probability, uint16_t chance, Randomizable item);
+void probability_add(Probability *probability, uint16_t chance, const void *item);
 
 void probability_clean(Probability *probability, Release clear);
 

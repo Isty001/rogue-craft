@@ -45,14 +45,6 @@ Item *item_clone(const ItemPrototype *prototype)
     return item;
 }
 
-Item *item_random(void)
-{
-    Probability *type = probability_pick(&ITEM_TYPE_PROBABILITY);
-    ItemPrototype *prototype = probability_pick(type);
-
-    return item_clone(prototype);
-}
-
 /**
 * @see player.h
  */

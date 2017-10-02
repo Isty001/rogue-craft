@@ -2,6 +2,7 @@
 #include <locale.h>
 #include <time.h>
 #include <parson.h>
+#include "item/item_registry.h"
 #include "util/logger.h"
 #include "util/timer.h"
 #include "sfx/sfx.h"
