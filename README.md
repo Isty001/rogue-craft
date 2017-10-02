@@ -16,6 +16,12 @@ You can also follow the development [here](https://rogue-craft.github.io).
 [![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/banner.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
 
 ---
+### Latest updates:
+* Basic menu
+* Collectable materials
+* Tools will wear out
+* Items can be dropped, or put on a shortcut
+---
 
 <a name="install"></a>
 ### Install
