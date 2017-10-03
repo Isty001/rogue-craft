@@ -1,10 +1,5 @@
 #### TODO:
 * [INVENTOY]
-    * Shortcuts
-        * From the full view set the shortcuts, but if it's not the Player's
-        Inventory, the Item need to be added, if the shortcut already had an Item,
-        it has to be replaced with the other.
-    * Remove items
     * More inventory types (chest, bag etc.) (inventory_player_display, inventory_display)
 * [LEVEL] Lighting/Light source:
     * Portable type
@@ -15,7 +10,8 @@
     * Probability.items should be dynamic
 * [UI]
     * Multiple panels
-    * Menu system
+    * Better menu system
+    * Self update
 * [PLAYER]
     * XP, skills, learning/level system
     * Quests

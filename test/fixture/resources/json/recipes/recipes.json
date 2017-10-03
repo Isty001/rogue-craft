@@ -1,0 +1,10 @@
+[
+    {
+        "default":true,
+        "result":"Large Torch",
+        "ingredients": [
+            {"type":"MATERIAL", "material":"WOOD", "count": 5},
+            {"type":"ITEM", "item":"Torch", "count": 2}
+        ]
+    }
+]
