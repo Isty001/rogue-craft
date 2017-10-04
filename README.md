@@ -16,6 +16,12 @@ You can also follow the development [here](https://rogue-craft.github.io).
 [![screenshot](https://raw.githubusercontent.com/rogue-craft/doc-resources/master/README/banner.png)](https://www.youtube.com/watch?v=rqqhYEehAro)
 
 ---
+### Latest updates:
+* Basic menu
+* Collectable materials
+* Tools will wear out
+* Items can be dropped, or put on a shortcut
+---
 
 <a name="install"></a>
 ### Install
@@ -32,7 +38,7 @@ Choose a release from [here](https://github.com/rogue-craft/rogue-craft/releases
 ```
 tar -xf rogue-craft-*.tar.gz
 cd rogue-craft
-sh ./install.sh
+sudo ./install.sh
 ```
 
 #### From source
