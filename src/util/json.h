@@ -45,6 +45,9 @@ typedef void (*JsonParser)(JSON_Object *object);
 #define json_get_bool(json, name) \
      json_get(json, name, boolean, JSONBoolean)
 
+#define json_get_optional_bool(json, name) \
+     json_get_optional(json, name, boolean, bool, JSONBoolean, false)
+
 #define json_get_number(json, name) \
     json_get(json, name, number, JSONNumber)
 
