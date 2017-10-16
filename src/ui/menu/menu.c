@@ -18,22 +18,38 @@ static void create_items(va_list choices, uint16_t count, Menu *menu)
 
 Menu *menu_new(WINDOW *window, uint16_t count, ...)
 {
-    Menu *menu = mem_alloc(sizeof(Menu));
-    menu->items = mem_alloc(count * sizeof(ITEM *) + 1);
-    menu->window = window;
-    menu->count = count;
-
+    Menu *menu = menu_new_empty(window, count);
     va_list choices;
     va_start(choices, count);
     create_items(choices, count, menu);
 
     menu->base = new_menu(menu->items);
-
-    set_menu_win(menu->base, window);
-    set_menu_sub(menu->base, window);
-    set_menu_mark(menu->base, "=> ");
+    menu_setup(menu);
 
     return menu;
+}
+
+Menu *menu_new_empty(WINDOW *window, uint16_t count)
+{
+    Menu *menu = mem_alloc(sizeof(Menu));
+    menu->items = mem_alloc(count * sizeof(ITEM *) + 1);
+    menu->window = window;
+    menu->count = count;
+
+    return menu; 
+}
+
+void menu_set_item(Menu *menu, uint16_t offset, char *name, void *data)
+{
+    menu->items[offset] = new_item(name, NULL);
+    set_item_userptr(menu->items[offset], data);
+}
+
+void menu_setup(Menu *menu)
+{
+    set_menu_win(menu->base, menu->window);
+    set_menu_sub(menu->base, menu->window);
+    set_menu_mark(menu->base, "=> ");
 }
 
 void menu_set_item_data(Menu *menu, ...)

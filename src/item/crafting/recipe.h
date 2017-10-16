@@ -4,7 +4,11 @@
 
 #include <stdint.h>
 #include <list.h>
-#include "item/item.h"
+#include "level/material.h"
+#include "util/object.h"
+
+
+typedef struct ItemPrototype ItemPrototype;
 
 
 typedef enum {
@@ -22,20 +26,12 @@ typedef struct {
 } Ingredient;
 
 typedef struct {
-    uint16_t ingredient_count;
-    Ingredient *ingredients;
     uint16_t result_count;
     const ItemPrototype *result;
+    bool is_default;
+    uint16_t ingredient_count;
+    Ingredient ingredients[];
 } Recipe;
-
-
-void receipe_registry_load(void);
-
-const List *receipe_registry_defaults(void);
-
-const Recipe *receipe_registry_random(void);
-
-void receipe_registry_unload(void);
 
 
 #endif

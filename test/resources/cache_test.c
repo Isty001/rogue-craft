@@ -6,16 +6,15 @@
 
 MU_TEST(test_exists)
 {
-    mu_assert(!cache_is_empty("test"), "Should not exist");
+    mu_assert(cache_is_empty("test"), "Should not exist");
 
     Cache cache;
     cache_open(&cache, "test", sizeof(Point));
 
-    mu_assert(!cache_is_empty("test"), "Should not exist");
     cache_add(&cache, &point_new(1, 1));
     cache_close(&cache);
 
-    mu_assert(cache_is_empty("test"), "Should exist");
+    mu_assert(!cache_is_empty("test"), "Should exist");
     mu_assert(NULL == cache.file, "");
 }
 

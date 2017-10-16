@@ -11,13 +11,18 @@ typedef struct Player Player;
 
 
 typedef enum {
-    PANEL_INVENTORY
+    PANEL_INVENTORY,
+    PANEL_CRAFTING
 } PanelType;
 
 typedef struct {
     PanelType type;
     union {
         Inventory *inventory;
+        struct {
+            WINDOW *list;
+            WINDOW *info;
+        } craft;
     };
 } PanelInfo;
 

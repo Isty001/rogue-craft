@@ -11,12 +11,16 @@ typedef struct {
     WINDOW *window;
     uint16_t count;
     ITEM **items;
-    uint16_t rows;
-    uint16_t cols;
 } Menu;
 
 
 Menu *menu_new(WINDOW *window, uint16_t count, ...);
+
+Menu *menu_new_empty(WINDOW *window, uint16_t count);
+
+void menu_set_item(Menu *menu, uint16_t offset, char *name, void *data);
+
+void menu_setup(Menu *menu);
 
 void menu_process_defaults(Menu *menu, int input);
 

@@ -89,8 +89,12 @@ bool file_exists(char *file)
 bool file_is_empty(char *path)
 {
     struct stat stats;
+    
+    if (0 != stat(path, &stats)) {
+        return true;
+    }
 
-    return 0 == stat(path, &stats) && 0 != stats.st_size;
+    return 1 >= stats.st_size;
 }
 
 size_t file_size(FILE *file)

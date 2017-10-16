@@ -10,12 +10,6 @@
 #include "util/util.h"
 
 
-typedef enum {
-    CE_LOADED,
-    CE_NOT_FOUND
-} CacheError;
-
-
 typedef void (*DirForeach)(tinydir_file *file);
 
 

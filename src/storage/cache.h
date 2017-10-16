@@ -9,9 +9,9 @@
 
 
 
-#define CACHE_CONFIG_ITEMS "items"
-#define CACHE_CONFIG_CELLS "cells"
-#define CACHE_CONFIG_LEVELS "levels"
+#define RESOURCE_ITEMS "items"
+#define RESOURCE_CELLS "cells"
+#define RESOURCE_LEVELS "levels"
 #define CACHE_COLORS "colors"
 
 
@@ -24,6 +24,11 @@ typedef struct {
     FILE *file;
     size_t entry_size;
 } Cache;
+
+typedef enum {
+    CE_LOADED,
+    CE_NOT_FOUND
+} CacheError;
 
 
 bool cache_exists(char *name);

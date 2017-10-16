@@ -6,7 +6,7 @@
 #include <list.h>
 
 
-#define PROBABILITY_MAX_ITEM_NUM 30
+#define PROBABILITY_MAX_ITEM_NUM 50
 
 
 #define probability_add_to_cache(cache, probability, entry, memb, size, ...)     \

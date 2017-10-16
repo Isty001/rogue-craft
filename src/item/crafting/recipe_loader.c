@@ -1,48 +1,39 @@
 #include "item/item_registry.h"
+#include "item/item.h"
 #include "memory/memory.h"
+#include "recipe_registry.h"
 #include "util/json.h"
 #include "util/randomization.h"
 #include "util/environment.h"
-#include "recipe.h"
+#include "util/object.h"
 
 
+static Probability PROBABILITY;
 
-static List *DEFAULTS;
-static Probability ALL;
-
-
-/*
- * Unnecessary to duplicate the item names in memory & check if the item exists
- */
-static const char *refer_actual_item_name(const char *name)
-{
-    return item_registry_get(name)->name;
-}
 
 static void parse_ingredient(JSON_Object *ingredient_json, Ingredient *ingredients, uint16_t curr)
 {
     Ingredient *new = &ingredients[curr];
-    
+
     if (json_object_has_value_of_type(ingredient_json, "material", JSONString)) {
         new->type = INGREDIENT_MATERIAL;
         new->material = constant_prefixed("MATERIAL", json_object_get_string(ingredient_json, "material"));
     } else if (json_object_has_value_of_type(ingredient_json, "item", JSONString)) {
         new->type = INGREDIENT_ITEM;
-        new->item_name = refer_actual_item_name(json_object_get_string(ingredient_json, "item"));
+        new->item_name = item_registry_get(json_object_get_string(ingredient_json, "item"))->name;
     } else {
         fatal("An ingredient must have a material or item member");
     }
     new->count = json_get_number(ingredient_json, "count");
 }
 
-static void parse_ingredients(JSON_Array *ingredients_json, Recipe *recipe)
+static void parse_ingredients(JSON_Array *ingredients_json, size_t ingredient_count, Recipe *recipe)
 {
-    recipe->ingredient_count = json_array_get_count(ingredients_json);
+    recipe->ingredient_count = ingredient_count;
 
     if (0 == recipe->ingredient_count) {
         fatal("A recipe must have at lease one ingredient");
     }
-    recipe->ingredients = mem_alloc(recipe->ingredient_count * sizeof(Ingredient));
 
     repeat(recipe->ingredient_count,
         parse_ingredient(json_array_get_object(ingredients_json, i), recipe->ingredients, i);
@@ -51,45 +42,44 @@ static void parse_ingredients(JSON_Array *ingredients_json, Recipe *recipe)
 
 static void parse(JSON_Object *json)
 {
-    Recipe *recipe = mem_alloc(sizeof(Recipe));
+    JSON_Array *ingredients_json = json_get_array(json, "ingredients");
+    size_t ingredient_count = json_array_get_count(ingredients_json);
+
+    Recipe *recipe = mem_alloc(sizeof(Recipe) + (ingredient_count * sizeof(Ingredient)));
     recipe->result = item_registry_get(json_get_string(json, "result"));
     recipe->result_count = json_get_number(json, "resultCount");
+    recipe->is_default = json_get_optional_bool(json, "default");
 
-    parse_ingredients(json_get_array(json, "ingredients"), recipe);
+    parse_ingredients(ingredients_json, ingredient_count, recipe);
 
-    if (json_get_optional_bool(json, "default")) {
-        DEFAULTS->append(DEFAULTS, recipe);
+    probability_add(&PROBABILITY, json_get_number(json, "probability"), recipe);
+}
+
+void recipe_registry_load(void)
+{
+    if (CE_LOADED != recipe_cache_load()) {
+        json_parse_in_dir(env_json_resource_path(RESOURCE_RECIPES), parse);
+        recipe_cache_save(&PROBABILITY);
     }
-    probability_add(&ALL, json_get_number(json, "probability"), recipe);
 }
 
-void receipe_registry_load(void)
+void recipe_registry_add(const Recipe *recipe, uint16_t chance)
 {
-    DEFAULTS = list_new();
-
-    json_parse_in_dir(env_json_resource_path("recipes"), parse);
+    probability_add(&PROBABILITY, chance, recipe);
 }
 
-const List *receipe_registry_defaults(void)
+const Probability *recipe_registry_all(void)
 {
-    return DEFAULTS;
+    return &PROBABILITY;
 }
 
-const Recipe *receipe_registry_random(void)
+const Recipe *recipe_registry_random(void)
 {
-    return probability_pick(&ALL);
+    return probability_pick(&PROBABILITY);
 }
 
-static void recipe_free(Recipe *recipe)
+void recipe_registry_unload(void)
 {
-    mem_dealloc(recipe->ingredients);
-    mem_dealloc(recipe);
-}
-
-void receipe_registry_unload(void)
-{
-    DEFAULTS->free(DEFAULTS);
-
-    probability_clean(&ALL, (Release) recipe_free);
+    probability_clean(&PROBABILITY, (Release) mem_dealloc);
 }
 

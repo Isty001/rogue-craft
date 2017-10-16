@@ -1,6 +1,8 @@
 #include <mem_pool.h>
 #include <memory.h>
 #include "item/item_registry.h"
+#include "item/item.h"
+#include "level/cell/cell.h"
 
 
 static MemPool *CELL_POOL;

@@ -6,7 +6,7 @@ DIR_APP = rogue-craft
 DIR_INSTALLED_RESOURCES=/usr/local/share/$(DIR_APP)
 DIR_INSTALLED_ENV=/etc/$(DIR_APP)
 DIR_INSTALLED_CACHE=/var/cache/$(DIR_APP)
-DIR_INSTALLED_BIN=/usr/local/bin
+DIR_INSTALLED_BIN=/usr/local/games
 INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 
 CC = gcc

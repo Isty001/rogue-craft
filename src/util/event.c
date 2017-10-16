@@ -1,6 +1,7 @@
 #include "ui/panel.h"
 #include "inventory/inventory_player.h"
 #include "inventory/inventory.h"
+#include "item/crafting/crafting.h"
 #include "keymap.h"
 
 
@@ -43,6 +44,7 @@ static InputListener INPUT_LISTENERS[MAX_INPUT_LISTENER] = {
     {(Listener) inventory_player_shortcut_select, {KEY_INVENTORY_SHORTCUTS}},
     {(Listener) inventory_player_display,         {KEY_PLAYER_INVENTORY}},
     {(Listener) inventory_player_drop_shortcut,   {KEY_DROP_ITEM}},
+    {(Listener) craft_display,                    {KEY_CRAFT}},
     {(Listener) ncurses_resize,                   {KEY_RESIZE}}
 };
 

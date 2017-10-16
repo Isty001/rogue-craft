@@ -1,4 +1,5 @@
 .idea/
+*vim*
 cache/
 build/
 !lib/minunit.h

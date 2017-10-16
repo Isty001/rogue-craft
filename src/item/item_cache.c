@@ -4,7 +4,7 @@
 
 
 #define cache_open_items(cache)                                  \
-    cache_open(cache, CACHE_CONFIG_ITEMS, sizeof(CachedItem));    \
+    cache_open(cache, RESOURCE_ITEMS, sizeof(CachedItem));    \
 
 
 typedef struct {
@@ -37,13 +37,13 @@ static void save_probability(Cache *cache, const Probability *probability)
     probability_add_to_cache(cache, probability, entry, prototype, sizeof(ItemPrototype));
 }
 
-void item_cache_save(void)
+void item_cache_save(const Probability *item_types)
 {
     Cache cache;
     cache_open_items(&cache);
 
-    for (int i = 0; i < ITEM_TYPE_PROBABILITY.count; i++) {
-        save_probability(&cache, ITEM_TYPE_PROBABILITY.items[i].value);
+    for (int i = 0; i < item_types->count; i++) {
+        save_probability(&cache, item_types->items[i].value);
     }
 
     cache_close(&cache);

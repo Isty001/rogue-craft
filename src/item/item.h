@@ -73,6 +73,7 @@ typedef struct Item {
 typedef struct ItemPrototype {
     char name[ITEM_NAME_MAX];
     Range value_range;
+    uint16_t id;
     Item item;
 } ItemPrototype;
 

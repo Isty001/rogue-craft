@@ -23,13 +23,13 @@ static void assert_cells()
 
 MU_TEST(test_load)
 {
-    mu_assert(!cache_is_empty(CACHE_CONFIG_CELLS), "");
+    mu_assert(cache_is_empty(RESOURCE_CELLS), "");
 
     cell_registry_load();
     assert_cells();
     cell_registry_unload();
 
-    mu_assert(cache_is_empty(CACHE_CONFIG_CELLS), "");
+    mu_assert(!cache_is_empty(RESOURCE_CELLS), "");
 
     char *from = DIR_FIXTURE"/resources/cells/cell.json";
     char *to = DIR_FIXTURE"/resources/tmp/cell.json";

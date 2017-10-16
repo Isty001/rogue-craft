@@ -63,10 +63,10 @@ static void assert_loaded_items(void)
 
 MU_TEST(test_load)
 {
-    mu_assert(!cache_exists(CACHE_CONFIG_ITEMS), "Items cache should not exist");
+    mu_assert(!cache_exists(RESOURCE_ITEMS), "Items cache should not exist");
 
     item_registry_load();
-    mu_assert(cache_exists(CACHE_CONFIG_ITEMS), "Items cache should exist");
+    mu_assert(cache_exists(RESOURCE_ITEMS), "Items cache should exist");
 
     assert_loaded_items();
 
@@ -86,7 +86,7 @@ MU_TEST(test_cache)
     rename(from_1, to_1);
     rename(from_2, to_2);
 
-    mu_assert(cache_exists(CACHE_CONFIG_ITEMS), "Items cache should exist");
+    mu_assert(cache_exists(RESOURCE_ITEMS), "Items cache should exist");
     item_registry_load();
 
     assert_loaded_items();
