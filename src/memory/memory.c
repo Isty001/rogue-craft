@@ -34,7 +34,7 @@ void *mem_calloc(int nmemb, int size)
     return ptr;
 }
 
-void *mem_realloc(void *old, unsigned size)
+void *mem_realloc(void *old, int size)
 {
     safe_alloc(
         void *ptr = realloc(old, size);

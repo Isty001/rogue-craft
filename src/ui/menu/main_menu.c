@@ -57,6 +57,7 @@ MainMenuAction menu_main_display(GameState *state)
                   mvwaddwstr(WINDOW_MAIN, y++, x, LOGO[i]);
            )
     )
+    menu_main_add_notifications(WINDOW_MAIN);
     wrefresh(WINDOW_MAIN);
 
     WINDOW *win = ncurses_newwin_adjust(size_new(10, 20), WINDOW_MAIN);

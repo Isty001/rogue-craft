@@ -42,6 +42,9 @@ To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-d
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
+```
+If you have problems with uninitialized submodules, you might need to execeute `git submodule update --init --recursive`
+```
 cd rogue-craft
 make
 sudo make install
