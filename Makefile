@@ -101,7 +101,7 @@ install: install-environments
 	chmod 777 $(INSTALLED_LOG_FILE)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
-uninstall:
+uninstall: uninstall-notifier
 	rm -rf $(DIR_INSTALLED_CACHE)
 	rm -rf $(DIR_INSTALLED_RESOURCES)
 	rm -rf $(DIR_INSTALLED_ENV)
