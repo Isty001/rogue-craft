@@ -1,11 +1,9 @@
 #include <ncurses.h>
+#include "inventory/inventory.h"
+#include "keymap.h"
+#include "loop.h"
 #include "gamestate/gamestate.h"
 #include "ui/menu/main_menu.h"
-#include "keymap.h"
-#include "inventory/inventory.h"
-
-
-#define MAX_TIMEOUT 50
 
 
 typedef enum {
@@ -37,7 +35,7 @@ static void loop_timeout(struct timespec *start, struct timespec *end)
     clock_gettime(CLOCK_MONOTONIC, end);
     timer_tick(*end);
 
-    napms(max(0, MAX_TIMEOUT - time_diff_ms((*end), (*start))));
+    napms(max(0, LOOP_MAX_TIMEOUT - time_diff_ms((*end), (*start))));
 }
 
 static LoopAction display_main_menu(GameState *state)

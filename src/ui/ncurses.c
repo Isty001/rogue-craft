@@ -20,7 +20,7 @@ WINDOW **WINDOW_LIST[NCURSES_WINDOW_NUM] = {
 static List *EVENTS;
 
 
-static WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x)
+WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x)
 {
     WINDOW *sub_window = derwin(win, height, width, y, x);
     scrollok(sub_window, true);

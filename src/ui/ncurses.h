@@ -47,6 +47,8 @@ void ncurses_init(void);
 
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to);
 
+WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x);
+
 void ncurses_display_menu_windows(void);
 
 void ncurses_display_game_windows(void);

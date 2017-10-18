@@ -4,6 +4,7 @@
 #include <parson.h>
 #include "util/logger.h"
 #include "util/timer.h"
+#include "ui/menu/main_menu.h"
 #include "sfx/sfx.h"
 #include "memory/memory.h"
 #include "player/camera.h"
@@ -39,6 +40,7 @@ static void cleanup(void)
 {
     timer_cleanup();
     sfx_cleanup();
+    menu_main_cleanup();
     ncurses_cleanup();
     panel_cleanup();
     item_pool_cleanup();
