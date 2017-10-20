@@ -9,7 +9,7 @@
 
 Rogue Craft is a roguelike (kinda sandbox/RPG/survival) game, based on ncurses, in an early development stage.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
-You can also follow the development [here](https://rogue-craft.github.io).
+You can also follow the development [here](https://rogue-craft.org/).
 
 **Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) to watch a video of it.**
 
