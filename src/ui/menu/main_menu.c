@@ -14,6 +14,7 @@
 
 
 #define RELEASE_WIDTH 80
+#define TIME_LINE_OFFSET RELEASE_WIDTH + 2
 
 
 // source: http://patorjk.com/software/taag/#p=display&f=Bloody&t=Rogue%20Craft
@@ -30,7 +31,8 @@ static wchar_t *LOGO[10] = {
     L"                                             ░                                            "
 };
 
-static WINDOW *NOTIFIER_WINDOW = NULL;
+static WINDOW *RELEASE_WINDOW = NULL;
+static WINDOW *TIMELINE_WINDOW = NULL;
 static const Notifications *NOTIFICATIONS;
 
 static void (*notifications_init)(void *(*allocator)(int), void*(reallocator)(void *, int), void (*deallocator)(void *), const char *cache_dir) = NULL;
@@ -40,9 +42,9 @@ static void (*notifications_cleanup)(void) = NULL;
 
 static void clear_notifications()
 {
-    if (NOTIFIER_WINDOW) {
-        wclear(NOTIFIER_WINDOW);
-        wrefresh(NOTIFIER_WINDOW);
+    if (RELEASE_WINDOW) {
+        wclear(RELEASE_WINDOW);
+        wrefresh(RELEASE_WINDOW);
     }
 }
 
@@ -72,7 +74,7 @@ static void load_notifications(void)
         if ((handle = dlopen(path, RTLD_NOW))) {
             init_notifier(handle);
         } else {
-            log_alert("Unable to load notifier lib at [%s] : [%s]", path, dlerror());
+            log_info("Unable to load notifier lib at [%s] : [%s]", path, dlerror());
         }
     }
 
@@ -122,32 +124,38 @@ static void display_release(WINDOW *win)
 static void display_timeline(WINDOW *win)
 {
     Content timeline = NOTIFICATIONS->timeline;
-    uint16_t max_width = getmaxx(win);
 
-    if (timeline.count && max_width > RELEASE_WIDTH + 2) {
-        underline(win, mvwprintw(win, 2, RELEASE_WIDTH + 2, "News:");)
+    if (timeline.count && getmaxx(win) > TIME_LINE_OFFSET) {
+        underline(win, mvwprintw(win, 2, 0, "News:");)
 
         uint16_t j = 3;
+
         repeat(timeline.count, 
-            mvwprintw(win, j++ + i, RELEASE_WIDTH + 2, timeline.messages[i].text);
-        )
+                mvwprintw(win, j++ + i, 0, timeline.messages[i].text);
+        );
     }
 }
 
 static void display_notifications(WINDOW *parent)
 {
-    if (!NOTIFIER_WINDOW && NULL != NOTIFICATIONS) {
+    if (!RELEASE_WINDOW && NULL != NOTIFICATIONS) {
         uint16_t height = getmaxy(parent) / 4;
-        float width = getmaxx(parent);
+        uint16_t y = getmaxy(parent) - height;
+        uint16_t full_width = getmaxx(parent);
+        uint16_t release_width = full_width / 3;
+        uint16_t timeline_width = full_width - release_width - 2;
 
-        NOTIFIER_WINDOW = ncurses_subwin(parent, height, width, getmaxy(parent) - height, 0);
+        RELEASE_WINDOW = ncurses_subwin(parent, height, release_width, y, 0);
+        TIMELINE_WINDOW = ncurses_subwin(parent, height, timeline_width, y, release_width + 2);
     }
 
-    if (NOTIFIER_WINDOW) {
-        display_release(NOTIFIER_WINDOW);
-        display_timeline(NOTIFIER_WINDOW);
-
-        wrefresh(NOTIFIER_WINDOW);
+    if (RELEASE_WINDOW) {
+        display_release(RELEASE_WINDOW);
+        wrefresh(RELEASE_WINDOW);
+    }
+    if (TIMELINE_WINDOW) {
+        display_timeline(TIMELINE_WINDOW);
+        wrefresh(TIMELINE_WINDOW);
     }
 }
 
@@ -160,9 +168,9 @@ MainMenuAction menu_main_display(GameState *state)
     uint16_t y = 5;
 
     styled(WINDOW_MAIN, COLOR_PAIR(COLOR_RED_F),
-           repeat(10,
-                  mvwaddwstr(WINDOW_MAIN, y++, x, LOGO[i]);
-           )
+            repeat(10,
+                mvwaddwstr(WINDOW_MAIN, y++, x, LOGO[i]);
+            )
     )
     wrefresh(WINDOW_MAIN);
 
