@@ -14,6 +14,7 @@
 #define ENV_NCURSES_DISABLED  "NCURSES_DISABLED"
 #define ENV_VLC_DISABLED "VLC_DISABLED"
 #define ENV_DEBUG_MODE "DEBUG_MODE"
+#define ENV_PATH_LIB_NOTIFIER "PATH_LIB_NOTIFIER"
 
 
 void env_setup(int argc, char **argv);

@@ -36,6 +36,11 @@
     __VA_ARGS__;                \
     wattroff(win, style);       \
 
+#define underline(win, ...)     \
+    wattron(win, A_UNDERLINE);  \
+    __VA_ARGS__;                \
+    wattroff(win, A_UNDERLINE);       \
+
 #define styled_if(win, style, cond, ...) \
     if (cond) { styled(win, style, __VA_ARGS__); } \
     else { __VA_ARGS__; }

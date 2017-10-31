@@ -5,11 +5,11 @@
 
 ## Rogue Craft
 
-<a href="https://twitter.com/roguecraftdev"><img src="http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Twitter-icon.png" width="75" height="75"></a> <a href="http://www.indiedb.com/games/rogue-craft"><img src="http://media.indiedb.com/images/global/indiedb_125x125.png" width="75" height="75"></a>
+<a href="https://twitter.com/roguecraftdev"><img src="http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Twitter-icon.png" width="75" height="75"></a> <a href="https://rogue-craft.org/"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/4618-200.png" width="75" height="75"></a> <a href="http://www.indiedb.com/games/rogue-craft"><img src="http://media.indiedb.com/images/global/indiedb_125x125.png" width="75" height="75"></a>
 
 Rogue Craft is a roguelike (kinda sandbox/RPG/survival) game, based on ncurses, in an early development stage.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
-You can also follow the development [here](https://rogue-craft.github.io).
+You can also follow the development [here](https://rogue-craft.org/).
 
 **Click [here](https://www.youtube.com/watch?v=rqqhYEehAro) to watch a video of it.**
 
@@ -48,6 +48,9 @@ To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-d
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft
+```
+If you have problems with uninitialized submodules, you might need to execeute `git submodule update --init --recursive`
+```
 cd rogue-craft
 make
 sudo make install

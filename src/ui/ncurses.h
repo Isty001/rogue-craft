@@ -15,7 +15,6 @@
 #define NCURSES_SIDE_NONE NCURSES_ACS(' ')
 #define NCURSES_EVENT_MAX 200
 
-
 #define refresh_boxed(w) wborder(w,                                                                     \
      NCURSES_SIDE_NONE, NCURSES_SIDE_NONE, NCURSES_SIDE_NONE, NCURSES_SIDE_NONE,    \
      ACS_ULCORNER, ACS_URCORNER, ACS_LLCORNER, ACS_LRCORNER);                                           \
@@ -46,6 +45,8 @@ typedef struct {
 void ncurses_init(void);
 
 WINDOW *ncurses_newwin_adjust(Size size, WINDOW *adjust_to);
+
+WINDOW *ncurses_subwin(WINDOW *win, int height, int width, int y, int x);
 
 void ncurses_display_menu_windows(void);
 

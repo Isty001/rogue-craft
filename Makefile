@@ -12,12 +12,12 @@ INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 CC = gcc
 #Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, ncursesw5-dev, Run: ncursesw
 #VLC: Compile: libvlccore-dev libvlc-dev Run: vlc
-LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc
+LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc -ldl
 DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS) -D_GNU_SOURCE
 
 #This way we can avoid nasty includes like #include "../../../config/config.h"
 NAMESPACES = -I config -I src
-INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib/dotenv/src -I lib/rimraf/src -I lib
+INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib/dotenv/src -I lib/rimraf/src -I lib/notifier/include -I lib
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -fstack-protector
 
 
@@ -35,7 +35,7 @@ VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_M
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
 
-LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples")
+LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples|notifier")
 COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c")
 SOURCES = $(COMMON_SOURCES) main.c
 TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")
@@ -47,9 +47,13 @@ HEADERS = $(shell find . -name "*.h")
 
 
 default: $(TARGET)
-all: default
 
-include lib/dev/build/build.mk
+
+NOTIFIER_ROOT = ./lib/notifier
+
+include ./lib/dev/build/build.mk
+include ./lib/notifier/Makefile 
+
 
 -include $(shell find $(DIR_BUILD) -name "*.d")
 
@@ -70,18 +74,13 @@ prepare-test:
 	rm -f test/fixture/cache/*.cache
 	rm -rf test/fixture/saved_games/*
 
-run-test:
-	make prepare-test
-	make $(TEST_TARGET)
+run-test: prepare-test $(TEST_TARGET)
 	./$(TEST_TARGET) --env=test
 
-run-test-valgrind:
-	make prepare-test
-	make $(TEST_TARGET)
+run-test-valgrind: prepare-test $(TEST_TARGET)
 	valgrind --track-origins=yes --leak-check=full --show-reachable=yes ./$(TEST_TARGET) --env=test
 
-run-debug:
-	make
+run-debug: $(TARGET)
 	./$(TARGET) --env=dev
 
 install-environments:
@@ -89,8 +88,7 @@ install-environments:
 	cp ./config/environments/.env.* $(DIR_INSTALLED_ENV)
 	chmod -R 775 $(DIR_INSTALLED_ENV)
 
-install:
-	make install-environments
+install: install-environments
 	# previous wrong location should be removed
 	rm -f /usr/bin/$(TARGET)
 	mkdir -p $(DIR_INSTALLED_CACHE)
@@ -103,7 +101,7 @@ install:
 	chmod 777 $(INSTALLED_LOG_FILE)
 	rm -rf $(DIR_INSTALLED_CACHE)/*.cache
 
-uninstall:
+uninstall: uninstall-notifier
 	rm -rf $(DIR_INSTALLED_CACHE)
 	rm -rf $(DIR_INSTALLED_RESOURCES)
 	rm -rf $(DIR_INSTALLED_ENV)

@@ -14,5 +14,7 @@ typedef enum {
 
 MainMenuAction menu_main_display(GameState *state);
 
+void menu_main_cleanup(void);
+
 
 #endif

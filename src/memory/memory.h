@@ -6,7 +6,7 @@ void *mem_alloc(int size);
 
 void *mem_calloc(int nmemb, int size);
 
-void *mem_realloc(void *old, unsigned size);
+void *mem_realloc(void *old, int size);
 
 void mem_dealloc(void *ptr);
 
