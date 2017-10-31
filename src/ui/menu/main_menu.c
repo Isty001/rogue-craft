@@ -1,7 +1,7 @@
-#include "dlfcn.h"
+#include <dlfcn.h>
+#include <menu.h>
 #include <ncurses.h>
 #include <wchar.h>
-#include <menu.h>
 #include "util/environment.h"
 #include "gamestate/gamestate.h"
 #include "loop.h"
@@ -124,14 +124,22 @@ static void display_release(WINDOW *win)
 static void display_timeline(WINDOW *win)
 {
     Content timeline = NOTIFICATIONS->timeline;
+    uint16_t max_width = getmaxx(win);
 
-    if (timeline.count && getmaxx(win) > TIME_LINE_OFFSET) {
-        underline(win, mvwprintw(win, 2, 0, "News:");)
+    if (timeline.count && max_width > TIME_LINE_OFFSET) {
+        underline(win, mvwprintw(win, 2, 0, "Twitter:");)
 
         uint16_t j = 3;
+        const char *msg;
+        size_t len;
 
-        repeat(timeline.count, 
-                mvwprintw(win, j++ + i, 0, timeline.messages[i].text);
+        repeat(timeline.count,
+                msg = timeline.messages[i].text;
+                len = strlen(msg);
+
+                mvwprintw(win, j + i, 0, "%s", msg);
+
+                j += len >= max_width ? 2 : 1;
         );
     }
 }
@@ -167,7 +175,7 @@ MainMenuAction menu_main_display(GameState *state)
     uint16_t x = (getmaxx(WINDOW_MAIN) - wcslen(LOGO[0])) / 2;
     uint16_t y = 5;
 
-    styled(WINDOW_MAIN, COLOR_PAIR(COLOR_RED_F),
+    styled(WINDOW_MAIN, COLOR_PAIR(COLOR_PURPLE_F),
             repeat(10,
                 mvwaddwstr(WINDOW_MAIN, y++, x, LOGO[i]);
             )
@@ -182,7 +190,7 @@ MainMenuAction menu_main_display(GameState *state)
 
     while ((input = wgetch(menu->window))) {
         switch (input) {
-            case '\n'://
+            case '\n':
             case KEY_ENTER:
                 return get_action(menu);
             default:

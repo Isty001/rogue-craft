@@ -63,6 +63,7 @@ void color_init(void)
     init_pair(COLOR_DARK_BROWN_F, 58, -1);
     init_pair(COLOR_ORANGE_F, 202, -1);
     init_pair(COLOR_WHITE_F, -1, 15);
+    init_pair(COLOR_PURPLE_F, 91, -1);
 }
 
 uint16_t color_last(void)
