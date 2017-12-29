@@ -124,6 +124,11 @@ static void display_current_recipe(CTabList *tabs)
 {
     CTab *tab = cursed_tablist_current(tabs);
     CraftTabInfo *info  = tab->userptr;
+
+    if (!info->menu) {
+        return;
+    }
+
     Recipe *recipe = item_userptr(current_item(cursed_menu_parent(info->menu)));
     WINDOW *recipe_win = info->recipe_win;
 
