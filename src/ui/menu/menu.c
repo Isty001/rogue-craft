@@ -36,7 +36,7 @@ Menu *menu_new_empty(WINDOW *window, uint16_t count)
     menu->window = window;
     menu->count = count;
 
-    return menu; 
+    return menu;
 }
 
 void menu_set_item(Menu *menu, uint16_t offset, char *name, void *data)

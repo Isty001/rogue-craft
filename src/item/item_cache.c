@@ -17,6 +17,7 @@ static void load_item(CachedItem *cached)
 {
     ItemPrototype *prototype = mem_alloc(sizeof(ItemPrototype));
     *prototype = cached->prototype;
+    prototype->item.name = prototype->name;
 
     item_registry_add(prototype, cached->chance);
 }

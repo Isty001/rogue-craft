@@ -1,8 +1,11 @@
+#include <cursed_tools/cursed_tools.h>
 #include <ncurses.h>
 #include <locale.h>
 #include <time.h>
 #include <parson.h>
 #include "item/item_registry.h"
+#include "item/crafting/recipe_registry.h"
+#include "keymap.h"
 #include "util/logger.h"
 #include "util/timer.h"
 #include "ui/menu/main_menu.h"
@@ -18,6 +21,10 @@ static void init(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
+    cursed_memory_set_allocator(mem_alloc, mem_dealloc);
+
+    cursed_menu_set_default_vertical_keys(cursed_input(KEY_NORTH), cursed_input(KEY_SOUTH));
+    cursed_menu_set_default_horizontal_keys(cursed_input(KEY_WEST), cursed_input(KEY_EAST));
 
     log_init();
     profiler_init();
@@ -33,6 +40,7 @@ static void init(void)
 
     color_init();
     item_registry_load();
+    recipe_registry_load();
     cell_registry_load();
     level_load();
 }
@@ -48,6 +56,7 @@ static void cleanup(void)
     cell_pool_cleanup();
 
     item_registry_unload();
+    recipe_registry_unload();
     cell_registry_unload();
     level_unload();
     color_cleanup();
@@ -56,7 +65,6 @@ static void cleanup(void)
     profiler_cleanup();
     log_cleanup();
 }
-
 
 static void check_terminal(void)
 {

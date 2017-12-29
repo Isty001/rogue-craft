@@ -5,8 +5,7 @@
 #include "util/color.h"
 
 
-#define MATERIAL_NUM 7
-#define MATERIAL_LIQUID_NUM 1
+#define MATERIAL_NUM 6
 
 
 typedef enum {
@@ -19,42 +18,9 @@ typedef enum {
 } Material;
 
 
-static inline const char *material_to_str(Material material)
-{
-    switch (material) {
-        case MATERIAL_STONE:
-            return "stone";
-        case MATERIAL_WOOD:
-            return "wood";
-        case MATERIAL_DIRT:
-            return "dirt";
-        case MATERIAL_SNOW:
-            return "snow";
-        case MATERIAL_SAND:
-            return "sand";
-        case MATERIAL_WATER:
-            return "water";
-    }
-    return NULL;
-}
+extern const char *const MATERIAL_NAMES[];
 
-static inline Style material_style(Material material)
-{
-    switch (material) {
-        case MATERIAL_STONE:
-            return COLOR_PAIR(COLOR_GRAY_F);
-        case MATERIAL_WOOD:
-            return COLOR_PAIR(COLOR_BROWN_F);
-        case MATERIAL_DIRT:
-            return COLOR_PAIR(COLOR_DARK_BROWN_F);
-        case MATERIAL_SNOW:
-            return COLOR_PAIR(COLOR_WHITE_F);
-        case MATERIAL_SAND:
-            return COLOR_PAIR(COLOR_YELLOW_F);
-        case MATERIAL_WATER:
-            return COLOR_PAIR(COLOR_BLUE_F);
-    }
-    return 0;
-}
+extern const Style MATERIAL_STYLES[];
+
 
 #endif

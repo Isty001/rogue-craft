@@ -15,8 +15,6 @@ CacheError recipe_cache_load(void)
 
 void recipe_cache_save(Probability *recipes)
 {
-    Cache cache;
-    cache_open_recipes(&cache);
-
-    cache_close(&cache);
+    //TODO recipe cache
+    (void)recipes;
 }

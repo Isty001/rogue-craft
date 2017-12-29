@@ -12,14 +12,14 @@ INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 CC = gcc
 #Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, ncursesw5-dev, Run: ncursesw
 #VLC: Compile: libvlccore-dev libvlc-dev Run: vlc
-LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc -ldl
+LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc -ldl -l:libcursed_tools.so.0.0
 DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS) -D_GNU_SOURCE
 
 #This way we can avoid nasty includes like #include "../../../config/config.h"
 NAMESPACES = -I config -I src
 INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib/dotenv/src -I lib/rimraf/src -I lib/notifier/include -I lib
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -fstack-protector
-
+CFLAGS += -O2 -Os
 
 TARGET = rogue-craft
 TEST_TARGET = $(TARGET)-test
@@ -35,7 +35,7 @@ VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_M
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
 
-LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples|notifier")
+LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples|notifier|cursed_tools")
 COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c")
 SOURCES = $(COMMON_SOURCES) main.c
 TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")
@@ -52,7 +52,7 @@ default: $(TARGET)
 NOTIFIER_ROOT = ./lib/notifier
 
 include ./lib/dev/build/build.mk
-include ./lib/notifier/Makefile 
+include ./lib/notifier/Makefile
 
 
 -include $(shell find $(DIR_BUILD) -name "*.d")
@@ -62,9 +62,14 @@ $(DIR_BUILD)/%.o: %.c
 	mkdir -p $(shell dirname $@)
 	$(CC) -MMD $(CFLAGS) $(INCLUDES) $(DEFINITIONS) -c $< -o $@
 
+
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
-$(TARGET): $(OBJECTS)
+
+install-dependencies:
+	cd ./lib/cursed_tools && make install
+
+$(TARGET): $(OBJECTS) install-dependencies
 	$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
 
 $(TEST_TARGET): $(TEST_OBJECTS)
@@ -87,6 +92,7 @@ install-environments:
 	mkdir -p $(DIR_INSTALLED_ENV)
 	cp ./config/environments/.env.* $(DIR_INSTALLED_ENV)
 	chmod -R 775 $(DIR_INSTALLED_ENV)
+
 
 install: install-environments
 	# previous wrong location should be removed

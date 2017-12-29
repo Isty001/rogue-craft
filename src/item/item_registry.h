@@ -21,8 +21,6 @@ const ItemPrototype *item_registry_random(void);
 
 const ItemPrototype *item_registry_get(const char *name);
 
-const ItemPrototype *item_registry_get_id(const uint16_t id);
-
 void item_registry_unload(void);
 
 

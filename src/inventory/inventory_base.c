@@ -80,8 +80,8 @@ ItemError inventory_add(Inventory *inventory, Item *item)
 static Item *crate_and_add_material_item(Inventory *inventory, Material material)
 {
     Item tmp = {
-        .name = material_to_str(material),
-        .style = material_style(material),
+        .name = MATERIAL_NAMES[material],
+        .style = MATERIAL_STYLES[material],
         .chr = 'm',
         .value = 0,
         .type = ITEM_MATERIAL,

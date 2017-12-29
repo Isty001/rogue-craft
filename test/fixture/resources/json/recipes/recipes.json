@@ -1,8 +1,7 @@
 [
     {
-        "default":true,
+        "known_by_default": true,
         "result":"Large Torch",
-        "resultCount": 2,
         "probability": 5,
         "ingredients": [
             {"material":"WOOD", "count": 5},

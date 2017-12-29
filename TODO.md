@@ -20,6 +20,8 @@
 * [ITEM]
     * Crafting system
     * Money/Trade system
+* [CRAFTING]
+    * During an open craft panel, if a recipe becomes fulfillable, in the future, recalculations must be done for the UI
 * [AI]
     * (non-)hostile NPCs
 * [BE AWARE OF]

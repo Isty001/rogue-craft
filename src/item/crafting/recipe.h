@@ -3,9 +3,7 @@
 
 
 #include <stdint.h>
-#include <list.h>
 #include "level/material.h"
-#include "util/object.h"
 
 
 typedef struct ItemPrototype ItemPrototype;
@@ -26,12 +24,21 @@ typedef struct {
 } Ingredient;
 
 typedef struct {
-    uint16_t result_count;
+    bool known_by_default;
     const ItemPrototype *result;
-    bool is_default;
     uint16_t ingredient_count;
     Ingredient ingredients[];
 } Recipe;
+
+
+static inline const char *ingredient_to_str(const Ingredient *ingredient)
+{
+    return INGREDIENT_ITEM == ingredient->type
+        ? ingredient->item_name
+        : MATERIAL_NAMES[ingredient->material];
+}
+
+List *recipe_known_by_default(void);
 
 
 #endif

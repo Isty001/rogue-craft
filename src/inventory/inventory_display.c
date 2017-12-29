@@ -30,7 +30,7 @@ static void add_description(Grid *grid, Item *item, bool selected)
 
     if (item && selected) {
         clear_description(grid);
-        mvwprintw(grid->window, from.y, from.x, "%s: %d", item->name, item_value(item));
+        mvwprintw(grid->window, from.y, from.x, "%s: %d", item->name, item_get_value(item));
     } else if (!item && selected) {
         clear_description(grid);
     }

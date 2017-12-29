@@ -11,6 +11,8 @@ static void assert_tool(const ItemPrototype *prototype)
     const Tool *tool = &item->tool;
 
     assert_string("Pickaxe", prototype->name);
+    mu_assert(prototype->name == item->name, "");
+
     assert_range(range_new(1, 100), prototype->value_range);
     mu_assert_int_eq(ITEM_TOOL, prototype->item.type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_GRAY_F), item->style);
@@ -30,6 +32,8 @@ static void assert_consumable(const ItemPrototype *prototype)
     const Consumable *consumable = &item->consumable;
 
     assert_string("Potion", prototype->name);
+    mu_assert(prototype->name == item->name, "");
+
     assert_range(range_new(1, 30), prototype->value_range);
     mu_assert_int_eq(ITEM_CONSUMABLE, item->type);
     mu_assert_int_eq(COLOR_PAIR(COLOR_RED_F) | A_BOLD | A_UNDERLINE, item->style);
@@ -44,6 +48,9 @@ static void assert_light_source(const ItemPrototype *prototype)
 {
     const Item *item = &prototype->item;
     const LightSource *light_source = &prototype->item.light_source;
+
+    assert_string("Torch", prototype->name);
+    mu_assert(prototype->name == item->name, "");
 
     mu_assert_int_eq(ITEM_LIGHT_SOURCE, item->type);
     assert_range(range_new(200, 300), prototype->value_range);

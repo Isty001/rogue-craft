@@ -40,7 +40,6 @@ Item *item_clone(const ItemPrototype *prototype)
     Item *item = item_allocate();
     memcpy(item, &prototype->item, sizeof(Item));
     item->value = rand_in_range(prototype->value_range);
-    item->name = prototype->name;
 
     return item;
 }

@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <memory.h>
+#include <list.h>
 #include "util/timer.h"
 #include "level/point.h"
 #include "level/level.h"
@@ -68,6 +69,10 @@ typedef struct {
     uint16_t eye_sight;
 } PlayerAttributes;
 
+typedef struct {
+    List *recipes;
+} PlayerSkills;
+
 typedef struct Player {
     Level *level;
     Camera camera;
@@ -80,6 +85,7 @@ typedef struct Player {
     } position;
     PlayerMovement movement;
     PlayerAttributes attributes;
+    PlayerSkills skills;
     struct {
         Cell prototype;
         Cell *occupied;

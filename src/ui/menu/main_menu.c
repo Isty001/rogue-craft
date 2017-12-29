@@ -43,11 +43,11 @@ static void (*notifications_cleanup)(void) = NULL;
 static void clear_notifications()
 {
     if (RELEASE_WINDOW) {
-        wclear(RELEASE_WINDOW);
+        werase(RELEASE_WINDOW);
         wrefresh(RELEASE_WINDOW);
+        clear();
     }
 }
-
 
 static void init_notifier(void *handle)
 {
@@ -116,7 +116,7 @@ static void display_release(WINDOW *win)
     if (release.count) {
         underline(win, mvwprintw(win, 2, 2, "Latest Release:");)
         mvwprintw(win, 3, 2, release.messages[0].text);
-        underline(win, mvwprintw(win, 5, 2, "Check the newest changes, and download here:");)
+        underline(win, mvwprintw(win, 5, 2, "Donwload::");)
         mvwprintw(win, 6, 2, release.messages[0].url);
     }
 }

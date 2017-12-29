@@ -2,6 +2,7 @@
 #include <util/timer.h>
 #include "memory/memory.h"
 #include "inventory/inventory.h"
+#include "item/crafting/recipe.h"
 #include "player.h"
 
 
@@ -43,6 +44,11 @@ static void add_default_state(Player *player)
     player->state.timer = timer_new(1000, player_state_update, args);
 }
 
+static void add_default_skills(Player *player)
+{
+    player->skills.recipes = recipe_known_by_default();
+}
+
 static void find_starting_point(Player *player)
 {
     Level *level = player->level;
@@ -59,6 +65,7 @@ Player *player_new(Level *level)
     player->level = level;
 
     add_default_state(player);
+    add_default_skills(player);
     init_modifiers(player);
 
     player->attributes.speed = 1;
@@ -85,6 +92,10 @@ void player_free(Player *player)
     timer_free(player->state.timer);
     inventory_free(player->inventory);
     sight_free(player->sight);
+
+    List *recipes = player->skills.recipes;
+    recipes->free(recipes);
+
     mem_dealloc(player);
 }
 

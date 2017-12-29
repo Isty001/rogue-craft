@@ -3,26 +3,28 @@
 
 
 #include <panel.h>
+#include <cursed_tools/cursed_tools.h>
 
 
 typedef struct Inventory Inventory;
 
 typedef struct Player Player;
 
-
+/**
+ * Must start from 1, beacuse of PanelInputListener in event.c
+ * If there are less supported types than MAX_SUPPORTED_TYPE, the rest of the array
+ * would 0s, and match the fisrt enum value.
+ */
 typedef enum {
-    PANEL_INVENTORY,
-    PANEL_CRAFTING
+    PANEL_INVENTORY = 1,
+    PANEL_CRAFT = 2
 } PanelType;
 
 typedef struct {
     PanelType type;
     union {
         Inventory *inventory;
-        struct {
-            WINDOW *list;
-            WINDOW *info;
-        } craft;
+        CTabList *tabs;
     };
 } PanelInfo;
 

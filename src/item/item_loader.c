@@ -8,11 +8,10 @@
 #include "item_registry.h"
 
 
-static uint16_t LAST_ID = 0;
-
 static Probability ITEM_CONSUMABLE_PROBABILITY;
 static Probability ITEM_TOOL_PROBABILITY;
 static Probability ITEM_LIGHT_SOURCE_PROBABILITY;
+
 
 const Probability ITEM_TYPE_PROBABILITY = {
     .count = 3,
@@ -118,7 +117,6 @@ static void build_value_range(Range *range, JSON_Array *value)
 static void create_prototype_from(JSON_Object *json)
 {
     ItemPrototype *prototype = mem_calloc(1, sizeof(ItemPrototype));
-    prototype->id = LAST_ID++;
 
     Item *item = &prototype->item;
     char *name = json_get_string(json, "name");
@@ -128,6 +126,7 @@ static void create_prototype_from(JSON_Object *json)
 
     json_get_wchar(&item->chr, json, "char");
     memcpy(prototype->name, name, min(strlen(name) + 1, ITEM_NAME_MAX));
+    item->name = prototype->name;
 
     build_value_range(&prototype->value_range, json_get_array(json, "valueRange"));
     build_type_specific(prototype, json);
@@ -165,19 +164,6 @@ void item_registry_add(const ItemPrototype *prototype, uint16_t chance)
     ALL_ITEMS->append(ALL_ITEMS, (void *) prototype);
 
     probability_add(probability, chance, prototype);
-}
-
-const ItemPrototype *item_registry_get_id(const uint16_t id)
-{ 
-    ItemPrototype *found = ALL_ITEMS->find(ALL_ITEMS, (Predicate) function(bool, (ItemPrototype *item) {
-        return id == item->id;
-    }));
-
-    if (!found) {
-        fatal("No item found wiht id %d", id);
-    }
-
-    return found;
 }
 
 const ItemPrototype *item_registry_get(const char *name)

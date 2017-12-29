@@ -37,7 +37,7 @@ static inline void display_sight(Sight *sight, Player *player, Lighting *lightin
 
 void level_display(Player *player)
 {
-    wclear(WINDOW_MAIN);
+    werase(WINDOW_MAIN);
 
     display_sight(player->sight, player, NULL);
     List *lightings = player->level->lightings;

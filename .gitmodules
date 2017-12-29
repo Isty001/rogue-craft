@@ -25,3 +25,6 @@
 [submodule "lib/notifier"]
 	path = lib/notifier
 	url = https://github.com/rogue-craft/notifier
+[submodule "lib/cursed_tools"]
+	path = lib/cursed_tools
+	url = https://github.com/rogue-craft/cursed-tools

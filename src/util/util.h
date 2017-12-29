@@ -19,6 +19,9 @@
         body;                           \
     }
 
+#define reduce(count, array, fn)    \
+    repeat(count, array)            \
+
 #define rand_in(min, max) (int16_t)(min == max ? min : (rand() % (max - min)) + min)
 
 #define rand_in_range(r) rand_in(r.from, r.to)

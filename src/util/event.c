@@ -10,7 +10,8 @@
 #define MAX_SUPPORTED_TYPE 10
 
 
-typedef EventStatus (*Listener)(void *data);
+typedef void (*Listener)(void *data);
+
 
 typedef struct {
     Listener executor;
@@ -31,9 +32,6 @@ static Listener LISTENERS[EVENT_TYPE_NUM][MAX_EVENT_LISTENER_PER_EVENT] = {
         (Listener) player_hit,
         (Listener) item_pickup,
         (Listener) item_light_source_place
-    },
-    [EVENT_PANEL_CLOSE] = {
-        (Listener) inventory_panel_close
     }
 };
 
@@ -44,14 +42,17 @@ static InputListener INPUT_LISTENERS[MAX_INPUT_LISTENER] = {
     {(Listener) inventory_player_shortcut_select, {KEY_INVENTORY_SHORTCUTS}},
     {(Listener) inventory_player_display,         {KEY_PLAYER_INVENTORY}},
     {(Listener) inventory_player_drop_shortcut,   {KEY_DROP_ITEM}},
-    {(Listener) craft_display,                    {KEY_CRAFT}},
+    {(Listener) craft_panel_display,              {KEY_CRAFT}},
     {(Listener) ncurses_resize,                   {KEY_RESIZE}}
 };
 
 static PanelInputListener PANEL_INPUT_LISTENERS[MAX_INPUT_LISTENER] = {
     {{(Listener) inventory_panel_navigate,      {KEY_NORTH, KEY_EAST, KEY_SOUTH, KEY_WEST, KEY_USE_SELECTED}}, {PANEL_INVENTORY}},
     {{(Listener) inventory_player_set_shortcut, {KEY_INVENTORY_SHORTCUTS}},                                    {PANEL_INVENTORY}},
-    {{(Listener) inventory_panel_drop_selected, {KEY_DROP_ITEM}},                                              {PANEL_INVENTORY}}
+    {{(Listener) inventory_panel_drop_selected, {KEY_DROP_ITEM}},                                              {PANEL_INVENTORY}},
+    {{(Listener) inventory_panel_close,         {KEY_QUIT}},                                                   {PANEL_INVENTORY}},
+    {{(Listener) craft_panel_navigate,          {KEY_EAST, KEY_SOUTH, KEY_WEST, KEY_NORTH}},                   {PANEL_CRAFT}},
+    {{(Listener) craft_panel_close,             {KEY_QUIT}},                                                   {PANEL_CRAFT}}
 };
 
 
@@ -113,7 +114,7 @@ void event_dispatch_panel_input(int input, Player *player, const PanelInfo *info
     PanelType required_type = event.info->type;
 
     repeat(MAX_INPUT_LISTENER, listener = PANEL_INPUT_LISTENERS[i];
-        if (supports_panel(required_type, listener.types), supports_input(&listener.base, input)) {
+        if (supports_panel(required_type, listener.types) && supports_input(&listener.base, input)) {
             listener.base.executor(&event);
         }
     )

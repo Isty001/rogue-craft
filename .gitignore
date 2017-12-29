@@ -5,6 +5,8 @@ build/
 !lib/minunit.h
 /**/*.log
 *.out
+*.o
+*.so
 cmake-*
 CMake*
 rogue-craft*

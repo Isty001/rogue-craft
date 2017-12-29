@@ -11,8 +11,6 @@
 
 #define ITEM_NAME_MAX 20
 
-#define item_value(item) abs(item->value)
-
 
 typedef enum {
     IE_CONSUMED,
@@ -56,7 +54,7 @@ typedef struct {
 } LightSource;
 
 typedef struct Item {
-    const char *name;
+    const char *name; //&ItemPrototype.name
     wchar_t chr;
     Style style;
     int16_t value;
@@ -73,10 +71,15 @@ typedef struct Item {
 typedef struct ItemPrototype {
     char name[ITEM_NAME_MAX];
     Range value_range;
-    uint16_t id;
     Item item;
 } ItemPrototype;
 
+
+// item_value conflicts with ncurses
+static inline uint16_t item_get_value(Item *item)
+{
+    return abs(item->value);
+}
 
 void item_pool_init(void);
 

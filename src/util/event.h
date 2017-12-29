@@ -19,10 +19,6 @@ typedef enum {
     EVENT_CLICK
 } Event;
 
-typedef enum {
-    ES_BREAK
-} EventStatus;
-
 
 void event_dispatch(Event event, void *data);
 

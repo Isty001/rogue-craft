@@ -16,7 +16,7 @@ static void display_shortcut(Inventory *inventory, WINDOW *win, uint16_t i)
         styled(win, item->style,
                wprintw(win, "%lc", item->chr);
         );
-        wprintw(win, " %d ", item_value(item));
+        wprintw(win, " %d ", item_get_value(item));
     }
 }
 

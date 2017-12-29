@@ -5,7 +5,6 @@
 #include "util/json.h"
 #include "util/randomization.h"
 #include "util/environment.h"
-#include "util/object.h"
 
 
 static Probability PROBABILITY;
@@ -47,8 +46,7 @@ static void parse(JSON_Object *json)
 
     Recipe *recipe = mem_alloc(sizeof(Recipe) + (ingredient_count * sizeof(Ingredient)));
     recipe->result = item_registry_get(json_get_string(json, "result"));
-    recipe->result_count = json_get_number(json, "resultCount");
-    recipe->is_default = json_get_optional_bool(json, "default");
+    recipe->known_by_default = json_get_optional_bool(json, "known_by_default");
 
     parse_ingredients(ingredients_json, ingredient_count, recipe);
 
@@ -76,6 +74,22 @@ const Probability *recipe_registry_all(void)
 const Recipe *recipe_registry_random(void)
 {
     return probability_pick(&PROBABILITY);
+}
+
+List *recipe_known_by_default(void)
+{
+    List *recipes = list_new();
+    Recipe *recipe;
+
+    repeat(PROBABILITY.count,
+        recipe = (Recipe *) PROBABILITY.items[i].value;
+
+        if (recipe->known_by_default) {
+            recipes->append(recipes, recipe);
+        }
+    )
+
+    return recipes;
 }
 
 void recipe_registry_unload(void)
