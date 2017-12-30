@@ -23,7 +23,7 @@ static void parse_ingredient(JSON_Object *ingredient_json, Ingredient *ingredien
     } else {
         fatal("An ingredient must have a material or item member");
     }
-    new->count = json_get_number(ingredient_json, "count");
+    new->value = json_get_number(ingredient_json, "value");
 }
 
 static void parse_ingredients(JSON_Array *ingredients_json, size_t ingredient_count, Recipe *recipe)

@@ -7,7 +7,7 @@
 
 <a href="https://twitter.com/roguecraftdev"><img src="http://icons.iconarchive.com/icons/uiconstock/socialmedia/512/Twitter-icon.png" width="75" height="75"></a> <a href="https://rogue-craft.org/"><img src="https://d30y9cdsu7xlg0.cloudfront.net/png/4618-200.png" width="75" height="75"></a> <a href="http://www.indiedb.com/games/rogue-craft"><img src="http://media.indiedb.com/images/global/indiedb_125x125.png" width="75" height="75"></a>
 
-Rogue Craft is a roguelike (kinda sandbox/RPG/survival) game, based on ncurses, in an early development stage.
+Rogue Craft is a roguelike (kinda sandbox/RPG/survival) game, based on nc, in an early development stage.
 Please read the [Wiki](https://github.com/rogue-craft/rogue-craft/wiki) (in progress) for the guide and documentation.
 You can also follow the development [here](https://rogue-craft.org/).
 
@@ -26,7 +26,7 @@ You can also follow the development [here](https://rogue-craft.org/).
 <a name="install"></a>
 ### Install
 
-For running `ncursesw5` is required (`panelw5` too but usually it comes with ncurses), and `vlc`. Your terminal must support 256 colors,
+For running `ncw5` is required (`panelw5` too but usually it comes with nc), and `vlc`. Your terminal must support 256 colors,
 (for example you could set `$TERM` to `xterm-256color`) and needs mouse interaction support too.
 
 Currently tested only on Linux.
@@ -44,7 +44,7 @@ sudo ./install.sh
 #### From source
 
 Please keep in mind that master branch is might be unstable.
-To compile you'll need `gcc`, on Debian based systems you'll need`libncursesw5-dev`  (and maybe `libncurses5-dev` too) and `libvlc-dev`, they might be called differently on your OS, or even comes with the base package, and no separate dev package need to be installed.
+To compile you'll need `gcc`, on Debian based systems you'll need`libncw5-dev`  (and maybe `libnc5-dev` too) and `libvlc-dev`, they might be called differently on your OS, or even comes with the base package, and no separate dev package need to be installed.
 
 ```
 git clone --recursive https://github.com/rogue-craft/rogue-craft

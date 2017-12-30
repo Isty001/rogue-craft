@@ -13,12 +13,12 @@ CC = gcc
 #Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, ncursesw5-dev, Run: ncursesw
 #VLC: Compile: libvlccore-dev libvlc-dev Run: vlc
 LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc -ldl -l:libcursed_tools.so.0.0
-DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS) -D_GNU_SOURCE
+DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS) -D NCURSES_WIDECHAR=1 -D_GNU_SOURCE
 
 #This way we can avoid nasty includes like #include "../../../config/config.h"
 NAMESPACES = -I config -I src
 INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib/dotenv/src -I lib/rimraf/src -I lib/notifier/include -I lib
-CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -fstack-protector
+CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -Wno-unused-result -fstack-protector
 CFLAGS += -O2 -Os
 
 TARGET = rogue-craft

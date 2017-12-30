@@ -1,6 +1,8 @@
+//This include must be the first
+#include <ncursesw/ncurses.h>
+
 #include <dlfcn.h>
 #include <menu.h>
-#include <ncurses.h>
 #include <wchar.h>
 #include "util/environment.h"
 #include "gamestate/gamestate.h"

@@ -16,7 +16,7 @@ typedef enum {
 
 typedef struct {
     IngredientType type;
-    uint16_t count;
+    uint16_t value;
     union {
         const char *item_name;
         Material material;

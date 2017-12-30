@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include "inventory/inventory.h"
 #include "keymap.h"
 #include "loop.h"

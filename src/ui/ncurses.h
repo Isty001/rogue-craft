@@ -2,7 +2,7 @@
 #define ROGUECRAFT_NCURSES_H
 
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include "level/point.h"
 #include "util/environment.h"
 #include "util/event.h"

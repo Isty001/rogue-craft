@@ -2,7 +2,7 @@
 #define ROGUE_CRAFT_GRID_H
 
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include "level/point.h"
 
 

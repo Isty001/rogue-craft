@@ -105,6 +105,7 @@ static inline bool supports_panel(PanelType required, PanelType *supported)
 
 void event_dispatch_panel_input(int input, Player *player, const PanelInfo *info)
 {
+
     PanelInputEvent event = {
         .input = input,
         .player = player,

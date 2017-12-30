@@ -1,4 +1,4 @@
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include <assert.h>
 #include "memory/memory.h"
 #include "ncurses.h"

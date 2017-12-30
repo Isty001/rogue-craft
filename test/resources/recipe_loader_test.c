@@ -22,11 +22,11 @@ static void assert_recipes(void)
 
     mu_assert_int_eq(INGREDIENT_MATERIAL, material.type);
     mu_assert_int_eq(MATERIAL_WOOD, material.material);
-    mu_assert_int_eq(5, material.count);
+    mu_assert_int_eq(5, material.value);
 
     mu_assert_int_eq(INGREDIENT_ITEM, item.type);
     assert_string("Torch", item.item_name);
-    mu_assert_int_eq(2, item.count);
+    mu_assert_int_eq(2, item.value);
 
     recipe_registry_unload();
 }

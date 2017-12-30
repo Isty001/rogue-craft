@@ -3,7 +3,7 @@
 
 
 #include <stddef.h>
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include "storage/cache.h"
 #include "util/util.h"
 

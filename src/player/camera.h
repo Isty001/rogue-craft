@@ -2,7 +2,7 @@
 #define ROGUECRAFT_CAMERA_H
 
 
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 #include <player/sight.h>
 #include "level/point.h"
 

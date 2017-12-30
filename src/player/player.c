@@ -40,7 +40,7 @@ static void add_default_state(Player *player)
         .name = "Thirst", .style = COLOR_PAIR(COLOR_BLUE_F)
     };
 
-    TimerArgs args = {.ptr = {player, &PLAYER_STATE_CONFIG}};
+    TimerArgs args = {.ptr = {player, (void *) &PLAYER_STATE_CONFIG}};
     player->state.timer = timer_new(1000, player_state_update, args);
 }
 

@@ -4,8 +4,8 @@
         "result":"Large Torch",
         "probability": 5,
         "ingredients": [
-            {"material":"WOOD", "count": 5},
-            {"item":"Torch", "count": 2}
+            {"material":"WOOD", "value": 5},
+            {"item":"Torch", "value": 2}
         ]
     }
 ]

@@ -1,3 +1,15 @@
+### 0.3:
+
+###### NEW:
+* [x] Crafting
+* [x] Release notifications
+
+###### FIXED:
+* [x] Couldn't open panels on each other
+
+
+---
+
 ### 0.2:
 
 ###### NEW:

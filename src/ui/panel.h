@@ -10,6 +10,8 @@ typedef struct Inventory Inventory;
 
 typedef struct Player Player;
 
+#define PANEL_TYPE_NUM 2 + 1
+
 /**
  * Must start from 1, beacuse of PanelInputListener in event.c
  * If there are less supported types than MAX_SUPPORTED_TYPE, the rest of the array

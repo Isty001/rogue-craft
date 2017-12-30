@@ -140,7 +140,7 @@ static void display_current_recipe(CTabList *tabs)
     repeat(recipe->ingredient_count,
         const Ingredient *ingredient = &recipe->ingredients[i];
 
-        mvwprintw(info->recipe_win, i + 1, 0, "%d x %s", ingredient->count, ingredient_to_str(ingredient));
+        mvwprintw(info->recipe_win, i + 1, 0, "%d x %s", ingredient->value, ingredient_to_str(ingredient));
     )
 
     cursed_tablist_display_current(tabs);

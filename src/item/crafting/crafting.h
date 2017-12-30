@@ -21,7 +21,5 @@ void craft_panel_navigate(PanelInputEvent *event);
 
 void craft_panel_close(PanelInputEvent *event);
 
-const List *craft_collect_requirements(const Recipe *recipe, const Inventory *inventory);
-
 
 #endif
