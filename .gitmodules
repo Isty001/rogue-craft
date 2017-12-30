@@ -22,6 +22,9 @@
 [submodule "lib/rimraf.c"]
 	path = lib/rimraf.c
 	url = https://github.com/stephenmathieson/rimraf.c
+[submodule "lib/notifier"]
+	path = lib/notifier
+	url = https://github.com/rogue-craft/notifier
 [submodule "lib/cursed_tools"]
 	path = lib/cursed_tools
 	url = https://github.com/rogue-craft/cursed-tools
