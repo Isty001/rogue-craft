@@ -43,8 +43,6 @@ TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")
 OBJECTS = $(patsubst %.c, $(DIR_BUILD)/%.o, $(SOURCES))
 TEST_OBJECTS = $(patsubst %.c, $(DIR_BUILD)/%.o, $(TEST_SOURCES))
 
-HEADERS = $(shell find . -name "*.h")
-
 
 default: $(TARGET)
 
@@ -58,9 +56,25 @@ include ./lib/notifier/Makefile
 -include $(shell find $(DIR_BUILD) -name "*.d")
 
 
+C_GREEN = \033[0;32m
+C_RESET = \033[0m
+
+# Progress display
+# Source: https://stackoverflow.com/questions/451413/make-makefile-progress-indication
+ifndef PROGRESS
+T := $(shell $(MAKE) $(MAKECMDGOALS) --no-print-directory \
+	-nrRf $(firstword $(MAKEFILE_LIST)) \
+	PROGRESS="COUNTTHIS" | grep -c "COUNTTHIS")
+
+N := x
+C = $(words $N)$(eval N := x $N)
+PROGRESS = echo -ne "\r[$(C_GREEN)`expr $C '*' 100 / $T`%$(C_RESET)]"
+endif
+
 $(DIR_BUILD)/%.o: %.c
-	mkdir -p $(shell dirname $@)
-	$(CC) -MMD $(CFLAGS) $(INCLUDES) $(DEFINITIONS) -c $< -o $@
+	@mkdir -p $(shell dirname $@)
+	@$(CC) -MMD $(CFLAGS) $(INCLUDES) $(DEFINITIONS) -c $< -o $@
+	@$(PROGRESS) "CC $@"
 
 
 .PRECIOUS: $(TARGET) $(OBJECTS)
@@ -70,10 +84,12 @@ install-dependencies:
 	cd ./lib/cursed_tools && make install
 
 $(TARGET): $(OBJECTS) install-dependencies
-	$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
+	@$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@
+	@$(PROGRESS) "Linking $@"
 
-$(TEST_TARGET): $(TEST_OBJECTS)
-	$(CC) $(TEST_OBJECTS) $(CFLAGS) $(LIBS) -o $@
+$(TEST_TARGET): $(TEST_OBJECTS) install-dependencies
+	@$(CC) $(TEST_OBJECTS) $(CFLAGS) $(LIBS) -o $@
+	$(PROGRESS) "Linking $a"
 
 prepare-test:
 	rm -f test/fixture/cache/*.cache
@@ -119,3 +135,4 @@ clean-cache:
 clean:
 	rm -rf $(DIR_ROOT)/$(DIR_BUILD)/*
 	make clean-cache
+
