@@ -4,12 +4,7 @@
 
 void inventory_panel_close(PanelInputEvent *event)
 {
-    const PanelInfo *info = event->info;
-
-    Inventory *inventory = info->inventory;
-
-    grid_free(inventory->grid);
-    inventory->grid = NULL;
+    /* inventory_grid_remove_window(event->info->inventory); */
 }
 
 static uint16_t selected_item(Grid *grid, Inventory *inventory)

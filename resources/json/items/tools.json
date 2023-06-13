@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Pickaxe",
+    "char": "p",
+    "style": ["COLOR_GRAY_F"],
+    "valueRange": [10, 80],
+    "probability": 50,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 1.1, "creature": 1.0},
+        "materials": {"STONE": 1.5}
+      }
+    }
+  },
+  {
+    "name": "Shovel",
+    "char": "s",
+    "style": ["COLOR_BROWN_F"],
+    "valueRange": [10, 80],
+    "probability": 50,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 0.7, "creature": 0.8},
+        "materials": {"STONE": 0.6, "DIRT": 1.5}
+      }
+    }
+  },
+  {
+    "name": "Axe",
+    "char": "a",
+    "style": ["COLOR_GRAY_F"],
+    "valueRange": [10, 80],
+    "probability": 35,
+    "tool": {
+      "range": 1,
+      "multipliers": {
+        "defaults": {"solid": 0.8, "creature": 0.9},
+        "materials": {"STONE": 0.7, "WOOD": 1.5}
+      }
+    }
+  }
+]

@@ -1,4 +1,4 @@
-#include <cursed_tools/cursed_tools.h>
+#include <cursed_tools.h>
 #include <ncursesw/ncurses.h>
 #include <locale.h>
 #include <time.h>
@@ -21,7 +21,7 @@ static void init(void)
     setlocale(LC_ALL, "en_US.UTF-8");
     srand((unsigned) time(NULL));
     json_set_allocation_functions((JSON_Malloc_Function) mem_alloc, mem_dealloc);
-    cursed_memory_set_allocator((CMalloc) mem_alloc, mem_dealloc);
+    cursed_memory_set_allocator((CMalloc) mem_alloc, mem_realloc, mem_dealloc);
 
     cursed_menu_set_default_vertical_keys(cursed_input(KEY_NORTH), cursed_input(KEY_SOUTH));
     cursed_menu_set_default_horizontal_keys(cursed_input(KEY_WEST), cursed_input(KEY_EAST));

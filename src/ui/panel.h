@@ -3,7 +3,7 @@
 
 
 #include <panel.h>
-#include <cursed_tools/cursed_tools.h>
+#include <cursed_tools.h>
 
 
 typedef struct Inventory Inventory;

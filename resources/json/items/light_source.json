@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Torch",
+    "char": "t",
+    "style": ["COLOR_YELLOW_B"],
+    "valueRange": [200, 300],
+    "probability": 50,
+    "lightSource": {
+      "style": ["COLOR_YELLOW_B"],
+      "radius": 4,
+      "portable": true
+    }
+  },
+  {
+    "name": "Large Torch",
+    "char": "f",
+    "style": ["COLOR_ORANGE_B"],
+    "valueRange": [200, 300],
+    "probability": 10,
+    "lightSource": {
+      "style": ["COLOR_ORANGE_B"],
+      "radius": 6,
+      "portable": false
+    }
+  }
+]

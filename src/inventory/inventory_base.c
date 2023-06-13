@@ -6,27 +6,53 @@
 #define MESSAGE_FULL "Your Inventory is full"
 
 
+static Point selected_point(uint16_t size, uint16_t selected)
+{
+    return point_new(
+        selected / size,
+        selected % size
+    );
+}
+
+void add_grid(Inventory *inventory)
+{
+    uint16_t size = inventory_grid_size(inventory);
+
+    Grid *grid = grid_new(NULL, size_new(size, size), point_new(0, 0));
+    grid->selected = selected_point(size, inventory->selected);
+
+    inventory->grid = grid;
+}
+
 Inventory *inventory_new(uint16_t max_size)
 {
     Inventory *inventory = mem_alloc(sizeof(Inventory));
     inventory->max_size = max_size;
     inventory->selected = 0;
     inventory->count = 0;
-    inventory->grid = NULL;
     inventory->items = mem_alloc(max_size * sizeof(Item *));
+    add_grid(inventory);
     repeat(max_size, inventory->items[i] = NULL);
 
     return inventory;
 }
 
+void inventory_grid_remove_window(Inventory *inventory)
+{
+    Grid *grid = inventory->grid;
+
+    if (grid->window) {
+        delwin(inventory->grid->window);
+        inventory->grid->window = NULL;
+    }
+}
+
 void inventory_free(Inventory *inventory)
 {
     mem_dealloc(inventory->items);
+    inventory_grid_remove_window(inventory);
 
-    if (inventory->grid) {
-        grid_free(inventory->grid);
-    }
-
+    grid_free(inventory->grid);
     mem_dealloc(inventory);
 }
 

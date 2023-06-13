@@ -6,7 +6,7 @@
 
 ###### FIXED:
 * [x] Couldn't open panels on each other
-
+* [x] Using correct ncursesw header
 
 ---
 

@@ -1,0 +1,20 @@
+[
+    {
+        "known_by_default": true,
+        "result":"Pickaxe",
+        "probability": 5,
+        "ingredients": [
+            {"material":"WOOD", "value": 3},
+            {"material":"STONE", "value": 4}
+        ]
+    },
+    {
+        "known_by_default": true,
+        "result": "Shovel",
+        "probability": 5,
+        "ingredients": [
+            {"material": "WOOD", "value": 3},
+            {"material": "STONE", "value": 2}
+        ]
+    }
+]

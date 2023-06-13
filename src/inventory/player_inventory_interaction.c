@@ -41,8 +41,6 @@ void inventory_player_set_shortcut(PanelInputEvent *event)
     Item *taken = from[taken_from];
     Item *replacing = to[replacing_at];
 
-//    printf("replacing: %p, taken: %p\n", replacing, taken);
-
     from[taken_from] = replacing;
     to[replacing_at] = taken;
 

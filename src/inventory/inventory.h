@@ -49,6 +49,8 @@ void inventory_use_selected(Inventory *inventory, Player *player);
 
 void inventory_grid_update(Inventory *inventory);
 
+void inventory_grid_remove_window(Inventory *inventory);
+
 void inventory_panel_close(PanelInputEvent *event);
 
 void inventory_panel_navigate(PanelInputEvent *event);

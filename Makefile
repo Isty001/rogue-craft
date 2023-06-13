@@ -6,20 +6,20 @@ DIR_APP = rogue-craft
 DIR_INSTALLED_RESOURCES=/usr/local/share/$(DIR_APP)
 DIR_INSTALLED_ENV=/etc/$(DIR_APP)
 DIR_INSTALLED_CACHE=/var/cache/$(DIR_APP)
-DIR_INSTALLED_BIN=/usr/local/games
+DIR_INSTALLED_BIN=/usr/local
 INSTALLED_LOG_FILE=/var/log/rogue-craft.log
 
 CC = gcc
-#Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, ncursesw5-dev, Run: ncursesw
+#Debian/Ubuntu: Ncurses: To compile: ncursesw-dev, ncursesw5-dev, Run: ncurses ncursesw
 #VLC: Compile: libvlccore-dev libvlc-dev Run: vlc
-LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc -ldl -l:libcursed_tools.so.0.0
+LIBS = -l ncursesw -l panelw -l menuw -l m -lvlc -ldl
 DEFINITIONS = -DDIR_APP_RELATIVE=\"$(DIR_APP)\" $(VERSION_DEFINITIONS) -D NCURSES_WIDECHAR=1 -D_GNU_SOURCE
 
 #This way we can avoid nasty includes like #include "../../../config/config.h"
 NAMESPACES = -I config -I src
-INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib/dotenv/src -I lib/rimraf/src -I lib/notifier/include -I lib
+INCLUDES = $(NAMESPACES) -I lib/mem-pool/src -I lib/collection/src -I lib/tinydir -I lib/parson -I lib/quadtree/src -I lib/dotenv/src -I lib/rimraf/src -I lib/notifier/include -I lib -I lib/cursed_tools/include
 CFLAGS = -std=gnu11 -g -Wall -Wextra -ftrapv -Wshadow -Wundef -Wcast-align -Wunreachable-code -Wno-unused-result -fstack-protector
-CFLAGS += -O2 -Os
+# CFLAGS += -O2 -Os
 
 TARGET = rogue-craft
 TEST_TARGET = $(TARGET)-test
@@ -35,7 +35,7 @@ VERSION_DEFINITIONS=-DVERSION_MAJOR=$(VERSION_MAJOR) -DVERSION_MINOR=$(VERSION_M
 .PHONY: default all clean $(TARGET) $(TEST_TARGET) test
 
 
-LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples|notifier|cursed_tools")
+LIB_SOURCES = $(shell find lib -name "*.c" | grep -E -v "test|samples|dev|benchmark|examples|notifier")
 COMMON_SOURCES = $(LIB_SOURCES) $(shell find src config -name "*.c")
 SOURCES = $(COMMON_SOURCES) main.c
 TEST_SOURCES = $(COMMON_SOURCES) $(shell find test -name "*.c")
@@ -81,7 +81,6 @@ $(DIR_BUILD)/%.o: %.c
 
 
 install-dependencies:
-	cd ./lib/cursed_tools && make install
 
 $(TARGET): $(OBJECTS) install-dependencies
 	@$(CC) $(OBJECTS) $(CFLAGS) $(LIBS) -o $@

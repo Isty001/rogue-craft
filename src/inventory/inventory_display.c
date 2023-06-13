@@ -72,41 +72,22 @@ void inventory_grid_update(Inventory *inventory)
     }
 }
 
-static void set_grid_window(Grid *grid)
+static void set_grid_window(Inventory *inventory)
 {
+    Grid *grid = inventory->grid;
+
+    if (grid->window) {
+        inventory_grid_remove_window(inventory);
+    }
     Size win_size = size_inc(grid->size, GRID_BOX_CHAR_ADJUST, GRID_BOX_CHAR_ADJUST + 10 * NCURSES_WIDTH_MULTIPLIER);
 
     grid->window = ncurses_newwin_adjust(win_size, WINDOW_MAIN);
     box(grid->window, 0, 0);
 }
 
-static Point selected_point(uint16_t size, uint16_t selected)
-{
-    return point_new(
-        selected / size,
-        selected % size
-    );
-}
-
-static Grid *create_grid(Inventory *inventory)
-{
-    uint16_t size = inventory_grid_size(inventory);
-
-    Grid *grid = grid_new(NULL, size_new(size, size), point_new(0, 0));
-    grid->selected = selected_point(size, inventory->selected);
-
-    return grid;
-}
-
 void inventory_display(Inventory *inventory)
 {
-    if (inventory->grid) {
-        return;
-    }
-
-    inventory->grid = create_grid(inventory);
-
-    set_grid_window(inventory->grid);
+    set_grid_window(inventory);
     inventory_grid_update(inventory);
 
     PanelInfo info = {

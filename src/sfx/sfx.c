@@ -36,7 +36,7 @@ static void play_file(char *path)
         return;
     }
 
-    libvlc_media_t *media = libvlc_media_new_path(VLC_ENGINE, path);
+    libvlc_media_t *media = libvlc_media_new_path(path);
 
     libvlc_media_player_set_media(GLOBAL_PLAYER, media);
     libvlc_media_player_play(GLOBAL_PLAYER);

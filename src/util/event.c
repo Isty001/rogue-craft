@@ -50,7 +50,6 @@ static PanelInputListener PANEL_INPUT_LISTENERS[MAX_INPUT_LISTENER] = {
     {{(Listener) inventory_panel_navigate,      {KEY_NORTH, KEY_EAST, KEY_SOUTH, KEY_WEST, KEY_USE_SELECTED}}, {PANEL_INVENTORY}},
     {{(Listener) inventory_player_set_shortcut, {KEY_INVENTORY_SHORTCUTS}},                                    {PANEL_INVENTORY}},
     {{(Listener) inventory_panel_drop_selected, {KEY_DROP_ITEM}},                                              {PANEL_INVENTORY}},
-    {{(Listener) inventory_panel_close,         {KEY_QUIT}},                                                   {PANEL_INVENTORY}},
     {{(Listener) craft_panel_navigate,          {KEY_EAST, KEY_SOUTH, KEY_WEST, KEY_NORTH}},                   {PANEL_CRAFT}},
     {{(Listener) craft_panel_close,             {KEY_QUIT}},                                                   {PANEL_CRAFT}}
 };

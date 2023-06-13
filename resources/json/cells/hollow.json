@@ -1,0 +1,57 @@
+[
+  {
+    "name": "hollow.dirt",
+    "type": "HOLLOW",
+    "char": " ",
+    "material": "DIRT",
+    "style": ["COLOR_NONE"]
+  },
+  {
+    "name": "snow.hollow",
+    "extends": "hollow.dirt",
+    "material": "SNOW",
+    "style": ["COLOR_WHITE_B"]
+  },
+  {
+    "name": "snow.dark.hollow",
+    "extends": "snow.hollow",
+    "style": [{"fore": 250, "back": 250}]
+  },
+  {
+    "name": "dirt.hollow",
+    "extends": "hollow.dirt",
+    "material": "DIRT",
+    "style": ["COLOR_BROWN_B"]
+  },
+  {
+    "name": "dirt.dark.hollow",
+    "extends": "dirt.hollow",
+    "style": ["COLOR_DARK_BROWN_B"]
+  },
+  {
+    "name": "grass.hollow",
+    "extends": "dirt.hollow",
+    "style": ["COLOR_GREEN_B"]
+  },
+  {
+    "name": "grass.dark.hollow",
+    "extends": "dirt.hollow",
+    "style": ["COLOR_DARK_GREEN_B"]
+  },
+  {
+    "name": "stone.hollow",
+    "extends": "hollow.dirt",
+    "material": "STONE",
+    "style": ["COLOR_GRAY_B"]
+  },
+  {
+    "name": "stone.mossy.hollow",
+    "extends": "stone.hollow",
+    "style": ["COLOR_DARK_GREEN_B"]
+  },
+  {
+    "name": "stone.dark.hollow",
+    "extends": "stone.hollow",
+    "style": ["COLOR_DARK_GRAY_B"]
+  }
+]
